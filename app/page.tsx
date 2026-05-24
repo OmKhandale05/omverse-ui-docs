@@ -1,63 +1,160 @@
-import Image from "next/image";
+import Link from 'next/link';
+import { Navbar } from '@/components/layout/Navbar';
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      <Navbar />
+      <main style={{
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '80px 24px',
+        textAlign: 'center',
+      }}>
+        {/* Badge */}
+        <div style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: 6,
+          height: 24,
+          padding: '0 10px',
+          borderRadius: 9999,
+          border: '0.5px solid var(--color-border-tertiary)',
+          fontSize: 11,
+          color: 'var(--color-text-secondary)',
+          marginBottom: 24,
+        }}>
+          <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--color-text-success)', display: 'inline-block' }} />
+          v0.1.4 — Now available on npm
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+
+        {/* Headline */}
+        <h1 style={{
+          fontSize: 52,
+          fontWeight: 500,
+          letterSpacing: '-0.04em',
+          color: 'var(--color-text-primary)',
+          lineHeight: 1.1,
+          maxWidth: 640,
+          marginBottom: 20,
+        }}>
+          Build interfaces faster with omverse-ui
+        </h1>
+
+        {/* Subtext */}
+        <p style={{
+          fontSize: 16,
+          color: 'var(--color-text-secondary)',
+          lineHeight: 1.65,
+          maxWidth: 480,
+          marginBottom: 36,
+          fontWeight: 400,
+        }}>
+          27 components built with Tailwind v4, TypeScript and CVA.
+          Material Design 3 foundation. Fully typed. Dark mode ready.
+        </p>
+
+        {/* CTAs */}
+        <div style={{ display: 'flex', gap: 8, marginBottom: 48 }}>
+          <Link
+            href="/docs/installation"
+            style={{
+              height: 36,
+              padding: '0 20px',
+              borderRadius: 9999,
+              fontSize: 13,
+              fontWeight: 500,
+              background: 'var(--color-text-primary)',
+              color: 'var(--color-background-primary)',
+              textDecoration: 'none',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 6,
+            }}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            Get started
+            <i className="ti ti-arrow-right" aria-hidden="true" style={{ fontSize: 13 }} />
+          </Link>
+          <Link
+            href="/components/button"
+            style={{
+              height: 36,
+              padding: '0 20px',
+              borderRadius: 9999,
+              fontSize: 13,
+              fontWeight: 400,
+              background: 'transparent',
+              color: 'var(--color-text-secondary)',
+              border: '0.5px solid var(--color-border-secondary)',
+              textDecoration: 'none',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 6,
+            }}
           >
-            Documentation
-          </a>
+            View components
+          </Link>
+        </div>
+
+        {/* Install snippet */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 10,
+          height: 36,
+          padding: '0 16px',
+          borderRadius: 8,
+          background: 'var(--color-background-secondary)',
+          border: '0.5px solid var(--color-border-tertiary)',
+          fontSize: 12,
+          fontFamily: 'var(--font-mono)',
+          color: 'var(--color-text-secondary)',
+          marginBottom: 64,
+        }}>
+          <span style={{ color: 'var(--color-text-tertiary)' }}>$</span>
+          <span>npm install omverse-ui</span>
+          <button
+            type="button"
+            aria-label="Copy install command"
+            style={{
+              marginLeft: 8,
+              color: 'var(--color-text-tertiary)',
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              padding: 0,
+              fontSize: 13,
+            }}
+          >
+            <i className="ti ti-copy" aria-hidden="true" />
+          </button>
+        </div>
+
+        {/* Stats */}
+        <div style={{
+          display: 'flex',
+          gap: 40,
+          borderTop: '0.5px solid var(--color-border-tertiary)',
+          paddingTop: 32,
+        }}>
+          {[
+            { value: '27', label: 'Components' },
+            { value: '150+', label: 'Variants' },
+            { value: 'v4', label: 'Tailwind' },
+            { value: 'MIT', label: 'License' },
+          ].map(stat => (
+            <div key={stat.label} style={{ textAlign: 'center' }}>
+              <div style={{ fontSize: 20, fontWeight: 500, color: 'var(--color-text-primary)', letterSpacing: '-0.03em' }}>
+                {stat.value}
+              </div>
+              <div style={{ fontSize: 11, color: 'var(--color-text-tertiary)', marginTop: 2 }}>
+                {stat.label}
+              </div>
+            </div>
+          ))}
         </div>
       </main>
     </div>
