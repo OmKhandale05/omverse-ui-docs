@@ -22,12 +22,12 @@ export default function HomePage() {
           height: 24,
           padding: '0 10px',
           borderRadius: 9999,
-          border: '0.5px solid var(--color-border-tertiary)',
+          border: '0.5px solid var(--color-outline-variant)',
           fontSize: 11,
           color: 'var(--color-text-secondary)',
           marginBottom: 24,
         }}>
-          <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--color-text-success)', display: 'inline-block' }} />
+          <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--color-success)', display: 'inline-block' }} />
           v0.1.4 — Now available on npm
         </div>
 
@@ -67,8 +67,8 @@ export default function HomePage() {
               borderRadius: 9999,
               fontSize: 13,
               fontWeight: 500,
-              background: 'var(--color-text-primary)',
-              color: 'var(--color-background-primary)',
+              background: '#000000',
+              color: '#ffffff',
               textDecoration: 'none',
               display: 'flex',
               alignItems: 'center',
@@ -88,7 +88,7 @@ export default function HomePage() {
               fontWeight: 400,
               background: 'transparent',
               color: 'var(--color-text-secondary)',
-              border: '0.5px solid var(--color-border-secondary)',
+              border: '0.5px solid var(--color-border)',
               textDecoration: 'none',
               display: 'flex',
               alignItems: 'center',
@@ -107,21 +107,21 @@ export default function HomePage() {
           height: 36,
           padding: '0 16px',
           borderRadius: 8,
-          background: 'var(--color-background-secondary)',
-          border: '0.5px solid var(--color-border-tertiary)',
+          background: 'var(--color-surface)',
+          border: '0.5px solid var(--color-outline-variant)',
           fontSize: 12,
           fontFamily: 'var(--font-mono)',
           color: 'var(--color-text-secondary)',
           marginBottom: 64,
         }}>
-          <span style={{ color: 'var(--color-text-tertiary)' }}>$</span>
+          <span style={{ color: 'var(--color-text-disabled)' }}>$</span>
           <span>npm install omverse-ui</span>
           <button
             type="button"
             aria-label="Copy install command"
             style={{
               marginLeft: 8,
-              color: 'var(--color-text-tertiary)',
+              color: 'var(--color-text-disabled)',
               background: 'none',
               border: 'none',
               cursor: 'pointer',
@@ -137,7 +137,7 @@ export default function HomePage() {
         <div style={{
           display: 'flex',
           gap: 40,
-          borderTop: '0.5px solid var(--color-border-tertiary)',
+          borderTop: '0.5px solid var(--color-outline-variant)',
           paddingTop: 32,
         }}>
           {[
@@ -150,7 +150,7 @@ export default function HomePage() {
               <div style={{ fontSize: 20, fontWeight: 500, color: 'var(--color-text-primary)', letterSpacing: '-0.03em' }}>
                 {stat.value}
               </div>
-              <div style={{ fontSize: 11, color: 'var(--color-text-tertiary)', marginTop: 2 }}>
+              <div style={{ fontSize: 11, color: 'var(--color-text-disabled)', marginTop: 2 }}>
                 {stat.label}
               </div>
             </div>
