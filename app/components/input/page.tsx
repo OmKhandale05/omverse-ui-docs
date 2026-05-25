@@ -37,13 +37,19 @@ const INPUT_PROPS = [
     name: 'error',
     type: 'boolean',
     default: 'false',
-    description: 'Error state',
+    description: 'Error state — red border and error icon',
   },
   {
     name: 'errorText',
     type: 'string',
     default: 'undefined',
     description: 'Error message shown below',
+  },
+  {
+    name: 'success',
+    type: 'boolean',
+    default: 'false',
+    description: 'Success state — green border and success icon',
   },
   {
     name: 'helperText',
@@ -64,22 +70,52 @@ const INPUT_PROPS = [
     description: 'Shows clear button when value exists',
   },
   {
+    name: 'passwordToggle',
+    type: 'boolean',
+    default: 'false',
+    description: 'Adds password visibility toggle — use with type="password"',
+  },
+  {
+    name: 'maxLength',
+    type: 'number',
+    default: 'undefined',
+    description: 'Maximum character count',
+  },
+  {
+    name: 'showCount',
+    type: 'boolean',
+    default: 'false',
+    description: 'Shows character counter — requires maxLength',
+  },
+  {
+    name: 'copyable',
+    type: 'boolean',
+    default: 'false',
+    description: 'Shows a copy button in the trailing slot',
+  },
+  {
     name: 'textarea',
     type: 'boolean',
     default: 'false',
     description: 'Renders as textarea',
   },
   {
+    name: 'rows',
+    type: 'number',
+    default: '3',
+    description: 'Number of visible rows for textarea',
+  },
+  {
     name: 'prefix',
     type: 'ReactNode',
     default: 'undefined',
-    description: 'Content shown before input',
+    description: 'Content shown before the input',
   },
   {
     name: 'suffix',
     type: 'ReactNode',
     default: 'undefined',
-    description: 'Content shown after input',
+    description: 'Content shown after the input',
   },
 ] as const satisfies {
   name: string;
@@ -90,7 +126,6 @@ const INPUT_PROPS = [
 
 /* ─── Code snippets ─── */
 
-// 'underline' is not a real variant — the third variant is 'floating' (animating label)
 const VARIANTS_CODE = `import { Input } from 'omverse-ui'
 
 <Input variant="outlined" label="Outlined" placeholder="Type something..." />
@@ -101,16 +136,38 @@ const SIZES_CODE = `<Input size="sm" placeholder="Small" />
 <Input size="md" placeholder="Medium" />
 <Input size="lg" placeholder="Large" />`;
 
-const STATES_CODE = `<Input label="Default" placeholder="Default state" />
-<Input label="Error" placeholder="Error state" error errorText="This field is required" />
-<Input label="Disabled" placeholder="Disabled" disabled />
-<Input label="Clearable" placeholder="Type to clear..." clearable defaultValue="Clear me" />`;
+const ALL_STATES_CODE = `<Input placeholder="Default" />
+<Input placeholder="Disabled" disabled />
+<Input placeholder="Error" error errorText="Required field" />
+<Input placeholder="Success" success />
+<Input placeholder="With helper" helperText="Helper text here" />`;
 
 const PREFIX_SUFFIX_CODE = `import { Icon, Input } from 'omverse-ui'
 
 <Input prefix="$" placeholder="Amount" />
 <Input suffix=".com" placeholder="domain" />
 <Input prefix={<Icon name="search" size="sm" />} placeholder="Search..." />`;
+
+const PASSWORD_CODE = `<Input
+  type="password"
+  label="Password"
+  placeholder="Enter password..."
+  passwordToggle
+/>`;
+
+const MAX_LENGTH_CODE = `<Input
+  label="Bio"
+  placeholder="Write something..."
+  maxLength={100}
+  showCount
+/>`;
+
+const COPYABLE_CODE = `<Input
+  label="API Key"
+  value="sk-1234567890abcdef"
+  copyable
+  readOnly
+/>`;
 
 const TEXTAREA_CODE = `<Input textarea rows={3} label="Message" placeholder="Write your message..." />`;
 
@@ -154,19 +211,19 @@ export default function InputPage() {
 
         <CodeBlock filename="App.tsx" code={SIZES_CODE} />
 
-        {/* ── Section 3: States ── */}
+        {/* ── Section 3: All states ── */}
         <ComponentPreview
-          title="States"
-          description="Default, error, disabled, and clearable states"
+          title="All states"
+          description="Default, disabled, error, success and helper text states"
         >
-          <Input label="Default" placeholder="Default state" />
-          <Input label="Error" placeholder="Error state" error errorText="This field is required" />
-          <Input label="Disabled" placeholder="Disabled" disabled />
-          {/* defaultValue keeps the input uncontrolled — clear button still works */}
-          <Input label="Clearable" placeholder="Type to clear..." clearable defaultValue="Clear me" />
+          <Input placeholder="Default" />
+          <Input placeholder="Disabled" disabled />
+          <Input placeholder="Error" error errorText="Required field" />
+          <Input placeholder="Success" success />
+          <Input placeholder="With helper" helperText="Helper text here" />
         </ComponentPreview>
 
-        <CodeBlock filename="App.tsx" code={STATES_CODE} />
+        <CodeBlock filename="App.tsx" code={ALL_STATES_CODE} />
 
         {/* ── Section 4: Prefix and suffix ── */}
         <ComponentPreview
@@ -180,7 +237,52 @@ export default function InputPage() {
 
         <CodeBlock filename="App.tsx" code={PREFIX_SUFFIX_CODE} />
 
-        {/* ── Section 5: Textarea ── */}
+        {/* ── Section 5: Password toggle ── */}
+        <ComponentPreview
+          title="Password toggle"
+          description="Adds a show/hide button to reveal the password — use with type=password"
+        >
+          <Input
+            type="password"
+            label="Password"
+            placeholder="Enter password..."
+            passwordToggle
+          />
+        </ComponentPreview>
+
+        <CodeBlock filename="App.tsx" code={PASSWORD_CODE} />
+
+        {/* ── Section 6: Max length counter ── */}
+        <ComponentPreview
+          title="Max length counter"
+          description="Shows a character counter below the input — requires maxLength"
+        >
+          <Input
+            label="Bio"
+            placeholder="Write something..."
+            maxLength={100}
+            showCount
+          />
+        </ComponentPreview>
+
+        <CodeBlock filename="App.tsx" code={MAX_LENGTH_CODE} />
+
+        {/* ── Section 7: Copyable ── */}
+        <ComponentPreview
+          title="Copyable"
+          description="Copy button in the trailing slot — best combined with readOnly"
+        >
+          <Input
+            label="API Key"
+            value="sk-1234567890abcdef"
+            copyable
+            readOnly
+          />
+        </ComponentPreview>
+
+        <CodeBlock filename="App.tsx" code={COPYABLE_CODE} />
+
+        {/* ── Section 8: Textarea ── */}
         <ComponentPreview
           title="Textarea"
           description="Renders a resizable multiline textarea with the same styling API"

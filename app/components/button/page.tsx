@@ -28,6 +28,12 @@ const BUTTON_PROPS = [
     description: 'Shows a spinner and disables interaction',
   },
   {
+    name: 'success',
+    type: 'boolean',
+    default: 'false',
+    description: 'Swaps leading icon to checkmark to confirm a completed action',
+  },
+  {
     name: 'disabled',
     type: 'boolean',
     default: 'false',
@@ -49,13 +55,13 @@ const BUTTON_PROPS = [
     name: 'fullWidth',
     type: 'boolean',
     default: 'false',
-    description: 'Makes button take full container width',
+    description: 'Stretches the button to its container full width',
   },
   {
-    name: 'onClick',
-    type: '() => void',
-    default: 'undefined',
-    description: 'Click handler',
+    name: 'gradient',
+    type: 'boolean',
+    default: 'false',
+    description: 'Blue→purple gradient — only applies on filled and destructive variants',
   },
 ] as const satisfies {
   name: string;
@@ -82,10 +88,41 @@ const SIZES_CODE = `<Button size="xs">Extra small</Button>
 <Button size="xl">Extra large</Button>`;
 
 const STATES_CODE = `<Button variant="filled" loading>Loading</Button>
-<Button variant="filled" disabled>Disabled</Button>`;
+<Button variant="filled" disabled>Disabled</Button>
+<Button variant="outlined" disabled>Disabled</Button>`;
 
 const ICONS_CODE = `<Button variant="filled" leadingIcon="plus">Add item</Button>
-<Button variant="outlined" trailingIcon="arrow-right">Continue</Button>`;
+<Button variant="filled" trailingIcon="arrow-right">Continue</Button>
+<Button variant="outlined" leadingIcon="download">Download</Button>
+<Button variant="tonal" leadingIcon="share">Share</Button>
+<Button variant="filled" gradient leadingIcon="star">Featured</Button>`;
+
+const SUCCESS_CODE = `<Button variant="filled" success>Saved!</Button>
+<Button variant="tonal" success>Done!</Button>`;
+
+const FULL_WIDTH_CODE = `<Button variant="filled" fullWidth>Full width filled</Button>
+<Button variant="outlined" fullWidth>Full width outlined</Button>`;
+
+const ALL_SIZES_CODE = `{/* filled */}
+<Button variant="filled" size="xs">xs</Button>
+<Button variant="filled" size="sm">sm</Button>
+<Button variant="filled" size="md">md</Button>
+<Button variant="filled" size="lg">lg</Button>
+<Button variant="filled" size="xl">xl</Button>
+
+{/* outlined */}
+<Button variant="outlined" size="xs">xs</Button>
+<Button variant="outlined" size="sm">sm</Button>
+<Button variant="outlined" size="md">md</Button>
+<Button variant="outlined" size="lg">lg</Button>
+<Button variant="outlined" size="xl">xl</Button>
+
+{/* tonal */}
+<Button variant="tonal" size="xs">xs</Button>
+<Button variant="tonal" size="sm">sm</Button>
+<Button variant="tonal" size="md">md</Button>
+<Button variant="tonal" size="lg">lg</Button>
+<Button variant="tonal" size="xl">xl</Button>`;
 
 /* ─── Page ─── */
 
@@ -108,7 +145,7 @@ export default function ButtonPage() {
         {/* ── Section 1: Variants ── */}
         <ComponentPreview
           title="Variants"
-          description="6 variants for different levels of visual emphasis"
+          description="6 variants covering the full emphasis spectrum"
         >
           <Button variant="filled">Filled</Button>
           <Button variant="outlined">Outlined</Button>
@@ -134,10 +171,36 @@ export default function ButtonPage() {
 
         <CodeBlock filename="App.tsx" code={SIZES_CODE} />
 
-        {/* ── Section 3: States ── */}
+        {/* ── Section 3: All sizes ── */}
+        <ComponentPreview
+          title="All sizes"
+          description="xs → xl across filled, outlined and tonal variants"
+        >
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, width: '100%' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+              {(['xs', 'sm', 'md', 'lg', 'xl'] as const).map(size => (
+                <Button key={size} variant="filled" size={size}>{size}</Button>
+              ))}
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+              {(['xs', 'sm', 'md', 'lg', 'xl'] as const).map(size => (
+                <Button key={size} variant="outlined" size={size}>{size}</Button>
+              ))}
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+              {(['xs', 'sm', 'md', 'lg', 'xl'] as const).map(size => (
+                <Button key={size} variant="tonal" size={size}>{size}</Button>
+              ))}
+            </div>
+          </div>
+        </ComponentPreview>
+
+        <CodeBlock filename="App.tsx" code={ALL_SIZES_CODE} />
+
+        {/* ── Section 4: States ── */}
         <ComponentPreview
           title="States"
-          description="Loading, disabled and success states"
+          description="Loading and disabled states"
         >
           <Button variant="filled" loading>Loading</Button>
           <Button variant="filled" disabled>Disabled</Button>
@@ -146,20 +209,47 @@ export default function ButtonPage() {
 
         <CodeBlock filename="App.tsx" code={STATES_CODE} />
 
-        {/* ── Section 4: With icons ── */}
+        {/* ── Section 5: Success state ── */}
         <ComponentPreview
-          title="With icons"
-          description="Leading and trailing icon support"
+          title="Success state"
+          description="Swaps the leading icon to a checkmark to confirm a completed action"
+        >
+          <Button variant="filled" success>Saved!</Button>
+          <Button variant="tonal" success>Done!</Button>
+        </ComponentPreview>
+
+        <CodeBlock filename="App.tsx" code={SUCCESS_CODE} />
+
+        {/* ── Section 6: Icon combinations ── */}
+        <ComponentPreview
+          title="Icon combinations"
+          description="Leading and trailing icon support across variants"
         >
           <Button variant="filled" leadingIcon="plus">Add item</Button>
-          <Button variant="outlined" trailingIcon="arrow-right">Continue</Button>
-          <Button variant="tonal" leadingIcon="download">Download</Button>
+          <Button variant="filled" trailingIcon="arrow-right">Continue</Button>
+          <Button variant="outlined" leadingIcon="download">Download</Button>
+          <Button variant="tonal" leadingIcon="share">Share</Button>
+          <Button variant="filled" gradient leadingIcon="star">Featured</Button>
         </ComponentPreview>
 
         <CodeBlock filename="App.tsx" code={ICONS_CODE} />
 
+        {/* ── Section 7: Full width ── */}
+        <ComponentPreview
+          title="Full width"
+          description="Stretches to fill the container — icons are pushed to the edges when both are present"
+        >
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, width: '100%' }}>
+            <Button variant="filled" fullWidth>Full width filled</Button>
+            <Button variant="outlined" fullWidth>Full width outlined</Button>
+          </div>
+        </ComponentPreview>
+
+        <CodeBlock filename="App.tsx" code={FULL_WIDTH_CODE} />
+
         {/* ── Props table ── */}
         <PropsTable props={BUTTON_PROPS} />
+
       </div>
     </div>
   );

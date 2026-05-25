@@ -1,6 +1,6 @@
 'use client';
 
-import { Checkbox } from 'omverse-ui';
+import { Checkbox, CheckboxGroup } from 'omverse-ui';
 import { PageHeader } from '@/components/ui/PageHeader';
 import { ComponentPreview } from '@/components/ui/ComponentPreview';
 import { CodeBlock } from '@/components/ui/CodeBlock';
@@ -51,6 +51,24 @@ const CHECKBOX_PROPS = [
     default: "'md'",
     description: 'Checkbox size',
   },
+  {
+    name: 'shape',
+    type: "'square' | 'circle'",
+    default: "'square'",
+    description: 'Checkbox shape',
+  },
+  {
+    name: 'card',
+    type: 'boolean',
+    default: 'false',
+    description: 'Wraps in a bordered card — use with description prop',
+  },
+  {
+    name: 'description',
+    type: 'string',
+    default: 'undefined',
+    description: 'Description shown inside the card below the label',
+  },
 ] as const satisfies {
   name: string;
   type: string;
@@ -67,7 +85,7 @@ const BASIC_CODE = `import { Checkbox } from 'omverse-ui'
 <Checkbox label="Disabled" disabled />`;
 
 // Checkbox color values: default | secondary | success | warning | error | info
-// 'primary' is not a valid color — use 'info' for the sixth slot
+// 'primary' is not a valid color — the sixth slot is 'info'
 const COLORS_CODE = `<Checkbox label="Default" color="default" defaultChecked />
 <Checkbox label="Secondary" color="secondary" defaultChecked />
 <Checkbox label="Success" color="success" defaultChecked />
@@ -76,6 +94,28 @@ const COLORS_CODE = `<Checkbox label="Default" color="default" defaultChecked />
 <Checkbox label="Info" color="info" defaultChecked />`;
 
 const INDETERMINATE_CODE = `<Checkbox label="Select all" indeterminate />`;
+
+const SIZES_CODE = `<Checkbox size="sm" label="Small checkbox" defaultChecked />
+<Checkbox size="md" label="Medium checkbox" defaultChecked />
+<Checkbox size="lg" label="Large checkbox" defaultChecked />`;
+
+const SHAPE_CODE = `<Checkbox shape="square" label="Square checkbox" defaultChecked />
+<Checkbox shape="circle" label="Circle checkbox" defaultChecked />`;
+
+// Checkbox card style uses prop 'card', NOT 'cardStyle'
+const CARD_CODE = `<Checkbox card label="Option A" description="This is option A" defaultChecked />
+<Checkbox card label="Option B" description="This is option B" />
+<Checkbox card label="Option C" description="This is option C" disabled />`;
+
+// CheckboxGroup uses 'legend' prop for the group label, NOT 'label'
+const GROUP_CODE = `import { Checkbox, CheckboxGroup } from 'omverse-ui'
+
+<CheckboxGroup legend="Select your interests">
+  <Checkbox value="design" label="Design" />
+  <Checkbox value="development" label="Development" defaultChecked />
+  <Checkbox value="marketing" label="Marketing" />
+  <Checkbox value="product" label="Product" defaultChecked />
+</CheckboxGroup>`;
 
 /* ─── Page ─── */
 
@@ -120,7 +160,30 @@ export default function CheckboxPage() {
 
         <CodeBlock filename="App.tsx" code={COLORS_CODE} />
 
-        {/* ── Section 3: Indeterminate ── */}
+        {/* ── Section 3: Sizes ── */}
+        <ComponentPreview
+          title="Sizes"
+          description="sm, md (default) and lg"
+        >
+          <Checkbox size="sm" label="Small checkbox" defaultChecked />
+          <Checkbox size="md" label="Medium checkbox" defaultChecked />
+          <Checkbox size="lg" label="Large checkbox" defaultChecked />
+        </ComponentPreview>
+
+        <CodeBlock filename="App.tsx" code={SIZES_CODE} />
+
+        {/* ── Section 4: Shape ── */}
+        <ComponentPreview
+          title="Shape"
+          description="Square (default, with rounded corners) or circle"
+        >
+          <Checkbox shape="square" label="Square checkbox" defaultChecked />
+          <Checkbox shape="circle" label="Circle checkbox" defaultChecked />
+        </ComponentPreview>
+
+        <CodeBlock filename="App.tsx" code={SHAPE_CODE} />
+
+        {/* ── Section 5: Indeterminate ── */}
         <ComponentPreview
           title="Indeterminate state"
           description="Shows a dash — used for select-all parent checkboxes"
@@ -129,6 +192,34 @@ export default function CheckboxPage() {
         </ComponentPreview>
 
         <CodeBlock filename="App.tsx" code={INDETERMINATE_CODE} />
+
+        {/* ── Section 6: Card style ── */}
+        <ComponentPreview
+          title="Card style"
+          description="Wraps the checkbox in a bordered card — useful for plan selection and feature toggles"
+        >
+          <Checkbox card label="Option A" description="This is option A" defaultChecked />
+          <Checkbox card label="Option B" description="This is option B" />
+          <Checkbox card label="Option C" description="This is option C" disabled />
+        </ComponentPreview>
+
+        <CodeBlock filename="App.tsx" code={CARD_CODE} />
+
+        {/* ── Section 7: CheckboxGroup ── */}
+        {/* CheckboxGroup uses 'legend' for the group label, not 'label' */}
+        <ComponentPreview
+          title="CheckboxGroup"
+          description="Managed group with accessible fieldset and legend"
+        >
+          <CheckboxGroup legend="Select your interests">
+            <Checkbox value="design" label="Design" />
+            <Checkbox value="development" label="Development" defaultChecked />
+            <Checkbox value="marketing" label="Marketing" />
+            <Checkbox value="product" label="Product" defaultChecked />
+          </CheckboxGroup>
+        </ComponentPreview>
+
+        <CodeBlock filename="App.tsx" code={GROUP_CODE} />
 
         {/* ── Props table ── */}
         <PropsTable props={CHECKBOX_PROPS} />

@@ -6,6 +6,11 @@ import { ComponentPreview } from '@/components/ui/ComponentPreview';
 import { CodeBlock } from '@/components/ui/CodeBlock';
 import { PropsTable } from '@/components/ui/PropsTable';
 
+/* ─── Constants ─── */
+
+const VARIANTS = ['filled', 'outlined', 'tonal', 'ghost'] as const;
+const COLORS   = ['default', 'primary', 'secondary', 'success', 'warning', 'error'] as const;
+
 /* ─── Props table data ─── */
 
 const BADGE_PROPS = [
@@ -22,6 +27,12 @@ const BADGE_PROPS = [
     description: 'Color scheme',
   },
   {
+    name: 'size',
+    type: "'sm' | 'md' | 'lg'",
+    default: "'md'",
+    description: 'Badge size',
+  },
+  {
     name: 'dot',
     type: 'boolean',
     default: 'false',
@@ -31,13 +42,13 @@ const BADGE_PROPS = [
     name: 'pulse',
     type: 'boolean',
     default: 'false',
-    description: 'Adds a pulse animation',
+    description: 'Adds a pulse animation (requires dot=true)',
   },
   {
     name: 'count',
     type: 'number',
     default: 'undefined',
-    description: 'Shows a number count',
+    description: 'Shows a number — automatically capped at 99+',
   },
 ] as const satisfies {
   name: string;
@@ -62,12 +73,27 @@ const COLORS_CODE = `<Badge color="default">Default</Badge>
 <Badge color="warning">Warning</Badge>
 <Badge color="error">Error</Badge>`;
 
+const ALL_GRID_CODE = `{/* 4 variants × 6 colors */}
+${VARIANTS.map(v =>
+  COLORS.map(c => `<Badge variant="${v}" color="${c}">${c}</Badge>`).join('\n')
+).join('\n')}`;
+
+const SIZES_CODE = `<Badge size="sm" color="primary">Small</Badge>
+<Badge size="md" color="primary">Medium</Badge>
+<Badge size="lg" color="primary">Large</Badge>`;
+
+const COUNT_CODE = `<Badge count={1} color="error" />
+<Badge count={5} color="primary" />
+<Badge count={12} color="secondary" />
+<Badge count={99} color="warning" />
+<Badge count={100} color="error" />`;
+
 const DOT_CODE = `<Badge dot color="success">Online</Badge>
 <Badge dot color="error">Offline</Badge>
 <Badge dot color="warning">Away</Badge>`;
 
-// pulse requires dot=true — the pulse ring animates around the dot
-const PULSE_CODE = `<Badge dot pulse color="success">Live</Badge>
+const PULSE_CODE = `{/* pulse requires dot=true */}
+<Badge dot pulse color="success">Live</Badge>
 <Badge dot pulse color="error">Alert</Badge>`;
 
 /* ─── Page ─── */
@@ -102,7 +128,7 @@ export default function BadgePage() {
         {/* ── Section 2: Colors ── */}
         <ComponentPreview
           title="Colors"
-          description="6 semantic colors mapped to your design system tokens"
+          description="6 semantic colors mapped to design system tokens"
         >
           <Badge color="default">Default</Badge>
           <Badge color="primary">Primary</Badge>
@@ -114,7 +140,51 @@ export default function BadgePage() {
 
         <CodeBlock filename="App.tsx" code={COLORS_CODE} />
 
-        {/* ── Section 3: Dot mode ── */}
+        {/* ── Section 3: All variants and colors ── */}
+        <ComponentPreview
+          title="All variants and colors"
+          description="4 variants × 6 colors — 24 combinations"
+        >
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+            {VARIANTS.map(variant =>
+              COLORS.map(color => (
+                <Badge key={`${variant}-${color}`} variant={variant} color={color}>
+                  {color}
+                </Badge>
+              ))
+            )}
+          </div>
+        </ComponentPreview>
+
+        <CodeBlock filename="App.tsx" code={ALL_GRID_CODE} />
+
+        {/* ── Section 4: Sizes ── */}
+        <ComponentPreview
+          title="Sizes"
+          description="sm, md (default) and lg"
+        >
+          <Badge size="sm" color="primary">Small</Badge>
+          <Badge size="md" color="primary">Medium</Badge>
+          <Badge size="lg" color="primary">Large</Badge>
+        </ComponentPreview>
+
+        <CodeBlock filename="App.tsx" code={SIZES_CODE} />
+
+        {/* ── Section 5: Count mode ── */}
+        <ComponentPreview
+          title="Count"
+          description="Displays a number — automatically caps at 99+"
+        >
+          <Badge count={1} color="error" />
+          <Badge count={5} color="primary" />
+          <Badge count={12} color="secondary" />
+          <Badge count={99} color="warning" />
+          <Badge count={100} color="error" />
+        </ComponentPreview>
+
+        <CodeBlock filename="App.tsx" code={COUNT_CODE} />
+
+        {/* ── Section 6: Dot mode ── */}
         <ComponentPreview
           title="Dot mode"
           description="Minimal dot indicator — children are replaced by a small circle"
@@ -126,7 +196,7 @@ export default function BadgePage() {
 
         <CodeBlock filename="App.tsx" code={DOT_CODE} />
 
-        {/* ── Section 4: Pulse animation ── */}
+        {/* ── Section 7: Pulse animation ── */}
         <ComponentPreview
           title="Pulse animation"
           description="Animated pulse ring around the dot — requires dot=true"

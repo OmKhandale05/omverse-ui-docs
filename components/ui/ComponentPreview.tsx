@@ -3,13 +3,22 @@ interface ComponentPreviewProps {
   description?: string;
   children: React.ReactNode;
   className?: string;
+  /**
+   * Controls how children are aligned inside the canvas.
+   * - 'center' — centred horizontally and vertically (default, suits small components)
+   * - 'start'  — top-left aligned (suits full-width layouts, grids and cards)
+   */
+  align?: 'center' | 'start';
 }
 
 export function ComponentPreview({
   title,
   description,
   children,
+  align = 'center',
 }: ComponentPreviewProps) {
+  const isStart = align === 'start';
+
   return (
     <div style={{ marginBottom: 24 }}>
       {/* Section title */}
@@ -49,8 +58,8 @@ export function ComponentPreview({
           display: 'flex',
           gap: 10,
           flexWrap: 'wrap',
-          alignItems: 'center',
-          justifyContent: 'center',
+          alignItems: isStart ? 'flex-start' : 'center',
+          justifyContent: isStart ? 'flex-start' : 'center',
           position: 'relative',
           minHeight: 80,
         }}
