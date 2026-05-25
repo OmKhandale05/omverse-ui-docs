@@ -289,35 +289,36 @@ export function CodeBlock({
           {/* Copy button */}
           <button
             type="button"
+            title={copied ? 'Copied!' : 'Copy'}
             onClick={handleCopy}
             onMouseEnter={() => setCopyHovered(true)}
             onMouseLeave={() => setCopyHovered(false)}
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: 4,
-              fontSize: 11,
-              fontFamily: 'inherit',
+              justifyContent: 'center',
+              width: 28,
+              height: 28,
+              borderRadius: 6,
+              border: 'none',
+              background: copyHovered && !copied
+                ? 'rgba(255,255,255,0.08)'
+                : 'transparent',
               color: copied
-                ? 'rgba(40,202,65,0.85)'
+                ? '#10B981'
                 : copyHovered
                 ? 'rgba(255,255,255,0.7)'
                 : 'rgba(255,255,255,0.3)',
-              background: 'none',
-              border: 'none',
               cursor: 'pointer',
-              padding: '3px 5px',
-              borderRadius: 4,
-              transition: 'color 150ms ease',
-              lineHeight: 1,
+              transition: 'all 150ms ease',
+              flexShrink: 0,
             }}
           >
             <i
               className={copied ? 'ti ti-check' : 'ti ti-copy'}
               aria-hidden="true"
-              style={{ fontSize: 12 }}
+              style={{ fontSize: 14 }}
             />
-            {copied ? 'Copied!' : 'Copy'}
           </button>
         </div>
       </div>
