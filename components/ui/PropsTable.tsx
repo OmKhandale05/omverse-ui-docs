@@ -1,3 +1,5 @@
+'use client';
+
 interface PropRow {
   name: string;
   type: string;

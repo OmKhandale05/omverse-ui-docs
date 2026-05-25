@@ -1,3 +1,5 @@
+'use client';
+
 interface ComponentPreviewProps {
   title: string;
   description?: string;

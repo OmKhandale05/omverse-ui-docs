@@ -1,3 +1,21 @@
+# CRITICAL RULES — Read first
+
+## Git — NEVER touch
+NEVER run any git command under any circumstances.
+Not git add, git commit, git push, git reset,
+git rebase, git merge or anything else.
+
+Only create and modify files.
+The user runs all git commands themselves.
+This rule overrides everything else.
+
+## Commits
+Do not suggest commit messages unless asked.
+Do not remind the user to commit.
+Just build the files and stop.
+
+---
+
 @AGENTS.md
 
 ## Git rules
