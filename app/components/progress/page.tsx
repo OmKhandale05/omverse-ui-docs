@@ -1,280 +1,363 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { Progress, CircularProgress, SegmentedProgress, MultiProgress } from 'omverse-ui';
 import { PageHeader } from '@/components/ui/PageHeader';
 import { ComponentPreview } from '@/components/ui/ComponentPreview';
 import { CodeBlock } from '@/components/ui/CodeBlock';
 import { PropsTable } from '@/components/ui/PropsTable';
 
-/* ─── Props table data ─── */
+/* ─── Props tables ─── */
 
 const PROGRESS_PROPS = [
-  {
-    name: 'value',
-    type: 'number',
-    default: 'undefined',
-    description: 'Progress value 0–100. Omit for indeterminate progress.',
-  },
-  {
-    name: 'variant',
-    type: "'default' | 'gradient' | 'glow' | 'striped' | 'thin' | 'indeterminate' | 'bubble'",
-    default: "'default'",
-    description: 'Visual style of the progress bar',
-  },
-  {
-    name: 'color',
-    type: "'default' | 'secondary' | 'success' | 'warning' | 'error' | 'info'",
-    default: "'default'",
-    description: 'Color scheme applied to the fill',
-  },
-  {
-    name: 'size',
-    type: "'xs' | 'sm' | 'md' | 'lg' | 'xl'",
-    default: "'md'",
-    description: 'Track height',
-  },
-  {
-    name: 'label',
-    type: 'string',
-    default: 'undefined',
-    description: 'Label shown above the progress bar',
-  },
-  {
-    name: 'showValue',
-    type: "'percent' | 'fraction' | 'none'",
-    default: 'undefined',
-    description: "Value display format — 'percent' shows '65%', 'fraction' shows '6.5/10'",
-  },
-  {
-    name: 'helperText',
-    type: 'string',
-    default: 'undefined',
-    description: 'Helper text shown below the bar',
-  },
-  {
-    name: 'max',
-    type: 'number',
-    default: '100',
-    description: 'Maximum value',
-  },
-] as const satisfies {
-  name: string;
-  type: string;
-  default: string;
-  description: string;
-}[];
+  { name: 'value',        type: 'number',                                                              default: '0',         description: 'Current progress value (0–max)' },
+  { name: 'max',          type: 'number',                                                              default: '100',       description: 'Maximum value' },
+  { name: 'color',        type: "'default' | 'secondary' | 'success' | 'warning' | 'error' | 'info' | 'gradient'", default: "'default'", description: 'Fill color' },
+  { name: 'size',         type: "'xs' | 'sm' | 'md' | 'lg' | 'xl'",                                  default: "'md'",      description: 'Track height' },
+  { name: 'variant',      type: "'default' | 'gradient' | 'glow' | 'striped' | 'indeterminate' | 'bubble' | 'thin'", default: "'default'", description: 'Visual style' },
+  { name: 'label',        type: 'string',                                                              default: '—',         description: 'Label shown above or beside the bar' },
+  { name: 'helperText',   type: 'string',                                                              default: '—',         description: 'Helper text shown below the bar' },
+  { name: 'showValue',    type: 'boolean',                                                             default: 'false',     description: 'Shows the percentage value' },
+  { name: 'animated',     type: 'boolean',                                                             default: 'false',     description: 'Animates stripes (striped variant)' },
+  { name: 'formatValue',  type: '(value: number) => string',                                          default: '—',         description: 'Custom value formatter' },
+] as const satisfies { name: string; type: string; default: string; description: string }[];
+
+const SEGMENTED_PROPS = [
+  { name: 'value',          type: 'number',    default: '—',     description: 'Number of filled segments' },
+  { name: 'total',          type: 'number',    default: '10',    description: 'Total number of segments' },
+  { name: 'color',          type: 'string',    default: '—',     description: 'Color of the filled segments' },
+  { name: 'segmentColors',  type: 'string[]',  default: '—',     description: 'Per-segment color array' },
+  { name: 'size',           type: "'xs' | 'sm' | 'md' | 'lg' | 'xl'", default: "'md'", description: 'Segment height' },
+] as const satisfies { name: string; type: string; default: string; description: string }[];
+
+const CIRCULAR_PROPS = [
+  { name: 'value',       type: 'number',    default: '0',     description: 'Current progress value (0–max)' },
+  { name: 'max',         type: 'number',    default: '100',   description: 'Maximum value' },
+  { name: 'size',        type: 'number',    default: '80',    description: 'Diameter of the circle in px' },
+  { name: 'strokeWidth', type: 'number',    default: '8',     description: 'Width of the arc stroke' },
+  { name: 'color',       type: 'string',    default: '—',     description: 'Color of the progress arc' },
+  { name: 'gradient',    type: 'boolean',   default: 'false', description: 'Applies a gradient to the arc' },
+  { name: 'showValue',   type: 'boolean',   default: 'false', description: 'Shows the percentage in the center' },
+  { name: 'label',       type: 'string',    default: '—',     description: 'Label shown below the circle' },
+  { name: 'formatValue', type: '(value: number) => string', default: '—', description: 'Custom center value formatter' },
+] as const satisfies { name: string; type: string; default: string; description: string }[];
+
+const MULTI_PROPS = [
+  { name: 'segments',    type: '{ value: number; color?: string; label?: string }[]', default: '—', description: 'Array of stacked segments' },
+  { name: 'max',         type: 'number',   default: '100',  description: 'Maximum total value' },
+  { name: 'size',        type: "'xs' | 'sm' | 'md' | 'lg' | 'xl'", default: "'md'", description: 'Track height' },
+  { name: 'showLegend',  type: 'boolean',  default: 'false', description: 'Shows a legend below the bar' },
+] as const satisfies { name: string; type: string; default: string; description: string }[];
 
 /* ─── Code snippets ─── */
 
-const LINEAR_CODE = `import { Progress } from 'omverse-ui'
+const SIZES_CODE = `<Progress value={70} size="xs" />
+<Progress value={70} size="sm" />
+<Progress value={70} size="md" />
+<Progress value={70} size="lg" />
+<Progress value={70} size="xl" />`;
 
-<Progress value={70} variant="default" />
-<Progress value={70} variant="striped" />
-<Progress value={70} variant="gradient" />
-<Progress value={70} variant="glow" />
-<Progress value={70} variant="indeterminate" />
-<Progress value={70} variant="bubble" />`;
+const COLORS_CODE = `<Progress value={65} color="default"   />
+<Progress value={65} color="secondary" />
+<Progress value={65} color="success"   />
+<Progress value={65} color="warning"   />
+<Progress value={65} color="error"     />
+<Progress value={65} color="gradient"  />`;
 
-const COLORS_CODE = `<Progress value={60} color="default" />
-<Progress value={60} color="secondary" />
-<Progress value={60} color="success" />
-<Progress value={60} color="warning" />
-<Progress value={60} color="error" />
-<Progress value={60} color="info" />`;
+const VARIANTS_CODE = `<Progress value={65} variant="default"       />
+<Progress value={65} variant="gradient"      />
+<Progress value={65} variant="glow"          />
+<Progress value={65} variant="striped"       animated />
+<Progress variant="indeterminate"            />
+<Progress value={65} variant="bubble"        showValue />
+<Progress value={65} variant="thin"          />`;
 
-const SIZES_CODE = `<Progress value={60} size="xs" />
-<Progress value={60} size="sm" />
-<Progress value={60} size="md" />
-<Progress value={60} size="lg" />
-<Progress value={60} size="xl" />`;
+const LABEL_CODE = `{/* With label and showValue */}
+<Progress
+  value={78}
+  variant="glow"
+  color="default"
+  label="Storage used"
+  showValue
+  helperText="78 GB of 100 GB used"
+/>
 
-const LABEL_CODE = `<Progress value={75} label="Uploading..." showValue="percent" />
-<Progress value={45} label="Processing" showValue="percent" color="secondary" />`;
+{/* Gradient with label */}
+<Progress
+  value={55}
+  variant="gradient"
+  label="Project completion"
+  showValue
+/>
 
-const CIRCULAR_CODE = `import { CircularProgress } from 'omverse-ui'
+{/* Error state */}
+<Progress
+  value={92}
+  variant="glow"
+  color="error"
+  label="Memory usage"
+  showValue
+  helperText="Critical — consider upgrading"
+/>`;
 
-<CircularProgress value={75} showValue />
-<CircularProgress value={45} color="secondary" showValue />
-<CircularProgress value={90} color="success" showValue />
-<CircularProgress value={30} color="error" showValue />`;
+const SEGMENTED_CODE = `{/* Default color */}
+<SegmentedProgress value={6} total={10} />
 
-const SEGMENTED_CODE = `import { SegmentedProgress } from 'omverse-ui'
+{/* Success color */}
+<SegmentedProgress value={8} total={10} color="success" />
 
-<SegmentedProgress value={3} total={5} />
-<SegmentedProgress value={7} total={10} color="success" />`;
+{/* Per-segment colors */}
+<SegmentedProgress
+  value={7}
+  total={10}
+  segmentColors={['#10B981','#10B981','#10B981','#F59E0B','#F59E0B','#EF4444','#EF4444']}
+/>`;
 
-const MULTI_CODE = `import { MultiProgress } from 'omverse-ui'
+const CIRCULAR_CODE = `{/* Basic */}
+<CircularProgress value={72} showValue />
 
+{/* Colors */}
+<CircularProgress value={85} color="success"   showValue />
+<CircularProgress value={45} color="warning"   showValue />
+<CircularProgress value={20} color="error"     showValue />
+
+{/* Gradient */}
+<CircularProgress value={68} gradient showValue />
+
+{/* With label */}
+<CircularProgress value={92} showValue label="CPU" />`;
+
+const MULTI_CODE = `{/* Storage breakdown */}
 <MultiProgress
   segments={[
-    { value: 45, color: 'default', label: 'Design' },
-    { value: 30, color: 'secondary', label: 'Development' },
-    { value: 25, color: 'success', label: 'QA' },
+    { value: 40, color: 'var(--color-primary)', label: 'Photos' },
+    { value: 25, color: '#10B981',              label: 'Videos' },
+    { value: 15, color: '#F59E0B',              label: 'Documents' },
+    { value: 10, color: '#EF4444',              label: 'Other' },
   ]}
   showLegend
 />`;
 
-/* ─── Shared layout helpers ─── */
+const UPLOAD_CODE = `const [uploading, setUploading] = useState(false)
+const [uploadPct, setUploadPct] = useState(0)
 
-const stack: React.CSSProperties = {
-  display: 'flex',
-  flexDirection: 'column',
-  gap: 16,
-  width: '100%',
-  maxWidth: 480,
-};
+function simulate() {
+  setUploading(true)
+  setUploadPct(0)
+  const iv = setInterval(() => {
+    setUploadPct(prev => {
+      if (prev >= 100) { clearInterval(iv); setUploading(false); return 100 }
+      return prev + Math.floor(Math.random() * 8) + 2
+    })
+  }, 150)
+}
 
-const label: React.CSSProperties = {
-  fontSize: 11,
-  fontWeight: 500,
-  color: 'var(--color-text-tertiary)',
-  textTransform: 'uppercase',
-  letterSpacing: '0.05em',
-  marginBottom: 4,
-};
+<div style={{ border: '1px solid var(--color-border-secondary)', borderRadius: 12, padding: 20 }}>
+  <p style={{ fontSize: 14, fontWeight: 500, marginBottom: 12 }}>File upload</p>
+  <Progress
+    value={uploadPct}
+    variant="gradient"
+    label={uploading ? \`Uploading… \${uploadPct}%\` : uploadPct === 100 ? 'Upload complete!' : 'Ready to upload'}
+    showValue
+    color={uploadPct === 100 ? 'success' : 'default'}
+  />
+  <button onClick={simulate} disabled={uploading} style={{ marginTop: 12, fontSize: 13 }}>
+    {uploading ? 'Uploading...' : 'Simulate upload'}
+  </button>
+</div>`;
 
 /* ─── Page ─── */
 
 export default function ProgressPage() {
+  const [animated,   setAnimated]   = useState(0);
+  const [uploading,  setUploading]  = useState(false);
+  const [uploadPct,  setUploadPct]  = useState(0);
+
+  useEffect(() => {
+    setAnimated(75);
+  }, []);
+
+  function simulateUpload() {
+    setUploading(true);
+    setUploadPct(0);
+    const iv = setInterval(() => {
+      setUploadPct(prev => {
+        const next = prev + Math.floor(Math.random() * 8) + 2;
+        if (next >= 100) {
+          clearInterval(iv);
+          setUploading(false);
+          return 100;
+        }
+        return next;
+      });
+    }, 150);
+  }
+
   return (
     <div>
       {/* ── Page header ── */}
       <PageHeader
-        breadcrumb={['Components', 'Display', 'Progress']}
+        breadcrumb={['Components', 'Feedback', 'Progress']}
         title="Progress"
-        description="Linear and circular progress indicators. Segmented and multi-progress variants for dashboards."
-        tags={['Linear', 'Circular', 'Segmented', 'Multi', '7 variants', '6 colors']}
+        description="5 sizes · 6 colors · 7 variants · segmented · circular · multi-color stacked"
+        tags={['Sizes', 'Colors', 'Variants', 'With label', 'Segmented', 'Circular', 'Multi-color', 'File upload']}
       />
 
       {/* ── Content ── */}
       <div style={{ padding: '28px 40px' }}>
 
-        {/* ── Section 1: Linear variants ── */}
-        <ComponentPreview
-          title="Linear variants"
-          description="7 styles — default solid fill, striped, gradient, glow, thin, indeterminate (unknown duration), bubble (tooltip on fill)"
-          align="start"
-        >
-          <div style={stack}>
-            {(
-              [
-                { variant: 'default' as const, desc: 'default' },
-                { variant: 'striped' as const, desc: 'striped' },
-                { variant: 'gradient' as const, desc: 'gradient' },
-                { variant: 'glow' as const, desc: 'glow' },
-                { variant: 'indeterminate' as const, desc: 'indeterminate' },
-                { variant: 'bubble' as const, desc: 'bubble' },
-              ]
-            ).map(({ variant, desc }) => (
-              <div key={variant}>
-                <p style={label}>{desc}</p>
-                <Progress value={70} variant={variant} />
-              </div>
-            ))}
-          </div>
-        </ComponentPreview>
-
-        <CodeBlock filename="App.tsx" code={LINEAR_CODE} />
-
-        {/* ── Section 2: Colors ── */}
-        <ComponentPreview
-          title="Colors"
-          description="6 semantic colors — default, secondary, success, warning, error, info"
-          align="start"
-        >
-          <div style={stack}>
-            {(
-              ['default', 'secondary', 'success', 'warning', 'error', 'info'] as const
-            ).map((color) => (
-              <div key={color}>
-                <p style={label}>{color}</p>
-                <Progress value={60} color={color} />
-              </div>
-            ))}
-          </div>
-        </ComponentPreview>
-
-        <CodeBlock filename="App.tsx" code={COLORS_CODE} />
-
-        {/* ── Section 3: Sizes ── */}
+        {/* ── Section 1: Sizes ── */}
         <ComponentPreview
           title="Sizes"
-          description="5 track heights — xs (2 px) to xl (20 px)"
-          align="start"
+          description="Five track heights: xs, sm, md (default), lg, xl"
         >
-          <div style={stack}>
-            {(['xs', 'sm', 'md', 'lg', 'xl'] as const).map((size) => (
-              <div key={size}>
-                <p style={label}>{size}</p>
-                <Progress value={60} size={size} />
-              </div>
-            ))}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12, width: '100%', maxWidth: 480 }}>
+            <Progress value={70} size="xs" />
+            <Progress value={70} size="sm" />
+            <Progress value={70} size="md" />
+            <Progress value={70} size="lg" />
+            <Progress value={70} size="xl" />
           </div>
         </ComponentPreview>
 
         <CodeBlock filename="App.tsx" code={SIZES_CODE} />
 
-        {/* ── Section 4: With label ── */}
+        {/* ── Section 2: Colors ── */}
         <ComponentPreview
-          title="With label"
-          description="label prop adds text above; showValue='percent' appends the percentage"
-          align="start"
+          title="Colors"
+          description="Six color variants — default, secondary, success, warning, error, and gradient"
         >
-          <div style={stack}>
-            <Progress value={75} label="Uploading..." showValue="percent" />
-            <Progress value={45} label="Processing" showValue="percent" color="secondary" />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12, width: '100%', maxWidth: 480 }}>
+            <Progress value={65} color="default"   />
+            <Progress value={65} color="secondary" />
+            <Progress value={65} color="success"   />
+            <Progress value={65} color="warning"   />
+            <Progress value={65} color="error"     />
+            <Progress value={65} color="gradient"  />
+          </div>
+        </ComponentPreview>
+
+        <CodeBlock filename="App.tsx" code={COLORS_CODE} />
+
+        {/* ── Section 3: Variants ── */}
+        <ComponentPreview
+          title="Variants"
+          description="default, gradient, glow, striped (animated), indeterminate, bubble, thin"
+        >
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16, width: '100%', maxWidth: 480 }}>
+            <div>
+              <p style={{ fontSize: 11, color: 'var(--color-text-secondary)', marginBottom: 6 }}>default</p>
+              <Progress value={65} variant="default" />
+            </div>
+            <div>
+              <p style={{ fontSize: 11, color: 'var(--color-text-secondary)', marginBottom: 6 }}>gradient</p>
+              <Progress value={65} variant="gradient" />
+            </div>
+            <div>
+              <p style={{ fontSize: 11, color: 'var(--color-text-secondary)', marginBottom: 6 }}>glow</p>
+              <Progress value={65} variant="glow" />
+            </div>
+            <div>
+              <p style={{ fontSize: 11, color: 'var(--color-text-secondary)', marginBottom: 6 }}>striped + animated</p>
+              <Progress value={65} variant="striped" animated />
+            </div>
+            <div>
+              <p style={{ fontSize: 11, color: 'var(--color-text-secondary)', marginBottom: 6 }}>indeterminate</p>
+              <Progress variant="indeterminate" />
+            </div>
+            <div>
+              <p style={{ fontSize: 11, color: 'var(--color-text-secondary)', marginBottom: 6 }}>bubble</p>
+              <Progress value={65} variant="bubble" showValue />
+            </div>
+            <div>
+              <p style={{ fontSize: 11, color: 'var(--color-text-secondary)', marginBottom: 6 }}>thin</p>
+              <Progress value={65} variant="thin" />
+            </div>
+          </div>
+        </ComponentPreview>
+
+        <CodeBlock filename="App.tsx" code={VARIANTS_CODE} />
+
+        {/* ── Section 4: With label + helper ── */}
+        <ComponentPreview
+          title="With label + helper"
+          description="label and helperText display context; showValue renders the percentage"
+        >
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 20, width: '100%', maxWidth: 480 }}>
+            <Progress
+              value={78}
+              variant="glow"
+              color="default"
+              label="Storage used"
+              showValue
+              helperText="78 GB of 100 GB used"
+            />
+            <Progress
+              value={55}
+              variant="gradient"
+              label="Project completion"
+              showValue
+            />
+            <Progress
+              value={92}
+              variant="glow"
+              color="error"
+              label="Memory usage"
+              showValue
+              helperText="Critical — consider upgrading"
+            />
           </div>
         </ComponentPreview>
 
         <CodeBlock filename="App.tsx" code={LABEL_CODE} />
 
-        {/* ── Section 5: Circular ── */}
-        <ComponentPreview
-          title="Circular"
-          description="SVG arc indicator — supports all 6 colors, custom size and stroke width"
-        >
-          <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap', alignItems: 'center' }}>
-            <CircularProgress value={75} showValue />
-            <CircularProgress value={45} color="secondary" showValue />
-            <CircularProgress value={90} color="success" showValue />
-            <CircularProgress value={30} color="error" showValue />
-          </div>
-        </ComponentPreview>
-
-        <CodeBlock filename="App.tsx" code={CIRCULAR_CODE} />
-
-        {/* ── Section 6: Segmented ── */}
+        {/* ── Section 5: Segmented ── */}
         <ComponentPreview
           title="Segmented"
-          description="Discrete step pills — ideal for onboarding flows and step indicators"
-          align="start"
+          description="SegmentedProgress divides the bar into discrete blocks"
         >
-          <div style={stack}>
-            <div>
-              <p style={label}>3 of 5 (default)</p>
-              <SegmentedProgress value={3} total={5} />
-            </div>
-            <div>
-              <p style={label}>7 of 10 (success)</p>
-              <SegmentedProgress value={7} total={10} color="success" />
-            </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12, width: '100%', maxWidth: 480 }}>
+            <SegmentedProgress value={6} total={10} />
+            <SegmentedProgress value={8} total={10} color="success" />
+            <SegmentedProgress
+              value={7}
+              total={10}
+              segmentColors={['#10B981','#10B981','#10B981','#F59E0B','#F59E0B','#EF4444','#EF4444']}
+            />
           </div>
         </ComponentPreview>
 
         <CodeBlock filename="App.tsx" code={SEGMENTED_CODE} />
 
-        {/* ── Section 7: Multi-progress ── */}
+        {/* ── Section 6: Circular ── */}
         <ComponentPreview
-          title="Multi-progress"
-          description="Stacked bar with per-segment colors and optional legend — ideal for breakdowns"
-          align="start"
+          title="Circular"
+          description="CircularProgress renders an SVG arc with optional center value and label"
         >
-          <div style={{ width: '100%', maxWidth: 480 }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 24, alignItems: 'center' }}>
+            <CircularProgress value={72}  showValue />
+            <CircularProgress value={85}  color="success"  showValue />
+            <CircularProgress value={45}  color="warning"  showValue />
+            <CircularProgress value={20}  color="error"    showValue />
+            <CircularProgress value={68}  gradient showValue />
+            <CircularProgress value={92}  showValue label="CPU" />
+          </div>
+        </ComponentPreview>
+
+        <CodeBlock filename="App.tsx" code={CIRCULAR_CODE} />
+
+        {/* ── Section 7: Multi-color stacked ── */}
+        <ComponentPreview
+          title="Multi-color stacked"
+          description="MultiProgress stacks segments end-to-end — showLegend adds a color key"
+        >
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16, width: '100%', maxWidth: 480 }}>
             <MultiProgress
               segments={[
-                { value: 45, color: 'default', label: 'Design' },
-                { value: 30, color: 'secondary', label: 'Development' },
-                { value: 25, color: 'success', label: 'QA' },
+                { value: 40, color: 'var(--color-primary)', label: 'Photos' },
+                { value: 25, color: '#10B981',              label: 'Videos' },
+                { value: 15, color: '#F59E0B',              label: 'Documents' },
+                { value: 10, color: '#EF4444',              label: 'Other' },
               ]}
               showLegend
             />
@@ -283,8 +366,86 @@ export default function ProgressPage() {
 
         <CodeBlock filename="App.tsx" code={MULTI_CODE} />
 
-        {/* ── Props table ── */}
+        {/* ── Section 8: File upload simulation ── */}
+        <ComponentPreview
+          title="File upload simulation"
+          description="A simulated upload with animated progress and status label"
+        >
+          <div style={{ border: '1px solid var(--color-border-secondary)', borderRadius: 12, padding: 20, width: '100%', maxWidth: 480 }}>
+            <p style={{ fontSize: 14, fontWeight: 500, color: 'var(--color-text-primary)', marginBottom: 12 }}>
+              File upload
+            </p>
+            <Progress
+              value={uploadPct}
+              variant="gradient"
+              label={uploading ? `Uploading… ${uploadPct}%` : uploadPct === 100 ? 'Upload complete!' : 'Ready to upload'}
+              showValue
+              color={uploadPct === 100 ? 'success' : 'default'}
+            />
+            <button
+              onClick={simulateUpload}
+              disabled={uploading}
+              style={{
+                marginTop: 12,
+                fontSize: 13,
+                padding: '6px 14px',
+                borderRadius: 6,
+                border: '1px solid var(--color-border-secondary)',
+                background: 'var(--color-background-primary)',
+                color: 'var(--color-text-primary)',
+                cursor: uploading ? 'not-allowed' : 'pointer',
+                opacity: uploading ? 0.6 : 1,
+              }}
+            >
+              {uploading ? 'Uploading...' : 'Simulate upload'}
+            </button>
+          </div>
+        </ComponentPreview>
+
+        <CodeBlock filename="App.tsx" code={UPLOAD_CODE} />
+
+        {/* ── Section 9: Skill bars ── */}
+        <ComponentPreview
+          title="Skill bars"
+          description="Combine label and showValue for a skills or usage breakdown"
+        >
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, width: '100%', maxWidth: 480 }}>
+            {[
+              { label: 'React',      value: animated,     color: 'default'   },
+              { label: 'TypeScript', value: Math.min(animated + 5, 100), color: 'info'  },
+              { label: 'Node.js',    value: Math.max(animated - 15, 0), color: 'success' },
+              { label: 'GraphQL',    value: Math.max(animated - 30, 0), color: 'warning' },
+            ].map(({ label, value, color }) => (
+              <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                <span style={{ fontSize: 13, color: 'var(--color-text-secondary)', minWidth: 88 }}>{label}</span>
+                <div style={{ flex: 1 }}>
+                  <Progress value={value} color={color as 'default' | 'info' | 'success' | 'warning'} size="sm" showValue />
+                </div>
+              </div>
+            ))}
+          </div>
+        </ComponentPreview>
+
+        {/* ── Props tables ── */}
+        <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-text-primary)', marginBottom: 8, marginTop: 8 }}>
+          Progress props
+        </p>
         <PropsTable props={PROGRESS_PROPS} />
+
+        <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-text-primary)', marginBottom: 8, marginTop: 24 }}>
+          SegmentedProgress props
+        </p>
+        <PropsTable props={SEGMENTED_PROPS} />
+
+        <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-text-primary)', marginBottom: 8, marginTop: 24 }}>
+          CircularProgress props
+        </p>
+        <PropsTable props={CIRCULAR_PROPS} />
+
+        <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-text-primary)', marginBottom: 8, marginTop: 24 }}>
+          MultiProgress props
+        </p>
+        <PropsTable props={MULTI_PROPS} />
 
       </div>
     </div>

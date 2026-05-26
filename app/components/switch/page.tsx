@@ -1,170 +1,158 @@
 'use client';
 
+import { useState } from 'react';
 import { Switch } from 'omverse-ui';
 import { PageHeader } from '@/components/ui/PageHeader';
 import { ComponentPreview } from '@/components/ui/ComponentPreview';
 import { CodeBlock } from '@/components/ui/CodeBlock';
 import { PropsTable } from '@/components/ui/PropsTable';
 
-/* ─── Props table data ─── */
+/* ─── Props table ─── */
 
 const SWITCH_PROPS = [
-  {
-    name: 'label',
-    type: 'string',
-    default: 'undefined',
-    description: 'Label shown next to the switch',
-  },
-  {
-    name: 'helperText',
-    type: 'string',
-    default: 'undefined',
-    description: 'Helper text shown below the label',
-  },
-  {
-    name: 'labelPosition',
-    type: "'left' | 'right'",
-    default: "'right'",
-    description: 'Position of the label — right (default) or left (switch pinned to the right)',
-  },
-  {
-    name: 'checkedIcon',
-    type: 'IconName',
-    default: 'undefined',
-    description: 'Icon shown inside the thumb when switch is ON',
-  },
-  {
-    name: 'uncheckedIcon',
-    type: 'IconName',
-    default: 'undefined',
-    description: 'Icon shown inside the thumb when switch is OFF',
-  },
-  {
-    name: 'card',
-    type: 'boolean',
-    default: 'false',
-    description: 'Wraps in a bordered card — label becomes card title, helperText becomes description',
-  },
-  {
-    name: 'color',
-    type: "'default' | 'secondary' | 'success' | 'warning' | 'error' | 'info'",
-    default: "'default'",
-    description: 'Track color when the switch is on',
-  },
-  {
-    name: 'size',
-    type: "'sm' | 'md' | 'lg'",
-    default: "'md'",
-    description: 'Switch size',
-  },
-  {
-    name: 'checked',
-    type: 'boolean',
-    default: 'undefined',
-    description: 'Controlled checked state',
-  },
-  {
-    name: 'defaultChecked',
-    type: 'boolean',
-    default: 'false',
-    description: 'Initial checked state (uncontrolled)',
-  },
-  {
-    name: 'disabled',
-    type: 'boolean',
-    default: 'false',
-    description: 'Disables the switch',
-  },
-] as const satisfies {
-  name: string;
-  type: string;
-  default: string;
-  description: string;
-}[];
+  { name: 'label',           type: 'ReactNode',                                                                  default: '—',         description: 'Label text shown next to the switch' },
+  { name: 'helperText',      type: 'string',                                                                     default: '—',         description: 'Helper text shown below the label' },
+  { name: 'description',     type: 'string',                                                                     default: '—',         description: 'Description inside the card (card=true only)' },
+  { name: 'size',            type: "'sm' | 'md' | 'lg'",                                                        default: "'md'",      description: 'Size of the switch' },
+  { name: 'color',           type: "'default' | 'secondary' | 'success' | 'warning' | 'error' | 'info'",       default: "'default'", description: 'Color when on' },
+  { name: 'labelPosition',   type: "'left' | 'right'",                                                          default: "'right'",   description: 'Position of the label relative to the switch' },
+  { name: 'checkedIcon',     type: 'string',                                                                     default: '—',         description: 'Icon name shown inside the thumb when on' },
+  { name: 'uncheckedIcon',   type: 'string',                                                                     default: '—',         description: 'Icon name shown inside the thumb when off' },
+  { name: 'card',            type: 'boolean',                                                                    default: 'false',     description: 'Wraps the switch in a bordered card' },
+  { name: 'disabled',        type: 'boolean',                                                                    default: 'false',     description: 'Disables the switch' },
+  { name: 'checked',         type: 'boolean',                                                                    default: '—',         description: 'Controlled checked state' },
+  { name: 'defaultChecked',  type: 'boolean',                                                                    default: 'false',     description: 'Uncontrolled initial checked state' },
+  { name: 'onChange',        type: 'React.ChangeEventHandler<HTMLInputElement>',                                 default: '—',         description: 'Change event callback' },
+] as const satisfies { name: string; type: string; default: string; description: string }[];
 
 /* ─── Code snippets ─── */
 
-const BASIC_CODE = `import { Switch } from 'omverse-ui'
+const STATES_CODE = `<Switch label="Off" />
+<Switch label="On"            defaultChecked />
+<Switch label="Disabled off"  disabled />
+<Switch label="Disabled on"   disabled defaultChecked />`;
 
-<Switch label="Airplane mode" />
-<Switch label="Dark mode" defaultChecked />
-<Switch label="Disabled" disabled />`;
+const COLORS_CODE = `<Switch label="Default (primary)" color="default"   defaultChecked />
+<Switch label="Secondary"         color="secondary" defaultChecked />
+<Switch label="Success"           color="success"   defaultChecked />
+<Switch label="Warning"           color="warning"   defaultChecked />
+<Switch label="Error"             color="error"     defaultChecked />
+<Switch label="Info"              color="info"      defaultChecked />`;
 
-const COLORS_CODE = `<Switch label="Default"   color="default"   defaultChecked />
-<Switch label="Secondary" color="secondary" defaultChecked />
-<Switch label="Success"   color="success"   defaultChecked />
-<Switch label="Warning"   color="warning"   defaultChecked />
-<Switch label="Error"     color="error"     defaultChecked />
-<Switch label="Info"      color="info"      defaultChecked />`;
+const SIZES_CODE = `<Switch label="Small"            size="sm" defaultChecked />
+<Switch label="Medium (default)" size="md" defaultChecked />
+<Switch label="Large"            size="lg" defaultChecked />`;
 
-const SIZES_CODE = `<Switch size="sm" label="Small switch"  defaultChecked />
-<Switch size="md" label="Medium switch" defaultChecked />
-<Switch size="lg" label="Large switch"  defaultChecked />`;
+const ICONS_CODE = `const [wifi, setWifi]   = useState(true)
+const [bell, setBell]   = useState(false)
+const [check, setCheck] = useState(true)
 
-const LABEL_POSITION_CODE = `<Switch label="Label on the right" labelPosition="right" defaultChecked />
-<Switch label="Label on the left"  labelPosition="left"  defaultChecked />`;
-
-const ICONS_CODE = `<Switch label="Auto-sync"     checkedIcon="refresh" color="success" defaultChecked />
-<Switch label="Notifications" checkedIcon="bell"    color="default" defaultChecked />
-<Switch label="Auto-play"     checkedIcon="play"    uncheckedIcon="close" />`;
-
-const CARD_CODE = `<Switch
-  label="Email notifications"
-  helperText="Receive updates and alerts via email"
-  card
-  defaultChecked
+<Switch
+  label="Wi-Fi"
+  checkedIcon="check"
+  uncheckedIcon="close"
+  checked={wifi}
+  onChange={e => setWifi(e.target.checked)}
 />
 <Switch
-  label="Push notifications"
-  helperText="Get notified on your mobile device"
-  card
+  label="Notifications"
+  checkedIcon="bell"
+  checked={bell}
+  onChange={e => setBell(e.target.checked)}
 />
 <Switch
-  label="SMS alerts"
-  helperText="Critical alerts only"
+  label="Sync"
+  checkedIcon="check"
+  checked={check}
+  onChange={e => setCheck(e.target.checked)}
+/>`;
+
+const LABEL_POS_CODE = `const [left, setLeft]   = useState(true)
+const [right, setRight] = useState(false)
+
+<Switch label="Label on the right (default)" labelPosition="right" checked={right} onChange={e => setRight(e.target.checked)} />
+<Switch label="Label on the left"            labelPosition="left"  checked={left}  onChange={e => setLeft(e.target.checked)} />`;
+
+const CARD_CODE = `const [darkMode,  setDarkMode]  = useState(false)
+const [autoSave,  setAutoSave]  = useState(true)
+const [analytics, setAnalytics] = useState(false)
+
+<Switch
   card
+  label="Dark mode"
+  description="Switch to a darker color scheme"
+  checked={darkMode}
+  onChange={e => setDarkMode(e.target.checked)}
+/>
+<Switch
+  card
+  label="Auto-save"
+  description="Save your work automatically every minute"
+  checked={autoSave}
+  onChange={e => setAutoSave(e.target.checked)}
+/>
+<Switch
+  card
+  label="Analytics"
+  description="Help improve the product by sharing usage data"
+  checked={analytics}
+  onChange={e => setAnalytics(e.target.checked)}
   disabled
 />`;
 
 /* ─── Page ─── */
 
 export default function SwitchPage() {
+  const [wifi,      setWifi]      = useState(true);
+  const [bell,      setBell]      = useState(false);
+  const [syncOn,    setSyncOn]    = useState(true);
+  const [labelLeft, setLabelLeft] = useState(true);
+  const [labelRight, setLabelRight] = useState(false);
+  const [darkMode,   setDarkMode]  = useState(false);
+  const [autoSave,   setAutoSave]  = useState(true);
+  const [analytics,  setAnalytics] = useState(false);
+
   return (
     <div>
       {/* ── Page header ── */}
       <PageHeader
         breadcrumb={['Components', 'Form', 'Switch']}
         title="Switch"
-        description="An on/off toggle that takes effect immediately. Supports 6 colors, 3 sizes, label positioning, thumb icons and card style."
-        tags={['6 colors', '3 sizes', 'Label position', 'Thumb icons', 'Card style']}
+        description="6 colors · 3 sizes · icons · label positions · card style"
+        tags={['States', 'Colors', 'Sizes', 'With icons', 'Label position', 'Card style']}
       />
 
       {/* ── Content ── */}
       <div style={{ padding: '28px 40px' }}>
 
-        {/* ── Section 1: Basic ── */}
+        {/* ── Section 1: States ── */}
         <ComponentPreview
-          title="Basic"
-          description="Default, pre-checked and disabled states"
+          title="States"
+          description="Off, on, disabled off, and disabled on"
         >
-          <Switch label="Airplane mode" />
-          <Switch label="Dark mode" defaultChecked />
-          <Switch label="Disabled" disabled />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            <Switch label="Off" />
+            <Switch label="On"           defaultChecked />
+            <Switch label="Disabled off" disabled />
+            <Switch label="Disabled on"  disabled defaultChecked />
+          </div>
         </ComponentPreview>
 
-        <CodeBlock filename="App.tsx" code={BASIC_CODE} />
+        <CodeBlock filename="App.tsx" code={STATES_CODE} />
 
         {/* ── Section 2: Colors ── */}
         <ComponentPreview
           title="Colors"
-          description="6 colors applied to the track when the switch is on"
+          description="Six color variants — default, secondary, success, warning, error, and info"
         >
-          <Switch label="Default"   color="default"   defaultChecked />
-          <Switch label="Secondary" color="secondary" defaultChecked />
-          <Switch label="Success"   color="success"   defaultChecked />
-          <Switch label="Warning"   color="warning"   defaultChecked />
-          <Switch label="Error"     color="error"     defaultChecked />
-          <Switch label="Info"      color="info"      defaultChecked />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            <Switch label="Default (primary)" color="default"   defaultChecked />
+            <Switch label="Secondary"         color="secondary" defaultChecked />
+            <Switch label="Success"           color="success"   defaultChecked />
+            <Switch label="Warning"           color="warning"   defaultChecked />
+            <Switch label="Error"             color="error"     defaultChecked />
+            <Switch label="Info"              color="info"      defaultChecked />
+          </div>
         </ComponentPreview>
 
         <CodeBlock filename="App.tsx" code={COLORS_CODE} />
@@ -172,62 +160,96 @@ export default function SwitchPage() {
         {/* ── Section 3: Sizes ── */}
         <ComponentPreview
           title="Sizes"
-          description="sm, md (default) and lg"
+          description="sm, md (default), and lg switch sizes"
         >
-          <Switch size="sm" label="Small switch"  defaultChecked />
-          <Switch size="md" label="Medium switch" defaultChecked />
-          <Switch size="lg" label="Large switch"  defaultChecked />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            <Switch label="Small"            size="sm" defaultChecked />
+            <Switch label="Medium (default)" size="md" defaultChecked />
+            <Switch label="Large"            size="lg" defaultChecked />
+          </div>
         </ComponentPreview>
 
         <CodeBlock filename="App.tsx" code={SIZES_CODE} />
 
-        {/* ── Section 4: Label position ── */}
+        {/* ── Section 4: With icons ── */}
         <ComponentPreview
-          title="Label position"
-          description="Label right (default) or left — left position pins the switch to the end of the row"
+          title="With icons"
+          description="Show icons inside the thumb using checkedIcon and uncheckedIcon props"
         >
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12, width: 280 }}>
-            <Switch label="Label on the right" labelPosition="right" defaultChecked />
-            <Switch label="Label on the left"  labelPosition="left"  defaultChecked />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            <Switch
+              label="Wi-Fi"
+              checkedIcon="check"
+              uncheckedIcon="close"
+              checked={wifi}
+              onChange={e => setWifi(e.target.checked)}
+            />
+            <Switch
+              label="Notifications"
+              checkedIcon="bell"
+              checked={bell}
+              onChange={e => setBell(e.target.checked)}
+            />
+            <Switch
+              label="Sync"
+              checkedIcon="check"
+              checked={syncOn}
+              onChange={e => setSyncOn(e.target.checked)}
+            />
           </div>
-        </ComponentPreview>
-
-        <CodeBlock filename="App.tsx" code={LABEL_POSITION_CODE} />
-
-        {/* ── Section 5: With thumb icons ── */}
-        <ComponentPreview
-          title="With thumb icons"
-          description="Icon shown inside the thumb — checkedIcon for ON state, uncheckedIcon for OFF state"
-        >
-          <Switch label="Auto-sync"     checkedIcon="refresh" color="success" defaultChecked />
-          <Switch label="Notifications" checkedIcon="bell"   color="default" defaultChecked />
-          <Switch label="Auto-play"     checkedIcon="play"   uncheckedIcon="close" />
         </ComponentPreview>
 
         <CodeBlock filename="App.tsx" code={ICONS_CODE} />
 
+        {/* ── Section 5: Label positions ── */}
+        <ComponentPreview
+          title="Label positions"
+          description="Label can appear on the right (default) or left of the switch"
+        >
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            <Switch
+              label="Label on the right (default)"
+              labelPosition="right"
+              checked={labelRight}
+              onChange={e => setLabelRight(e.target.checked)}
+            />
+            <Switch
+              label="Label on the left"
+              labelPosition="left"
+              checked={labelLeft}
+              onChange={e => setLabelLeft(e.target.checked)}
+            />
+          </div>
+        </ComponentPreview>
+
+        <CodeBlock filename="App.tsx" code={LABEL_POS_CODE} />
+
         {/* ── Section 6: Card style ── */}
         <ComponentPreview
           title="Card style"
-          description="Wraps each switch in a bordered card — label becomes the title, helperText becomes the description"
-          align="start"
+          description="Bordered card layout — ideal for settings panels"
         >
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, width: 340 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12, width: 380 }}>
             <Switch
-              label="Email notifications"
-              helperText="Receive updates and alerts via email"
               card
-              defaultChecked
+              label="Dark mode"
+              description="Switch to a darker color scheme"
+              checked={darkMode}
+              onChange={e => setDarkMode(e.target.checked)}
             />
             <Switch
-              label="Push notifications"
-              helperText="Get notified on your mobile device"
               card
+              label="Auto-save"
+              description="Save your work automatically every minute"
+              checked={autoSave}
+              onChange={e => setAutoSave(e.target.checked)}
             />
             <Switch
-              label="SMS alerts"
-              helperText="Critical alerts only"
               card
+              label="Analytics"
+              description="Help improve the product by sharing usage data"
+              checked={analytics}
+              onChange={e => setAnalytics(e.target.checked)}
               disabled
             />
           </div>

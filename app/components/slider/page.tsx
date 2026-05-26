@@ -1,209 +1,142 @@
 'use client';
 
 import { useState } from 'react';
-import { Slider, RangeSlider } from 'omverse-ui';
+import { Slider, RangeSlider, Icon } from 'omverse-ui';
 import { PageHeader } from '@/components/ui/PageHeader';
 import { ComponentPreview } from '@/components/ui/ComponentPreview';
 import { CodeBlock } from '@/components/ui/CodeBlock';
 import { PropsTable } from '@/components/ui/PropsTable';
 
-/* ─── Props table ─── */
+/* ─── Props tables ─── */
 
 const SLIDER_PROPS = [
-  {
-    name: 'value',
-    type: 'number',
-    default: 'undefined',
-    description: 'Current value (controlled)',
-  },
-  {
-    name: 'onChange',
-    type: '(value: number) => void',
-    default: 'undefined',
-    description: 'Callback when value changes',
-  },
-  {
-    name: 'min',
-    type: 'number',
-    default: '0',
-    description: 'Minimum value',
-  },
-  {
-    name: 'max',
-    type: 'number',
-    default: '100',
-    description: 'Maximum value',
-  },
-  {
-    name: 'step',
-    type: 'number',
-    default: '1',
-    description: 'Step increment',
-  },
-  {
-    name: 'thumbStyle',
-    type: "'default' | 'pill' | 'square' | 'bubble'",
-    default: "'default'",
-    description: 'Thumb visual style',
-  },
-  {
-    name: 'trackStyle',
-    type: "'default' | 'glow' | 'gradient' | 'spectrum'",
-    default: "'default'",
-    description: 'Track visual style',
-  },
-  {
-    name: 'color',
-    type: "'default' | 'secondary' | 'success' | 'warning' | 'error'",
-    default: "'default'",
-    description: 'Color scheme applied to fill and thumb',
-  },
-  {
-    name: 'size',
-    type: "'xs' | 'sm' | 'md' | 'lg' | 'xl'",
-    default: "'md'",
-    description: 'Track height and thumb size',
-  },
-  {
-    name: 'orientation',
-    type: "'horizontal' | 'vertical'",
-    default: "'horizontal'",
-    description: 'Slider orientation',
-  },
-  {
-    name: 'showTooltip',
-    type: 'boolean',
-    default: 'false',
-    description: 'Show value tooltip on hover / drag',
-  },
-  {
-    name: 'showMarks',
-    type: 'boolean',
-    default: 'false',
-    description: 'Show step marks on the track',
-  },
-  {
-    name: 'marks',
-    type: 'Array<{ value: number; label?: string }>',
-    default: 'undefined',
-    description: 'Custom mark positions with optional labels',
-  },
-  {
-    name: 'showLabels',
-    type: 'boolean',
-    default: 'false',
-    description: 'Show min / max labels at track ends',
-  },
-  {
-    name: 'showInput',
-    type: 'boolean',
-    default: 'false',
-    description: 'Show a synced number input beside the slider',
-  },
-  {
-    name: 'label',
-    type: 'string',
-    default: 'undefined',
-    description: 'Label shown above the slider',
-  },
-  {
-    name: 'formatValue',
-    type: '(value: number) => string',
-    default: 'undefined',
-    description: 'Custom formatter for tooltip and input display',
-  },
-  {
-    name: 'disabled',
-    type: 'boolean',
-    default: 'false',
-    description: 'Disables the slider',
-  },
-] as const satisfies {
-  name: string;
-  type: string;
-  default: string;
-  description: string;
-}[];
+  { name: 'value',         type: 'number',                                                              default: '—',       description: 'Controlled value' },
+  { name: 'defaultValue',  type: 'number',                                                              default: '0',       description: 'Uncontrolled initial value' },
+  { name: 'min',           type: 'number',                                                              default: '0',       description: 'Minimum value' },
+  { name: 'max',           type: 'number',                                                              default: '100',     description: 'Maximum value' },
+  { name: 'step',          type: 'number',                                                              default: '1',       description: 'Step between values' },
+  { name: 'onChange',      type: '(value: number) => void',                                             default: '—',       description: 'Callback fired on value change' },
+  { name: 'color',         type: "'default' | 'secondary' | 'success' | 'warning' | 'error' | 'info'", default: "'default'", description: 'Track and thumb color' },
+  { name: 'size',          type: "'xs' | 'sm' | 'md' | 'lg' | 'xl'",                                  default: "'md'",    description: 'Height of the track' },
+  { name: 'thumbStyle',    type: "'default' | 'pill' | 'square' | 'bubble'",                           default: "'default'", description: 'Shape of the thumb' },
+  { name: 'trackStyle',    type: "'default' | 'glow' | 'gradient' | 'spectrum'",                       default: "'default'", description: 'Visual style of the filled track' },
+  { name: 'orientation',   type: "'horizontal' | 'vertical'",                                           default: "'horizontal'", description: 'Direction of the slider' },
+  { name: 'showLabels',    type: 'boolean',                                                             default: 'false',   description: 'Shows min and max labels' },
+  { name: 'showTooltip',   type: 'boolean',                                                             default: 'false',   description: 'Shows a tooltip above the thumb' },
+  { name: 'showMarks',     type: 'boolean',                                                             default: 'false',   description: 'Shows tick marks along the track' },
+  { name: 'marks',         type: '{ value: number; label?: string }[]',                                default: '—',       description: 'Custom mark positions and labels' },
+  { name: 'showInput',     type: 'boolean',                                                             default: 'false',   description: 'Shows a number input alongside the slider' },
+  { name: 'formatValue',   type: '(value: number) => string',                                          default: '—',       description: 'Formats the tooltip / label value' },
+  { name: 'disabled',      type: 'boolean',                                                             default: 'false',   description: 'Disables the slider' },
+] as const satisfies { name: string; type: string; default: string; description: string }[];
+
+const RANGE_PROPS = [
+  { name: 'value',        type: '[number, number]',                                                     default: '—',       description: 'Controlled range value' },
+  { name: 'defaultValue', type: '[number, number]',                                                     default: '[0, 100]', description: 'Uncontrolled initial range' },
+  { name: 'min',          type: 'number',                                                               default: '0',       description: 'Minimum value' },
+  { name: 'max',          type: 'number',                                                               default: '100',     description: 'Maximum value' },
+  { name: 'step',         type: 'number',                                                               default: '1',       description: 'Step between values' },
+  { name: 'onChange',     type: '(value: [number, number]) => void',                                   default: '—',       description: 'Callback fired on range change' },
+  { name: 'color',        type: "'default' | 'secondary' | 'success' | 'warning' | 'error' | 'info'", default: "'default'", description: 'Track and thumb color' },
+  { name: 'size',         type: "'xs' | 'sm' | 'md' | 'lg' | 'xl'",                                   default: "'md'",    description: 'Height of the track' },
+  { name: 'showLabels',   type: 'boolean',                                                              default: 'false',   description: 'Shows min and max labels' },
+  { name: 'showTooltip',  type: 'boolean',                                                              default: 'false',   description: 'Shows tooltips above both thumbs' },
+  { name: 'formatValue',  type: '(value: number) => string',                                           default: '—',       description: 'Formats the tooltip / label values' },
+  { name: 'disabled',     type: 'boolean',                                                              default: 'false',   description: 'Disables the range slider' },
+] as const satisfies { name: string; type: string; default: string; description: string }[];
 
 /* ─── Code snippets ─── */
 
-const BASIC_CODE = `import { Slider } from 'omverse-ui'
+const BASIC_CODE = `const [volume, setVolume] = useState(72)
 
-const [value, setValue] = useState(50);
+<Slider value={volume} onChange={setVolume} showLabels showTooltip />
+<Slider value={volume} onChange={setVolume} showLabels showTooltip disabled />`;
 
-<Slider value={value} onChange={setValue} label="Volume" showLabels />`;
+const COLORS_CODE = `<Slider defaultValue={60} color="default"   showTooltip />
+<Slider defaultValue={60} color="secondary" showTooltip />
+<Slider defaultValue={60} color="success"   showTooltip />
+<Slider defaultValue={60} color="warning"   showTooltip />
+<Slider defaultValue={60} color="error"     showTooltip />
+<Slider defaultValue={60} color="info"      showTooltip />`;
 
-const THUMB_CODE = `// 4 thumb styles
-<Slider value={65} thumbStyle="default" label="Default" showTooltip />
-<Slider value={65} thumbStyle="pill"    label="Pill" />
-<Slider value={65} thumbStyle="square"  label="Square" showTooltip />
-<Slider value={65} thumbStyle="bubble"  label="Bubble" />`;
+const THUMB_CODE = `<Slider defaultValue={50} thumbStyle="default" showTooltip />
+<Slider defaultValue={50} thumbStyle="pill"    showTooltip />
+<Slider defaultValue={50} thumbStyle="square"  showTooltip />
+<Slider defaultValue={50} thumbStyle="bubble"  showTooltip />`;
 
-const TRACK_CODE = `// 4 track styles
-<Slider value={70} trackStyle="default"  label="Default" />
-<Slider value={70} trackStyle="glow"     label="Glow" />
-<Slider value={70} trackStyle="gradient" label="Gradient" />
-<Slider value={70} trackStyle="spectrum" label="Spectrum" />`;
+const TRACK_CODE = `<Slider defaultValue={65} trackStyle="default"  showTooltip formatValue={v => \`\${v}%\`} />
+<Slider defaultValue={65} trackStyle="glow"     showTooltip formatValue={v => \`\${v}%\`} />
+<Slider defaultValue={65} trackStyle="gradient" showTooltip formatValue={v => \`\${v}%\`} />
+<Slider defaultValue={65} trackStyle="spectrum" showTooltip formatValue={v => \`\${v}%\`} />`;
 
-const COLORS_CODE = `<Slider value={60} color="default"   label="Default" />
-<Slider value={60} color="secondary" label="Secondary" />
-<Slider value={60} color="success"   label="Success" />
-<Slider value={60} color="warning"   label="Warning" />
-<Slider value={60} color="error"     label="Error" />`;
+const SIZES_CODE = `<Slider defaultValue={50} size="xs" showTooltip />
+<Slider defaultValue={50} size="sm" showTooltip />
+<Slider defaultValue={50} size="md" showTooltip />
+<Slider defaultValue={50} size="lg" showTooltip />
+<Slider defaultValue={50} size="xl" showTooltip />`;
 
-const MARKS_CODE = `<Slider
-  value={value}
-  onChange={setValue}
-  step={20}
-  showMarks
-  marks={[
-    { value: 0,   label: '0'   },
-    { value: 20,  label: '20'  },
-    { value: 40,  label: '40'  },
-    { value: 60,  label: '60'  },
-    { value: 80,  label: '80'  },
-    { value: 100, label: '100' },
-  ]}
-/>`;
+const MARKS_CODE = `const temperatureMarks = [
+  { value: 0,   label: '0°' },
+  { value: 20,  label: '20°' },
+  { value: 40,  label: '40°' },
+  { value: 60,  label: '60°' },
+  { value: 80,  label: '80°' },
+  { value: 100, label: '100°' },
+]
 
-const INPUT_CODE = `// showInput syncs a number input beside the slider
-<Slider value={value} onChange={setValue} label="Volume" showInput showTooltip />`;
+{/* Auto marks every 20% */}
+<Slider value={temp} onChange={setTemp} step={20} showMarks showTooltip showLabels />
 
-const RANGE_CODE = `import { RangeSlider } from 'omverse-ui'
+{/* Custom marks with labels */}
+<Slider value={temp} onChange={setTemp} marks={temperatureMarks} showTooltip showLabels />`;
 
-const [range, setRange] = useState<[number, number]>([25, 75]);
+const INPUT_CODE = `<Slider value={brightness} onChange={setBrightness} showInput showTooltip />`;
+
+const RANGE_CODE = `const [price, setPrice] = useState<[number, number]>([250, 750])
 
 <RangeSlider
-  value={range}
-  onChange={setRange}
-  label="Price range"
-  showLabels
+  value={price}
+  onChange={setPrice}
+  min={0}
+  max={1000}
   showTooltip
-  formatValue={(v) => '$' + v}
+  showLabels
+  formatValue={v => \`$\${v}\`}
 />`;
 
-const VERTICAL_CODE = `// orientation="vertical" — give the container a fixed height
-<div style={{ display: 'flex', gap: 32, height: 160, alignItems: 'flex-end' }}>
-  <Slider value={70} orientation="vertical" color="default"  showTooltip />
-  <Slider value={45} orientation="vertical" color="success"  showTooltip />
-  <Slider value={85} orientation="vertical" color="warning"  showTooltip />
+const VERTICAL_CODE = `<Slider
+  value={opacity}
+  onChange={setOpacity}
+  orientation="vertical"
+  showTooltip
+  showLabels
+  formatValue={v => \`\${v}%\`}
+/>`;
+
+const VOLUME_CODE = `<div style={{ display: 'flex', alignItems: 'center', gap: 12, width: 260 }}>
+  <Icon name="volume-2" size={18} />
+  <Slider value={volume} onChange={setVolume} showTooltip />
+  <span style={{ fontSize: 13, minWidth: 32 }}>{volume}%</span>
 </div>`;
-
-/* ─── Shared layout helpers ─── */
-
-const col: React.CSSProperties = {
-  display: 'flex',
-  flexDirection: 'column',
-  gap: 28,
-  width: '100%',
-  maxWidth: 480,
-};
 
 /* ─── Page ─── */
 
 export default function SliderPage() {
-  const [value, setValue] = useState(50);
-  const [range, setRange] = useState<[number, number]>([25, 75]);
+  const [volume,     setVolume]     = useState(72);
+  const [brightness, setBrightness] = useState(85);
+  const [opacity,    setOpacity]    = useState(50);
+  const [price,      setPrice]      = useState<[number, number]>([250, 750]);
+  const [temp,       setTemp]       = useState(35);
+  const [markValue,  setMarkValue]  = useState(60);
+
+  const temperatureMarks = [
+    { value: 0,   label: '0°' },
+    { value: 20,  label: '20°' },
+    { value: 40,  label: '40°' },
+    { value: 60,  label: '60°' },
+    { value: 80,  label: '80°' },
+    { value: 100, label: '100°' },
+  ];
 
   return (
     <div>
@@ -211,149 +144,177 @@ export default function SliderPage() {
       <PageHeader
         breadcrumb={['Components', 'Form', 'Slider']}
         title="Slider"
-        description="Draggable range input. 4 thumb styles, 4 track styles, range slider, vertical orientation and step marks."
-        tags={['4 thumb styles', '4 track styles', 'Range slider', 'Vertical', 'Step marks', '6 colors']}
+        description="6 colors · 5 sizes · thumb styles · track styles · marks · range · vertical"
+        tags={['Basic', 'Colors', 'Thumb styles', 'Track styles', 'Sizes', 'Marks', 'With input', 'Range', 'Vertical']}
       />
 
+      {/* ── Content ── */}
       <div style={{ padding: '28px 40px' }}>
 
         {/* ── Section 1: Basic ── */}
         <ComponentPreview
           title="Basic"
-          description="Controlled slider with a label and min/max labels at track ends"
-          align="start"
+          description="showLabels shows min/max, showTooltip shows the current value above the thumb"
         >
-          <div style={col}>
-            <Slider value={value} onChange={setValue} label="Volume" showLabels />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 24, width: '100%', maxWidth: 480 }}>
+            <Slider value={volume} onChange={setVolume} showLabels showTooltip />
+            <Slider value={volume} onChange={setVolume} showLabels showTooltip disabled />
           </div>
         </ComponentPreview>
 
         <CodeBlock filename="App.tsx" code={BASIC_CODE} />
 
-        {/* ── Section 2: Thumb styles ── */}
-        <ComponentPreview
-          title="Thumb styles"
-          description="4 thumb shapes — default circle, pill, square, bubble (value floats above)"
-          align="start"
-        >
-          <div style={col}>
-            <Slider value={65} thumbStyle="default" label="Default" showTooltip />
-            <Slider value={65} thumbStyle="pill"    label="Pill" />
-            <Slider value={65} thumbStyle="square"  label="Square" showTooltip />
-            <Slider value={65} thumbStyle="bubble"  label="Bubble" />
-          </div>
-        </ComponentPreview>
-
-        <CodeBlock filename="App.tsx" code={THUMB_CODE} />
-
-        {/* ── Section 3: Track styles ── */}
-        <ComponentPreview
-          title="Track styles"
-          description="4 track fills — default solid, glow neon, gradient brand, spectrum rainbow"
-          align="start"
-        >
-          <div style={col}>
-            <Slider value={70} trackStyle="default"  label="Default" />
-            <Slider value={70} trackStyle="glow"     label="Glow" />
-            <Slider value={70} trackStyle="gradient" label="Gradient" />
-            <Slider value={70} trackStyle="spectrum" label="Spectrum" />
-          </div>
-        </ComponentPreview>
-
-        <CodeBlock filename="App.tsx" code={TRACK_CODE} />
-
-        {/* ── Section 4: Colors ── */}
+        {/* ── Section 2: Colors ── */}
         <ComponentPreview
           title="Colors"
-          description="5 semantic colors applied to both fill and thumb"
-          align="start"
+          description="Six color variants for the track and thumb"
         >
-          <div style={col}>
-            <Slider value={60} color="default"   label="Default" />
-            <Slider value={60} color="secondary" label="Secondary" />
-            <Slider value={60} color="success"   label="Success" />
-            <Slider value={60} color="warning"   label="Warning" />
-            <Slider value={60} color="error"     label="Error" />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 20, width: '100%', maxWidth: 480 }}>
+            <Slider defaultValue={60} color="default"   showTooltip />
+            <Slider defaultValue={60} color="secondary" showTooltip />
+            <Slider defaultValue={60} color="success"   showTooltip />
+            <Slider defaultValue={60} color="warning"   showTooltip />
+            <Slider defaultValue={60} color="error"     showTooltip />
+            <Slider defaultValue={60} color="info"      showTooltip />
           </div>
         </ComponentPreview>
 
         <CodeBlock filename="App.tsx" code={COLORS_CODE} />
 
-        {/* ── Section 5: Step marks ── */}
+        {/* ── Section 3: Thumb styles ── */}
         <ComponentPreview
-          title="Step marks"
-          description="showMarks renders a tick at each step; marks array adds custom labels below"
-          align="start"
+          title="Thumb styles"
+          description="default, pill, square, and bubble thumb shapes"
         >
-          <div style={{ ...col, maxWidth: 520, paddingBottom: 8 }}>
-            <Slider
-              value={value}
-              onChange={setValue}
-              step={20}
-              showMarks
-              marks={[
-                { value: 0,   label: '0'   },
-                { value: 20,  label: '20'  },
-                { value: 40,  label: '40'  },
-                { value: 60,  label: '60'  },
-                { value: 80,  label: '80'  },
-                { value: 100, label: '100' },
-              ]}
-            />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 24, width: '100%', maxWidth: 480 }}>
+            <Slider defaultValue={50} thumbStyle="default" showTooltip />
+            <Slider defaultValue={50} thumbStyle="pill"    showTooltip />
+            <Slider defaultValue={50} thumbStyle="square"  showTooltip />
+            <Slider defaultValue={50} thumbStyle="bubble"  showTooltip />
+          </div>
+        </ComponentPreview>
+
+        <CodeBlock filename="App.tsx" code={THUMB_CODE} />
+
+        {/* ── Section 4: Track styles ── */}
+        <ComponentPreview
+          title="Track styles"
+          description="default, glow, gradient, and spectrum filled track styles"
+        >
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 24, width: '100%', maxWidth: 480 }}>
+            <Slider defaultValue={65} trackStyle="default"  showTooltip formatValue={v => `${v}%`} />
+            <Slider defaultValue={65} trackStyle="glow"     showTooltip formatValue={v => `${v}%`} />
+            <Slider defaultValue={65} trackStyle="gradient" showTooltip formatValue={v => `${v}%`} />
+            <Slider defaultValue={65} trackStyle="spectrum" showTooltip formatValue={v => `${v}%`} />
+          </div>
+        </ComponentPreview>
+
+        <CodeBlock filename="App.tsx" code={TRACK_CODE} />
+
+        {/* ── Section 5: Sizes ── */}
+        <ComponentPreview
+          title="Sizes"
+          description="Five track heights: xs, sm, md (default), lg, xl"
+        >
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 20, width: '100%', maxWidth: 480 }}>
+            <Slider defaultValue={50} size="xs" showTooltip />
+            <Slider defaultValue={50} size="sm" showTooltip />
+            <Slider defaultValue={50} size="md" showTooltip />
+            <Slider defaultValue={50} size="lg" showTooltip />
+            <Slider defaultValue={50} size="xl" showTooltip />
+          </div>
+        </ComponentPreview>
+
+        <CodeBlock filename="App.tsx" code={SIZES_CODE} />
+
+        {/* ── Section 6: With marks ── */}
+        <ComponentPreview
+          title="With marks"
+          description="Auto tick marks every step, or custom marks with labels"
+        >
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 36, width: '100%', maxWidth: 480 }}>
+            <Slider value={temp} onChange={setTemp} step={20} showMarks showTooltip showLabels />
+            <Slider value={markValue} onChange={setMarkValue} marks={temperatureMarks} showTooltip showLabels />
           </div>
         </ComponentPreview>
 
         <CodeBlock filename="App.tsx" code={MARKS_CODE} />
 
-        {/* ── Section 6: With number input ── */}
+        {/* ── Section 7: With input ── */}
         <ComponentPreview
-          title="With number input"
-          description="showInput adds a synced numeric field — type or drag to update the same value"
-          align="start"
+          title="With input"
+          description="showInput adds a number input field that stays in sync with the slider"
         >
-          <div style={col}>
-            <Slider value={value} onChange={setValue} label="Volume" showInput showTooltip />
+          <div style={{ width: '100%', maxWidth: 480 }}>
+            <Slider value={brightness} onChange={setBrightness} showInput showTooltip />
           </div>
         </ComponentPreview>
 
         <CodeBlock filename="App.tsx" code={INPUT_CODE} />
 
-        {/* ── Section 7: Range slider ── */}
+        {/* ── Section 8: Range slider ── */}
         <ComponentPreview
           title="Range slider"
-          description="RangeSlider provides two thumbs for selecting a min / max range"
-          align="start"
+          description="RangeSlider lets the user select a min/max range with two thumbs"
         >
-          <div style={col}>
+          <div style={{ width: '100%', maxWidth: 480 }}>
             <RangeSlider
-              value={range}
-              onChange={setRange}
-              label="Price range"
-              showLabels
+              value={price}
+              onChange={setPrice}
+              min={0}
+              max={1000}
               showTooltip
-              formatValue={(v) => '$' + v}
+              showLabels
+              formatValue={v => `$${v}`}
             />
           </div>
         </ComponentPreview>
 
         <CodeBlock filename="App.tsx" code={RANGE_CODE} />
 
-        {/* ── Section 8: Vertical ── */}
+        {/* ── Section 9: Vertical ── */}
         <ComponentPreview
           title="Vertical"
-          description="orientation='vertical' — wrap in a fixed-height container for proper sizing"
+          description="Set orientation=vertical for column-direction sliders"
         >
-          <div style={{ display: 'flex', gap: 32, height: 160, alignItems: 'flex-end' }}>
-            <Slider value={70} orientation="vertical" color="default" showTooltip />
-            <Slider value={45} orientation="vertical" color="success" showTooltip />
-            <Slider value={85} orientation="vertical" color="warning" showTooltip />
+          <div style={{ height: 200 }}>
+            <Slider
+              value={opacity}
+              onChange={setOpacity}
+              orientation="vertical"
+              showTooltip
+              showLabels
+              formatValue={v => `${v}%`}
+            />
           </div>
         </ComponentPreview>
 
         <CodeBlock filename="App.tsx" code={VERTICAL_CODE} />
 
-        {/* ── Props table ── */}
+        {/* ── Section 10: Volume control ── */}
+        <ComponentPreview
+          title="Volume control"
+          description="Pair an Icon with a Slider for a compact media control"
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, width: 260 }}>
+            <Icon name="volume-2" size={18} />
+            <Slider value={volume} onChange={setVolume} showTooltip />
+            <span style={{ fontSize: 13, minWidth: 32 }}>{volume}%</span>
+          </div>
+        </ComponentPreview>
+
+        <CodeBlock filename="App.tsx" code={VOLUME_CODE} />
+
+        {/* ── Props tables ── */}
+        <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-text-primary)', marginBottom: 8, marginTop: 8 }}>
+          Slider props
+        </p>
         <PropsTable props={SLIDER_PROPS} />
+
+        <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-text-primary)', marginBottom: 8, marginTop: 24 }}>
+          RangeSlider props
+        </p>
+        <PropsTable props={RANGE_PROPS} />
 
       </div>
     </div>
