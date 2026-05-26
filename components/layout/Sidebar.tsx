@@ -26,6 +26,8 @@ const SECTIONS: SidebarSection[] = [
       { label: 'Introduction', href: '/docs/introduction' },
       { label: 'Installation', href: '/docs/installation' },
       { label: 'Theming', href: '/docs/theming' },
+      { label: 'Design tokens', href: '/docs/design-tokens' },
+      { label: 'Dark mode', href: '/docs/dark-mode' },
       { label: 'Changelog', href: '/docs/changelog' },
     ],
   },
