@@ -10,6 +10,7 @@ import {
   CardFooter,
   CardHeader,
   CardMedia,
+  Icon,
 } from 'omverse-ui';
 import { PageHeader } from '@/components/ui/PageHeader';
 import { ComponentPreview } from '@/components/ui/ComponentPreview';
@@ -193,9 +194,12 @@ const HORIZONTAL_CODE = `import { Button, Card, CardBody, CardHeader, CardMedia 
 </Card>`;
 
 const ACTION_CODE = `import { useState } from 'react'
-import { Badge, Card, CardBody } from 'omverse-ui'
+import { Badge, Card, CardBody, Icon } from 'omverse-ui'
 
 const [selected, setSelected] = useState('template')
+
+// icon-map is 'file-text' | 'bookmark' | 'upload' — all in omverse-ui's iconMap
+const ICONS = { scratch: 'file-text', template: 'bookmark', import: 'upload' } as const
 
 const options = [
   { id: 'scratch',  label: 'From scratch', desc: 'Start fresh' },
@@ -215,7 +219,8 @@ const options = [
       style={{ width: 176, textAlign: 'center' }}
     >
       <CardBody style={{ paddingTop: 20, paddingBottom: 20 }}>
-        <p style={{ fontSize: 14, fontWeight: 500 }}>{opt.label}</p>
+        <Icon name={ICONS[opt.id]} size="lg" />
+        <p style={{ fontSize: 14, fontWeight: 500, marginTop: 8 }}>{opt.label}</p>
         <p style={{ fontSize: 12, color: 'var(--color-text-secondary)', marginTop: 4 }}>{opt.desc}</p>
         {selected === opt.id && (
           <Badge color="default" variant="tonal" style={{ marginTop: 8 }}>Selected</Badge>
@@ -474,15 +479,27 @@ export default function CardPage() {
                 asButton
                 style={{ width: 176, textAlign: 'center' }}
               >
-                <CardBody style={{ paddingTop: 20, paddingBottom: 20 }}>
-                  <p style={{ fontSize: 14, fontWeight: 500, color: 'var(--color-text-primary)', textTransform: 'capitalize' }}>
+                <CardBody style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  textAlign: 'center',
+                  gap: 8,
+                  padding: 16,
+                }}>
+                  <Icon
+                    name={opt === 'scratch' ? 'file-text' : opt === 'template' ? 'bookmark' : 'upload'}
+                    size="lg"
+                  />
+                  <p style={{ fontSize: 14, fontWeight: 500, color: 'var(--color-text-primary)' }}>
                     {opt === 'scratch' ? 'From scratch' : opt === 'template' ? 'Template' : 'Import'}
                   </p>
-                  <p style={{ fontSize: 12, color: 'var(--color-text-secondary)', marginTop: 4 }}>
+                  <p style={{ fontSize: 12, color: 'var(--color-text-secondary)' }}>
                     {opt === 'scratch' ? 'Start fresh' : opt === 'template' ? 'Use a preset' : 'Upload file'}
                   </p>
                   {selected === opt && (
-                    <Badge color="default" variant="tonal" style={{ marginTop: 8 }}>Selected</Badge>
+                    <Badge color="default" variant="tonal">Selected</Badge>
                   )}
                 </CardBody>
               </Card>
