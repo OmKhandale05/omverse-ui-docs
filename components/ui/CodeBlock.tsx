@@ -157,11 +157,37 @@ export function CodeBlock({
         }
       }
 
+      // ── CSS hex colors: #RGB / #RRGGBB / #RRGGBBAA ───────────────────
+      // Must come before the number rule so #0A0A0F isn't split.
+      if (ch === '#') {
+        let j = i + 1;
+        while (j < src.length && /[0-9A-Fa-f]/.test(src[j])) j++;
+        if (j - i >= 4) {  // # + at least 3 hex digits
+          out.push(tok('#C3E88D', esc(src.slice(i, j))));
+          i = j;
+          continue;
+        }
+        // Not a hex color — emit # as plain text and move on
+        out.push(esc(ch));
+        i++;
+        continue;
+      }
+
       // ── Numbers ──────────────────────────────────────────────────────
       if (/[0-9]/.test(ch)) {
         let j = i;
         while (j < src.length && /[0-9._]/.test(src[j])) j++;
         out.push(tok('#F78C6C', esc(src.slice(i, j))));
+        i = j;
+        continue;
+      }
+
+      // ── CSS custom properties: --color-primary, --radius-md, etc. ────
+      // Must come before the identifier rule so --foo-bar is one token.
+      if (ch === '-' && i + 1 < src.length && src[i + 1] === '-') {
+        let j = i;
+        while (j < src.length && /[\w-]/.test(src[j])) j++;
+        out.push(tok('#FFCB6B', esc(src.slice(i, j))));
         i = j;
         continue;
       }
