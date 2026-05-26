@@ -6,20 +6,59 @@ interface ComponentPreviewProps {
   children: React.ReactNode;
   className?: string;
   /**
+   * Controls the canvas layout mode.
+   * - 'center' — flex, centred (default; suits small components)
+   * - 'start'  — flex, top-left aligned (suits full-width layouts)
+   * - 'grid'   — block display, padding 20px (suits grid children that manage their own layout)
+   *
+   * Supersedes the legacy `align` prop when provided.
+   */
+  layout?: 'center' | 'start' | 'grid';
+  /**
+   * @deprecated Use layout="start" instead.
    * Controls how children are aligned inside the canvas.
-   * - 'center' — centred horizontally and vertically (default, suits small components)
-   * - 'start'  — top-left aligned (suits full-width layouts, grids and cards)
    */
   align?: 'center' | 'start';
+  /**
+   * @deprecated No longer needed with layout="grid".
+   * When true the canvas background is transparent and border is removed.
+   */
+  transparent?: boolean;
 }
 
 export function ComponentPreview({
   title,
   description,
   children,
+  layout,
   align = 'center',
+  transparent = false,
 }: ComponentPreviewProps) {
-  const isStart = align === 'start';
+  // layout prop takes precedence; fall back to legacy align/transparent
+  const resolvedLayout = layout ?? (align === 'start' ? 'start' : 'center');
+  const isGrid   = resolvedLayout === 'grid';
+  const isStart  = resolvedLayout === 'start';
+
+  const canvasStyle: React.CSSProperties = {
+    background: transparent ? 'transparent' : 'var(--color-background-secondary)',
+    border: transparent ? 'none' : '0.5px solid var(--color-border-tertiary)',
+    borderRadius: 12,
+    position: 'relative',
+    minHeight: 80,
+    ...(isGrid
+      ? {
+          display: 'block',
+          padding: 20,
+        }
+      : {
+          display: 'flex',
+          gap: 10,
+          flexWrap: 'wrap',
+          padding: 32,
+          alignItems: isStart ? 'flex-start' : 'center',
+          justifyContent: isStart ? 'flex-start' : 'center',
+        }),
+  };
 
   return (
     <div style={{ marginBottom: 24 }}>
@@ -51,21 +90,7 @@ export function ComponentPreview({
       )}
 
       {/* Canvas */}
-      <div
-        style={{
-          background: 'var(--color-background-secondary)',
-          border: '0.5px solid var(--color-border-tertiary)',
-          borderRadius: 12,
-          padding: 32,
-          display: 'flex',
-          gap: 10,
-          flexWrap: 'wrap',
-          alignItems: isStart ? 'flex-start' : 'center',
-          justifyContent: isStart ? 'flex-start' : 'center',
-          position: 'relative',
-          minHeight: 80,
-        }}
-      >
+      <div style={canvasStyle}>
         {/* Live indicator */}
         <div
           style={{
@@ -77,6 +102,7 @@ export function ComponentPreview({
             gap: 5,
             fontSize: 10,
             color: 'var(--color-text-tertiary)',
+            zIndex: 1,
           }}
         >
           <span

@@ -42,20 +42,68 @@ const CARD_PROPS = [
 
 /* ─── Code snippets ─── */
 
-const VARIANTS_CODE = `import { Card, CardBody } from 'omverse-ui'
+const VARIANTS_CODE = `import { Card, CardBody, CardHeader } from 'omverse-ui'
 
-<Card variant="elevated" style={{ width: 180 }}>
-  <CardBody><p style={{ fontSize: 13 }}>Elevated</p></CardBody>
-</Card>
-<Card variant="filled" style={{ width: 180 }}>
-  <CardBody><p style={{ fontSize: 13 }}>Filled</p></CardBody>
-</Card>
-<Card variant="outlined" style={{ width: 180 }}>
-  <CardBody><p style={{ fontSize: 13 }}>Outlined</p></CardBody>
-</Card>
-<Card variant="ghost" style={{ width: 180 }}>
-  <CardBody><p style={{ fontSize: 13 }}>Ghost</p></CardBody>
-</Card>`;
+<div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12 }}>
+  <Card variant="elevated">
+    <CardHeader title="Elevated" subtitle="Shadow + hover lift" />
+    <CardBody>
+      <p style={{ fontSize: 13, color: 'var(--color-text-secondary)' }}>
+        The default card variant with subtle shadow elevation.
+      </p>
+    </CardBody>
+  </Card>
+
+  <Card variant="filled">
+    <CardHeader title="Filled" subtitle="Tonal background" />
+    <CardBody>
+      <p style={{ fontSize: 13, color: 'var(--color-text-secondary)' }}>
+        Uses a tonal surface background color.
+      </p>
+    </CardBody>
+  </Card>
+
+  <Card variant="outlined">
+    <CardHeader title="Outlined" subtitle="Border highlight" />
+    <CardBody>
+      <p style={{ fontSize: 13, color: 'var(--color-text-secondary)' }}>
+        Clean border that highlights on hover.
+      </p>
+    </CardBody>
+  </Card>
+
+  <Card variant="ghost">
+    <CardHeader title="Ghost" subtitle="Dashed border" />
+    <CardBody>
+      <p style={{ fontSize: 13, color: 'var(--color-text-secondary)' }}>
+        Most minimal variant with dashed border.
+      </p>
+    </CardBody>
+  </Card>
+
+  <Card variant="gradient">
+    <CardBody>
+      <p style={{ fontSize: 14, fontWeight: 500, color: '#fff', marginBottom: 4 }}>Gradient</p>
+      <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)', marginBottom: 8 }}>Brand colors</p>
+      <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.8)' }}>
+        Brand gradient background.
+      </p>
+    </CardBody>
+  </Card>
+
+  {/* Strong colored backdrop makes the frosted-glass blur clearly visible */}
+  <div style={{ background: 'linear-gradient(135deg, #6366F1, #A855F7)', borderRadius: 12, padding: 16 }}>
+    <Card variant="glass">
+      <CardBody>
+        <p style={{ fontSize: 14, fontWeight: 500, color: '#fff', marginBottom: 4 }}>Glass</p>
+        <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)', marginBottom: 8 }}>Frosted effect</p>
+        <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.8)' }}>
+          Frosted glass — best on colored backgrounds.
+        </p>
+      </CardBody>
+    </Card>
+  </div>
+</div>`;
 
 const HEADER_FOOTER_CODE = `import { Button, Card, CardBody, CardFooter, CardHeader } from 'omverse-ui'
 
@@ -92,19 +140,81 @@ export default function CardPage() {
         <ComponentPreview
           title="Variants"
           description="elevated (default), filled, outlined, ghost, gradient and glass"
+          layout="grid"
         >
-          <Card variant="elevated" style={{ width: 180 }}>
-            <CardBody><p style={{ fontSize: 13 }}>Elevated</p></CardBody>
-          </Card>
-          <Card variant="filled" style={{ width: 180 }}>
-            <CardBody><p style={{ fontSize: 13 }}>Filled</p></CardBody>
-          </Card>
-          <Card variant="outlined" style={{ width: 180 }}>
-            <CardBody><p style={{ fontSize: 13 }}>Outlined</p></CardBody>
-          </Card>
-          <Card variant="ghost" style={{ width: 180 }}>
-            <CardBody><p style={{ fontSize: 13 }}>Ghost</p></CardBody>
-          </Card>
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(3, 1fr)',
+              gap: 12,
+              width: '100%',
+            }}
+          >
+            <Card variant="elevated">
+              <CardHeader title="Elevated" subtitle="Shadow + hover lift" />
+              <CardBody>
+                <p style={{ fontSize: 13, color: 'var(--color-text-secondary)' }}>
+                  The default card variant with subtle shadow elevation.
+                </p>
+              </CardBody>
+            </Card>
+
+            <Card variant="filled">
+              <CardHeader title="Filled" subtitle="Tonal background" />
+              <CardBody>
+                <p style={{ fontSize: 13, color: 'var(--color-text-secondary)' }}>
+                  Uses a tonal surface background color.
+                </p>
+              </CardBody>
+            </Card>
+
+            <Card variant="outlined">
+              <CardHeader title="Outlined" subtitle="Border highlight" />
+              <CardBody>
+                <p style={{ fontSize: 13, color: 'var(--color-text-secondary)' }}>
+                  Clean border that highlights on hover.
+                </p>
+              </CardBody>
+            </Card>
+
+            <Card variant="ghost">
+              <CardHeader title="Ghost" subtitle="Dashed border" />
+              <CardBody>
+                <p style={{ fontSize: 13, color: 'var(--color-text-secondary)' }}>
+                  Most minimal variant with dashed border.
+                </p>
+              </CardBody>
+            </Card>
+
+            <Card variant="gradient">
+              <CardBody>
+                <p style={{ fontSize: 14, fontWeight: 500, color: '#fff', marginBottom: 4 }}>Gradient</p>
+                <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)', marginBottom: 8 }}>Brand colors</p>
+                <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.8)' }}>
+                  Brand gradient background.
+                </p>
+              </CardBody>
+            </Card>
+
+            {/* Strong colored backdrop makes the frosted-glass blur clearly visible */}
+            <div
+              style={{
+                background: 'linear-gradient(135deg, #6366F1, #A855F7)',
+                borderRadius: 12,
+                padding: 16,
+              }}
+            >
+              <Card variant="glass">
+                <CardBody>
+                  <p style={{ fontSize: 14, fontWeight: 500, color: '#fff', marginBottom: 4 }}>Glass</p>
+                  <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)', marginBottom: 8 }}>Frosted effect</p>
+                  <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.8)' }}>
+                    Frosted glass — best on colored backgrounds.
+                  </p>
+                </CardBody>
+              </Card>
+            </div>
+          </div>
         </ComponentPreview>
 
         <CodeBlock filename="App.tsx" code={VARIANTS_CODE} />
