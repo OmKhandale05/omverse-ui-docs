@@ -51,7 +51,6 @@ const SECTIONS: SidebarSection[] = [
       { label: 'Chip', href: '/components/chip' },
       { label: 'Accordion', href: '/components/accordion' },
       { label: 'Progress', href: '/components/progress' },
-      { label: 'Skeleton', href: '/components/skeleton' },
       { label: 'Divider', href: '/components/divider' },
     ],
   },
