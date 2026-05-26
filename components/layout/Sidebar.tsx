@@ -59,7 +59,7 @@ const SECTIONS: SidebarSection[] = [
     items: [
       { label: 'Navbar', href: '/components/navbar', variantCount: 16 },
       { label: 'Breadcrumb', href: '/components/breadcrumb', variantCount: 11 },
-      { label: 'Tabs', href: '/components/tabs', variantCount: 9 },
+      { label: 'Tabs', href: '/components/tabs', variantCount: 11 },
       { label: 'Pagination', href: '/components/pagination', variantCount: 17 },
       { label: 'Stepper', href: '/components/stepper', variantCount: 10 },
     ],

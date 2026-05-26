@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Tabs, StepTabs } from 'omverse-ui';
 import { PageHeader } from '@/components/ui/PageHeader';
 import { ComponentPreview } from '@/components/ui/ComponentPreview';
@@ -12,16 +12,17 @@ import { PropsTable } from '@/components/ui/PropsTable';
 const TABS_PROPS = [
   { name: 'defaultValue',  type: 'string',                                    default: '—',           description: 'Initially active tab value (uncontrolled)' },
   { name: 'value',         type: 'string',                                    default: '—',           description: 'Controlled active tab value' },
-  { name: 'onChange',      type: '(value: string) => void',                   default: '—',           description: 'Callback fired when the active tab changes' },
-  { name: 'variant',       type: "'underline' | 'pill' | 'filled' | 'bordered' | 'card' | 'floating' | 'bubble' | 'gradient'", default: "'underline'", description: 'Visual style of the tab list' },
+  { name: 'onValueChange', type: '(value: string) => void',                   default: '—',           description: 'Callback fired when the active tab changes' },
+  { name: 'variant',       type: "'underline' | 'line' | 'pill' | 'filled' | 'bordered' | 'card' | 'floating' | 'bubble' | 'gradient'", default: "'underline'", description: 'Visual style of the tab list' },
   { name: 'orientation',   type: "'horizontal' | 'vertical'",                 default: "'horizontal'", description: 'Tab list direction' },
+  { name: 'size',          type: "'sm' | 'md' | 'lg'",                        default: "'md'",         description: 'Size of tab labels' },
   { name: 'children',      type: 'ReactNode',                                 default: '—',           description: 'TabsList + TabsContent components' },
 ] as const satisfies { name: string; type: string; default: string; description: string }[];
 
 const STEP_PROPS = [
-  { name: 'value',         type: 'string',                                    default: '—',           description: 'Controlled active step value' },
-  { name: 'onChange',      type: '(value: string) => void',                   default: '—',           description: 'Callback fired when the active step changes' },
-  { name: 'steps',         type: '{ value: string; label: string; done?: boolean; disabled?: boolean }[]', default: '—', description: 'Step definitions' },
+  { name: 'value',    type: 'string',                                                                              default: '—', description: 'Controlled active step value' },
+  { name: 'onChange', type: '(value: string) => void',                                                             default: '—', description: 'Callback fired when the active step changes' },
+  { name: 'steps',    type: '{ value: string; label: string; done?: boolean; disabled?: boolean }[]',              default: '—', description: 'Step definitions' },
 ] as const satisfies { name: string; type: string; default: string; description: string }[];
 
 /* ─── Step data ─── */
@@ -35,92 +36,158 @@ const stepTabsSteps = [
 
 /* ─── Code snippets ─── */
 
-const UNDERLINE_CODE = `import { Tabs } from 'omverse-ui'
-
-<Tabs variant="underline" defaultValue="overview">
+const UNDERLINE_CODE = `<Tabs variant="underline" defaultValue="overview">
   <TabsList>
-    <TabsTrigger value="overview" icon="layout-dashboard">Overview</TabsTrigger>
-    <TabsTrigger value="analytics" icon="bar-chart-2" badge={3}>Analytics</TabsTrigger>
+    <TabsTrigger value="overview" icon="info">Overview</TabsTrigger>
+    <TabsTrigger value="analytics" badge={3}>Analytics</TabsTrigger>
     <TabsTrigger value="reports">Reports</TabsTrigger>
-    <TabsTrigger value="settings" disabled>Settings</TabsTrigger>
+    <TabsTrigger value="messages" badge={12}>Messages</TabsTrigger>
+    <TabsTrigger value="settings" disabled>Disabled</TabsTrigger>
   </TabsList>
-  <TabsContent value="overview"><p>Overview content</p></TabsContent>
-  <TabsContent value="analytics"><p>Analytics content</p></TabsContent>
-  <TabsContent value="reports"><p>Reports content</p></TabsContent>
-  <TabsContent value="settings"><p>Settings content</p></TabsContent>
+  <TabsContent value="overview"><p>Overview content goes here.</p></TabsContent>
+  <TabsContent value="analytics"><p>Analytics content goes here.</p></TabsContent>
+  <TabsContent value="reports"><p>Reports content goes here.</p></TabsContent>
+  <TabsContent value="messages"><p>Messages content goes here.</p></TabsContent>
 </Tabs>`;
 
-const PILL_CODE = `<Tabs variant="pill" defaultValue="tab1">
+const PILL_CODE = `<Tabs variant="pill" defaultValue="all">
   <TabsList>
-    <TabsTrigger value="tab1">Account</TabsTrigger>
-    <TabsTrigger value="tab2">Profile</TabsTrigger>
-    <TabsTrigger value="tab3">Billing</TabsTrigger>
+    <TabsTrigger value="all">All</TabsTrigger>
+    <TabsTrigger value="active">Active</TabsTrigger>
+    <TabsTrigger value="paused">Paused</TabsTrigger>
+    <TabsTrigger value="completed">Completed</TabsTrigger>
   </TabsList>
-  <TabsContent value="tab1"><p>Account content</p></TabsContent>
-  <TabsContent value="tab2"><p>Profile content</p></TabsContent>
-  <TabsContent value="tab3"><p>Billing content</p></TabsContent>
+  <TabsContent value="all"><p>All items shown here.</p></TabsContent>
+  <TabsContent value="active"><p>Active items shown here.</p></TabsContent>
+  <TabsContent value="paused"><p>Paused items shown here.</p></TabsContent>
+  <TabsContent value="completed"><p>Completed items shown here.</p></TabsContent>
 </Tabs>`;
 
-const FILLED_CODE = `<Tabs variant="filled" defaultValue="tab1">
+const FILLED_CODE = `<Tabs variant="filled" defaultValue="design">
   <TabsList>
-    <TabsTrigger value="tab1">Tab one</TabsTrigger>
-    <TabsTrigger value="tab2">Tab two</TabsTrigger>
-    <TabsTrigger value="tab3">Tab three</TabsTrigger>
+    <TabsTrigger value="design">Design</TabsTrigger>
+    <TabsTrigger value="engineering">Engineering</TabsTrigger>
+    <TabsTrigger value="marketing">Marketing</TabsTrigger>
+    <TabsTrigger value="product">Product</TabsTrigger>
   </TabsList>
+  <TabsContent value="design"><p>Design team content.</p></TabsContent>
+  <TabsContent value="engineering"><p>Engineering team content.</p></TabsContent>
+  <TabsContent value="marketing"><p>Marketing team content.</p></TabsContent>
+  <TabsContent value="product"><p>Product team content.</p></TabsContent>
 </Tabs>`;
 
-const BORDERED_CODE = `<Tabs variant="bordered" defaultValue="tab1">
+const BORDERED_CODE = `<Tabs variant="bordered" defaultValue="day">
   <TabsList>
-    <TabsTrigger value="tab1">Tab one</TabsTrigger>
-    <TabsTrigger value="tab2">Tab two</TabsTrigger>
-    <TabsTrigger value="tab3">Tab three</TabsTrigger>
+    <TabsTrigger value="day">Day</TabsTrigger>
+    <TabsTrigger value="week">Week</TabsTrigger>
+    <TabsTrigger value="month">Month</TabsTrigger>
+    <TabsTrigger value="year">Year</TabsTrigger>
   </TabsList>
+  <TabsContent value="day"><p>Daily view.</p></TabsContent>
+  <TabsContent value="week"><p>Weekly view.</p></TabsContent>
+  <TabsContent value="month"><p>Monthly view.</p></TabsContent>
+  <TabsContent value="year"><p>Yearly view.</p></TabsContent>
 </Tabs>`;
 
-const CARD_CODE = `<Tabs variant="card" defaultValue="overview">
+const CARD_CODE = `<Tabs variant="card" defaultValue="analytics">
   <TabsList>
-    <TabsTrigger value="overview"  icon="home">Overview</TabsTrigger>
-    <TabsTrigger value="analytics" icon="bar-chart-2">Analytics</TabsTrigger>
-    <TabsTrigger value="settings"  icon="settings">Settings</TabsTrigger>
+    <TabsTrigger value="analytics" icon="info">Analytics</TabsTrigger>
+    <TabsTrigger value="team" icon="info">Team</TabsTrigger>
+    <TabsTrigger value="settings" icon="settings">Settings</TabsTrigger>
+    <TabsTrigger value="billing" icon="info">Billing</TabsTrigger>
   </TabsList>
+  <TabsContent value="analytics"><p>Analytics dashboard content.</p></TabsContent>
+  <TabsContent value="team"><p>Team management content.</p></TabsContent>
+  <TabsContent value="settings"><p>Settings content.</p></TabsContent>
+  <TabsContent value="billing"><p>Billing content.</p></TabsContent>
 </Tabs>`;
 
-const FLOATING_CODE = `<Tabs variant="floating" defaultValue="tab1">
+const FLOATING_CODE = `<Tabs variant="floating" defaultValue="overview">
   <TabsList>
-    <TabsTrigger value="tab1">Tab one</TabsTrigger>
-    <TabsTrigger value="tab2">Tab two</TabsTrigger>
-    <TabsTrigger value="tab3">Tab three</TabsTrigger>
+    <TabsTrigger value="overview">Overview</TabsTrigger>
+    <TabsTrigger value="analytics">Analytics</TabsTrigger>
+    <TabsTrigger value="reports">Reports</TabsTrigger>
+    <TabsTrigger value="settings">Settings</TabsTrigger>
   </TabsList>
+  <TabsContent value="overview"><p>Overview content.</p></TabsContent>
+  <TabsContent value="analytics"><p>Analytics content.</p></TabsContent>
+  <TabsContent value="reports"><p>Reports content.</p></TabsContent>
+  <TabsContent value="settings"><p>Settings content.</p></TabsContent>
 </Tabs>`;
 
-const BUBBLE_CODE = `<Tabs variant="bubble" defaultValue="tab1">
+const BUBBLE_CODE = `<Tabs variant="bubble" defaultValue="all">
   <TabsList>
-    <TabsTrigger value="tab1">Tab one</TabsTrigger>
-    <TabsTrigger value="tab2">Tab two</TabsTrigger>
-    <TabsTrigger value="tab3">Tab three</TabsTrigger>
+    <TabsTrigger value="all">All posts</TabsTrigger>
+    <TabsTrigger value="published">Published</TabsTrigger>
+    <TabsTrigger value="drafts">Drafts</TabsTrigger>
+    <TabsTrigger value="archived">Archived</TabsTrigger>
   </TabsList>
+  <TabsContent value="all"><p>All posts content.</p></TabsContent>
+  <TabsContent value="published"><p>Published posts.</p></TabsContent>
+  <TabsContent value="drafts"><p>Draft posts.</p></TabsContent>
+  <TabsContent value="archived"><p>Archived posts.</p></TabsContent>
 </Tabs>`;
 
-const GRADIENT_CODE = `<Tabs variant="gradient" defaultValue="tab1">
+const GRADIENT_CODE = `<Tabs variant="gradient" defaultValue="monthly">
   <TabsList>
-    <TabsTrigger value="tab1">Tab one</TabsTrigger>
-    <TabsTrigger value="tab2">Tab two</TabsTrigger>
-    <TabsTrigger value="tab3">Tab three</TabsTrigger>
+    <TabsTrigger value="monthly">Monthly</TabsTrigger>
+    <TabsTrigger value="yearly">Yearly</TabsTrigger>
+    <TabsTrigger value="lifetime">Lifetime</TabsTrigger>
   </TabsList>
+  <TabsContent value="monthly"><p>Monthly pricing plans.</p></TabsContent>
+  <TabsContent value="yearly"><p>Yearly pricing — save 20%.</p></TabsContent>
+  <TabsContent value="lifetime"><p>Lifetime access — one-time payment.</p></TabsContent>
 </Tabs>`;
 
-const VERTICAL_CODE = `<Tabs variant="underline" orientation="vertical" defaultValue="tab1">
+const VERTICAL_CODE = `<Tabs variant="line" orientation="vertical" defaultValue="profile">
   <TabsList>
-    <TabsTrigger value="tab1">Account</TabsTrigger>
-    <TabsTrigger value="tab2">Password</TabsTrigger>
-    <TabsTrigger value="tab3">Notifications</TabsTrigger>
-    <TabsTrigger value="tab4">Billing</TabsTrigger>
+    <TabsTrigger value="profile"       icon="info">Profile</TabsTrigger>
+    <TabsTrigger value="notifications" icon="bell">Notifications</TabsTrigger>
+    <TabsTrigger value="security"      icon="lock">Security</TabsTrigger>
+    <TabsTrigger value="billing"       icon="info">Billing</TabsTrigger>
+    <TabsTrigger value="advanced"      icon="settings">Advanced</TabsTrigger>
   </TabsList>
-  <TabsContent value="tab1"><p>Account settings</p></TabsContent>
-  <TabsContent value="tab2"><p>Password settings</p></TabsContent>
-  <TabsContent value="tab3"><p>Notification preferences</p></TabsContent>
-  <TabsContent value="tab4"><p>Billing details</p></TabsContent>
+  <TabsContent value="profile">
+    <p className="font-medium">Profile settings</p>
+    <p>Manage your profile information.</p>
+  </TabsContent>
+  <TabsContent value="notifications">
+    <p className="font-medium">Notification preferences</p>
+    <p>Control how you receive notifications.</p>
+  </TabsContent>
+  {/* … other content panels */}
 </Tabs>`;
+
+const SCROLLABLE_CODE = `const scrollRef = useRef<HTMLDivElement>(null)
+
+function handleWheel(e: React.WheelEvent<HTMLDivElement>) {
+  e.preventDefault()
+  if (scrollRef.current) scrollRef.current.scrollLeft += e.deltaY
+}
+
+<div style={{ width: 300, overflow: 'hidden' }}>
+  <div
+    ref={scrollRef}
+    onWheel={handleWheel}
+    style={{
+      display: 'flex',
+      overflowX: 'scroll',
+      borderBottom: '2px solid var(--color-border)',
+      scrollbarWidth: 'none',
+    }}
+  >
+    {['React', 'TypeScript', 'Tailwind', 'Next.js',
+      'Vue', 'Angular', 'Svelte', 'Remix', 'Astro'].map(t => (
+      <button
+        key={t}
+        type="button"
+        style={{ flexShrink: 0, padding: '8px 16px', whiteSpace: 'nowrap' }}
+      >
+        {t}
+      </button>
+    ))}
+  </div>
+</div>`;
 
 const STEP_TABS_CODE = `import { StepTabs } from 'omverse-ui'
 
@@ -135,190 +202,423 @@ const [step, setStep] = useState('profile')
 
 <StepTabs value={step} onChange={setStep} steps={steps} />
 
-<div style={{ marginTop: 12, display: 'flex', gap: 8 }}>
+<div style={{ marginTop: 16, display: 'flex', gap: 12 }}>
   <button onClick={() => {
     const idx = steps.findIndex(s => s.value === step)
     if (idx > 0) setStep(steps[idx - 1].value)
-  }}>Back</button>
+  }}>← Back</button>
   <button onClick={() => {
     const idx = steps.findIndex(s => s.value === step)
     const next = steps[idx + 1]
     if (next && !next.disabled) setStep(next.value)
-  }}>Next</button>
+  }}>Next →</button>
 </div>`;
 
-/* ─── Inline tab demo helper (TabsList/TabsTrigger/TabsContent not exported) ─── */
+const SUBTITLE_CODE = `<Tabs variant="underline" defaultValue="overview">
+  <TabsList>
+    <TabsTrigger value="overview"   subtitle="All metrics">Overview</TabsTrigger>
+    <TabsTrigger value="revenue"    subtitle="$48.2k">Revenue</TabsTrigger>
+    <TabsTrigger value="users"      subtitle="2,841 active">Users</TabsTrigger>
+    <TabsTrigger value="conversion" subtitle="3.2%">Conversion</TabsTrigger>
+  </TabsList>
+  <TabsContent value="overview"><p>All metrics overview.</p></TabsContent>
+  <TabsContent value="revenue"><p>Revenue breakdown.</p></TabsContent>
+  <TabsContent value="users"><p>User analytics.</p></TabsContent>
+  <TabsContent value="conversion"><p>Conversion funnel.</p></TabsContent>
+</Tabs>`;
 
-type TabItem = { value: string; label: string; icon?: string; badge?: number; disabled?: boolean };
+/* ─── Inline tab demo helper ─── */
+/* TabsList / TabsTrigger / TabsContent are not exported from omverse-ui; */
+/* this helper recreates the same look via styled buttons.                 */
+
+type TabItem = {
+  value: string;
+  label: string;
+  icon?: string;       // tabler class, e.g. 'ti-info-circle'
+  badge?: number;
+  disabled?: boolean;
+  subtitle?: string;
+};
 
 function TabDemo({
   tabs,
   variant = 'underline',
   orientation = 'horizontal',
-  subtitle,
+  defaultValue,
+  contentMap,
 }: {
   tabs: TabItem[];
   variant?: string;
   orientation?: 'horizontal' | 'vertical';
-  subtitle?: boolean;
+  defaultValue?: string;
+  contentMap?: Record<string, { title: string; desc: string }>;
 }) {
-  const [active, setActive] = useState(tabs[0]?.value ?? '');
-
+  const [active, setActive] = useState(defaultValue ?? tabs[0]?.value ?? '');
   const isVertical = orientation === 'vertical';
 
-  const baseStyle: React.CSSProperties = {
+  /* ── Root wrapper ── */
+  const wrapStyle: React.CSSProperties = {
     display: 'flex',
     flexDirection: isVertical ? 'row' : 'column',
-    gap: 0,
+    gap: isVertical ? 16 : 0,
     width: '100%',
   };
 
-  const listStyle: React.CSSProperties = {
-    display: 'flex',
-    flexDirection: isVertical ? 'column' : 'row',
-    gap: variant === 'separated' ? 6 : 0,
-    borderBottom: !isVertical ? '1px solid var(--color-border)' : 'none',
-    borderRight: isVertical ? '1px solid var(--color-border)' : 'none',
-    padding: ['pill', 'floating', 'bubble', 'gradient'].includes(variant) ? '4px' : 0,
-    background: ['pill', 'floating', 'bubble', 'gradient'].includes(variant) ? 'var(--color-background-secondary)' : 'transparent',
-    borderRadius: ['pill', 'floating', 'bubble', 'gradient'].includes(variant) ? 8 : 0,
-    flexShrink: 0,
-  };
+  /* ── List container — matches tabsListVariants CVA exactly ── */
+  const listStyle: React.CSSProperties = (() => {
+    const row: React.CSSProperties = { display: 'flex', flexShrink: 0, flexDirection: isVertical ? 'column' : 'row' };
+    switch (variant) {
+      case 'underline':
+        // border-b-2 border-outline gap-0  (vertical → border-r-2 flex-col)
+        return isVertical
+          ? { ...row, gap: 0, borderRight: '2px solid var(--color-outline)' }
+          : { ...row, gap: 0, borderBottom: '2px solid var(--color-outline)' };
+      case 'pill':
+        // bg-surface-variant p-1 rounded-xl gap-1
+        return { ...row, gap: 4, background: 'var(--color-surface-variant)', padding: '4px', borderRadius: 12 };
+      case 'filled':
+        // gap-1
+        return { ...row, gap: 4 };
+      case 'bordered':
+        // border-[1.5px] border-outline rounded-xl overflow-hidden gap-0
+        return { ...row, gap: 0, border: '1.5px solid var(--color-outline)', borderRadius: 12, overflow: 'hidden' };
+      case 'card':
+        // gap-2
+        return { ...row, gap: 8 };
+      case 'floating':
+        // bg-background shadow-elevation-2 p-1 rounded-xl gap-1
+        return { ...row, gap: 4, background: 'var(--color-background)', padding: '4px', borderRadius: 12,
+          boxShadow: '0 2px 8px rgba(0,0,0,0.12), 0 1px 3px rgba(0,0,0,0.08)' };
+      case 'line':
+        // flex-col border-l-2 border-outline gap-0  (horizontal → flex-row border-b-2)
+        return isVertical
+          ? { ...row, gap: 0, flexDirection: 'column', borderLeft: '2px solid var(--color-outline)' }
+          : { ...row, gap: 0, flexDirection: 'row',    borderBottom: '2px solid var(--color-outline)' };
+      case 'bubble':
+        // gap-1.5  — NO background, NO border on list
+        return { ...row, gap: 6 };
+      case 'gradient':
+        // bg-surface-variant p-1 rounded-xl gap-1
+        return { ...row, gap: 4, background: 'var(--color-surface-variant)', padding: '4px', borderRadius: 12 };
+      default:
+        return row;
+    }
+  })();
 
-  const getTabStyle = (item: TabItem): React.CSSProperties => {
+  /* ── Tab button — matches tabTriggerVariants CVA exactly ── */
+  const getTabStyle = (item: TabItem, index: number = 0, total: number = 1): React.CSSProperties => {
     const isActive = item.value === active;
+
     const base: React.CSSProperties = {
-      padding: '8px 14px',
-      fontSize: 13,
-      fontWeight: isActive ? 600 : 400,
-      cursor: item.disabled ? 'not-allowed' : 'pointer',
-      opacity: item.disabled ? 0.4 : 1,
-      border: 'none',
-      background: 'transparent',
       display: 'flex',
       alignItems: 'center',
-      gap: 6,
+      justifyContent: 'center',
+      gap: 8,
+      fontSize: 13,
+      fontWeight: isActive ? 600 : 500,
+      cursor: item.disabled ? 'not-allowed' : 'pointer',
+      opacity: item.disabled ? 0.4 : 1,
+      background: 'transparent',
+      border: 'none',
       whiteSpace: 'nowrap',
-      color: isActive ? 'var(--color-primary)' : 'var(--color-text-secondary)',
+      flexShrink: 0,
       transition: 'all 0.15s',
     };
 
-    if (variant === 'underline') {
-      return {
-        ...base,
-        borderBottom: isActive ? '2px solid var(--color-primary)' : '2px solid transparent',
-        marginBottom: -1,
-        color: isActive ? 'var(--color-primary)' : 'var(--color-text-secondary)',
-      };
+    switch (variant) {
+      case 'underline':
+        // px-4 py-2.5  border-b-2 border-transparent -mb-[2px]
+        // active → text-primary border-primary
+        return {
+          ...base,
+          padding: '10px 16px',
+          borderBottom: isActive ? '2px solid var(--color-primary)' : '2px solid transparent',
+          marginBottom: -2,
+          color: isActive ? 'var(--color-primary)' : 'var(--color-text-secondary)',
+        };
+
+      case 'pill':
+        // px-4 py-1.5 rounded-lg
+        // active → bg-background text-text-primary shadow-sm
+        return {
+          ...base,
+          padding: '6px 16px',
+          borderRadius: 8,
+          background: isActive ? 'var(--color-background)' : 'transparent',
+          color:      isActive ? 'var(--color-text-primary)' : 'var(--color-text-secondary)',
+          boxShadow:  isActive ? '0 1px 2px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.1)' : 'none',
+        };
+
+      case 'filled':
+        // px-4 py-2 rounded-lg
+        // active → bg-primary-container text-on-primary-container
+        return {
+          ...base,
+          padding: '8px 16px',
+          borderRadius: 8,
+          background: isActive ? 'var(--color-primary-container)' : 'transparent',
+          color:      isActive ? 'var(--color-on-primary-container)' : 'var(--color-text-secondary)',
+        };
+
+      case 'bordered':
+        // flex-1 px-4 py-2  border-r border-outline last:border-r-0
+        // active → bg-primary text-on-primary
+        return {
+          ...base,
+          flex: 1,
+          padding: '8px 16px',
+          borderRight: index < total - 1 ? '1px solid var(--color-outline)' : 'none',
+          background: isActive ? 'var(--color-primary)' : 'transparent',
+          color:      isActive ? 'var(--color-on-primary)' : 'var(--color-text-secondary)',
+        };
+
+      case 'card':
+        // flex-col px-5 py-3 rounded-xl border-[1.5px] border-outline bg-surface
+        // active → border-primary bg-background text-primary shadow-md
+        return {
+          ...base,
+          flexDirection: 'column',
+          padding: '12px 20px',
+          borderRadius: 12,
+          border:     isActive ? '1.5px solid var(--color-primary)' : '1.5px solid var(--color-outline)',
+          background: isActive ? 'var(--color-background)' : 'var(--color-surface)',
+          color:      isActive ? 'var(--color-primary)' : 'var(--color-text-secondary)',
+          boxShadow:  isActive ? '0 4px 12px rgba(0,0,0,0.12)' : 'none',
+        };
+
+      case 'floating':
+        // px-4 py-2 rounded-lg
+        // active → bg-primary text-on-primary shadow-md
+        return {
+          ...base,
+          padding: '8px 16px',
+          borderRadius: 8,
+          background: isActive ? 'var(--color-primary)' : 'transparent',
+          color:      isActive ? 'var(--color-on-primary)' : 'var(--color-text-secondary)',
+          boxShadow:  isActive ? '0 4px 12px rgba(0,0,0,0.15)' : 'none',
+        };
+
+      case 'line':
+        // px-4 py-2  border-l-2 border-transparent -ml-[2px]
+        // active → border-primary bg-primary-container/20 text-primary
+        // horizontal → border-b-2 border-transparent -mb-[2px]
+        return isVertical
+          ? {
+              ...base,
+              padding: '8px 16px',
+              borderLeft: isActive ? '2px solid var(--color-primary)' : '2px solid transparent',
+              marginLeft: -2,
+              background: isActive ? 'rgba(var(--color-primary-container-rgb, 219,234,254), 0.2)' : 'transparent',
+              color:      isActive ? 'var(--color-primary)' : 'var(--color-text-secondary)',
+            }
+          : {
+              ...base,
+              padding: '10px 16px',
+              borderBottom: isActive ? '2px solid var(--color-primary)' : '2px solid transparent',
+              marginBottom: -2,
+              color:        isActive ? 'var(--color-primary)' : 'var(--color-text-secondary)',
+            };
+
+      case 'bubble':
+        // px-4 py-1.5 rounded-full border-[1.5px] border-transparent
+        // active → bg-secondary-container text-on-secondary-container border-secondary
+        return {
+          ...base,
+          padding: '6px 16px',
+          borderRadius: 9999,
+          border:     isActive ? '1.5px solid var(--color-secondary)' : '1.5px solid transparent',
+          background: isActive ? 'var(--color-secondary-container)' : 'transparent',
+          color:      isActive ? 'var(--color-on-secondary-container)' : 'var(--color-text-secondary)',
+        };
+
+      case 'gradient':
+        // px-4 py-1.5 rounded-lg
+        // active → bg-gradient-to-r from-primary to-secondary text-on-primary shadow-md
+        return {
+          ...base,
+          padding: '6px 16px',
+          borderRadius: 8,
+          background: isActive
+            ? 'linear-gradient(to right, var(--color-primary), var(--color-secondary))'
+            : 'transparent',
+          color:     isActive ? 'var(--color-on-primary)' : 'var(--color-text-secondary)',
+          boxShadow: isActive ? '0 4px 12px rgba(0,0,0,0.15)' : 'none',
+        };
+
+      default:
+        return { ...base, color: isActive ? 'var(--color-primary)' : 'var(--color-text-secondary)' };
     }
-    if (variant === 'pill' || variant === 'floating' || variant === 'bubble') {
-      return {
-        ...base,
-        borderRadius: 6,
-        background: isActive ? 'var(--color-background-primary)' : 'transparent',
-        color: isActive ? 'var(--color-text-primary)' : 'var(--color-text-secondary)',
-        boxShadow: isActive ? '0 1px 3px rgba(0,0,0,0.1)' : 'none',
-      };
-    }
-    if (variant === 'filled') {
-      return {
-        ...base,
-        borderRadius: 6,
-        background: isActive ? 'var(--color-primary)' : 'transparent',
-        color: isActive ? '#fff' : 'var(--color-text-secondary)',
-      };
-    }
-    if (variant === 'bordered') {
-      return {
-        ...base,
-        border: isActive ? '1px solid var(--color-primary)' : '1px solid transparent',
-        borderRadius: 6,
-        color: isActive ? 'var(--color-primary)' : 'var(--color-text-secondary)',
-      };
-    }
-    if (variant === 'card') {
-      return {
-        ...base,
-        background: isActive ? 'var(--color-background-primary)' : 'var(--color-background-secondary)',
-        border: '1px solid var(--color-border)',
-        borderRadius: 6,
-        marginRight: 4,
-        color: isActive ? 'var(--color-text-primary)' : 'var(--color-text-secondary)',
-      };
-    }
-    if (variant === 'gradient') {
-      return {
-        ...base,
-        borderRadius: 6,
-        background: isActive ? 'linear-gradient(135deg, var(--color-primary) 0%, #764ba2 100%)' : 'transparent',
-        color: isActive ? '#fff' : 'var(--color-text-secondary)',
-      };
-    }
-    return base;
   };
 
   const activeTab = tabs.find(t => t.value === active);
 
   return (
-    <div style={baseStyle}>
+    <div style={wrapStyle}>
+      {/* Tab list */}
       <div style={listStyle}>
-        {tabs.map(item => (
+        {tabs.map((item, i) => (
           <button
             key={item.value}
-            style={getTabStyle(item)}
+            style={getTabStyle(item, i, tabs.length)}
             disabled={item.disabled}
             onClick={() => !item.disabled && setActive(item.value)}
           >
-            {item.label}
+            {/* Optional icon */}
+            {item.icon && (
+              <i className={`ti ${item.icon}`} style={{ fontSize: 14, lineHeight: 1 }} aria-hidden />
+            )}
+
+            {/* Label + optional subtitle */}
+            {item.subtitle ? (
+              <span style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', textAlign: 'left' }}>
+                <span>{item.label}</span>
+                <span style={{ fontSize: 11, fontWeight: 400, color: 'var(--color-text-secondary)', marginTop: 1 }}>
+                  {item.subtitle}
+                </span>
+              </span>
+            ) : (
+              <span>{item.label}</span>
+            )}
+
+            {/* Badge */}
             {item.badge != null && (
               <span style={{
                 fontSize: 10, padding: '1px 5px', borderRadius: 10,
                 background: 'var(--color-primary)', color: '#fff',
-              }}>{item.badge}</span>
+                lineHeight: 1.4,
+              }}>
+                {item.badge}
+              </span>
             )}
           </button>
         ))}
       </div>
-      <div style={{ padding: '12px 0', fontSize: 13, color: 'var(--color-text-secondary)', flex: 1, paddingLeft: isVertical ? 16 : 0 }}>
-        <p>Content for <strong>{activeTab?.label}</strong></p>
-        {subtitle && <p style={{ marginTop: 4, fontSize: 12 }}>Subtitle — additional context for this tab</p>}
+
+      {/* Content area */}
+      <div style={{
+        flex: 1,
+        paddingLeft:  isVertical ? 16 : 0,
+        paddingTop:   isVertical ? 0 : 12,
+      }}>
+        {contentMap ? (
+          <div style={{
+            padding: 16,
+            background: 'var(--color-surface-variant)',
+            borderRadius: 12,
+          }}>
+            <p style={{ fontWeight: 600, fontSize: 14, color: 'var(--color-text-primary)', marginBottom: 6 }}>
+              {contentMap[active]?.title}
+            </p>
+            <p style={{ fontSize: 13, color: 'var(--color-text-secondary)' }}>
+              {contentMap[active]?.desc}
+            </p>
+          </div>
+        ) : (
+          <p style={{ fontSize: 13, color: 'var(--color-text-secondary)' }}>
+            Content for <strong style={{ color: 'var(--color-text-primary)' }}>{activeTab?.label}</strong>
+          </p>
+        )}
       </div>
     </div>
   );
 }
 
+/* ─── Tab data (matches original stories exactly) ─── */
+
+const underlineTabs: TabItem[] = [
+  { value: 'overview',  label: 'Overview',  icon: 'ti-info-circle' },
+  { value: 'analytics', label: 'Analytics', badge: 3 },
+  { value: 'reports',   label: 'Reports' },
+  { value: 'messages',  label: 'Messages',  badge: 12 },
+  { value: 'settings',  label: 'Settings',  disabled: true },
+];
+
+const pillTabs: TabItem[] = [
+  { value: 'all',       label: 'All' },
+  { value: 'active',    label: 'Active' },
+  { value: 'paused',    label: 'Paused' },
+  { value: 'completed', label: 'Completed' },
+];
+
+const filledTabs: TabItem[] = [
+  { value: 'design',      label: 'Design' },
+  { value: 'engineering', label: 'Engineering' },
+  { value: 'marketing',   label: 'Marketing' },
+  { value: 'product',     label: 'Product' },
+];
+
+const borderedTabs: TabItem[] = [
+  { value: 'day',   label: 'Day' },
+  { value: 'week',  label: 'Week' },
+  { value: 'month', label: 'Month' },
+  { value: 'year',  label: 'Year' },
+];
+
+const cardTabs: TabItem[] = [
+  { value: 'analytics', label: 'Analytics', icon: 'ti-info-circle' },
+  { value: 'team',      label: 'Team',      icon: 'ti-info-circle' },
+  { value: 'settings',  label: 'Settings',  icon: 'ti-settings' },
+  { value: 'billing',   label: 'Billing',   icon: 'ti-info-circle' },
+];
+
+const floatingTabs: TabItem[] = [
+  { value: 'overview',  label: 'Overview' },
+  { value: 'analytics', label: 'Analytics' },
+  { value: 'reports',   label: 'Reports' },
+  { value: 'settings',  label: 'Settings' },
+];
+
+const bubbleTabs: TabItem[] = [
+  { value: 'all',       label: 'All posts' },
+  { value: 'published', label: 'Published' },
+  { value: 'drafts',    label: 'Drafts' },
+  { value: 'archived',  label: 'Archived' },
+];
+
+const gradientTabs: TabItem[] = [
+  { value: 'monthly',  label: 'Monthly' },
+  { value: 'yearly',   label: 'Yearly' },
+  { value: 'lifetime', label: 'Lifetime' },
+];
+
+const verticalTabs: TabItem[] = [
+  { value: 'profile',       label: 'Profile',       icon: 'ti-info-circle' },
+  { value: 'notifications', label: 'Notifications', icon: 'ti-bell' },
+  { value: 'security',      label: 'Security',      icon: 'ti-lock' },
+  { value: 'billing',       label: 'Billing',       icon: 'ti-info-circle' },
+  { value: 'advanced',      label: 'Advanced',      icon: 'ti-settings' },
+];
+
+const verticalContentMap: Record<string, { title: string; desc: string }> = {
+  profile:       { title: 'Profile settings',         desc: 'Manage your profile information.' },
+  notifications: { title: 'Notification preferences', desc: 'Control how you receive notifications.' },
+  security:      { title: 'Security settings',         desc: 'Manage passwords and 2FA.' },
+  billing:       { title: 'Billing & plans',           desc: 'Manage your subscription.' },
+  advanced:      { title: 'Advanced settings',         desc: 'Danger zone and advanced options.' },
+};
+
+const subtitleTabs: TabItem[] = [
+  { value: 'overview',    label: 'Overview',    subtitle: 'All metrics' },
+  { value: 'revenue',     label: 'Revenue',     subtitle: '$48.2k' },
+  { value: 'users',       label: 'Users',       subtitle: '2,841 active' },
+  { value: 'conversion',  label: 'Conversion',  subtitle: '3.2%' },
+];
+
+const SCROLLABLE_ITEMS = ['React', 'TypeScript', 'Tailwind', 'Next.js', 'Vue', 'Angular', 'Svelte', 'Remix', 'Astro'];
+
 /* ─── Page ─── */
 
 export default function TabsPage() {
-  const [step, setStep] = useState('profile');
-
-  const overviewTabs: TabItem[] = [
-    { value: 'overview',   label: 'Overview',   badge: 3   },
-    { value: 'analytics',  label: 'Analytics'              },
-    { value: 'reports',    label: 'Reports'                },
-    { value: 'settings',   label: 'Settings',   disabled: true },
-  ];
-
-  const basicTabs: TabItem[] = [
-    { value: 'tab1', label: 'Account'       },
-    { value: 'tab2', label: 'Profile'       },
-    { value: 'tab3', label: 'Billing'       },
-  ];
-
-  const cardTabs: TabItem[] = [
-    { value: 'overview',  label: 'Overview'  },
-    { value: 'analytics', label: 'Analytics' },
-    { value: 'settings',  label: 'Settings'  },
-  ];
-
-  const verticalTabs: TabItem[] = [
-    { value: 'tab1', label: 'Account'       },
-    { value: 'tab2', label: 'Password'      },
-    { value: 'tab3', label: 'Notifications' },
-    { value: 'tab4', label: 'Billing'       },
-  ];
+  const [step, setStep]               = useState('profile');
+  const [scrollActive, setScrollActive] = useState('React');
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   const stepIdx = stepTabsSteps.findIndex(s => s.value === step);
+
+  function handleWheel(e: React.WheelEvent<HTMLDivElement>) {
+    e.preventDefault();
+    if (scrollRef.current) scrollRef.current.scrollLeft += e.deltaY;
+  }
 
   return (
     <div>
@@ -326,8 +626,8 @@ export default function TabsPage() {
       <PageHeader
         breadcrumb={['Components', 'Navigation', 'Tabs']}
         title="Tabs"
-        description="8 variants · vertical orientation · StepTabs · with icons · badge · subtitle"
-        tags={['Underline', 'Pill', 'Filled', 'Bordered', 'Card', 'Floating', 'Bubble', 'Gradient', 'Vertical', 'StepTabs', 'With subtitle']}
+        description="9 variants · horizontal + vertical · badge · icon · subtitle · scrollable · step"
+        tags={['Underline', 'Pill', 'Filled', 'Bordered', 'Card', 'Floating', 'Bubble', 'Gradient', 'Vertical (line)', 'Scrollable', 'StepTabs', 'With subtitle']}
       />
 
       {/* ── Content ── */}
@@ -335,12 +635,12 @@ export default function TabsPage() {
 
         {/* ── Section 1: Underline ── */}
         <ComponentPreview
-          title="Underline"
-          description="Classic bottom-border active indicator — the default variant"
+          title="Underline (M3 primary)"
+          description="Classic bottom-border active indicator — icon, badge, disabled states"
           layout="start"
         >
-          <div style={{ width: '100%', maxWidth: 560 }}>
-            <TabDemo tabs={overviewTabs} variant="underline" />
+          <div style={{ width: '100%', maxWidth: 600 }}>
+            <TabDemo tabs={underlineTabs} variant="underline" />
           </div>
         </ComponentPreview>
 
@@ -348,12 +648,12 @@ export default function TabsPage() {
 
         {/* ── Section 2: Pill ── */}
         <ComponentPreview
-          title="Pill"
-          description="Floating pill on a tinted background"
+          title="Pill / Segmented"
+          description="Floating pill on a tinted background — great for filter controls"
           layout="start"
         >
-          <div style={{ width: '100%', maxWidth: 400 }}>
-            <TabDemo tabs={basicTabs} variant="pill" />
+          <div style={{ width: '100%', maxWidth: 480 }}>
+            <TabDemo tabs={pillTabs} variant="pill" />
           </div>
         </ComponentPreview>
 
@@ -365,8 +665,8 @@ export default function TabsPage() {
           description="Solid primary background on the active tab"
           layout="start"
         >
-          <div style={{ width: '100%', maxWidth: 400 }}>
-            <TabDemo tabs={basicTabs} variant="filled" />
+          <div style={{ width: '100%', maxWidth: 480 }}>
+            <TabDemo tabs={filledTabs} variant="filled" />
           </div>
         </ComponentPreview>
 
@@ -378,8 +678,8 @@ export default function TabsPage() {
           description="Outlined active tab — clean and minimal"
           layout="start"
         >
-          <div style={{ width: '100%', maxWidth: 400 }}>
-            <TabDemo tabs={basicTabs} variant="bordered" />
+          <div style={{ width: '100%', maxWidth: 360 }}>
+            <TabDemo tabs={borderedTabs} variant="bordered" />
           </div>
         </ComponentPreview>
 
@@ -387,11 +687,11 @@ export default function TabsPage() {
 
         {/* ── Section 5: Card ── */}
         <ComponentPreview
-          title="Card"
-          description="Each tab styled as an individual card"
+          title="Card tabs"
+          description="Each tab styled as an individual card — supports icons"
           layout="start"
         >
-          <div style={{ width: '100%', maxWidth: 400 }}>
+          <div style={{ width: '100%', maxWidth: 500 }}>
             <TabDemo tabs={cardTabs} variant="card" />
           </div>
         </ComponentPreview>
@@ -400,12 +700,12 @@ export default function TabsPage() {
 
         {/* ── Section 6: Floating ── */}
         <ComponentPreview
-          title="Floating"
-          description="Elevated floating appearance with shadow"
+          title="Floating pill"
+          description="Elevated floating appearance with shadow on the active tab"
           layout="start"
         >
-          <div style={{ width: '100%', maxWidth: 400 }}>
-            <TabDemo tabs={basicTabs} variant="floating" />
+          <div style={{ width: '100%', maxWidth: 480 }}>
+            <TabDemo tabs={floatingTabs} variant="floating" />
           </div>
         </ComponentPreview>
 
@@ -414,11 +714,11 @@ export default function TabsPage() {
         {/* ── Section 7: Bubble ── */}
         <ComponentPreview
           title="Bubble"
-          description="Rounded bubble selection — similar to pill but softer"
+          description="Rounded bubble selection on a tinted container"
           layout="start"
         >
-          <div style={{ width: '100%', maxWidth: 400 }}>
-            <TabDemo tabs={basicTabs} variant="bubble" />
+          <div style={{ width: '100%', maxWidth: 480 }}>
+            <TabDemo tabs={bubbleTabs} variant="bubble" />
           </div>
         </ComponentPreview>
 
@@ -426,79 +726,160 @@ export default function TabsPage() {
 
         {/* ── Section 8: Gradient ── */}
         <ComponentPreview
-          title="Gradient"
-          description="Gradient active indicator — great for branding emphasis"
+          title="Gradient active"
+          description="Gradient background on the active tab — great for pricing toggles"
           layout="start"
         >
-          <div style={{ width: '100%', maxWidth: 400 }}>
-            <TabDemo tabs={basicTabs} variant="gradient" />
+          <div style={{ width: '100%', maxWidth: 360 }}>
+            <TabDemo tabs={gradientTabs} variant="gradient" />
           </div>
         </ComponentPreview>
 
         <CodeBlock filename="App.tsx" code={GRADIENT_CODE} />
 
-        {/* ── Section 9: Vertical ── */}
+        {/* ── Section 9: Vertical (line) ── */}
         <ComponentPreview
-          title="Vertical"
-          description="orientation=vertical stacks the tab list on the left — works with any variant"
+          title="Vertical (line variant)"
+          description="orientation=vertical stacks the tab list on the left — icons supported"
           layout="start"
         >
-          <div style={{ width: '100%', maxWidth: 500 }}>
-            <TabDemo tabs={verticalTabs} variant="underline" orientation="vertical" />
+          <div style={{ width: '100%', maxWidth: 560 }}>
+            <TabDemo
+              tabs={verticalTabs}
+              variant="line"
+              orientation="vertical"
+              contentMap={verticalContentMap}
+            />
           </div>
         </ComponentPreview>
 
         <CodeBlock filename="App.tsx" code={VERTICAL_CODE} />
 
-        {/* ── Section 10: Step tabs ── */}
+        {/* ── Section 10: Scrollable ── */}
         <ComponentPreview
-          title="StepTabs"
+          title="Scrollable"
+          description="Overflow tabs scroll horizontally — scroll with mouse wheel or drag"
+          layout="start"
+        >
+          <div>
+            <div style={{ width: 300, overflow: 'hidden' }}>
+              <div
+                ref={scrollRef}
+                onWheel={handleWheel}
+                style={{
+                  display: 'flex',
+                  overflowX: 'scroll',
+                  overflowY: 'hidden',
+                  borderBottom: '2px solid var(--color-border)',
+                  scrollbarWidth: 'none',
+                  WebkitOverflowScrolling: 'touch' as React.CSSProperties['WebkitOverflowScrolling'],
+                  msOverflowStyle: 'none' as React.CSSProperties['msOverflowStyle'],
+                }}
+              >
+                {SCROLLABLE_ITEMS.map(t => (
+                  <button
+                    key={t}
+                    type="button"
+                    onClick={() => setScrollActive(t)}
+                    style={{
+                      flexShrink: 0,
+                      padding: '8px 16px',
+                      fontSize: 13,
+                      whiteSpace: 'nowrap',
+                      border: 'none',
+                      background: 'transparent',
+                      cursor: 'pointer',
+                      color: scrollActive === t ? 'var(--color-primary)' : 'var(--color-text-secondary)',
+                      fontWeight: scrollActive === t ? 600 : 400,
+                      borderBottom: scrollActive === t ? '2px solid var(--color-primary)' : '2px solid transparent',
+                      marginBottom: -2,
+                      transition: 'all 0.15s',
+                    }}
+                  >
+                    {t}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <p style={{ marginTop: 12, fontSize: 13, color: 'var(--color-text-secondary)' }}>
+              Active: <strong style={{ color: 'var(--color-text-primary)' }}>{scrollActive}</strong>
+              <span style={{ marginLeft: 8, fontSize: 12, color: 'var(--color-text-secondary)' }}>
+                — scroll left/right to see all tabs
+              </span>
+            </p>
+          </div>
+        </ComponentPreview>
+
+        <CodeBlock filename="App.tsx" code={SCROLLABLE_CODE} />
+
+        {/* ── Section 11: Step tabs ── */}
+        <ComponentPreview
+          title="StepTabs — wizard"
           description="Progress indicator for multi-step flows — done, active, and disabled states"
           layout="start"
         >
           <div style={{ width: '100%', maxWidth: 540 }}>
             <StepTabs value={step} onChange={setStep} steps={stepTabsSteps} />
-            <div style={{ marginTop: 16, display: 'flex', gap: 8 }}>
+            <div style={{
+              marginTop: 16, padding: 16,
+              background: 'var(--color-surface-variant)',
+              borderRadius: 12,
+            }}>
+              <p style={{ fontSize: 13, color: 'var(--color-text-secondary)' }}>
+                Current step: <strong style={{ color: 'var(--color-text-primary)' }}>{step}</strong>
+              </p>
+            </div>
+            <div style={{ marginTop: 16, display: 'flex', gap: 12 }}>
               <button
-                onClick={() => {
-                  if (stepIdx > 0) setStep(stepTabsSteps[stepIdx - 1].value);
-                }}
+                type="button"
+                onClick={() => { if (stepIdx > 0) setStep(stepTabsSteps[stepIdx - 1].value); }}
                 disabled={stepIdx === 0}
                 style={{
-                  fontSize: 13, padding: '6px 14px', borderRadius: 6,
+                  padding: '8px 16px', borderRadius: 8, fontSize: 13,
                   border: '1px solid var(--color-border)',
-                  background: 'var(--color-background-primary)',
-                  color: 'var(--color-text-primary)',
+                  background: 'transparent',
+                  color: 'var(--color-text-secondary)',
                   cursor: stepIdx === 0 ? 'not-allowed' : 'pointer',
                   opacity: stepIdx === 0 ? 0.5 : 1,
                 }}
               >
-                Back
+                ← Back
               </button>
               <button
+                type="button"
                 onClick={() => {
                   const next = stepTabsSteps[stepIdx + 1];
                   if (next && !next.disabled) setStep(next.value);
                 }}
                 disabled={!stepTabsSteps[stepIdx + 1] || !!stepTabsSteps[stepIdx + 1]?.disabled}
                 style={{
-                  fontSize: 13, padding: '6px 14px', borderRadius: 6,
+                  padding: '8px 16px', borderRadius: 8, fontSize: 13,
                   border: 'none',
                   background: 'var(--color-primary)',
                   color: '#fff',
                   cursor: 'pointer',
                 }}
               >
-                Next
+                Next →
               </button>
             </div>
-            <p style={{ marginTop: 12, fontSize: 12, color: 'var(--color-text-secondary)' }}>
-              Current step: <strong>{step}</strong>
-            </p>
           </div>
         </ComponentPreview>
 
         <CodeBlock filename="App.tsx" code={STEP_TABS_CODE} />
+
+        {/* ── Section 12: With subtitle ── */}
+        <ComponentPreview
+          title="With subtitle"
+          description="subtitle prop adds a small secondary line below each tab label"
+          layout="start"
+        >
+          <div style={{ width: '100%', maxWidth: 560 }}>
+            <TabDemo tabs={subtitleTabs} variant="underline" />
+          </div>
+        </ComponentPreview>
+
+        <CodeBlock filename="App.tsx" code={SUBTITLE_CODE} />
 
         {/* ── Props tables ── */}
         <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-text-primary)', marginBottom: 8, marginTop: 8 }}>
