@@ -1,6 +1,6 @@
 'use client';
 
-import { Icon, Input } from 'omverse-ui';
+import { Input } from 'omverse-ui';
 import { PageHeader } from '@/components/ui/PageHeader';
 import { ComponentPreview } from '@/components/ui/ComponentPreview';
 import { CodeBlock } from '@/components/ui/CodeBlock';
@@ -142,11 +142,11 @@ const ALL_STATES_CODE = `<Input placeholder="Default" />
 <Input placeholder="Success" success />
 <Input placeholder="With helper" helperText="Helper text here" />`;
 
-const PREFIX_SUFFIX_CODE = `import { Icon, Input } from 'omverse-ui'
+const PREFIX_SUFFIX_CODE = `import { Input } from 'omverse-ui'
 
 <Input prefix="$" placeholder="Amount" />
 <Input suffix=".com" placeholder="domain" />
-<Input prefix={<Icon name="search" size="sm" />} placeholder="Search..." />`;
+<Input prefix={<i className="ti ti-search" style={{ fontSize: 16 }} aria-hidden="true" />} placeholder="Search..." />`;
 
 const PASSWORD_CODE = `<Input
   type="password"
@@ -232,7 +232,7 @@ export default function InputPage() {
         >
           <Input prefix="$" placeholder="Amount" />
           <Input suffix=".com" placeholder="domain" />
-          <Input prefix={<Icon name="search" size="sm" />} placeholder="Search..." />
+          <Input prefix={<i className="ti ti-search" style={{ fontSize: 16 }} aria-hidden="true" />} placeholder="Search..." />
         </ComponentPreview>
 
         <CodeBlock filename="App.tsx" code={PREFIX_SUFFIX_CODE} />

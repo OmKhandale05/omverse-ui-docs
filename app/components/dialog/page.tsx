@@ -252,18 +252,61 @@ const [step, setStep] = useState(1)
   </div>
 </Dialog>`;
 
-const COMMAND_CODE = `import { CommandPalette, type CommandItem } from 'omverse-ui'
+const COMMAND_CODE = `const [command, setCommand] = useState(false)
 
-const commands: CommandItem[] = [
-  { id: '1', label: 'New project',    icon: '📁', shortcut: '⌘N', group: 'Create',     onSelect: () => {} },
-  { id: '2', label: 'New document',   icon: '📄', shortcut: '⌘D', group: 'Create',     onSelect: () => {} },
-  { id: '3', label: 'Go to dashboard',icon: '🏠',               group: 'Navigation', onSelect: () => {} },
-  { id: '4', label: 'Open settings',  icon: '⚙️', shortcut: '⌘,', group: 'Navigation', onSelect: () => {} },
-  { id: '5', label: 'View profile',   icon: '👤',               group: 'Navigation', onSelect: () => {} },
-  { id: '6', label: 'Invite member',  icon: '👥',               group: 'Actions',    onSelect: () => {} },
+const commands = [
+  { icon: 'ti-file',     label: 'New file',       shortcut: '⌘N',  group: 'Create'     },
+  { icon: 'ti-folder',   label: 'Open folder',    shortcut: '⌘O',  group: 'Create'     },
+  { icon: 'ti-search',   label: 'Find in files',  shortcut: '⌘⇧F', group: 'Search'     },
+  { icon: 'ti-settings', label: 'Settings',       shortcut: '⌘,',  group: 'Navigation' },
+  { icon: 'ti-terminal', label: 'New terminal',   shortcut: '⌘⇧\`', group: 'Navigation' },
 ]
 
-<CommandPalette open={command} onClose={() => setCommand(false)} items={commands} />`;
+<Button variant="filled" onClick={() => setCommand(true)}>
+  Command palette ⌘K
+</Button>
+
+<Dialog
+  open={command}
+  onClose={() => setCommand(false)}
+  showCloseButton={false}
+  size="sm"
+>
+  <div style={{ padding: '8px 0' }}>
+    {/* Search input */}
+    <div style={{ padding: '8px 16px 10px', borderBottom: '0.5px solid var(--color-border-tertiary)', display: 'flex', alignItems: 'center', gap: 8 }}>
+      <i className="ti ti-search" style={{ fontSize: 16, color: 'var(--color-text-secondary)', flexShrink: 0 }} aria-hidden="true" />
+      <input
+        autoFocus
+        placeholder="Search commands..."
+        style={{
+          flex: 1,
+          background: 'none',
+          border: 'none',
+          outline: 'none',
+          fontSize: 14,
+          color: 'var(--color-text-primary)',
+          padding: '4px 0',
+        }}
+      />
+      <kbd style={{ fontSize: 11, color: 'var(--color-text-tertiary)', background: 'var(--color-background-secondary)', padding: '2px 6px', borderRadius: 4, border: '0.5px solid var(--color-border-tertiary)' }}>
+        ESC
+      </kbd>
+    </div>
+    {/* Command items */}
+    {commands.map(item => (
+      <div key={item.label} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 16px', cursor: 'pointer', fontSize: 13, color: 'var(--color-text-primary)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <i className={\`ti \${item.icon}\`} style={{ fontSize: 16, color: 'var(--color-text-secondary)' }} aria-hidden="true" />
+          {item.label}
+        </div>
+        <kbd style={{ fontSize: 11, color: 'var(--color-text-tertiary)', background: 'var(--color-background-secondary)', padding: '2px 6px', borderRadius: 4, border: '0.5px solid var(--color-border-tertiary)' }}>
+          {item.shortcut}
+        </kbd>
+      </div>
+    ))}
+  </div>
+</Dialog>`;
 
 /* ─── Page ─── */
 
@@ -280,6 +323,7 @@ export default function DialogPage() {
   const [multiStep,    setMultiStep]    = useState(false);
   const [step,         setStep]         = useState(1);
   const [deletedItems, setDeletedItems] = useState<string[]>([]);
+  const [command,      setCommand]      = useState(false);
 
   const shareOptions = ['Copy link', 'Email', 'Message', 'WhatsApp', 'Twitter', 'LinkedIn'];
 
@@ -353,13 +397,11 @@ export default function DialogPage() {
         {/* ── Section 5: Command palette ── */}
         <ComponentPreview
           title="Command palette"
-          description="⌘K-style search overlay — CommandPalette is a separate component from the omverse-ui package"
+          description="⌘K-style search overlay — built with Dialog + search input + command items"
         >
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-            <p style={{ fontSize: 13, color: 'var(--color-text-secondary)' }}>
-              Import and use <code style={{ fontFamily: 'monospace', fontSize: 12 }}>CommandPalette</code> from <code style={{ fontFamily: 'monospace', fontSize: 12 }}>omverse-ui</code>. See the code snippet below.
-            </p>
-          </div>
+          <Button variant="filled" onClick={() => setCommand(true)}>
+            Command palette ⌘K
+          </Button>
         </ComponentPreview>
 
         <CodeBlock filename="App.tsx" code={COMMAND_CODE} />
@@ -857,6 +899,72 @@ export default function DialogPage() {
               helperText="Separate multiple emails with commas"
             />
           )}
+        </div>
+      </Dialog>
+
+      {/* Command palette */}
+      <Dialog
+        open={command}
+        onClose={() => setCommand(false)}
+        showCloseButton={false}
+        size="sm"
+      >
+        <div style={{ padding: '8px 0' }}>
+          {/* Search row */}
+          <div style={{
+            padding: '8px 16px 10px',
+            borderBottom: '0.5px solid var(--color-border-tertiary)',
+            display: 'flex', alignItems: 'center', gap: 8,
+          }}>
+            <i className="ti ti-search" style={{ fontSize: 16, color: 'var(--color-text-secondary)', flexShrink: 0 }} aria-hidden="true" />
+            <input
+              autoFocus
+              placeholder="Search commands..."
+              style={{
+                flex: 1, background: 'none', border: 'none', outline: 'none',
+                fontSize: 14, color: 'var(--color-text-primary)', padding: '4px 0',
+              }}
+            />
+            <kbd style={{
+              fontSize: 11, color: 'var(--color-text-tertiary)',
+              background: 'var(--color-background-secondary)',
+              padding: '2px 6px', borderRadius: 4,
+              border: '0.5px solid var(--color-border-tertiary)',
+            }}>
+              ESC
+            </kbd>
+          </div>
+          {/* Command items */}
+          {[
+            { icon: 'ti-file',     label: 'New file',      shortcut: '⌘N'  },
+            { icon: 'ti-folder',   label: 'Open folder',   shortcut: '⌘O'  },
+            { icon: 'ti-search',   label: 'Find in files', shortcut: '⌘⇧F' },
+            { icon: 'ti-settings', label: 'Settings',      shortcut: '⌘,'  },
+            { icon: 'ti-terminal', label: 'New terminal',  shortcut: '⌘⇧`' },
+          ].map(item => (
+            <div
+              key={item.label}
+              onClick={() => setCommand(false)}
+              style={{
+                display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                padding: '8px 16px', cursor: 'pointer', fontSize: 13,
+                color: 'var(--color-text-primary)',
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <i className={`ti ${item.icon}`} style={{ fontSize: 16, color: 'var(--color-text-secondary)' }} aria-hidden="true" />
+                {item.label}
+              </div>
+              <kbd style={{
+                fontSize: 11, color: 'var(--color-text-tertiary)',
+                background: 'var(--color-background-secondary)',
+                padding: '2px 6px', borderRadius: 4,
+                border: '0.5px solid var(--color-border-tertiary)',
+              }}>
+                {item.shortcut}
+              </kbd>
+            </div>
+          ))}
         </div>
       </Dialog>
 

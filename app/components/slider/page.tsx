@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Slider, RangeSlider, Icon } from 'omverse-ui';
+import { Slider, RangeSlider } from 'omverse-ui';
 import { PageHeader } from '@/components/ui/PageHeader';
 import { ComponentPreview } from '@/components/ui/ComponentPreview';
 import { CodeBlock } from '@/components/ui/CodeBlock';
@@ -114,7 +114,7 @@ const VERTICAL_CODE = `<Slider
 />`;
 
 const VOLUME_CODE = `<div style={{ display: 'flex', alignItems: 'center', gap: 12, width: 260 }}>
-  <Icon name="volume-2" size={18} />
+  <i className="ti ti-volume-2" style={{ fontSize: 18 }} aria-hidden="true" />
   <Slider value={volume} onChange={setVolume} showTooltip />
   <span style={{ fontSize: 13, minWidth: 32 }}>{volume}%</span>
 </div>`;
@@ -297,7 +297,7 @@ export default function SliderPage() {
           description="Pair an Icon with a Slider for a compact media control"
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, width: 260 }}>
-            <Icon name="volume-2" size={18} />
+            <i className="ti ti-volume-2" style={{ fontSize: 18 }} aria-hidden="true" />
             <Slider value={volume} onChange={setVolume} showTooltip />
             <span style={{ fontSize: 13, minWidth: 32 }}>{volume}%</span>
           </div>
