@@ -156,7 +156,7 @@ const POSITIONS_CODE = `{/* Bottom drawer */}
   <div style={{ padding: '16px 24px', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12 }}>
     {['Copy link', 'Email', 'Message', 'WhatsApp', 'Twitter', 'LinkedIn'].map(label => (
       <button key={label} onClick={() => setBottom(false)}
-        style={{ padding: '12px 8px', borderRadius: 12, border: '1px solid var(--color-border-secondary)',
+        style={{ padding: '12px 8px', borderRadius: 12, border: '1px solid var(--color-border)',
           display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
         <span style={{ fontSize: 13, color: 'var(--color-text-secondary)' }}>{label}</span>
       </button>
@@ -241,7 +241,7 @@ const [step, setStep] = useState(1)
             {s < step ? '✓' : s}
           </div>
           {i < 2 && (
-            <div style={{ flex: 1, height: 2, background: s < step ? 'var(--color-primary)' : 'var(--color-border-secondary)' }} />
+            <div style={{ flex: 1, height: 2, background: s < step ? 'var(--color-primary)' : 'var(--color-border)' }} />
           )}
         </div>
       ))}
@@ -774,7 +774,7 @@ export default function DialogPage() {
               onClick={() => setBottom(false)}
               style={{
                 padding: '12px 8px', borderRadius: 12,
-                border: '1px solid var(--color-border-secondary)',
+                border: '1px solid var(--color-border)',
                 background: 'var(--color-background-primary)',
                 display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6,
                 cursor: 'pointer',
@@ -877,7 +877,7 @@ export default function DialogPage() {
                 {i < 2 && (
                   <div style={{
                     flex: 1, height: 2,
-                    background: s < step ? 'var(--color-primary)' : 'var(--color-border-secondary)',
+                    background: s < step ? 'var(--color-primary)' : 'var(--color-border)',
                     transition: 'background 0.2s',
                   }} />
                 )}

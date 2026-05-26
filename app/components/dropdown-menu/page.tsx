@@ -140,7 +140,7 @@ const CONTEXT_CODE = `import { ContextMenu, MenuItem, MenuSeparator } from 'omve
     </>
   }
 >
-  <div style={{ border: '1px dashed var(--color-border-secondary)', borderRadius: 8, padding: '20px 40px' }}>
+  <div style={{ border: '1px dashed var(--color-border)', borderRadius: 8, padding: '20px 40px' }}>
     Right-click anywhere here
   </div>
 </ContextMenu>`;
@@ -294,7 +294,7 @@ export default function DropdownMenuPage() {
             }
           >
             <div style={{
-              border: '0.5px dashed var(--color-border-secondary)',
+              border: '0.5px dashed var(--color-border)',
               borderRadius: 8,
               padding: '20px 40px',
               fontSize: 13,

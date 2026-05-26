@@ -177,8 +177,8 @@ function TabDemo({
     display: 'flex',
     flexDirection: isVertical ? 'column' : 'row',
     gap: variant === 'separated' ? 6 : 0,
-    borderBottom: !isVertical ? '1px solid var(--color-border-secondary)' : 'none',
-    borderRight: isVertical ? '1px solid var(--color-border-secondary)' : 'none',
+    borderBottom: !isVertical ? '1px solid var(--color-border)' : 'none',
+    borderRight: isVertical ? '1px solid var(--color-border)' : 'none',
     padding: ['pill', 'floating', 'bubble', 'gradient'].includes(variant) ? '4px' : 0,
     background: ['pill', 'floating', 'bubble', 'gradient'].includes(variant) ? 'var(--color-background-secondary)' : 'transparent',
     borderRadius: ['pill', 'floating', 'bubble', 'gradient'].includes(variant) ? 8 : 0,
@@ -240,7 +240,7 @@ function TabDemo({
       return {
         ...base,
         background: isActive ? 'var(--color-background-primary)' : 'var(--color-background-secondary)',
-        border: '1px solid var(--color-border-secondary)',
+        border: '1px solid var(--color-border)',
         borderRadius: 6,
         marginRight: 4,
         color: isActive ? 'var(--color-text-primary)' : 'var(--color-text-secondary)',
@@ -466,7 +466,7 @@ export default function TabsPage() {
                 disabled={stepIdx === 0}
                 style={{
                   fontSize: 13, padding: '6px 14px', borderRadius: 6,
-                  border: '1px solid var(--color-border-secondary)',
+                  border: '1px solid var(--color-border)',
                   background: 'var(--color-background-primary)',
                   color: 'var(--color-text-primary)',
                   cursor: stepIdx === 0 ? 'not-allowed' : 'pointer',

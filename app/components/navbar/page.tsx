@@ -480,7 +480,7 @@ export default function NavbarPage() {
           description="Vertical sidebar with grouped sections — supports collapsed icon-only mode"
           layout="start"
         >
-          <div style={{ border: '1px solid var(--color-border-secondary)', borderRadius: 10, overflow: 'hidden', height: 280, display: 'flex' }}>
+          <div style={{ border: '1px solid var(--color-border)', borderRadius: 10, overflow: 'hidden', height: 280, display: 'flex' }}>
             <Sidebar
               sections={sidebarSections}
               activeId={active}
