@@ -113,10 +113,18 @@ const VERTICAL_CODE = `<Slider
   formatValue={v => \`\${v}%\`}
 />`;
 
-const VOLUME_CODE = `<div style={{ display: 'flex', alignItems: 'center', gap: 12, width: 260 }}>
-  <i className="ti ti-volume-2" style={{ fontSize: 18 }} aria-hidden="true" />
-  <Slider value={volume} onChange={setVolume} showTooltip />
-  <span style={{ fontSize: 13, minWidth: 32 }}>{volume}%</span>
+const VOLUME_CODE = `<div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+  <i className="ti ti-volume" style={{ fontSize: 16, color: 'var(--color-text-secondary)', flexShrink: 0 }} aria-hidden="true" />
+  <Slider
+    value={volume}
+    onChange={setVolume}
+    size="xs"
+    thumbStyle="default"
+    color="default"
+    style={{ flex: 1 }}
+  />
+  <i className="ti ti-volume-2" style={{ fontSize: 20, color: 'var(--color-text-primary)', flexShrink: 0 }} aria-hidden="true" />
+  <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--color-text-primary)', minWidth: 28, textAlign: 'right' }}>{volume}</span>
 </div>`;
 
 /* ─── Page ─── */
@@ -296,10 +304,18 @@ export default function SliderPage() {
           title="Volume control"
           description="Pair an Icon with a Slider for a compact media control"
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12, width: 260 }}>
-            <i className="ti ti-volume-2" style={{ fontSize: 18 }} aria-hidden="true" />
-            <Slider value={volume} onChange={setVolume} showTooltip />
-            <span style={{ fontSize: 13, minWidth: 32 }}>{volume}%</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, width: '100%', maxWidth: 360 }}>
+            <i className="ti ti-volume" style={{ fontSize: 16, color: 'var(--color-text-secondary)', flexShrink: 0 }} aria-hidden="true" />
+            <Slider
+              value={volume}
+              onChange={setVolume}
+              size="xs"
+              thumbStyle="default"
+              color="default"
+              style={{ flex: 1 }}
+            />
+            <i className="ti ti-volume-2" style={{ fontSize: 20, color: 'var(--color-text-primary)', flexShrink: 0 }} aria-hidden="true" />
+            <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--color-text-primary)', minWidth: 28, textAlign: 'right' }}>{volume}</span>
           </div>
         </ComponentPreview>
 
