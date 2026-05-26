@@ -10,76 +10,80 @@ import { PropsTable } from '@/components/ui/PropsTable';
 /* ─── Props tables ─── */
 
 const NAVBAR_PROPS = [
-  { name: 'items',           type: 'NavItem[]',                                       default: '[]',       description: 'Main navigation items' },
-  { name: 'activeId',        type: 'string',                                          default: '—',        description: 'ID of the currently active item' },
-  { name: 'onItemClick',     type: '(item: NavItem) => void',                         default: '—',        description: 'Callback when an item is clicked' },
-  { name: 'variant',         type: "'saas' | 'centered' | 'pill' | 'stripe' | 'outlined' | 'vercel' | 'linear' | 'command' | 'notion' | 'two-row' | 'glass' | 'frosted' | 'gradient'", default: "'saas'", description: 'Navbar style preset' },
-  { name: 'logo',            type: 'ReactNode',                                       default: '—',        description: 'Logo element shown on the left' },
-  { name: 'actions',         type: 'ReactNode',                                       default: '—',        description: 'Content rendered on the right side' },
-  { name: 'title',           type: 'string',                                          default: '—',        description: 'Page title (two-row variant)' },
-  { name: 'subItems',        type: 'NavItem[]',                                       default: '—',        description: 'Secondary nav items (two-row variant)' },
-  { name: 'activeSubId',     type: 'string',                                          default: '—',        description: 'Active secondary item ID (two-row)' },
-  { name: 'onSubItemClick',  type: '(item: NavItem) => void',                         default: '—',        description: 'Callback for secondary item clicks' },
-  { name: 'workspaceName',   type: 'string',                                          default: '—',        description: 'Workspace name (linear variant)' },
-  { name: 'workspaceIcon',   type: 'ReactNode',                                       default: '—',        description: 'Workspace icon (linear variant)' },
-  { name: 'breadcrumb',      type: 'ReactNode[]',                                     default: '—',        description: 'Breadcrumb items (notion variant)' },
-  { name: 'showSearch',      type: 'boolean',                                         default: 'false',    description: 'Shows a search button (command variant)' },
-  { name: 'onSearchClick',   type: '() => void',                                      default: '—',        description: 'Callback when search is clicked' },
+  { name: 'items',          type: 'NavItem[]',                                       default: '[]',       description: 'Main navigation items' },
+  { name: 'activeId',       type: 'string',                                          default: '—',        description: 'ID of the currently active item' },
+  { name: 'onItemClick',    type: '(item: NavItem) => void',                         default: '—',        description: 'Callback when an item is clicked' },
+  { name: 'variant',        type: "'saas' | 'centered' | 'pill' | 'stripe' | 'outlined' | 'vercel' | 'linear' | 'command' | 'notion' | 'two-row' | 'glass' | 'frosted' | 'gradient'", default: "'saas'", description: 'Navbar style preset' },
+  { name: 'brandName',      type: 'string',                                          default: "'Brand'",  description: 'Brand name text shown when no logo element is provided' },
+  { name: 'logo',           type: 'ReactNode',                                       default: '—',        description: 'Logo element — overrides brandName when provided' },
+  { name: 'actions',        type: 'ReactNode',                                       default: '—',        description: 'Content rendered on the right side (buttons, avatar, search…)' },
+  { name: 'title',          type: 'string',                                          default: '—',        description: 'Page title shown next to the brand (two-row variant)' },
+  { name: 'subItems',       type: 'NavItem[]',                                       default: '[]',       description: 'Secondary nav items shown in the lower row (two-row variant)' },
+  { name: 'activeSubId',    type: 'string',                                          default: '—',        description: 'Active secondary item ID (two-row variant)' },
+  { name: 'workspaceName',  type: 'string',                                          default: "'Workspace'", description: 'Workspace name (linear variant)' },
+  { name: 'workspaceIcon',  type: 'string',                                          default: "'WS'",     description: 'Workspace initials or emoji (linear variant)' },
+  { name: 'user',           type: '{ name: string; email?: string; avatarSrc?: string }', default: '—', description: 'User info shown in the profile area (linear variant)' },
+  { name: 'showSearch',     type: 'boolean',                                         default: 'false',    description: 'Shows a ⌘K search trigger (command variant)' },
+  { name: 'onSearchClick',  type: '() => void',                                      default: '—',        description: 'Callback when the search trigger is clicked' },
 ] as const satisfies { name: string; type: string; default: string; description: string }[];
 
 const SIDEBAR_PROPS = [
-  { name: 'sections',        type: 'NavSection[]',                                    default: '[]',       description: 'Grouped navigation sections' },
-  { name: 'activeId',        type: 'string',                                          default: '—',        description: 'ID of the currently active item' },
-  { name: 'onItemClick',     type: '(item: NavItem) => void',                         default: '—',        description: 'Callback when an item is clicked' },
-  { name: 'collapsed',       type: 'boolean',                                         default: 'false',    description: 'Collapses the sidebar to icon-only mode' },
-  { name: 'header',          type: 'ReactNode',                                       default: '—',        description: 'Content at the top of the sidebar' },
-  { name: 'footer',          type: 'ReactNode',                                       default: '—',        description: 'Content at the bottom of the sidebar' },
+  { name: 'sections',    type: 'NavSection[]',                    default: '[]',       description: 'Grouped navigation sections' },
+  { name: 'activeId',    type: 'string',                          default: '—',        description: 'ID of the currently active item' },
+  { name: 'onItemClick', type: '(item: NavItem) => void',         default: '—',        description: 'Callback when an item is clicked' },
+  { name: 'collapsed',   type: 'boolean',                         default: 'false',    description: 'Collapses to icon-only mode' },
+  { name: 'brandName',   type: 'string',                          default: "'Brand'",  description: 'Brand name shown in the header' },
+  { name: 'logo',        type: 'ReactNode',                       default: '—',        description: 'Logo element — overrides brandName when provided' },
+  { name: 'user',        type: '{ name: string; email?: string; avatarSrc?: string }', default: '—', description: 'User info shown in the footer area' },
 ] as const satisfies { name: string; type: string; default: string; description: string }[];
 
-/* ─── Shared data ─── */
+/* ─── Shared data — matches original stories exactly ─── */
 
 const mainItems: NavItem[] = [
-  { id: 'dashboard', label: 'Dashboard',  icon: 'bookmark' },
-  { id: 'projects',  label: 'Projects',   icon: 'file-text' },
-  { id: 'team',      label: 'Team',       icon: 'users' },
-  { id: 'analytics', label: 'Analytics',  icon: 'info' },
-  { id: 'settings',  label: 'Settings',   icon: 'settings' },
+  { id: 'dashboard', label: 'Dashboard', icon: 'info' },
+  { id: 'projects',  label: 'Projects',  icon: 'info' },
+  { id: 'team',      label: 'Team',      icon: 'info', badge: 3 },
+  { id: 'analytics', label: 'Analytics', icon: 'info' },
+  { id: 'settings',  label: 'Settings',  icon: 'settings' },
 ];
 
 const subItems: NavItem[] = [
-  { id: 'general',     label: 'General'     },
-  { id: 'security',    label: 'Security'    },
-  { id: 'billing',     label: 'Billing'     },
+  { id: 'general',      label: 'General' },
+  { id: 'members',      label: 'Members' },
   { id: 'integrations', label: 'Integrations' },
+  { id: 'billing',      label: 'Billing' },
+  { id: 'danger',       label: 'Danger zone' },
 ];
 
 const sidebarSections: NavSection[] = [
   {
     label: 'Main',
     items: [
-      { id: 'dashboard', label: 'Dashboard',  icon: 'bookmark' },
-      { id: 'projects',  label: 'Projects',   icon: 'file-text' },
-      { id: 'analytics', label: 'Analytics',  icon: 'info' },
+      { id: 'dashboard', label: 'Dashboard', icon: 'info' },
+      { id: 'projects',  label: 'Projects',  icon: 'info' },
+      { id: 'team',      label: 'Team',      icon: 'info', badge: 3 },
     ],
   },
   {
-    label: 'Settings',
+    label: 'Account',
     items: [
-      { id: 'team',      label: 'Team',       icon: 'users' },
-      { id: 'settings',  label: 'Settings',   icon: 'settings' },
+      { id: 'settings',      label: 'Settings',      icon: 'settings' },
+      { id: 'notifications', label: 'Notifications', icon: 'bell', badge: 12 },
     ],
   },
 ];
 
+const user = { name: 'John Doe', email: 'john@example.com' };
+
 /* ─── Code snippets ─── */
 
-const SAAS_CODE = `import { Navbar, type NavItem } from 'omverse-ui'
+const SAAS_CODE = `import { Navbar, Button, type NavItem } from 'omverse-ui'
 
 const items: NavItem[] = [
-  { id: 'dashboard', label: 'Dashboard', icon: 'layout-dashboard' },
-  { id: 'projects',  label: 'Projects',  icon: 'folder' },
-  { id: 'team',      label: 'Team',      icon: 'users' },
-  { id: 'analytics', label: 'Analytics', icon: 'bar-chart-2' },
+  { id: 'dashboard', label: 'Dashboard', icon: 'info' },
+  { id: 'projects',  label: 'Projects',  icon: 'info' },
+  { id: 'team',      label: 'Team',      icon: 'info', badge: 3 },
+  { id: 'analytics', label: 'Analytics', icon: 'info' },
   { id: 'settings',  label: 'Settings',  icon: 'settings' },
 ]
 
@@ -88,28 +92,68 @@ const items: NavItem[] = [
   items={items}
   activeId={active}
   onItemClick={item => setActive(item.id)}
-  logo={<span style={{ fontWeight: 700 }}>Acme</span>}
-  actions={<Avatar size="sm" src="https://i.pravatar.cc/150?img=1" />}
+  brandName="DesignSystem"
+  actions={
+    <div style={{ display: 'flex', gap: 8 }}>
+      <Button size="sm" variant="outlined">Log in</Button>
+      <Button size="sm" variant="filled">Get started</Button>
+    </div>
+  }
 />`;
 
-const CENTERED_CODE = `<Navbar variant="centered" items={items} activeId={active} onItemClick={item => setActive(item.id)}
-  logo={<span style={{ fontWeight: 700 }}>Brand</span>}
-  actions={<Button size="sm" variant="filled">Sign up</Button>}
+const CENTERED_CODE = `<Navbar
+  variant="centered"
+  items={items}
+  activeId={active}
+  onItemClick={item => setActive(item.id)}
+  brandName="✦ Brand"
+  actions={
+    <div style={{ display: 'flex', gap: 8 }}>
+      <Button size="sm" variant="outlined">Log in</Button>
+      <Button size="sm" variant="filled">Get started</Button>
+    </div>
+  }
 />`;
 
-const PILL_CODE = `<Navbar variant="pill" items={items} activeId={active} onItemClick={item => setActive(item.id)}
-  logo={<span style={{ fontWeight: 700 }}>App</span>}
-  actions={<Button size="sm">Get started</Button>}
+const PILL_CODE = `<Navbar
+  variant="pill"
+  items={items}
+  activeId={active}
+  onItemClick={item => setActive(item.id)}
+  brandName="⬡ App"
+  actions={userActions}
 />`;
 
-const STRIPE_CODE = `<Navbar variant="stripe" items={items} activeId={active} onItemClick={item => setActive(item.id)}
-  logo={<span style={{ fontWeight: 700 }}>Logo</span>}
-  actions={<Button size="sm" variant="filled">Upgrade</Button>}
+const STRIPE_CODE = `<Navbar
+  variant="stripe"
+  items={items}
+  activeId={active}
+  onItemClick={item => setActive(item.id)}
+  brandName="◈ Platform"
+  actions={userActions}
 />`;
 
-const VERCEL_CODE = `<Navbar variant="vercel" items={items} activeId={active} onItemClick={item => setActive(item.id)}
-  logo={<span style={{ fontWeight: 700 }}>▲</span>}
-  actions={<Avatar size="sm" src="https://i.pravatar.cc/150?img=1" />}
+const OUTLINED_CODE = `<Navbar
+  variant="outlined"
+  items={items.slice(0, 4)}
+  activeId={active}
+  onItemClick={item => setActive(item.id)}
+  brandName="◇ App"
+  actions={userActions}
+/>`;
+
+const VERCEL_CODE = `<Navbar
+  variant="vercel"
+  items={items}
+  activeId={active}
+  onItemClick={item => setActive(item.id)}
+  brandName="▲"
+  actions={
+    <div style={{ display: 'flex', gap: 8 }}>
+      <Button size="sm" variant="outlined">Feedback</Button>
+      <Button size="sm" variant="filled">Deploy</Button>
+    </div>
+  }
 />`;
 
 const LINEAR_CODE = `<Navbar
@@ -117,8 +161,9 @@ const LINEAR_CODE = `<Navbar
   items={items}
   activeId={active}
   onItemClick={item => setActive(item.id)}
-  workspaceName="Acme Corp"
-  workspaceIcon={<span>🚀</span>}
+  workspaceName="Design System"
+  workspaceIcon="DS"
+  user={{ name: 'John Doe', email: 'john@example.com' }}
 />`;
 
 const COMMAND_CODE = `<Navbar
@@ -126,42 +171,73 @@ const COMMAND_CODE = `<Navbar
   items={items}
   activeId={active}
   onItemClick={item => setActive(item.id)}
+  brandName="◈"
   showSearch
-  onSearchClick={() => console.log('search')}
-  logo={<span style={{ fontWeight: 700 }}>App</span>}
+  onSearchClick={() => alert('⌘K')}
+  actions={userActions}
 />`;
 
 const NOTION_CODE = `<Navbar
   variant="notion"
-  breadcrumb={[
-    <span key="home">Home</span>,
-    <span key="docs">Documentation</span>,
-    <span key="page">Current page</span>,
+  items={[
+    { id: 'workspace',  label: 'Workspace',    onClick: () => setActive('workspace') },
+    { id: 'design',     label: 'Design System', onClick: () => setActive('design') },
+    { id: 'components', label: 'Components',   onClick: () => setActive('components') },
   ]}
-  actions={<Button size="sm" variant="outlined">Share</Button>}
+  activeId="components"
+  brandName="N"
+  actions={
+    <div style={{ display: 'flex', gap: 8 }}>
+      <Button size="sm" variant="text">Share</Button>
+      <Button size="sm" variant="filled">Publish</Button>
+    </div>
+  }
 />`;
 
 const TWO_ROW_CODE = `<Navbar
   variant="two-row"
+  title="Project settings"
+  subItems={subItems}
+  activeSubId={activeSub}
+  onItemClick={item => setActiveSub(item.id)}
+  brandName="◈"
+/>`;
+
+const GLASS_CODE = `<div style={{ background: 'linear-gradient(to right, #6366f1, #8b5cf6)', borderRadius: 12, overflow: 'hidden' }}>
+  <Navbar
+    variant="glass"
+    items={items.slice(0, 4)}
+    activeId={active}
+    onItemClick={item => setActive(item.id)}
+    brandName="✦ Studio"
+    actions={<Button size="sm" style={{ background: '#fff', color: '#6366f1', border: 'none' }}>Contact</Button>}
+  />
+</div>`;
+
+const FROSTED_CODE = `<div style={{ background: 'linear-gradient(to right, #e2e8f0, #f1f5f9)', borderRadius: 12, padding: 20, overflow: 'hidden' }}>
+  <Navbar
+    variant="frosted"
+    items={items.slice(0, 4)}
+    activeId={active}
+    onItemClick={item => setActive(item.id)}
+    brandName="✦ Studio"
+    actions={<Button size="sm" variant="filled">Get in touch</Button>}
+  />
+</div>`;
+
+const GRADIENT_CODE = `<Navbar
+  variant="gradient"
   items={items}
   activeId={active}
   onItemClick={item => setActive(item.id)}
-  subItems={subItems}
-  activeSubId={activeSub}
-  onSubItemClick={item => setActiveSub(item.id)}
-  title="Settings"
-  logo={<span style={{ fontWeight: 700 }}>Brand</span>}
+  brandName="◈ Platform"
+  actions={
+    <div style={{ display: 'flex', gap: 8 }}>
+      <Button size="sm" variant="outlined" style={{ color: '#fff', borderColor: 'rgba(255,255,255,0.3)' }}>Docs</Button>
+      <Button size="sm" style={{ background: '#fff', color: '#6366f1', border: 'none' }}>Upgrade</Button>
+    </div>
+  }
 />`;
-
-const GLASS_CODE = `<div style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', borderRadius: 12, padding: 0, overflow: 'hidden' }}>
-  <Navbar
-    variant="glass"
-    items={items}
-    activeId={active}
-    onItemClick={item => setActive(item.id)}
-    logo={<span style={{ fontWeight: 700, color: '#fff' }}>Glass</span>}
-  />
-</div>`;
 
 const SIDEBAR_CODE = `import { Sidebar, type NavSection } from 'omverse-ui'
 
@@ -169,16 +245,16 @@ const sections: NavSection[] = [
   {
     label: 'Main',
     items: [
-      { id: 'dashboard', label: 'Dashboard', icon: 'layout-dashboard' },
-      { id: 'projects',  label: 'Projects',  icon: 'folder' },
-      { id: 'analytics', label: 'Analytics', icon: 'bar-chart-2' },
+      { id: 'dashboard', label: 'Dashboard', icon: 'info' },
+      { id: 'projects',  label: 'Projects',  icon: 'info' },
+      { id: 'team',      label: 'Team',      icon: 'info', badge: 3 },
     ],
   },
   {
-    label: 'Settings',
+    label: 'Account',
     items: [
-      { id: 'team',     label: 'Team',     icon: 'users'    },
-      { id: 'settings', label: 'Settings', icon: 'settings' },
+      { id: 'settings',      label: 'Settings',      icon: 'settings' },
+      { id: 'notifications', label: 'Notifications', icon: 'bell', badge: 12 },
     ],
   },
 ]
@@ -188,6 +264,8 @@ const sections: NavSection[] = [
   activeId={active}
   onItemClick={item => setActive(item.id)}
   collapsed={collapsed}
+  brandName="DesignSys"
+  user={{ name: 'John Doe', email: 'john@example.com' }}
 />`;
 
 /* ─── Page ─── */
@@ -197,15 +275,33 @@ export default function NavbarPage() {
   const [activeSub, setActiveSub] = useState('general');
   const [collapsed, setCollapsed] = useState(false);
 
-  const userActions = (
+  function handleClick(item: NavItem)    { setActive(item.id); }
+  function handleSubClick(item: NavItem) { setActiveSub(item.id); }
+
+  /* Shared action nodes — match original stories */
+  const loginActions = (
     <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-      <Button size="sm" variant="outlined">Sign in</Button>
-      <Button size="sm" variant="filled">Sign up</Button>
+      <Button size="sm" variant="outlined">Log in</Button>
+      <Button size="sm" variant="filled">Get started</Button>
     </div>
   );
 
-  const avatarAction = (
-    <Avatar size="sm" src="https://i.pravatar.cc/150?img=1" alt="User" />
+  const userActions = (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+      <button
+        type="button"
+        style={{ width: 32, height: 32, borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--color-text-secondary)' }}
+      >
+        <Icon name="search" size="sm" aria-hidden />
+      </button>
+      <button
+        type="button"
+        style={{ width: 32, height: 32, borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--color-text-secondary)' }}
+      >
+        <Icon name="bell" size="sm" aria-hidden />
+      </button>
+      <Avatar name="John Doe" size="xs" />
+    </div>
   );
 
   return (
@@ -214,7 +310,7 @@ export default function NavbarPage() {
       <PageHeader
         breadcrumb={['Components', 'Navigation', 'Navbar']}
         title="Navbar"
-        description="13 variants · SaaS · Centered · Pill · Stripe · Vercel · Linear · Command · Notion · Two-row · Glass · Frosted · Gradient · Sidebar"
+        description="16 variants · sidebar · two-row · command · glass · vercel · linear · stripe"
         tags={['SaaS', 'Centered', 'Pill', 'Stripe', 'Outlined', 'Vercel', 'Linear', 'Command', 'Notion', 'Two-row', 'Glass', 'Frosted', 'Gradient', 'Sidebar']}
       />
 
@@ -223,8 +319,8 @@ export default function NavbarPage() {
 
         {/* ── Section 1: SaaS ── */}
         <ComponentPreview
-          title="SaaS"
-          description="Standard app navbar with logo, nav items, and user avatar"
+          title="SaaS (default)"
+          description="Standard app navbar with brand, nav items and call-to-action buttons"
           layout="start"
         >
           <div style={{ width: '100%' }}>
@@ -232,9 +328,9 @@ export default function NavbarPage() {
               variant="saas"
               items={mainItems}
               activeId={active}
-              onItemClick={item => setActive(item.id)}
-              logo={<span style={{ fontWeight: 700, fontSize: 16 }}>Acme</span>}
-              actions={avatarAction}
+              onItemClick={handleClick}
+              brandName="DesignSystem"
+              actions={loginActions}
             />
           </div>
         </ComponentPreview>
@@ -243,7 +339,7 @@ export default function NavbarPage() {
 
         {/* ── Section 2: Centered ── */}
         <ComponentPreview
-          title="Centered"
+          title="Centered links"
           description="Navigation items centered in the bar with logo and actions on the sides"
           layout="start"
         >
@@ -252,9 +348,9 @@ export default function NavbarPage() {
               variant="centered"
               items={mainItems}
               activeId={active}
-              onItemClick={item => setActive(item.id)}
-              logo={<span style={{ fontWeight: 700, fontSize: 16 }}>Brand</span>}
-              actions={userActions}
+              onItemClick={handleClick}
+              brandName="✦ Brand"
+              actions={loginActions}
             />
           </div>
         </ComponentPreview>
@@ -263,8 +359,8 @@ export default function NavbarPage() {
 
         {/* ── Section 3: Pill ── */}
         <ComponentPreview
-          title="Pill"
-          description="Pill-shaped active indicator — great for marketing pages"
+          title="Pill segmented"
+          description="Active item shown inside a pill-shaped segmented control"
           layout="start"
         >
           <div style={{ width: '100%' }}>
@@ -272,9 +368,9 @@ export default function NavbarPage() {
               variant="pill"
               items={mainItems}
               activeId={active}
-              onItemClick={item => setActive(item.id)}
-              logo={<span style={{ fontWeight: 700, fontSize: 16 }}>App</span>}
-              actions={<Button size="sm">Get started</Button>}
+              onItemClick={handleClick}
+              brandName="⬡ App"
+              actions={userActions}
             />
           </div>
         </ComponentPreview>
@@ -283,8 +379,8 @@ export default function NavbarPage() {
 
         {/* ── Section 4: Stripe ── */}
         <ComponentPreview
-          title="Stripe"
-          description="Bottom border indicator with a clean minimal look"
+          title="Stripe-style"
+          description="Bottom border indicator — clean and minimal like Stripe's nav"
           layout="start"
         >
           <div style={{ width: '100%' }}>
@@ -292,9 +388,9 @@ export default function NavbarPage() {
               variant="stripe"
               items={mainItems}
               activeId={active}
-              onItemClick={item => setActive(item.id)}
-              logo={<span style={{ fontWeight: 700, fontSize: 16 }}>Logo</span>}
-              actions={<Button size="sm" variant="filled">Upgrade</Button>}
+              onItemClick={handleClick}
+              brandName="◈ Platform"
+              actions={userActions}
             />
           </div>
         </ComponentPreview>
@@ -303,26 +399,28 @@ export default function NavbarPage() {
 
         {/* ── Section 5: Outlined ── */}
         <ComponentPreview
-          title="Outlined"
-          description="Bordered active item indicator"
+          title="Outlined segmented"
+          description="Items grouped in a bordered segmented control — active item is filled"
           layout="start"
         >
           <div style={{ width: '100%' }}>
             <Navbar
               variant="outlined"
-              items={mainItems}
+              items={mainItems.slice(0, 4)}
               activeId={active}
-              onItemClick={item => setActive(item.id)}
-              logo={<span style={{ fontWeight: 700, fontSize: 16 }}>Brand</span>}
-              actions={avatarAction}
+              onItemClick={handleClick}
+              brandName="◇ App"
+              actions={userActions}
             />
           </div>
         </ComponentPreview>
 
-        {/* ── Section 6: Vercel (dark) ── */}
+        <CodeBlock filename="App.tsx" code={OUTLINED_CODE} />
+
+        {/* ── Section 6: Vercel ── */}
         <ComponentPreview
-          title="Vercel — dark"
-          description="Dark navbar inspired by Vercel's design language"
+          title="Vercel-style (dark)"
+          description="Dark navbar with light text — inspired by Vercel's design language"
           layout="start"
         >
           <div style={{ width: '100%' }}>
@@ -330,9 +428,14 @@ export default function NavbarPage() {
               variant="vercel"
               items={mainItems}
               activeId={active}
-              onItemClick={item => setActive(item.id)}
-              logo={<span style={{ fontWeight: 800, fontSize: 18 }}>▲</span>}
-              actions={avatarAction}
+              onItemClick={handleClick}
+              brandName="▲"
+              actions={
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <Button size="sm" variant="outlined">Feedback</Button>
+                  <Button size="sm" variant="filled">Deploy</Button>
+                </div>
+              }
             />
           </div>
         </ComponentPreview>
@@ -341,8 +444,8 @@ export default function NavbarPage() {
 
         {/* ── Section 7: Linear ── */}
         <ComponentPreview
-          title="Linear"
-          description="Workspace switcher on the left — inspired by Linear's nav"
+          title="Linear-style"
+          description="Workspace switcher on the left with icon nav items — inspired by Linear"
           layout="start"
         >
           <div style={{ width: '100%' }}>
@@ -350,9 +453,10 @@ export default function NavbarPage() {
               variant="linear"
               items={mainItems}
               activeId={active}
-              onItemClick={item => setActive(item.id)}
-              workspaceName="Acme Corp"
-              workspaceIcon="🚀"
+              onItemClick={handleClick}
+              workspaceName="Design System"
+              workspaceIcon="DS"
+              user={user}
             />
           </div>
         </ComponentPreview>
@@ -361,8 +465,8 @@ export default function NavbarPage() {
 
         {/* ── Section 8: Command ── */}
         <ComponentPreview
-          title="Command"
-          description="Search button opens a command palette — use showSearch + onSearchClick"
+          title="Command bar"
+          description="showSearch adds a ⌘K trigger — tap to open a command palette"
           layout="start"
         >
           <div style={{ width: '100%' }}>
@@ -370,11 +474,11 @@ export default function NavbarPage() {
               variant="command"
               items={mainItems}
               activeId={active}
-              onItemClick={item => setActive(item.id)}
+              onItemClick={handleClick}
+              brandName="◈"
               showSearch
-              onSearchClick={() => {}}
-              logo={<span style={{ fontWeight: 700, fontSize: 16 }}>App</span>}
-              actions={avatarAction}
+              onSearchClick={() => alert('⌘K')}
+              actions={userActions}
             />
           </div>
         </ComponentPreview>
@@ -383,15 +487,26 @@ export default function NavbarPage() {
 
         {/* ── Section 9: Notion ── */}
         <ComponentPreview
-          title="Notion"
-          description="Breadcrumb-style header — ideal for document or wiki navigation"
+          title="Notion-style (breadcrumb)"
+          description="items renders as a breadcrumb trail with chevron separators — ideal for wikis and docs"
           layout="start"
         >
           <div style={{ width: '100%' }}>
             <Navbar
               variant="notion"
-              title="Home / Documentation / Current page"
-              actions={<Button size="sm" variant="outlined">Share</Button>}
+              items={[
+                { id: 'workspace',  label: 'Workspace',     onClick: () => setActive('workspace') },
+                { id: 'design',     label: 'Design System', onClick: () => setActive('design') },
+                { id: 'components', label: 'Components',    onClick: () => setActive('components') },
+              ]}
+              activeId="components"
+              brandName="N"
+              actions={
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <Button size="sm" variant="text">Share</Button>
+                  <Button size="sm" variant="filled">Publish</Button>
+                </div>
+              }
             />
           </div>
         </ComponentPreview>
@@ -400,20 +515,32 @@ export default function NavbarPage() {
 
         {/* ── Section 10: Two-row ── */}
         <ComponentPreview
-          title="Two-row"
-          description="Primary nav on top, secondary subnav below — great for settings pages"
+          title="Two-row sticky"
+          description="Brand + title on top row, subItems as tab strip on the second row"
           layout="start"
         >
           <div style={{ width: '100%' }}>
             <Navbar
               variant="two-row"
-              items={mainItems}
-              activeId={active}
-              onItemClick={item => setActive(item.id)}
+              title="Project settings"
               subItems={subItems}
               activeSubId={activeSub}
-              title="Settings"
-              logo={<span style={{ fontWeight: 700, fontSize: 16 }}>Brand</span>}
+              onItemClick={handleSubClick}
+              brandName="◈"
+              actions={
+                <button
+                  type="button"
+                  style={{
+                    width: 28, height: 28, borderRadius: 6,
+                    border: '1px solid var(--color-border)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    background: 'transparent', cursor: 'pointer',
+                    color: 'var(--color-text-secondary)',
+                  }}
+                >
+                  <Icon name="dots-vertical" size="sm" aria-hidden />
+                </button>
+              }
             />
           </div>
         </ComponentPreview>
@@ -422,17 +549,22 @@ export default function NavbarPage() {
 
         {/* ── Section 11: Glass ── */}
         <ComponentPreview
-          title="Glass"
+          title="Glass (on colored bg)"
           description="Frosted-glass effect — place over a gradient or image background"
           layout="start"
         >
-          <div style={{ width: '100%', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', borderRadius: 10, overflow: 'hidden' }}>
+          <div style={{ width: '100%', background: 'linear-gradient(to right, #6366f1, #8b5cf6)', borderRadius: 10, padding: 20, overflow: 'hidden' }}>
             <Navbar
               variant="glass"
-              items={mainItems}
+              items={mainItems.slice(0, 4)}
               activeId={active}
-              onItemClick={item => setActive(item.id)}
-              logo={<span style={{ fontWeight: 700, fontSize: 16, color: '#fff' }}>Glass</span>}
+              onItemClick={handleClick}
+              brandName="✦ Studio"
+              actions={
+                <Button size="sm" style={{ background: '#fff', color: '#6366f1', border: 'none' }}>
+                  Contact
+                </Button>
+              }
             />
           </div>
         </ComponentPreview>
@@ -441,25 +573,28 @@ export default function NavbarPage() {
 
         {/* ── Section 12: Frosted ── */}
         <ComponentPreview
-          title="Frosted"
-          description="Subtle backdrop-blur surface — works well on image or colored backgrounds"
+          title="Frosted glass"
+          description="Subtle backdrop-blur surface — works well on tinted or image backgrounds"
           layout="start"
         >
-          <div style={{ width: '100%', background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)', borderRadius: 10, overflow: 'hidden' }}>
+          <div style={{ width: '100%', background: 'linear-gradient(to right, #e2e8f0, #f1f5f9)', borderRadius: 10, padding: 20, overflow: 'hidden' }}>
             <Navbar
               variant="frosted"
-              items={mainItems}
+              items={mainItems.slice(0, 4)}
               activeId={active}
-              onItemClick={item => setActive(item.id)}
-              logo={<span style={{ fontWeight: 700, fontSize: 16, color: '#fff' }}>Frosted</span>}
+              onItemClick={handleClick}
+              brandName="✦ Studio"
+              actions={<Button size="sm" variant="filled">Get in touch</Button>}
             />
           </div>
         </ComponentPreview>
 
+        <CodeBlock filename="App.tsx" code={FROSTED_CODE} />
+
         {/* ── Section 13: Gradient brand ── */}
         <ComponentPreview
           title="Gradient brand"
-          description="Gradient background navbar for high-impact headers"
+          description="Gradient background navbar — high impact, ideal for landing pages"
           layout="start"
         >
           <div style={{ width: '100%' }}>
@@ -467,34 +602,62 @@ export default function NavbarPage() {
               variant="gradient"
               items={mainItems}
               activeId={active}
-              onItemClick={item => setActive(item.id)}
-              logo={<span style={{ fontWeight: 700, fontSize: 16 }}>Brand</span>}
-              actions={<Button size="sm" variant="filled">Get started</Button>}
+              onItemClick={handleClick}
+              brandName="◈ Platform"
+              actions={
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <Button size="sm" variant="outlined" style={{ color: '#fff', borderColor: 'rgba(255,255,255,0.3)' }}>
+                    Docs
+                  </Button>
+                  <Button size="sm" style={{ background: '#fff', color: '#6366f1', border: 'none' }}>
+                    Upgrade
+                  </Button>
+                </div>
+              }
             />
           </div>
         </ComponentPreview>
 
+        <CodeBlock filename="App.tsx" code={GRADIENT_CODE} />
+
         {/* ── Section 14: Sidebar ── */}
         <ComponentPreview
           title="Sidebar"
-          description="Vertical sidebar with grouped sections — supports collapsed icon-only mode"
+          description="Vertical sidebar with grouped sections — collapses to icon-only mode"
           layout="start"
         >
-          <div style={{ border: '1px solid var(--color-border)', borderRadius: 10, overflow: 'hidden', height: 280, display: 'flex' }}>
+          <div style={{
+            height: 400,
+            width: '100%',
+            position: 'relative',
+            overflow: 'hidden',
+            border: '0.5px solid var(--color-border-tertiary)',
+            borderRadius: 8,
+            display: 'flex',
+          }}>
             <Sidebar
               sections={sidebarSections}
               activeId={active}
-              onItemClick={item => setActive(item.id)}
+              onItemClick={handleClick}
               collapsed={collapsed}
+              brandName="DesignSys"
+              user={user}
             />
-            <div style={{ flex: 1, padding: 20, fontSize: 13, color: 'var(--color-text-secondary)', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-              <span>Active: <strong>{active}</strong></span>
+            <div style={{
+              flex: 1,
+              padding: 16,
+              background: 'var(--color-surface-variant)',
+              display: 'flex',
+              alignItems: 'flex-start',
+              justifyContent: 'space-between',
+            }}>
+              <p style={{ fontSize: 13, color: 'var(--color-text-secondary)' }}>Content area</p>
               <Button
                 size="sm"
-                variant="ghost"
+                variant="outlined"
                 onClick={() => setCollapsed(c => !c)}
               >
-                {collapsed ? '→ Expand' : '← Collapse'}
+                {collapsed ? 'Expand' : 'Collapse'} sidebar
               </Button>
             </div>
           </div>
