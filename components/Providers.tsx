@@ -1,6 +1,11 @@
-'use client'
+'use client';
 
-import { Toaster } from 'omverse-ui'
+import dynamic from 'next/dynamic';
+
+const Toaster = dynamic(
+  () => import('omverse-ui').then(mod => ({ default: mod.Toaster })),
+  { ssr: false }
+);
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
@@ -8,5 +13,5 @@ export function Providers({ children }: { children: React.ReactNode }) {
       {children}
       <Toaster position="bottom-right" />
     </>
-  )
+  );
 }
