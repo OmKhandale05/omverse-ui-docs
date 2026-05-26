@@ -374,59 +374,66 @@ export default function CardPage() {
           description="CardMedia, CardHeader (with action), CardBody and CardFooter compose the full card"
           layout="start"
         >
-          {/* Image overlay card */}
-          <Card variant="elevated" style={{ width: 208 }} interactive>
-            <CardMedia
-              src="https://picsum.photos/seed/mountain/400/200"
-              alt="Mountain Trek"
-              height={160}
-              overlay
-              overlayContent={
-                <>
-                  <p style={{ fontWeight: 600, fontSize: 13 }}>Mountain Trek</p>
-                  <p style={{ fontSize: 12, opacity: 0.8 }}>Himalayas · 5 days</p>
-                </>
-              }
-            />
-            <CardBody>
-              <p style={{ fontSize: 13, color: 'var(--color-text-secondary)', lineHeight: 1.6 }}>
-                A 5-day guided trek through the Himalayas with expert guides.
-              </p>
-            </CardBody>
-            <CardFooter divider style={{ justifyContent: 'space-between' }}>
-              <Badge color="success" variant="tonal">Available</Badge>
-              <Button size="sm" variant="filled">Book now</Button>
-            </CardFooter>
-          </Card>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(2, 280px)',
+            gap: 16,
+            alignItems: 'start',
+          }}>
+            {/* Image overlay card */}
+            <Card variant="elevated" interactive>
+              <CardMedia
+                src="https://picsum.photos/seed/mountain/400/200"
+                alt="Mountain Trek"
+                height={180}
+                overlay
+                overlayContent={
+                  <>
+                    <p style={{ fontWeight: 600, fontSize: 13 }}>Mountain Trek</p>
+                    <p style={{ fontSize: 12, opacity: 0.8 }}>Himalayas · 5 days</p>
+                  </>
+                }
+              />
+              <CardBody>
+                <p style={{ fontSize: 13, color: 'var(--color-text-secondary)', lineHeight: 1.6 }}>
+                  A 5-day guided trek through the Himalayas with expert guides.
+                </p>
+              </CardBody>
+              <CardFooter divider style={{ justifyContent: 'space-between' }}>
+                <Badge color="success" variant="tonal">Available</Badge>
+                <Button size="sm" variant="filled">Book now</Button>
+              </CardFooter>
+            </Card>
 
-          {/* Header with action card */}
-          <Card variant="elevated" style={{ width: 256 }} interactive>
-            <CardMedia
-              src="https://picsum.photos/seed/launch/400/140"
-              alt="Campaign"
-              height={140}
-            />
-            <CardHeader
-              title="Launch campaign"
-              subtitle="Marketing · 3 days left"
-              action={<Badge color="success" variant="tonal">Active</Badge>}
-            />
-            <CardBody>
-              <p style={{ fontSize: 13, color: 'var(--color-text-secondary)' }}>
-                Drive awareness for the new product launch across all channels.
-              </p>
-            </CardBody>
-            <CardFooter divider style={{ justifyContent: 'space-between' }}>
-              <div style={{ display: 'flex', alignItems: 'center' }}>
-                <Avatar name="John Doe" size="xs" style={{ boxShadow: '0 0 0 2px var(--color-background)' }} />
-                <Avatar name="Alice Wang" size="xs" color="secondary" style={{ boxShadow: '0 0 0 2px var(--color-background)', marginLeft: -8 }} />
-              </div>
-              <div style={{ display: 'flex', gap: 8 }}>
-                <Button size="sm" variant="text">View</Button>
-                <Button size="sm" variant="filled">Edit</Button>
-              </div>
-            </CardFooter>
-          </Card>
+            {/* Header with action card */}
+            <Card variant="elevated" interactive>
+              <CardMedia
+                src="https://picsum.photos/seed/launch/400/140"
+                alt="Campaign"
+                height={180}
+              />
+              <CardHeader
+                title="Launch campaign"
+                subtitle="Marketing · 3 days left"
+                action={<Badge color="success" variant="tonal">Active</Badge>}
+              />
+              <CardBody>
+                <p style={{ fontSize: 13, color: 'var(--color-text-secondary)' }}>
+                  Drive awareness for the new product launch across all channels.
+                </p>
+              </CardBody>
+              <CardFooter divider style={{ justifyContent: 'space-between' }}>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <Avatar name="John Doe" size="xs" style={{ boxShadow: '0 0 0 2px var(--color-background)' }} />
+                  <Avatar name="Alice Wang" size="xs" color="secondary" style={{ boxShadow: '0 0 0 2px var(--color-background)', marginLeft: -8 }} />
+                </div>
+                <div style={{ display: 'flex', gap: 8 }}>
+                  <Button size="sm" variant="text">View</Button>
+                  <Button size="sm" variant="filled">Edit</Button>
+                </div>
+              </CardFooter>
+            </Card>
+          </div>
         </ComponentPreview>
 
         <CodeBlock filename="App.tsx" code={MEDIA_CODE} />
