@@ -258,7 +258,9 @@ export default function PaginationPage() {
           title="Default"
           description="Solid filled active page button with ellipsis for large page counts"
         >
-          <PaginationDemo variant="default" />
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', gap: 16 }}>
+            <PaginationDemo variant="default" />
+          </div>
         </ComponentPreview>
 
         <CodeBlock filename="App.tsx" code={DEFAULT_CODE} />
@@ -267,12 +269,11 @@ export default function PaginationPage() {
         <ComponentPreview
           title="All 17 variants"
           description="Every variant shown with page 3 of 10 — click to navigate"
-          align="start"
         >
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 28, width: '100%' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', gap: 28 }}>
             {VARIANTS.map(({ variant, description }) => (
-              <div key={variant}>
-                <p style={variantLabel}>{variant} — {description}</p>
+              <div key={variant} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
+                <p style={{ ...variantLabel, textAlign: 'center' }}>{variant} — {description}</p>
                 <PaginationDemo variant={variant} />
               </div>
             ))}
@@ -286,7 +287,9 @@ export default function PaginationPage() {
           title="Jump to page"
           description="showJump adds a numeric input — type a page number and press Enter"
         >
-          <PaginationDemo variant="default" extraProps={{ showJump: true }} />
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', gap: 16 }}>
+            <PaginationDemo variant="default" extraProps={{ showJump: true }} />
+          </div>
         </ComponentPreview>
 
         <CodeBlock filename="App.tsx" code={JUMP_CODE} />
@@ -296,7 +299,9 @@ export default function PaginationPage() {
           title="First and last buttons"
           description="showFirstLast adds ⏮ and ⏭ jump-to-edge buttons"
         >
-          <PaginationDemo variant="outlined" extraProps={{ showFirstLast: true }} />
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', gap: 16 }}>
+            <PaginationDemo variant="outlined" extraProps={{ showFirstLast: true }} />
+          </div>
         </ComponentPreview>
 
         <CodeBlock filename="App.tsx" code={FIRST_LAST_CODE} />
@@ -305,9 +310,10 @@ export default function PaginationPage() {
         <ComponentPreview
           title="Table variant"
           description="Rows-per-page selector with item range label — built for data tables"
-          align="start"
         >
-          <TableDemo />
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', gap: 16 }}>
+            <TableDemo />
+          </div>
         </ComponentPreview>
 
         <CodeBlock filename="App.tsx" code={TABLE_CODE} />
@@ -317,12 +323,14 @@ export default function PaginationPage() {
           title="Loading state"
           description="loading prop shows a skeleton placeholder while data is fetching"
         >
-          <Pagination
-            page={1}
-            totalPages={10}
-            onPageChange={() => {}}
-            loading
-          />
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', gap: 16 }}>
+            <Pagination
+              page={1}
+              totalPages={10}
+              onPageChange={() => {}}
+              loading
+            />
+          </div>
         </ComponentPreview>
 
         <CodeBlock filename="App.tsx" code={LOADING_CODE} />
