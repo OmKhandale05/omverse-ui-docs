@@ -39,10 +39,10 @@ const SIDEBAR_PROPS = [
 /* ─── Shared data ─── */
 
 const mainItems: NavItem[] = [
-  { id: 'dashboard', label: 'Dashboard',  icon: 'layout-dashboard' },
-  { id: 'projects',  label: 'Projects',   icon: 'folder' },
+  { id: 'dashboard', label: 'Dashboard',  icon: 'bookmark' },
+  { id: 'projects',  label: 'Projects',   icon: 'file-text' },
   { id: 'team',      label: 'Team',       icon: 'users' },
-  { id: 'analytics', label: 'Analytics',  icon: 'bar-chart-2' },
+  { id: 'analytics', label: 'Analytics',  icon: 'info' },
   { id: 'settings',  label: 'Settings',   icon: 'settings' },
 ];
 
@@ -57,9 +57,9 @@ const sidebarSections: NavSection[] = [
   {
     label: 'Main',
     items: [
-      { id: 'dashboard', label: 'Dashboard',  icon: 'layout-dashboard' },
-      { id: 'projects',  label: 'Projects',   icon: 'folder' },
-      { id: 'analytics', label: 'Analytics',  icon: 'bar-chart-2' },
+      { id: 'dashboard', label: 'Dashboard',  icon: 'bookmark' },
+      { id: 'projects',  label: 'Projects',   icon: 'file-text' },
+      { id: 'analytics', label: 'Analytics',  icon: 'info' },
     ],
   },
   {
@@ -352,7 +352,7 @@ export default function NavbarPage() {
               activeId={active}
               onItemClick={item => setActive(item.id)}
               workspaceName="Acme Corp"
-              workspaceIcon={<span>🚀</span>}
+              workspaceIcon="🚀"
             />
           </div>
         </ComponentPreview>
@@ -390,11 +390,7 @@ export default function NavbarPage() {
           <div style={{ width: '100%' }}>
             <Navbar
               variant="notion"
-              breadcrumb={[
-                <span key="home">Home</span>,
-                <span key="docs">Documentation</span>,
-                <span key="page">Current page</span>,
-              ]}
+              title="Home / Documentation / Current page"
               actions={<Button size="sm" variant="outlined">Share</Button>}
             />
           </div>
@@ -416,7 +412,6 @@ export default function NavbarPage() {
               onItemClick={item => setActive(item.id)}
               subItems={subItems}
               activeSubId={activeSub}
-              onSubItemClick={item => setActiveSub(item.id)}
               title="Settings"
               logo={<span style={{ fontWeight: 700, fontSize: 16 }}>Brand</span>}
             />
@@ -491,19 +486,16 @@ export default function NavbarPage() {
               activeId={active}
               onItemClick={item => setActive(item.id)}
               collapsed={collapsed}
-              footer={
-                <Button
-                  size="sm"
-                  variant="ghost"
-                  onClick={() => setCollapsed(c => !c)}
-                  style={{ width: '100%', justifyContent: 'center' }}
-                >
-                  {collapsed ? '→' : '← Collapse'}
-                </Button>
-              }
             />
-            <div style={{ flex: 1, padding: 20, fontSize: 13, color: 'var(--color-text-secondary)' }}>
-              Active: <strong>{active}</strong>
+            <div style={{ flex: 1, padding: 20, fontSize: 13, color: 'var(--color-text-secondary)', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+              <span>Active: <strong>{active}</strong></span>
+              <Button
+                size="sm"
+                variant="ghost"
+                onClick={() => setCollapsed(c => !c)}
+              >
+                {collapsed ? '→ Expand' : '← Collapse'}
+              </Button>
             </div>
           </div>
         </ComponentPreview>

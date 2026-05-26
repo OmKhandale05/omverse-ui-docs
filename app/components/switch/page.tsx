@@ -233,21 +233,21 @@ export default function SwitchPage() {
             <Switch
               card
               label="Dark mode"
-              description="Switch to a darker color scheme"
+              helperText="Switch to a darker color scheme"
               checked={darkMode}
               onChange={e => setDarkMode(e.target.checked)}
             />
             <Switch
               card
               label="Auto-save"
-              description="Save your work automatically every minute"
+              helperText="Save your work automatically every minute"
               checked={autoSave}
               onChange={e => setAutoSave(e.target.checked)}
             />
             <Switch
               card
               label="Analytics"
-              description="Help improve the product by sharing usage data"
+              helperText="Help improve the product by sharing usage data"
               checked={analytics}
               onChange={e => setAnalytics(e.target.checked)}
               disabled

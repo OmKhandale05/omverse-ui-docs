@@ -10,19 +10,21 @@ import { PropsTable } from '@/components/ui/PropsTable';
 /* ─── Props table ─── */
 
 const STEPPER_PROPS = [
-  { name: 'steps',          type: 'StepItem[]',                                            default: '[]',          description: 'Array of step definitions' },
-  { name: 'currentStep',    type: 'number',                                                default: '0',           description: 'Index of the currently active step (0-based)' },
-  { name: 'variant',        type: "'default' | 'pill' | 'dot' | 'badge' | 'gradient' | 'icon' | 'card' | 'progress-bar' | 'timeline' | 'checklist'", default: "'default'", description: 'Visual style of the stepper' },
-  { name: 'orientation',    type: "'horizontal' | 'vertical'",                             default: "'horizontal'", description: 'Direction of the stepper' },
-  { name: 'showProgressBar', type: 'boolean',                                              default: 'false',       description: 'Renders a progress bar below the steps' },
+  { name: 'steps',       type: 'StepItem[]',                                                                                        default: '[]',          description: 'Array of step definitions' },
+  { name: 'activeStep',  type: 'number',                                                                                            default: '0',           description: 'Index of the currently active step (0-based)' },
+  { name: 'variant',     type: "'default' | 'pill' | 'dot' | 'badge' | 'gradient' | 'icon' | 'card' | 'progress' | 'timeline' | 'checklist'", default: "'default'", description: 'Visual style of the stepper' },
+  { name: 'orientation', type: "'horizontal' | 'vertical'",                                                                         default: "'horizontal'", description: 'Direction of the stepper' },
+  { name: 'color',       type: "'default' | 'success' | 'secondary'",                                                              default: "'default'",   description: 'Color scheme for active/completed steps' },
+  { name: 'clickable',   type: 'boolean',                                                                                           default: 'false',       description: 'Allow clicking completed steps to go back' },
 ] as const satisfies { name: string; type: string; default: string; description: string }[];
 
 const STEP_ITEM_PROPS = [
+  { name: 'id',          type: 'string',    default: '—',     description: 'Unique identifier for the step (required)' },
   { name: 'label',       type: 'string',    default: '—',     description: 'Step label shown below/beside the indicator' },
   { name: 'sublabel',    type: 'string',    default: '—',     description: 'Smaller secondary label' },
   { name: 'description', type: 'string',    default: '—',     description: 'Longer description text' },
-  { name: 'icon',        type: 'string',    default: '—',     description: 'Icon name for the step indicator' },
-  { name: 'status',      type: "'complete' | 'active' | 'error' | 'pending'", default: '—', description: 'Explicit step status override' },
+  { name: 'icon',        type: 'IconName',  default: '—',     description: 'Icon name for the step indicator (icon variant)' },
+  { name: 'status',      type: "'done' | 'active' | 'error' | 'pending'", default: '—', description: 'Explicit step status override' },
   { name: 'optional',    type: 'boolean',   default: 'false', description: 'Shows an optional badge on the step' },
   { name: 'content',     type: 'ReactNode', default: '—',     description: 'Content shown inside the step (timeline variant)' },
 ] as const satisfies { name: string; type: string; default: string; description: string }[];
@@ -30,22 +32,23 @@ const STEP_ITEM_PROPS = [
 /* ─── Shared step data ─── */
 
 const basicSteps: StepItem[] = [
-  { label: 'Account setup',    sublabel: 'Step 1', description: 'Create your account and choose a username.' },
-  { label: 'Email verified',   sublabel: 'Step 2', description: 'Verify your email address to continue.' },
-  { label: 'Profile details',  sublabel: 'Step 3', description: 'Fill in your profile information.' },
-  { label: 'Payment method',   sublabel: 'Step 4', description: 'Add a credit card or other payment method.' },
-  { label: 'Confirmation',     sublabel: 'Step 5', description: 'Review and confirm your details.' },
+  { id: 'account', label: 'Account setup',    sublabel: 'Step 1', description: 'Create your account and choose a username.' },
+  { id: 'email',   label: 'Email verified',   sublabel: 'Step 2', description: 'Verify your email address to continue.' },
+  { id: 'profile', label: 'Profile details',  sublabel: 'Step 3', description: 'Fill in your profile information.' },
+  { id: 'payment', label: 'Payment method',   sublabel: 'Step 4', description: 'Add a credit card or other payment method.' },
+  { id: 'confirm', label: 'Confirmation',     sublabel: 'Step 5', description: 'Review and confirm your details.' },
 ];
 
 const iconSteps: StepItem[] = [
-  { label: 'Sign up',   icon: 'user'         },
-  { label: 'Verify',    icon: 'mail'         },
-  { label: 'Customize', icon: 'settings'     },
-  { label: 'Launch',    icon: 'rocket'       },
+  { id: 'signup',    label: 'Sign up',   icon: 'users'    },
+  { id: 'verify',    label: 'Verify',    icon: 'mail'     },
+  { id: 'customize', label: 'Customize', icon: 'settings' },
+  { id: 'launch',    label: 'Launch',    icon: 'rocket'   },
 ];
 
 const timelineSteps: StepItem[] = [
   {
+    id: 'kickoff',
     label: 'Project kickoff',
     sublabel: 'Jan 10, 2025',
     content: (
@@ -55,6 +58,7 @@ const timelineSteps: StepItem[] = [
     ),
   },
   {
+    id: 'design',
     label: 'Design phase',
     sublabel: 'Feb 3, 2025',
     content: (
@@ -64,6 +68,7 @@ const timelineSteps: StepItem[] = [
     ),
   },
   {
+    id: 'dev',
     label: 'Development',
     sublabel: 'Mar 15, 2025',
     content: (
@@ -75,11 +80,11 @@ const timelineSteps: StepItem[] = [
 ];
 
 const checklistSteps: StepItem[] = [
-  { label: 'Install dependencies'    },
-  { label: 'Configure environment'   },
-  { label: 'Set up database'         },
-  { label: 'Run migrations',  optional: true },
-  { label: 'Deploy to production'    },
+  { id: 'install',   label: 'Install dependencies'                },
+  { id: 'configure', label: 'Configure environment'               },
+  { id: 'database',  label: 'Set up database'                     },
+  { id: 'migrate',   label: 'Run migrations',  optional: true     },
+  { id: 'deploy',    label: 'Deploy to production'                },
 ];
 
 /* ─── Code snippets ─── */
@@ -94,22 +99,22 @@ const steps: StepItem[] = [
   { label: 'Confirmation',    sublabel: 'Step 5', description: 'Review and confirm.'  },
 ]
 
-<Stepper steps={steps} currentStep={step} />
+<Stepper steps={steps} activeStep={step} />
 
 <div style={{ display: 'flex', gap: 8, marginTop: 16 }}>
   <Button onClick={() => setStep(s => Math.max(0, s - 1))}>Prev</Button>
   <Button onClick={() => setStep(s => Math.min(steps.length - 1, s + 1))}>Next</Button>
 </div>`;
 
-const VERTICAL_CODE = `<Stepper steps={steps.slice(0, 3)} currentStep={step} orientation="vertical" />`;
+const VERTICAL_CODE = `<Stepper steps={steps.slice(0, 3)} activeStep={step} orientation="vertical" />`;
 
-const PILL_CODE = `<Stepper steps={steps} currentStep={step} variant="pill" />`;
+const PILL_CODE = `<Stepper steps={steps} activeStep={step} variant="pill" />`;
 
-const DOT_CODE = `<Stepper steps={steps} currentStep={step} variant="dot" />`;
+const DOT_CODE = `<Stepper steps={steps} activeStep={step} variant="dot" />`;
 
-const BADGE_CODE = `<Stepper steps={steps.slice(0, 4)} currentStep={step} variant="badge" />`;
+const BADGE_CODE = `<Stepper steps={steps.slice(0, 4)} activeStep={step} variant="badge" />`;
 
-const GRADIENT_CODE = `<Stepper steps={steps.slice(0, 4)} currentStep={step} variant="gradient" />`;
+const GRADIENT_CODE = `<Stepper steps={steps.slice(0, 4)} activeStep={step} variant="gradient" />`;
 
 const ICON_CODE = `const iconSteps: StepItem[] = [
   { label: 'Sign up',   icon: 'user'     },
@@ -118,11 +123,11 @@ const ICON_CODE = `const iconSteps: StepItem[] = [
   { label: 'Launch',    icon: 'rocket'   },
 ]
 
-<Stepper steps={iconSteps} currentStep={step} variant="icon" />`;
+<Stepper steps={iconSteps} activeStep={step} variant="icon" />`;
 
-const CARD_CODE = `<Stepper steps={steps.slice(0, 4)} currentStep={step} variant="card" />`;
+const CARD_CODE = `<Stepper steps={steps.slice(0, 4)} activeStep={step} variant="card" />`;
 
-const PROGRESS_BAR_CODE = `<Stepper steps={steps} currentStep={step} variant="progress-bar" showProgressBar />`;
+const PROGRESS_BAR_CODE = `<Stepper steps={steps} activeStep={step} variant="progress-bar" showProgressBar />`;
 
 const TIMELINE_CODE = `const timelineSteps: StepItem[] = [
   {
@@ -142,7 +147,7 @@ const TIMELINE_CODE = `const timelineSteps: StepItem[] = [
   },
 ]
 
-<Stepper steps={timelineSteps} currentStep={step} variant="timeline" orientation="vertical" />`;
+<Stepper steps={timelineSteps} activeStep={step} variant="timeline" orientation="vertical" />`;
 
 const CHECKLIST_CODE = `const checklistSteps: StepItem[] = [
   { label: 'Install dependencies'  },
@@ -152,7 +157,7 @@ const CHECKLIST_CODE = `const checklistSteps: StepItem[] = [
   { label: 'Deploy to production'  },
 ]
 
-<Stepper steps={checklistSteps} currentStep={step} variant="checklist" orientation="vertical" />`;
+<Stepper steps={checklistSteps} activeStep={step} variant="checklist" orientation="vertical" />`;
 
 const ERROR_CODE = `const steps: StepItem[] = [
   { label: 'Account', status: 'complete' },
@@ -218,7 +223,7 @@ export default function StepperPage() {
           layout="start"
         >
           <div style={{ width: '100%' }}>
-            <Stepper steps={basicSteps} currentStep={step} />
+            <Stepper steps={basicSteps} activeStep={step} />
             <StepControls step={step} setStep={setStep} max={basicSteps.length - 1} />
           </div>
         </ComponentPreview>
@@ -232,7 +237,7 @@ export default function StepperPage() {
           layout="start"
         >
           <div>
-            <Stepper steps={basicSteps.slice(0, 3)} currentStep={Math.min(step, 2)} orientation="vertical" />
+            <Stepper steps={basicSteps.slice(0, 3)} activeStep={Math.min(step, 2)} orientation="vertical" />
             <StepControls step={Math.min(step, 2)} setStep={setStep} max={2} />
           </div>
         </ComponentPreview>
@@ -246,7 +251,7 @@ export default function StepperPage() {
           layout="start"
         >
           <div style={{ width: '100%' }}>
-            <Stepper steps={basicSteps} currentStep={step} variant="pill" />
+            <Stepper steps={basicSteps} activeStep={step} variant="pill" />
             <StepControls step={step} setStep={setStep} max={basicSteps.length - 1} />
           </div>
         </ComponentPreview>
@@ -260,7 +265,7 @@ export default function StepperPage() {
           layout="start"
         >
           <div style={{ width: '100%' }}>
-            <Stepper steps={basicSteps} currentStep={step} variant="dot" />
+            <Stepper steps={basicSteps} activeStep={step} variant="dot" />
             <StepControls step={step} setStep={setStep} max={basicSteps.length - 1} />
           </div>
         </ComponentPreview>
@@ -274,7 +279,7 @@ export default function StepperPage() {
           layout="start"
         >
           <div style={{ width: '100%' }}>
-            <Stepper steps={basicSteps.slice(0, 4)} currentStep={Math.min(step, 3)} variant="badge" />
+            <Stepper steps={basicSteps.slice(0, 4)} activeStep={Math.min(step, 3)} variant="badge" />
             <StepControls step={Math.min(step, 3)} setStep={setStep} max={3} />
           </div>
         </ComponentPreview>
@@ -288,7 +293,7 @@ export default function StepperPage() {
           layout="start"
         >
           <div style={{ width: '100%' }}>
-            <Stepper steps={basicSteps.slice(0, 4)} currentStep={Math.min(step, 3)} variant="gradient" />
+            <Stepper steps={basicSteps.slice(0, 4)} activeStep={Math.min(step, 3)} variant="gradient" />
             <StepControls step={Math.min(step, 3)} setStep={setStep} max={3} />
           </div>
         </ComponentPreview>
@@ -302,7 +307,7 @@ export default function StepperPage() {
           layout="start"
         >
           <div style={{ width: '100%' }}>
-            <Stepper steps={iconSteps} currentStep={Math.min(step, iconSteps.length - 1)} variant="icon" />
+            <Stepper steps={iconSteps} activeStep={Math.min(step, iconSteps.length - 1)} variant="icon" />
             <StepControls step={Math.min(step, iconSteps.length - 1)} setStep={setStep} max={iconSteps.length - 1} />
           </div>
         </ComponentPreview>
@@ -316,7 +321,7 @@ export default function StepperPage() {
           layout="start"
         >
           <div style={{ width: '100%' }}>
-            <Stepper steps={basicSteps.slice(0, 4)} currentStep={Math.min(step, 3)} variant="card" />
+            <Stepper steps={basicSteps.slice(0, 4)} activeStep={Math.min(step, 3)} variant="card" />
             <StepControls step={Math.min(step, 3)} setStep={setStep} max={3} />
           </div>
         </ComponentPreview>
@@ -330,7 +335,7 @@ export default function StepperPage() {
           layout="start"
         >
           <div style={{ width: '100%' }}>
-            <Stepper steps={basicSteps} currentStep={step} variant="progress-bar" showProgressBar />
+            <Stepper steps={basicSteps} activeStep={step} variant="progress" />
             <StepControls step={step} setStep={setStep} max={basicSteps.length - 1} />
           </div>
         </ComponentPreview>
@@ -346,7 +351,7 @@ export default function StepperPage() {
           <div>
             <Stepper
               steps={timelineSteps}
-              currentStep={Math.min(step, timelineSteps.length - 1)}
+              activeStep={Math.min(step, timelineSteps.length - 1)}
               variant="timeline"
               orientation="vertical"
             />
@@ -365,7 +370,7 @@ export default function StepperPage() {
           <div>
             <Stepper
               steps={checklistSteps}
-              currentStep={Math.min(step, checklistSteps.length - 1)}
+              activeStep={Math.min(step, checklistSteps.length - 1)}
               variant="checklist"
               orientation="vertical"
             />
@@ -384,12 +389,12 @@ export default function StepperPage() {
           <div style={{ width: '100%' }}>
             <Stepper
               steps={[
-                { label: 'Account', status: 'complete' },
-                { label: 'Verify',  status: 'error'    },
-                { label: 'Profile', status: 'pending'  },
-                { label: 'Payment', status: 'pending'  },
+                { id: 'account', label: 'Account', status: 'done'    },
+                { id: 'verify',  label: 'Verify',  status: 'error'   },
+                { id: 'profile', label: 'Profile', status: 'pending' },
+                { id: 'payment', label: 'Payment', status: 'pending' },
               ]}
-              currentStep={1}
+              activeStep={1}
             />
           </div>
         </ComponentPreview>

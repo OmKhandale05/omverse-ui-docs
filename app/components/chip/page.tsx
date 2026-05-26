@@ -10,127 +10,127 @@ import { PropsTable } from '@/components/ui/PropsTable';
 /* ─── Props tables ─── */
 
 const CHIP_PROPS = [
-  { name: 'label',        type: 'string',                                                                     default: '—',         description: 'Text content of the chip' },
-  { name: 'variant',      type: "'outlined' | 'filled' | 'tonal' | 'elevated'",                              default: "'outlined'", description: 'Visual style of the chip' },
-  { name: 'color',        type: "'default' | 'secondary' | 'success' | 'warning' | 'error' | 'info'",       default: "'default'", description: 'Color of the chip' },
-  { name: 'size',         type: "'sm' | 'md' | 'lg'",                                                        default: "'md'",      description: 'Size of the chip' },
-  { name: 'selected',     type: 'boolean',                                                                    default: 'false',     description: 'Selected / active state' },
-  { name: 'removable',    type: 'boolean',                                                                    default: 'false',     description: 'Shows a remove (×) button' },
-  { name: 'onRemove',     type: '() => void',                                                                 default: '—',         description: 'Callback when the remove button is clicked' },
-  { name: 'leadingIcon',  type: 'string',                                                                     default: '—',         description: 'Icon name shown before the label' },
-  { name: 'avatarSrc',    type: 'string',                                                                     default: '—',         description: 'Avatar image URL shown before the label' },
-  { name: 'avatarAlt',    type: 'string',                                                                     default: '—',         description: 'Alt text for the avatar image' },
-  { name: 'colorDot',     type: 'string',                                                                     default: '—',         description: 'CSS color for a colored dot before the label' },
-  { name: 'badgeCount',   type: 'number',                                                                     default: '—',         description: 'Badge count shown after the label' },
-  { name: 'loading',      type: 'boolean',                                                                    default: 'false',     description: 'Replaces content with a spinner' },
-  { name: 'disabled',     type: 'boolean',                                                                    default: 'false',     description: 'Disables the chip' },
-  { name: 'onClick',      type: '() => void',                                                                 default: '—',         description: 'Click handler' },
+  { name: 'children',      type: 'ReactNode',                                                                  default: '—',         description: 'Text content of the chip' },
+  { name: 'variant',       type: "'outlined' | 'filled' | 'tonal' | 'elevated'",                              default: "'outlined'", description: 'Visual style of the chip' },
+  { name: 'color',         type: "'default' | 'secondary' | 'success' | 'warning' | 'error' | 'info'",       default: "'default'", description: 'Color of the chip' },
+  { name: 'size',          type: "'sm' | 'md' | 'lg'",                                                        default: "'md'",      description: 'Size of the chip' },
+  { name: 'selected',      type: 'boolean',                                                                    default: 'false',     description: 'Selected / active state' },
+  { name: 'leadingIcon',   type: 'IconName',                                                                   default: '—',         description: 'Icon name shown before the label (from omverse-ui iconMap)' },
+  { name: 'removable',     type: 'boolean',                                                                    default: 'false',     description: 'Shows a remove (×) button' },
+  { name: 'onRemove',      type: '() => void',                                                                 default: '—',         description: 'Callback when the remove button is clicked' },
+  { name: 'avatarSrc',     type: 'string',                                                                     default: '—',         description: 'Avatar image URL shown before the label' },
+  { name: 'avatarAlt',     type: 'string',                                                                     default: '—',         description: 'Alt text for the avatar image' },
+  { name: 'colorDot',      type: 'string',                                                                     default: '—',         description: 'CSS color for a colored dot before the label' },
+  { name: 'badgeCount',    type: 'number',                                                                     default: '—',         description: 'Badge count shown after the label' },
+  { name: 'loading',       type: 'boolean',                                                                    default: 'false',     description: 'Replaces content with a spinner' },
+  { name: 'disabled',      type: 'boolean',                                                                    default: 'false',     description: 'Disables the chip' },
 ] as const satisfies { name: string; type: string; default: string; description: string }[];
 
 const GROUP_PROPS = [
-  { name: 'value',       type: 'string | string[]',                                                           default: '—',          description: 'Controlled selected value(s)' },
-  { name: 'onChange',    type: '(value: string | string[]) => void',                                          default: '—',          description: 'Callback when selection changes' },
-  { name: 'mode',        type: "'single' | 'multi'",                                                          default: "'single'",   description: 'Single or multi-select mode' },
-  { name: 'max',         type: 'number',                                                                      default: '—',          description: 'Max chips shown before +N overflow' },
-  { name: 'color',       type: "'default' | 'secondary' | 'success' | 'warning' | 'error' | 'info'",        default: '—',          description: 'Color applied to all chips' },
-  { name: 'size',        type: "'sm' | 'md' | 'lg'",                                                         default: '—',          description: 'Size applied to all chips' },
-  { name: 'children',   type: 'ReactNode',                                                                    default: '—',          description: 'Chip components with a value prop' },
+  { name: 'value',      type: 'string[]',                                                                      default: '—',         description: 'Controlled selected value(s)' },
+  { name: 'onChange',   type: '(value: string[]) => void',                                                     default: '—',         description: 'Callback when selection changes' },
+  { name: 'mode',       type: "'single' | 'multi'",                                                            default: "'multi'",   description: 'Single or multi-select mode' },
+  { name: 'max',        type: 'number',                                                                        default: '—',         description: 'Max chips shown before +N overflow' },
+  { name: 'size',       type: "'sm' | 'md' | 'lg'",                                                           default: '—',         description: 'Size applied to all chips' },
+  { name: 'variant',    type: "'outlined' | 'filled' | 'tonal' | 'elevated'",                                 default: '—',         description: 'Variant applied to all chips' },
+  { name: 'children',  type: 'ReactNode',                                                                      default: '—',         description: 'Chip components with a value prop' },
 ] as const satisfies { name: string; type: string; default: string; description: string }[];
 
 /* ─── Code snippets ─── */
 
-const VARIANTS_CODE = `<Chip label="Outlined (default)" variant="outlined" />
-<Chip label="Filled"           variant="filled"   />
-<Chip label="Tonal"            variant="tonal"    />
-<Chip label="Elevated"         variant="elevated" />`;
+const VARIANTS_CODE = `<Chip variant="outlined">Outlined (default)</Chip>
+<Chip variant="filled">Filled</Chip>
+<Chip variant="tonal">Tonal</Chip>
+<Chip variant="elevated">Elevated</Chip>`;
 
 const COLORS_CODE = `{/* Outlined row */}
-<Chip label="Default"   color="default"   variant="outlined" selected />
-<Chip label="Secondary" color="secondary" variant="outlined" selected />
-<Chip label="Success"   color="success"   variant="outlined" selected />
-<Chip label="Warning"   color="warning"   variant="outlined" selected />
-<Chip label="Error"     color="error"     variant="outlined" selected />
-<Chip label="Info"      color="info"      variant="outlined" selected />
+<Chip color="default"   variant="outlined" selected>Default</Chip>
+<Chip color="secondary" variant="outlined" selected>Secondary</Chip>
+<Chip color="success"   variant="outlined" selected>Success</Chip>
+<Chip color="warning"   variant="outlined" selected>Warning</Chip>
+<Chip color="error"     variant="outlined" selected>Error</Chip>
+<Chip color="info"      variant="outlined" selected>Info</Chip>
 
 {/* Filled row */}
-<Chip label="Default"   color="default"   variant="filled" selected />
-<Chip label="Secondary" color="secondary" variant="filled" selected />
-<Chip label="Success"   color="success"   variant="filled" selected />
-<Chip label="Warning"   color="warning"   variant="filled" selected />
-<Chip label="Error"     color="error"     variant="filled" selected />
-<Chip label="Info"      color="info"      variant="filled" selected />`;
+<Chip color="default"   variant="filled" selected>Default</Chip>
+<Chip color="secondary" variant="filled" selected>Secondary</Chip>
+<Chip color="success"   variant="filled" selected>Success</Chip>
+<Chip color="warning"   variant="filled" selected>Warning</Chip>
+<Chip color="error"     variant="filled" selected>Error</Chip>
+<Chip color="info"      variant="filled" selected>Info</Chip>`;
 
-const SINGLE_CODE = `const [filter, setFilter] = useState(['all'])
+const SINGLE_CODE = `const [filter, setFilter] = useState<string[]>(['all'])
 
-<ChipGroup mode="single" value={filter} onChange={val => setFilter([val as string])} variant="filled">
-  <Chip value="all"      label="All"      />
-  <Chip value="active"   label="Active"   />
-  <Chip value="pending"  label="Pending"  />
-  <Chip value="archived" label="Archived" />
+<ChipGroup mode="single" value={filter} onChange={setFilter} variant="filled">
+  <Chip value="all">All</Chip>
+  <Chip value="active">Active</Chip>
+  <Chip value="pending">Pending</Chip>
+  <Chip value="archived">Archived</Chip>
 </ChipGroup>`;
 
-const MULTI_CODE = `const [tags, setTags] = useState(['react', 'ts'])
+const MULTI_CODE = `const [tags, setTags] = useState<string[]>(['react', 'ts'])
 
-<ChipGroup mode="multi" value={tags} onChange={val => setTags(val as string[])}>
-  <Chip value="react"    label="React"      />
-  <Chip value="ts"       label="TypeScript" />
-  <Chip value="tailwind" label="Tailwind"   />
-  <Chip value="vue"      label="Vue"        />
-  <Chip value="angular"  label="Angular"    />
-  <Chip value="svelte"   label="Svelte"     />
+<ChipGroup mode="multi" value={tags} onChange={setTags}>
+  <Chip value="react">React</Chip>
+  <Chip value="ts">TypeScript</Chip>
+  <Chip value="tailwind">Tailwind</Chip>
+  <Chip value="vue">Vue</Chip>
+  <Chip value="angular">Angular</Chip>
+  <Chip value="svelte">Svelte</Chip>
 </ChipGroup>`;
 
-const OVERFLOW_CODE = `<ChipGroup mode="multi" value={tags} onChange={val => setTags(val as string[])} max={3}>
-  <Chip value="react"    label="React"      />
-  <Chip value="ts"       label="TypeScript" />
-  <Chip value="tailwind" label="Tailwind"   />
-  <Chip value="vue"      label="Vue"        />
-  <Chip value="angular"  label="Angular"    />
+const OVERFLOW_CODE = `<ChipGroup mode="multi" value={tags} onChange={setTags} max={3}>
+  <Chip value="react">React</Chip>
+  <Chip value="ts">TypeScript</Chip>
+  <Chip value="tailwind">Tailwind</Chip>
+  <Chip value="vue">Vue</Chip>
+  <Chip value="angular">Angular</Chip>
 </ChipGroup>`;
 
-const ICONS_CODE = `<Chip label="Dashboard" leadingIcon="layout-dashboard" />
-<Chip label="Settings"  leadingIcon="settings" />
-<Chip label="Alerts"    leadingIcon="bell" color="warning" variant="tonal" />
-<Chip label="Success"   leadingIcon="check" color="success" variant="tonal" />`;
+const ICONS_CODE = `<Chip leadingIcon="star">Starred</Chip>
+<Chip leadingIcon="settings">Settings</Chip>
+<Chip leadingIcon="bell"  color="warning" variant="tonal">Alerts</Chip>
+<Chip leadingIcon="check" color="success" variant="tonal">Done</Chip>`;
 
-const BADGE_CODE = `<Chip label="Inbox"       badgeCount={4}  />
-<Chip label="Unread"      badgeCount={12} color="error"   variant="tonal" />
-<Chip label="Mentions"    badgeCount={3}  color="info"    variant="filled" />`;
+const BADGE_CODE = `<Chip badgeCount={4}>Inbox</Chip>
+<Chip badgeCount={12} color="error"   variant="tonal">Unread</Chip>
+<Chip badgeCount={3}  color="info"    variant="filled">Mentions</Chip>`;
 
-const LOADING_CODE = `<Chip label="Processing..." loading />
-<Chip label="Uploading..."  loading color="secondary" variant="tonal" />`;
+const LOADING_CODE = `<Chip loading>Processing...</Chip>
+<Chip loading color="secondary" variant="tonal">Uploading...</Chip>`;
 
 const REMOVABLE_CODE = `const [emails, setEmails] = useState(['john@example.com', 'alice@example.com', 'bob@example.com'])
 
 {emails.map(email => (
   <Chip
     key={email}
-    label={email}
     removable
     onRemove={() => setEmails(prev => prev.filter(e => e !== email))}
     variant="tonal"
-  />
+  >
+    {email}
+  </Chip>
 ))}`;
 
-const AVATAR_CODE = `<Chip label="John Doe"   avatarSrc="https://i.pravatar.cc/150?img=1" avatarAlt="John" />
-<Chip label="Jane Smith" avatarSrc="https://i.pravatar.cc/150?img=5" avatarAlt="Jane" />
-<Chip label="Bob Lee"    avatarSrc="https://i.pravatar.cc/150?img=3" avatarAlt="Bob"  />`;
+const AVATAR_CODE = `<Chip avatarSrc="https://i.pravatar.cc/150?img=1" avatarAlt="John">John Doe</Chip>
+<Chip avatarSrc="https://i.pravatar.cc/150?img=5" avatarAlt="Jane">Jane Smith</Chip>
+<Chip avatarSrc="https://i.pravatar.cc/150?img=3" avatarAlt="Bob">Bob Lee</Chip>`;
 
-const COLOR_DOT_CODE = `<Chip label="Design"     colorDot="#10B981" />
-<Chip label="Engineering" colorDot="#3B82F6" />
-<Chip label="Marketing"   colorDot="#F59E0B" />
-<Chip label="On hold"     colorDot="#EF4444" />`;
+const COLOR_DOT_CODE = `<Chip colorDot="#10B981">Design</Chip>
+<Chip colorDot="#3B82F6">Engineering</Chip>
+<Chip colorDot="#F59E0B">Marketing</Chip>
+<Chip colorDot="#EF4444">On hold</Chip>`;
 
-const SIZES_CODE = `<Chip label="Small"  size="sm" variant="filled" />
-<Chip label="Medium" size="md" variant="filled" />
-<Chip label="Large"  size="lg" variant="filled" />`;
+const SIZES_CODE = `<Chip size="sm" variant="filled">Small</Chip>
+<Chip size="md" variant="filled">Medium</Chip>
+<Chip size="lg" variant="filled">Large</Chip>`;
 
 /* ─── Page ─── */
 
 export default function ChipPage() {
-  const [tags,    setTags]    = useState<string[]>(['react', 'ts']);
-  const [filter,  setFilter]  = useState<string[]>(['all']);
-  const [emails,  setEmails]  = useState(['john@example.com', 'alice@example.com', 'bob@example.com']);
+  const [tags,   setTags]   = useState<string[]>(['react', 'ts']);
+  const [filter, setFilter] = useState<string[]>(['all']);
+  const [emails, setEmails] = useState(['john@example.com', 'alice@example.com', 'bob@example.com']);
 
   return (
     <div>
@@ -151,10 +151,10 @@ export default function ChipPage() {
           description="outlined, filled, tonal, and elevated chip styles"
         >
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-            <Chip label="Outlined (default)" variant="outlined" />
-            <Chip label="Filled"             variant="filled"   />
-            <Chip label="Tonal"              variant="tonal"    />
-            <Chip label="Elevated"           variant="elevated" />
+            <Chip variant="outlined">Outlined (default)</Chip>
+            <Chip variant="filled">Filled</Chip>
+            <Chip variant="tonal">Tonal</Chip>
+            <Chip variant="elevated">Elevated</Chip>
           </div>
         </ComponentPreview>
 
@@ -167,20 +167,20 @@ export default function ChipPage() {
         >
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-              <Chip label="Default"   color="default"   variant="outlined" selected />
-              <Chip label="Secondary" color="secondary" variant="outlined" selected />
-              <Chip label="Success"   color="success"   variant="outlined" selected />
-              <Chip label="Warning"   color="warning"   variant="outlined" selected />
-              <Chip label="Error"     color="error"     variant="outlined" selected />
-              <Chip label="Info"      color="info"      variant="outlined" selected />
+              <Chip color="default"   variant="outlined" selected>Default</Chip>
+              <Chip color="secondary" variant="outlined" selected>Secondary</Chip>
+              <Chip color="success"   variant="outlined" selected>Success</Chip>
+              <Chip color="warning"   variant="outlined" selected>Warning</Chip>
+              <Chip color="error"     variant="outlined" selected>Error</Chip>
+              <Chip color="info"      variant="outlined" selected>Info</Chip>
             </div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-              <Chip label="Default"   color="default"   variant="filled" selected />
-              <Chip label="Secondary" color="secondary" variant="filled" selected />
-              <Chip label="Success"   color="success"   variant="filled" selected />
-              <Chip label="Warning"   color="warning"   variant="filled" selected />
-              <Chip label="Error"     color="error"     variant="filled" selected />
-              <Chip label="Info"      color="info"      variant="filled" selected />
+              <Chip color="default"   variant="filled" selected>Default</Chip>
+              <Chip color="secondary" variant="filled" selected>Secondary</Chip>
+              <Chip color="success"   variant="filled" selected>Success</Chip>
+              <Chip color="warning"   variant="filled" selected>Warning</Chip>
+              <Chip color="error"     variant="filled" selected>Error</Chip>
+              <Chip color="info"      variant="filled" selected>Info</Chip>
             </div>
           </div>
         </ComponentPreview>
@@ -194,14 +194,14 @@ export default function ChipPage() {
         >
           <ChipGroup
             mode="single"
-            value={filter[0]}
-            onChange={val => setFilter([val as string])}
+            value={filter}
+            onChange={setFilter}
             variant="filled"
           >
-            <Chip value="all"      label="All"      />
-            <Chip value="active"   label="Active"   />
-            <Chip value="pending"  label="Pending"  />
-            <Chip value="archived" label="Archived" />
+            <Chip value="all">All</Chip>
+            <Chip value="active">Active</Chip>
+            <Chip value="pending">Pending</Chip>
+            <Chip value="archived">Archived</Chip>
           </ChipGroup>
         </ComponentPreview>
 
@@ -215,14 +215,14 @@ export default function ChipPage() {
           <ChipGroup
             mode="multi"
             value={tags}
-            onChange={val => setTags(val as string[])}
+            onChange={setTags}
           >
-            <Chip value="react"    label="React"      />
-            <Chip value="ts"       label="TypeScript" />
-            <Chip value="tailwind" label="Tailwind"   />
-            <Chip value="vue"      label="Vue"        />
-            <Chip value="angular"  label="Angular"    />
-            <Chip value="svelte"   label="Svelte"     />
+            <Chip value="react">React</Chip>
+            <Chip value="ts">TypeScript</Chip>
+            <Chip value="tailwind">Tailwind</Chip>
+            <Chip value="vue">Vue</Chip>
+            <Chip value="angular">Angular</Chip>
+            <Chip value="svelte">Svelte</Chip>
           </ChipGroup>
         </ComponentPreview>
 
@@ -236,14 +236,14 @@ export default function ChipPage() {
           <ChipGroup
             mode="multi"
             value={tags}
-            onChange={val => setTags(val as string[])}
+            onChange={setTags}
             max={3}
           >
-            <Chip value="react"    label="React"      />
-            <Chip value="ts"       label="TypeScript" />
-            <Chip value="tailwind" label="Tailwind"   />
-            <Chip value="vue"      label="Vue"        />
-            <Chip value="angular"  label="Angular"    />
+            <Chip value="react">React</Chip>
+            <Chip value="ts">TypeScript</Chip>
+            <Chip value="tailwind">Tailwind</Chip>
+            <Chip value="vue">Vue</Chip>
+            <Chip value="angular">Angular</Chip>
           </ChipGroup>
         </ComponentPreview>
 
@@ -252,13 +252,13 @@ export default function ChipPage() {
         {/* ── Section 6: With icons ── */}
         <ComponentPreview
           title="With icons"
-          description="leadingIcon renders an icon before the label"
+          description="leadingIcon renders an icon before the label — must be a valid IconName from omverse-ui"
         >
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-            <Chip label="Dashboard" leadingIcon="layout-dashboard" />
-            <Chip label="Settings"  leadingIcon="settings" />
-            <Chip label="Alerts"    leadingIcon="bell"  color="warning" variant="tonal" />
-            <Chip label="Success"   leadingIcon="check" color="success" variant="tonal" />
+            <Chip leadingIcon="star">Starred</Chip>
+            <Chip leadingIcon="settings">Settings</Chip>
+            <Chip leadingIcon="bell"  color="warning" variant="tonal">Alerts</Chip>
+            <Chip leadingIcon="check" color="success" variant="tonal">Done</Chip>
           </div>
         </ComponentPreview>
 
@@ -270,9 +270,9 @@ export default function ChipPage() {
           description="badgeCount shows a numeric badge after the label"
         >
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-            <Chip label="Inbox"    badgeCount={4}  />
-            <Chip label="Unread"   badgeCount={12} color="error" variant="tonal" />
-            <Chip label="Mentions" badgeCount={3}  color="info"  variant="filled" />
+            <Chip badgeCount={4}>Inbox</Chip>
+            <Chip badgeCount={12} color="error"  variant="tonal">Unread</Chip>
+            <Chip badgeCount={3}  color="info"   variant="filled">Mentions</Chip>
           </div>
         </ComponentPreview>
 
@@ -284,8 +284,8 @@ export default function ChipPage() {
           description="loading prop replaces the chip content with a spinner"
         >
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-            <Chip label="Processing..." loading />
-            <Chip label="Uploading..."  loading color="secondary" variant="tonal" />
+            <Chip loading>Processing...</Chip>
+            <Chip loading color="secondary" variant="tonal">Uploading...</Chip>
           </div>
         </ComponentPreview>
 
@@ -300,11 +300,12 @@ export default function ChipPage() {
             {emails.map(email => (
               <Chip
                 key={email}
-                label={email}
                 removable
                 onRemove={() => setEmails(prev => prev.filter(e => e !== email))}
                 variant="tonal"
-              />
+              >
+                {email}
+              </Chip>
             ))}
           </div>
         </ComponentPreview>
@@ -317,9 +318,9 @@ export default function ChipPage() {
           description="avatarSrc renders a profile image before the label"
         >
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-            <Chip label="John Doe"   avatarSrc="https://i.pravatar.cc/150?img=1" avatarAlt="John" />
-            <Chip label="Jane Smith" avatarSrc="https://i.pravatar.cc/150?img=5" avatarAlt="Jane" />
-            <Chip label="Bob Lee"    avatarSrc="https://i.pravatar.cc/150?img=3" avatarAlt="Bob"  />
+            <Chip avatarSrc="https://i.pravatar.cc/150?img=1" avatarAlt="John">John Doe</Chip>
+            <Chip avatarSrc="https://i.pravatar.cc/150?img=5" avatarAlt="Jane">Jane Smith</Chip>
+            <Chip avatarSrc="https://i.pravatar.cc/150?img=3" avatarAlt="Bob">Bob Lee</Chip>
           </div>
         </ComponentPreview>
 
@@ -331,10 +332,10 @@ export default function ChipPage() {
           description="colorDot renders a small colored circle before the label"
         >
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-            <Chip label="Design"      colorDot="#10B981" />
-            <Chip label="Engineering" colorDot="#3B82F6" />
-            <Chip label="Marketing"   colorDot="#F59E0B" />
-            <Chip label="On hold"     colorDot="#EF4444" />
+            <Chip colorDot="#10B981">Design</Chip>
+            <Chip colorDot="#3B82F6">Engineering</Chip>
+            <Chip colorDot="#F59E0B">Marketing</Chip>
+            <Chip colorDot="#EF4444">On hold</Chip>
           </div>
         </ComponentPreview>
 
@@ -346,9 +347,9 @@ export default function ChipPage() {
           description="sm, md (default), and lg chip sizes"
         >
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, alignItems: 'center' }}>
-            <Chip label="Small"  size="sm" variant="filled" />
-            <Chip label="Medium" size="md" variant="filled" />
-            <Chip label="Large"  size="lg" variant="filled" />
+            <Chip size="sm" variant="filled">Small</Chip>
+            <Chip size="md" variant="filled">Medium</Chip>
+            <Chip size="lg" variant="filled">Large</Chip>
           </div>
         </ComponentPreview>
 
@@ -360,9 +361,9 @@ export default function ChipPage() {
           description="disabled prevents all interaction"
         >
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-            <Chip label="Outlined" disabled />
-            <Chip label="Filled"   disabled variant="filled" />
-            <Chip label="Tonal"    disabled variant="tonal" />
+            <Chip disabled>Outlined</Chip>
+            <Chip disabled variant="filled">Filled</Chip>
+            <Chip disabled variant="tonal">Tonal</Chip>
           </div>
         </ComponentPreview>
 

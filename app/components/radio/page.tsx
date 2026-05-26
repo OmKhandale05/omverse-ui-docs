@@ -52,7 +52,7 @@ const DEFAULT_CODE = `const [notify, setNotify] = useState('email')
 
 const COLORS_CODE = `const [color, setColor] = useState('default')
 
-<RadioGroup legend="Select color" value={color} onChange={setColor} orientation="horizontal">
+<RadioGroup legend="Select color" value={color} onChange={setColor} direction="horizontal">
   <Radio value="default"   label="Default"   color="default"   />
   <Radio value="secondary" label="Secondary" color="secondary" />
   <Radio value="success"   label="Success"   color="success"   />
@@ -71,7 +71,7 @@ const SIZES_CODE = `const [size, setSize] = useState('md')
 
 const HORIZONTAL_CODE = `const [view, setView] = useState('week')
 
-<RadioGroup legend="Calendar view" value={view} onChange={setView} orientation="horizontal">
+<RadioGroup legend="Calendar view" value={view} onChange={setView} direction="horizontal">
   <Radio value="day"   label="Day"   />
   <Radio value="week"  label="Week"  />
   <Radio value="month" label="Month" />
@@ -179,7 +179,7 @@ export default function RadioPage() {
           title="Colors"
           description="Six color variants — default, secondary, success, warning, error, and info"
         >
-          <RadioGroup legend="Select color" value={color} onChange={setColor} orientation="horizontal">
+          <RadioGroup legend="Select color" value={color} onChange={setColor} direction="horizontal">
             <Radio value="default"   label="Default"   color="default"   />
             <Radio value="secondary" label="Secondary" color="secondary" />
             <Radio value="success"   label="Success"   color="success"   />
@@ -210,7 +210,7 @@ export default function RadioPage() {
           title="Horizontal layout"
           description="Use orientation=horizontal for inline radio groups"
         >
-          <RadioGroup legend="Calendar view" value={view} onChange={setView} orientation="horizontal">
+          <RadioGroup legend="Calendar view" value={view} onChange={setView} direction="horizontal">
             <Radio value="day"   label="Day"   />
             <Radio value="week"  label="Week"  />
             <Radio value="month" label="Month" />

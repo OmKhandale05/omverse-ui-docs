@@ -12,13 +12,12 @@ import { PropsTable } from '@/components/ui/PropsTable';
 const PROGRESS_PROPS = [
   { name: 'value',        type: 'number',                                                              default: '0',         description: 'Current progress value (0–max)' },
   { name: 'max',          type: 'number',                                                              default: '100',       description: 'Maximum value' },
-  { name: 'color',        type: "'default' | 'secondary' | 'success' | 'warning' | 'error' | 'info' | 'gradient'", default: "'default'", description: 'Fill color' },
+  { name: 'color',        type: "'default' | 'secondary' | 'success' | 'warning' | 'error' | 'info'",            default: "'default'", description: 'Fill color' },
   { name: 'size',         type: "'xs' | 'sm' | 'md' | 'lg' | 'xl'",                                  default: "'md'",      description: 'Track height' },
   { name: 'variant',      type: "'default' | 'gradient' | 'glow' | 'striped' | 'indeterminate' | 'bubble' | 'thin'", default: "'default'", description: 'Visual style' },
   { name: 'label',        type: 'string',                                                              default: '—',         description: 'Label shown above or beside the bar' },
   { name: 'helperText',   type: 'string',                                                              default: '—',         description: 'Helper text shown below the bar' },
-  { name: 'showValue',    type: 'boolean',                                                             default: 'false',     description: 'Shows the percentage value' },
-  { name: 'animated',     type: 'boolean',                                                             default: 'false',     description: 'Animates stripes (striped variant)' },
+  { name: 'showValue',    type: "'percent' | 'fraction' | 'none'",                                    default: '—',         description: 'Format for the value displayed above the bar' },
   { name: 'formatValue',  type: '(value: number) => string',                                          default: '—',         description: 'Custom value formatter' },
 ] as const satisfies { name: string; type: string; default: string; description: string }[];
 
@@ -233,7 +232,7 @@ export default function ProgressPage() {
             <Progress value={65} color="success"   />
             <Progress value={65} color="warning"   />
             <Progress value={65} color="error"     />
-            <Progress value={65} color="gradient"  />
+            <Progress value={65} variant="gradient" />
           </div>
         </ComponentPreview>
 
@@ -259,7 +258,7 @@ export default function ProgressPage() {
             </div>
             <div>
               <p style={{ fontSize: 11, color: 'var(--color-text-secondary)', marginBottom: 6 }}>striped + animated</p>
-              <Progress value={65} variant="striped" animated />
+              <Progress value={65} variant="striped" />
             </div>
             <div>
               <p style={{ fontSize: 11, color: 'var(--color-text-secondary)', marginBottom: 6 }}>indeterminate</p>
@@ -267,7 +266,7 @@ export default function ProgressPage() {
             </div>
             <div>
               <p style={{ fontSize: 11, color: 'var(--color-text-secondary)', marginBottom: 6 }}>bubble</p>
-              <Progress value={65} variant="bubble" showValue />
+              <Progress value={65} variant="bubble" showValue="percent" />
             </div>
             <div>
               <p style={{ fontSize: 11, color: 'var(--color-text-secondary)', marginBottom: 6 }}>thin</p>
@@ -289,21 +288,21 @@ export default function ProgressPage() {
               variant="glow"
               color="default"
               label="Storage used"
-              showValue
+              showValue="percent"
               helperText="78 GB of 100 GB used"
             />
             <Progress
               value={55}
               variant="gradient"
               label="Project completion"
-              showValue
+              showValue="percent"
             />
             <Progress
               value={92}
               variant="glow"
               color="error"
               label="Memory usage"
-              showValue
+              showValue="percent"
               helperText="Critical — consider upgrading"
             />
           </div>
@@ -322,7 +321,7 @@ export default function ProgressPage() {
             <SegmentedProgress
               value={7}
               total={10}
-              segmentColors={['#10B981','#10B981','#10B981','#F59E0B','#F59E0B','#EF4444','#EF4444']}
+              segmentColors={{ 0: 'success', 1: 'success', 2: 'success', 3: 'warning', 4: 'warning', 5: 'error', 6: 'error' }}
             />
           </div>
         </ComponentPreview>
@@ -340,7 +339,7 @@ export default function ProgressPage() {
             <CircularProgress value={45}  color="warning"  showValue />
             <CircularProgress value={20}  color="error"    showValue />
             <CircularProgress value={68}  gradient showValue />
-            <CircularProgress value={92}  showValue label="CPU" />
+            <CircularProgress value={92}  showValue centerLabel="CPU" />
           </div>
         </ComponentPreview>
 
@@ -354,10 +353,10 @@ export default function ProgressPage() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16, width: '100%', maxWidth: 480 }}>
             <MultiProgress
               segments={[
-                { value: 40, color: 'var(--color-primary)', label: 'Photos' },
-                { value: 25, color: '#10B981',              label: 'Videos' },
-                { value: 15, color: '#F59E0B',              label: 'Documents' },
-                { value: 10, color: '#EF4444',              label: 'Other' },
+                { value: 40, color: 'default',   label: 'Photos' },
+                { value: 25, color: 'success',   label: 'Videos' },
+                { value: 15, color: 'warning',   label: 'Documents' },
+                { value: 10, color: 'error',     label: 'Other' },
               ]}
               showLegend
             />
@@ -379,7 +378,7 @@ export default function ProgressPage() {
               value={uploadPct}
               variant="gradient"
               label={uploading ? `Uploading… ${uploadPct}%` : uploadPct === 100 ? 'Upload complete!' : 'Ready to upload'}
-              showValue
+              showValue="percent"
               color={uploadPct === 100 ? 'success' : 'default'}
             />
             <button
@@ -419,7 +418,7 @@ export default function ProgressPage() {
               <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                 <span style={{ fontSize: 13, color: 'var(--color-text-secondary)', minWidth: 88 }}>{label}</span>
                 <div style={{ flex: 1 }}>
-                  <Progress value={value} color={color as 'default' | 'info' | 'success' | 'warning'} size="sm" showValue />
+                  <Progress value={value} color={color as 'default' | 'info' | 'success' | 'warning'} size="sm" showValue="percent" />
                 </div>
               </div>
             ))}

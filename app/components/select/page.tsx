@@ -1,7 +1,22 @@
 'use client';
 
 import { useState } from 'react';
-import { Select, type SelectOption, type SelectOptionGroup } from 'omverse-ui';
+import { Select } from 'omverse-ui';
+
+/* ─── Local type definitions (not exported from omverse-ui) ─── */
+interface SelectOption {
+  value: string;
+  label: string;
+  description?: string;
+  avatarSrc?: string;
+  avatarAlt?: string;
+  icon?: string;
+  disabled?: boolean;
+}
+interface SelectOptionGroup {
+  label: string;
+  options: SelectOption[];
+}
 import { PageHeader } from '@/components/ui/PageHeader';
 import { ComponentPreview } from '@/components/ui/ComponentPreview';
 import { CodeBlock } from '@/components/ui/CodeBlock';

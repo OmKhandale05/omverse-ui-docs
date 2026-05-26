@@ -16,7 +16,7 @@ const SLIDER_PROPS = [
   { name: 'max',           type: 'number',                                                              default: '100',     description: 'Maximum value' },
   { name: 'step',          type: 'number',                                                              default: '1',       description: 'Step between values' },
   { name: 'onChange',      type: '(value: number) => void',                                             default: '—',       description: 'Callback fired on value change' },
-  { name: 'color',         type: "'default' | 'secondary' | 'success' | 'warning' | 'error' | 'info'", default: "'default'", description: 'Track and thumb color' },
+  { name: 'color',         type: "'default' | 'secondary' | 'success' | 'warning' | 'error'", default: "'default'", description: 'Track and thumb color' },
   { name: 'size',          type: "'xs' | 'sm' | 'md' | 'lg' | 'xl'",                                  default: "'md'",    description: 'Height of the track' },
   { name: 'thumbStyle',    type: "'default' | 'pill' | 'square' | 'bubble'",                           default: "'default'", description: 'Shape of the thumb' },
   { name: 'trackStyle',    type: "'default' | 'glow' | 'gradient' | 'spectrum'",                       default: "'default'", description: 'Visual style of the filled track' },
@@ -37,7 +37,7 @@ const RANGE_PROPS = [
   { name: 'max',          type: 'number',                                                               default: '100',     description: 'Maximum value' },
   { name: 'step',         type: 'number',                                                               default: '1',       description: 'Step between values' },
   { name: 'onChange',     type: '(value: [number, number]) => void',                                   default: '—',       description: 'Callback fired on range change' },
-  { name: 'color',        type: "'default' | 'secondary' | 'success' | 'warning' | 'error' | 'info'", default: "'default'", description: 'Track and thumb color' },
+  { name: 'color',        type: "'default' | 'secondary' | 'success' | 'warning' | 'error'", default: "'default'", description: 'Track and thumb color' },
   { name: 'size',         type: "'xs' | 'sm' | 'md' | 'lg' | 'xl'",                                   default: "'md'",    description: 'Height of the track' },
   { name: 'showLabels',   type: 'boolean',                                                              default: 'false',   description: 'Shows min and max labels' },
   { name: 'showTooltip',  type: 'boolean',                                                              default: 'false',   description: 'Shows tooltips above both thumbs' },
@@ -56,8 +56,7 @@ const COLORS_CODE = `<Slider defaultValue={60} color="default"   showTooltip />
 <Slider defaultValue={60} color="secondary" showTooltip />
 <Slider defaultValue={60} color="success"   showTooltip />
 <Slider defaultValue={60} color="warning"   showTooltip />
-<Slider defaultValue={60} color="error"     showTooltip />
-<Slider defaultValue={60} color="info"      showTooltip />`;
+<Slider defaultValue={60} color="error"     showTooltip />`;
 
 const THUMB_CODE = `<Slider defaultValue={50} thumbStyle="default" showTooltip />
 <Slider defaultValue={50} thumbStyle="pill"    showTooltip />
@@ -183,7 +182,6 @@ export default function SliderPage() {
             <Slider defaultValue={60} color="success"   showTooltip />
             <Slider defaultValue={60} color="warning"   showTooltip />
             <Slider defaultValue={60} color="error"     showTooltip />
-            <Slider defaultValue={60} color="info"      showTooltip />
           </div>
         </ComponentPreview>
 

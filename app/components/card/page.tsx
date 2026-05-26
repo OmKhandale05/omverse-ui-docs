@@ -293,7 +293,7 @@ export default function CardPage() {
         <ComponentPreview
           title="Variants"
           description="elevated (default), filled, outlined, ghost, gradient — all support hover states"
-          layout="start"
+          layout="center"
         >
           <Card variant="elevated" style={{ width: 176 }}>
             <CardBody>
@@ -370,7 +370,7 @@ export default function CardPage() {
         <ComponentPreview
           title="With media + header + footer"
           description="CardMedia, CardHeader (with action), CardBody and CardFooter compose the full card"
-          layout="start"
+          layout="center"
         >
           <div style={{
             display: 'grid',

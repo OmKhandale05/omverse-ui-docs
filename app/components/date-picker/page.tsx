@@ -10,53 +10,45 @@ import { PropsTable } from '@/components/ui/PropsTable';
 /* ─── Props tables ─── */
 
 const CALENDAR_PROPS = [
-  { name: 'value',              type: 'Date | null',                                    default: '—',       description: 'Controlled selected date' },
-  { name: 'defaultValue',       type: 'Date | null',                                    default: 'null',    description: 'Uncontrolled initial date' },
-  { name: 'onChange',           type: '(date: Date | null) => void',                    default: '—',       description: 'Callback fired when a date is selected' },
-  { name: 'variant',            type: "'default' | 'dark' | 'gradient' | 'minimal'",   default: "'default'", description: 'Visual style of the calendar' },
-  { name: 'showWeekNumbers',    type: 'boolean',                                        default: 'false',   description: 'Shows ISO week numbers in the leftmost column' },
-  { name: 'disableWeekends',    type: 'boolean',                                        default: 'false',   description: 'Makes Saturday and Sunday unselectable' },
-  { name: 'minDate',            type: 'Date',                                           default: '—',       description: 'Earliest selectable date' },
-  { name: 'maxDate',            type: 'Date',                                           default: '—',       description: 'Latest selectable date' },
-  { name: 'quickPresets',       type: '{ label: string; getValue: () => Date }[]',      default: '—',       description: 'Array of preset shortcuts shown beside the calendar' },
+  { name: 'value',           type: 'Date | null',                                  default: '—',         description: 'Controlled selected date' },
+  { name: 'onChange',        type: '(date: Date) => void',                         default: '—',         description: 'Callback fired when a date is selected' },
+  { name: 'variant',         type: "'default' | 'dark' | 'gradient' | 'minimal'", default: "'default'", description: 'Visual style of the calendar' },
+  { name: 'presets',         type: 'boolean',                                      default: 'false',     description: 'Shows preset shortcut buttons beside the calendar' },
+  { name: 'disableWeekends', type: 'boolean',                                      default: 'false',     description: 'Makes Saturday and Sunday unselectable' },
+  { name: 'minDate',         type: 'Date',                                         default: '—',         description: 'Earliest selectable date' },
+  { name: 'maxDate',         type: 'Date',                                         default: '—',         description: 'Latest selectable date' },
+  { name: 'showTime',        type: 'boolean',                                      default: 'false',     description: 'Adds a time picker below the calendar grid' },
 ] as const satisfies { name: string; type: string; default: string; description: string }[];
 
 const DATEPICKER_PROPS = [
-  { name: 'value',              type: 'Date | null',                                    default: '—',       description: 'Controlled selected date' },
-  { name: 'onChange',           type: '(date: Date | null) => void',                    default: '—',       description: 'Callback fired when a date is selected' },
-  { name: 'label',              type: 'string',                                         default: '—',       description: 'Label shown above the input' },
-  { name: 'placeholder',        type: 'string',                                         default: "'Pick a date'", description: 'Placeholder text' },
-  { name: 'helperText',         type: 'string',                                         default: '—',       description: 'Helper text shown below the input' },
-  { name: 'error',              type: 'boolean',                                        default: 'false',   description: 'Error state' },
-  { name: 'errorText',          type: 'string',                                         default: '—',       description: 'Error message' },
-  { name: 'size',               type: "'sm' | 'md' | 'lg'",                            default: "'md'",    description: 'Trigger input height' },
-  { name: 'disabled',           type: 'boolean',                                        default: 'false',   description: 'Disables the picker' },
-  { name: 'disableWeekends',    type: 'boolean',                                        default: 'false',   description: 'Makes Saturday and Sunday unselectable' },
-  { name: 'minDate',            type: 'Date',                                           default: '—',       description: 'Earliest selectable date' },
-  { name: 'maxDate',            type: 'Date',                                           default: '—',       description: 'Latest selectable date' },
-  { name: 'showTime',           type: 'boolean',                                        default: 'false',   description: 'Adds a time picker below the calendar' },
-  { name: 'quickPresets',       type: '{ label: string; getValue: () => Date }[]',      default: '—',       description: 'Preset shortcuts in the dropdown' },
+  { name: 'value',          type: 'Date | null',           default: '—',     description: 'Controlled selected date' },
+  { name: 'onChange',       type: '(date: Date | null) => void', default: '—', description: 'Callback fired when a date is selected' },
+  { name: 'label',          type: 'string',                default: '—',     description: 'Label shown above the input' },
+  { name: 'placeholder',    type: 'string',                default: '—',     description: 'Placeholder text' },
+  { name: 'helperText',     type: 'string',                default: '—',     description: 'Helper text shown below the input' },
+  { name: 'error',          type: 'boolean',               default: 'false', description: 'Error state' },
+  { name: 'errorText',      type: 'string',                default: '—',     description: 'Error message' },
+  { name: 'size',           type: "'sm' | 'md' | 'lg'",   default: "'md'",  description: 'Trigger input height' },
+  { name: 'disabled',       type: 'boolean',               default: 'false', description: 'Disables the picker' },
+  { name: 'presets',        type: 'boolean',               default: 'false', description: 'Shows preset shortcut buttons in the dropdown' },
+  { name: 'disableWeekends', type: 'boolean',              default: 'false', description: 'Makes Saturday and Sunday unselectable' },
+  { name: 'minDate',        type: 'Date',                  default: '—',     description: 'Earliest selectable date' },
+  { name: 'maxDate',        type: 'Date',                  default: '—',     description: 'Latest selectable date' },
+  { name: 'showTime',       type: 'boolean',               default: 'false', description: 'Adds a time picker below the calendar' },
 ] as const satisfies { name: string; type: string; default: string; description: string }[];
 
 const DATERANGE_PROPS = [
-  { name: 'value',              type: '[Date | null, Date | null]',                     default: '—',       description: 'Controlled date range' },
-  { name: 'onChange',           type: '(range: [Date | null, Date | null]) => void',    default: '—',       description: 'Callback fired when the range changes' },
-  { name: 'label',              type: 'string',                                         default: '—',       description: 'Label shown above the input' },
-  { name: 'placeholder',        type: 'string',                                         default: '—',       description: 'Placeholder text' },
-  { name: 'size',               type: "'sm' | 'md' | 'lg'",                            default: "'md'",    description: 'Trigger input height' },
-  { name: 'disabled',           type: 'boolean',                                        default: 'false',   description: 'Disables the range picker' },
-  { name: 'dualMonth',          type: 'boolean',                                        default: 'false',   description: 'Shows two months side by side' },
-  { name: 'quickPresets',       type: '{ label: string; getValue: () => [Date, Date] }[]', default: '—',    description: 'Preset date range shortcuts' },
+  { name: 'value',          type: '[Date | null, Date | null]',                  default: '—',     description: 'Controlled date range' },
+  { name: 'onChange',       type: '(range: [Date | null, Date | null]) => void', default: '—',     description: 'Callback fired when the range changes' },
+  { name: 'label',          type: 'string',                                      default: '—',     description: 'Label shown above the input' },
+  { name: 'size',           type: "'sm' | 'md' | 'lg'",                         default: "'md'",  description: 'Trigger input height' },
+  { name: 'disabled',       type: 'boolean',                                     default: 'false', description: 'Disables the range picker' },
+  { name: 'presets',        type: 'boolean',                                     default: 'false', description: 'Shows preset shortcut buttons in the dropdown' },
+  { name: 'dualMonth',      type: 'boolean',                                     default: 'false', description: 'Shows two months side by side' },
+  { name: 'disableWeekends', type: 'boolean',                                    default: 'false', description: 'Makes Saturday and Sunday unselectable' },
+  { name: 'minDate',        type: 'Date',                                        default: '—',     description: 'Earliest selectable date' },
+  { name: 'maxDate',        type: 'Date',                                        default: '—',     description: 'Latest selectable date' },
 ] as const satisfies { name: string; type: string; default: string; description: string }[];
-
-/* ─── Quick preset helpers ─── */
-
-const calendarPresets = [
-  { label: 'Today',      getValue: () => new Date() },
-  { label: 'Tomorrow',   getValue: () => { const d = new Date(); d.setDate(d.getDate() + 1); return d; } },
-  { label: 'Next week',  getValue: () => { const d = new Date(); d.setDate(d.getDate() + 7); return d; } },
-  { label: 'Next month', getValue: () => { const d = new Date(); d.setMonth(d.getMonth() + 1); return d; } },
-];
 
 /* ─── Code snippets ─── */
 
@@ -67,14 +59,7 @@ const CALENDAR_VARIANTS_CODE = `import { Calendar } from 'omverse-ui'
 <Calendar variant="gradient"  value={date} onChange={setDate} />
 <Calendar variant="minimal"   value={date} onChange={setDate} />`;
 
-const PRESETS_CODE = `const presets = [
-  { label: 'Today',      getValue: () => new Date() },
-  { label: 'Tomorrow',   getValue: () => { const d = new Date(); d.setDate(d.getDate() + 1); return d } },
-  { label: 'Next week',  getValue: () => { const d = new Date(); d.setDate(d.getDate() + 7); return d } },
-  { label: 'Next month', getValue: () => { const d = new Date(); d.setMonth(d.getMonth() + 1); return d } },
-]
-
-<Calendar value={date} onChange={setDate} quickPresets={presets} />`;
+const PRESETS_CODE = `<Calendar value={date} onChange={setDate} presets />`;
 
 const DATEPICKER_BASIC_CODE = `import { DatePicker } from 'omverse-ui'
 
@@ -86,10 +71,9 @@ const [date, setDate] = useState<Date | null>(null)
 {/* With helper text */}
 <DatePicker label="Start date" helperText="Select the project start date" value={date} onChange={setDate} />
 
-{/* Required with error */}
+{/* With error */}
 <DatePicker
   label="Due date"
-  required
   error={!date}
   errorText="Please select a due date"
   value={date}
@@ -99,14 +83,7 @@ const [date, setDate] = useState<Date | null>(null)
 {/* Disabled */}
 <DatePicker label="Locked date" disabled value={date} onChange={setDate} />`;
 
-const DATEPICKER_PRESETS_CODE = `const presets = [
-  { label: 'Today',      getValue: () => new Date() },
-  { label: 'Tomorrow',   getValue: () => { const d = new Date(); d.setDate(d.getDate() + 1); return d } },
-  { label: 'Next week',  getValue: () => { const d = new Date(); d.setDate(d.getDate() + 7); return d } },
-  { label: 'Next month', getValue: () => { const d = new Date(); d.setMonth(d.getMonth() + 1); return d } },
-]
-
-<DatePicker label="Date" value={date} onChange={setDate} quickPresets={presets} />`;
+const DATEPICKER_PRESETS_CODE = `<DatePicker label="Date" value={date} onChange={setDate} presets />`;
 
 const SIZES_CODE = `<DatePicker label="Small"          size="sm" value={date} onChange={setDate} />
 <DatePicker label="Medium (default)" size="md" value={date} onChange={setDate} />
@@ -192,7 +169,7 @@ export default function DatePickerPage() {
           title="With quick presets"
           description="quickPresets adds shortcut buttons beside the calendar"
         >
-          <Calendar value={date} onChange={setDate} quickPresets={calendarPresets} />
+          <Calendar value={date} onChange={setDate} presets />
         </ComponentPreview>
 
         <CodeBlock filename="App.tsx" code={PRESETS_CODE} />
@@ -217,7 +194,6 @@ export default function DatePickerPage() {
             />
             <DatePicker
               label="Due date"
-              required
               error={!date}
               errorText="Please select a due date"
               value={date}
@@ -244,7 +220,7 @@ export default function DatePickerPage() {
               label="Date"
               value={date}
               onChange={setDate}
-              quickPresets={calendarPresets}
+              presets
             />
           </div>
         </ComponentPreview>
