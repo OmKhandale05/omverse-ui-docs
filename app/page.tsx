@@ -1044,7 +1044,7 @@ function InstallBlock() {
           position: 'relative',
           maxWidth: 1152,
           margin: '0 auto',
-          minHeight: '80vh',
+          minHeight: '60vh',
           borderRadius: 20,
           border: '0.5px solid var(--color-outline-variant)',
           overflow: 'hidden',
@@ -1243,29 +1243,68 @@ function InstallBlock() {
    CATEGORY GRID
 ───────────────────────────────────────────────────────────────────────── */
 
-const CATEGORIES = {
-  Inputs:        ['Button', 'Input', 'Textarea', 'Select', 'Switch', 'Slider', 'Checkbox', 'Radio'],
-  Feedback:      ['Toast', 'Spinner', 'Skeleton', 'Progress', 'Alert'],
-  Overlays:      ['Dialog', 'Drawer', 'Popover', 'Tooltip', 'Dropdown'],
-  'Data Display': ['Card', 'Badge', 'Avatar', 'Tabs', 'Accordion', 'DataTable', 'Icon'],
-} as const;
+const CATEGORIES: Record<string, { icon: string; slug: string }[]> = {
+  Inputs: [
+    { icon: 'ti-hand-click',               slug: 'button'   },
+    { icon: 'ti-forms',                    slug: 'input'    },
+    { icon: 'ti-text-size',                slug: 'textarea' },
+    { icon: 'ti-selector',                 slug: 'select'   },
+    { icon: 'ti-toggle-left',              slug: 'switch'   },
+    { icon: 'ti-adjustments-horizontal',   slug: 'slider'   },
+    { icon: 'ti-checkbox',                 slug: 'checkbox' },
+    { icon: 'ti-circle-dot',               slug: 'radio'    },
+  ],
+  Feedback: [
+    { icon: 'ti-message',        slug: 'toast'    },
+    { icon: 'ti-loader',         slug: 'spinner'  },
+    { icon: 'ti-layout-rows',    slug: 'skeleton' },
+    { icon: 'ti-progress',       slug: 'progress' },
+    { icon: 'ti-alert-circle',   slug: 'alert'    },
+  ],
+  Overlays: [
+    { icon: 'ti-layout-bottombar',   slug: 'dialog'   },
+    { icon: 'ti-layout-sidebar',     slug: 'drawer'   },
+    { icon: 'ti-message-circle',     slug: 'popover'  },
+    { icon: 'ti-info-circle',        slug: 'tooltip'  },
+    { icon: 'ti-chevrons-down',      slug: 'dropdown' },
+  ],
+  'Data Display': [
+    { icon: 'ti-rectangle',         slug: 'card'      },
+    { icon: 'ti-tag',               slug: 'badge'     },
+    { icon: 'ti-user-circle',       slug: 'avatar'    },
+    { icon: 'ti-layout-navbar',     slug: 'tabs'      },
+    { icon: 'ti-layout-list',       slug: 'accordion' },
+    { icon: 'ti-table',             slug: 'datatable' },
+    { icon: 'ti-sparkles',          slug: 'icon'      },
+  ],
+};
 
 type CategoryKey = keyof typeof CATEGORIES;
 
 function CategoryGrid() {
   const [tab, setTab] = useState<CategoryKey>('Inputs');
+  const categories = Object.keys(CATEGORIES) as CategoryKey[];
 
   return (
-    <section
-      style={{ maxWidth: 1152, margin: '0 auto', padding: '0 24px 96px' }}
-    >
-      <div style={{ marginBottom: 48 }}>
-        <p style={{ fontSize: 13, color: 'var(--color-text-tertiary)', marginBottom: 12 }}>
-          The catalog
+    <section style={{ maxWidth: 1152, margin: '0 auto', padding: '0 24px 96px' }}>
+
+      {/* Heading */}
+      <div style={{ marginBottom: 40 }}>
+        <p
+          style={{
+            fontSize: 11,
+            textTransform: 'uppercase',
+            letterSpacing: '0.1em',
+            color: 'var(--color-text-tertiary)',
+            fontWeight: 500,
+            marginBottom: 14,
+          }}
+        >
+          The Catalog
         </p>
         <h2
           style={{
-            fontSize: 'clamp(28px, 4vw, 40px)',
+            fontSize: 'clamp(28px, 4vw, 42px)',
             fontWeight: 500,
             color: 'var(--color-text-primary)',
             letterSpacing: '-0.03em',
@@ -1275,79 +1314,138 @@ function CategoryGrid() {
         </h2>
       </div>
 
-      {/* Tabs */}
-      <div style={{ display: 'flex', gap: 4, marginBottom: 24, flexWrap: 'wrap' }}>
-        {(Object.keys(CATEGORIES) as CategoryKey[]).map((c) => (
-          <button
-            key={c}
-            onClick={() => setTab(c)}
-            style={{
-              padding: '8px 16px',
-              fontSize: 13,
-              fontWeight: tab === c ? 500 : 400,
-              color: tab === c
-                ? 'var(--color-text-primary)'
-                : 'var(--color-text-secondary)',
-              background: tab === c ? 'var(--color-surface)' : 'transparent',
-              border: '0.5px solid var(--color-outline-variant)',
-              borderRadius: 8,
-              cursor: 'pointer',
-              transition: 'background 150ms, color 150ms',
-            }}
-          >
-            {c}
-          </button>
-        ))}
-      </div>
-
-      {/* Grid */}
+      {/* Card wrapping tabs + grid */}
       <div
         style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(4, 1fr)',
-          gap: 8,
+          borderRadius: 20,
+          border: '0.5px solid var(--color-outline-variant)',
+          overflow: 'hidden',
+          background: 'var(--color-surface)',
         }}
       >
-        {CATEGORIES[tab].map((name) => (
-          <Link
-            key={name}
-            href={`/components/${name.toLowerCase()}`}
-            style={{
-              borderRadius: 10,
-              padding: '16px',
-              border: '0.5px solid var(--color-outline-variant)',
-              background: 'var(--color-surface)',
-              textDecoration: 'none',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              transition: 'background 150ms',
-            }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLAnchorElement).style.background =
-                'var(--color-background)';
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLAnchorElement).style.background =
-                'var(--color-surface)';
-            }}
-          >
-            <span
+
+        {/* Tab bar — 4 equal columns, same style as LayerSection */}
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: `repeat(${categories.length}, 1fr)`,
+            borderBottom: '0.5px solid var(--color-outline-variant)',
+          }}
+        >
+          {categories.map((c) => (
+            <button
+              key={c}
+              onClick={() => setTab(c)}
               style={{
-                fontSize: 13,
-                color: 'var(--color-text-primary)',
-                fontWeight: 500,
+                padding: '20px 24px',
+                textAlign: 'left',
+                background: 'transparent',
+                border: 'none',
+                borderTop: tab === c
+                  ? '1.5px solid var(--color-text-primary)'
+                  : '1.5px solid transparent',
+                cursor: 'pointer',
+                transition: 'border-color 200ms',
               }}
             >
-              {name}
-            </span>
-            <i
-              className="ti ti-arrow-up-right"
-              style={{ fontSize: 14, color: 'var(--color-text-tertiary)' }}
-              aria-hidden="true"
-            />
-          </Link>
-        ))}
+              <div
+                style={{
+                  fontSize: 14,
+                  fontWeight: tab === c ? 500 : 400,
+                  color: tab === c
+                    ? 'var(--color-text-primary)'
+                    : 'var(--color-text-secondary)',
+                  marginBottom: 3,
+                  transition: 'color 200ms',
+                }}
+              >
+                {c}
+              </div>
+              <div
+                style={{
+                  fontSize: 12,
+                  color: 'var(--color-text-tertiary)',
+                  fontWeight: 400,
+                }}
+              >
+                {CATEGORIES[c].length} components
+              </div>
+            </button>
+          ))}
+        </div>
+
+        {/* Component grid */}
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(4, 1fr)',
+            gap: 1,
+            background: 'var(--color-outline-variant)', // gap colour via background trick
+          }}
+        >
+          {CATEGORIES[tab].map(({ icon, slug }) => {
+            const name = slug.charAt(0).toUpperCase() + slug.slice(1);
+            return (
+              <Link
+                key={slug}
+                href={`/components/${slug}`}
+                style={{
+                  background: 'var(--color-surface)',
+                  textDecoration: 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 14,
+                  padding: '22px 24px',
+                  transition: 'background 150ms',
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLAnchorElement).style.background =
+                    'var(--color-background)';
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLAnchorElement).style.background =
+                    'var(--color-surface)';
+                }}
+              >
+                <i
+                  className={`ti ${icon}`}
+                  style={{
+                    fontSize: 18,
+                    color: 'var(--color-text-secondary)',
+                    flexShrink: 0,
+                  }}
+                  aria-hidden="true"
+                />
+                <span
+                  style={{
+                    flex: 1,
+                    fontSize: 14,
+                    fontWeight: 500,
+                    color: 'var(--color-text-primary)',
+                  }}
+                >
+                  {name}
+                </span>
+                <i
+                  className="ti ti-arrow-up-right"
+                  style={{
+                    fontSize: 13,
+                    color: 'var(--color-text-tertiary)',
+                    flexShrink: 0,
+                  }}
+                  aria-hidden="true"
+                />
+              </Link>
+            );
+          })}
+          {/* Pad the last row so empty cells don't expose the gap background */}
+          {Array.from({
+            length: (4 - (CATEGORIES[tab].length % 4)) % 4,
+          }).map((_, i) => (
+            <div key={`pad-${i}`} style={{ background: 'var(--color-surface)' }} />
+          ))}
+        </div>
+
       </div>
     </section>
   );
