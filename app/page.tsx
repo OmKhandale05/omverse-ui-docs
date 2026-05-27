@@ -169,7 +169,7 @@ function Hero() {
             gap: 24,
             flexWrap: 'wrap',
             fontSize: 12,
-            color: 'var(--color-text-tertiary)',
+            color: 'var(--color-text-disabled)',
           }}
         >
           {[
@@ -454,7 +454,7 @@ function LayerSection() {
             <div
               style={{
                 fontSize: 13,
-                color: 'var(--color-text-tertiary)',
+                color: 'var(--color-text-disabled)',
                 fontWeight: 400,
               }}
             >
@@ -592,7 +592,7 @@ function FeatureCard({
             fontSize: 10,
             textTransform: 'uppercase',
             letterSpacing: '0.08em',
-            color: 'var(--color-text-tertiary)',
+            color: 'var(--color-text-disabled)',
             fontWeight: 500,
             marginBottom: 8,
           }}
@@ -636,7 +636,7 @@ function ShowcaseSection() {
             fontSize: 11,
             textTransform: 'uppercase',
             letterSpacing: '0.1em',
-            color: 'var(--color-text-tertiary)',
+            color: 'var(--color-text-disabled)',
             fontWeight: 500,
             marginBottom: 14,
           }}
@@ -1060,8 +1060,8 @@ function InstallBlock() {
             position: 'absolute',
             inset: 0,
             backgroundImage: `
-              linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px)
+              linear-gradient(color-mix(in srgb, var(--color-text-primary) 5%, transparent) 1px, transparent 1px),
+              linear-gradient(90deg, color-mix(in srgb, var(--color-text-primary) 5%, transparent) 1px, transparent 1px)
             `,
             backgroundSize: '28px 28px',
             pointerEvents: 'none',
@@ -1295,7 +1295,7 @@ function CategoryGrid() {
             fontSize: 11,
             textTransform: 'uppercase',
             letterSpacing: '0.1em',
-            color: 'var(--color-text-tertiary)',
+            color: 'var(--color-text-disabled)',
             fontWeight: 500,
             marginBottom: 14,
           }}
@@ -1364,7 +1364,7 @@ function CategoryGrid() {
               <div
                 style={{
                   fontSize: 12,
-                  color: 'var(--color-text-tertiary)',
+                  color: 'var(--color-text-disabled)',
                   fontWeight: 400,
                 }}
               >
@@ -1430,7 +1430,7 @@ function CategoryGrid() {
                   className="ti ti-arrow-up-right"
                   style={{
                     fontSize: 13,
-                    color: 'var(--color-text-tertiary)',
+                    color: 'var(--color-text-disabled)',
                     flexShrink: 0,
                   }}
                   aria-hidden="true"
