@@ -545,62 +545,74 @@ function LayerSection() {
 }
 
 /* ─────────────────────────────────────────────────────────────────────────
-   SHOWCASE SECTION — three alternating rows
+   SHOWCASE SECTION — Developer-experience cards
 ───────────────────────────────────────────────────────────────────────── */
 
-function ShowcaseRow({
-  index,
+/* Shared card shell */
+function FeatureCard({
+  gradient,
+  preview,
   eyebrow,
   title,
   body,
-  preview,
-  reverse,
 }: {
-  index: string;
+  gradient: string;
+  preview: React.ReactNode;
   eyebrow: string;
   title: string;
   body: string;
-  preview: React.ReactNode;
-  reverse?: boolean;
 }) {
   return (
     <div
       style={{
-        display: 'grid',
-        gridTemplateColumns: '1fr 1fr',
-        gap: 64,
-        alignItems: 'center',
-        padding: '80px 0',
-        borderTop: '0.5px solid var(--color-outline-variant)',
+        borderRadius: 16,
+        overflow: 'hidden',
+        border: '0.5px solid var(--color-outline-variant)',
+        background: 'var(--color-surface)',
       }}
     >
-      <div style={{ order: reverse ? 2 : 1 }}>
+      {/* Gradient preview area */}
+      <div
+        style={{
+          background: gradient,
+          padding: '48px 32px',
+          minHeight: 380,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        {preview}
+      </div>
+
+      {/* Text block */}
+      <div style={{ padding: '28px 28px 32px' }}>
         <p
           style={{
-            fontSize: 11,
+            fontSize: 10,
             textTransform: 'uppercase',
             letterSpacing: '0.08em',
             color: 'var(--color-text-tertiary)',
-            marginBottom: 12,
             fontWeight: 500,
+            marginBottom: 8,
           }}
         >
-          {index} — {eyebrow}
+          {eyebrow}
         </p>
         <h3
           style={{
-            fontSize: 'clamp(22px, 3vw, 30px)',
+            fontSize: 17,
             fontWeight: 500,
             color: 'var(--color-text-primary)',
-            letterSpacing: '-0.025em',
-            marginBottom: 16,
+            letterSpacing: '-0.02em',
+            marginBottom: 10,
           }}
         >
           {title}
         </h3>
         <p
           style={{
-            fontSize: 15,
+            fontSize: 14,
             lineHeight: 1.7,
             color: 'var(--color-text-secondary)',
             fontWeight: 400,
@@ -609,151 +621,411 @@ function ShowcaseRow({
           {body}
         </p>
       </div>
-
-      <div
-        style={{
-          order: reverse ? 1 : 2,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          minHeight: 260,
-          border: '0.5px solid var(--color-outline-variant)',
-          borderRadius: 12,
-          padding: 32,
-          background: 'var(--color-surface)',
-        }}
-      >
-        {preview}
-      </div>
     </div>
   );
 }
 
-const ALL_COMPONENTS = [
-  'Button', 'Input', 'Card', 'Badge', 'Switch',
-  'Slider', 'Dialog', 'Toast', 'Avatar', 'Progress',
-  'Tabs', 'Tooltip', 'Spinner', 'DatePicker',
-  'Accordion', 'Breadcrumb', 'Pagination', 'Stepper',
-  'Navbar', 'Select', 'Checkbox', 'Radio', 'Chip',
-  'Divider', 'Icon', 'IconButton', 'Dropdown',
-];
-
 function ShowcaseSection() {
   return (
-    <section style={{ maxWidth: 1152, margin: '0 auto', padding: '0 24px' }}>
-      <ShowcaseRow
-        index="01"
-        eyebrow="27 components"
-        title="Everything you need. Nothing you don't."
-        body="From the basics — Button, Input, Card — to the harder ones — Dialog, Toast, DatePicker. All composable, all consistent, all from one package."
-        preview={
-          <div
-            style={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              gap: 6,
-              justifyContent: 'center',
-              maxWidth: 300,
-            }}
-          >
-            {ALL_COMPONENTS.map((c) => (
-              <Badge key={c} color="primary">{c}</Badge>
-            ))}
-          </div>
-        }
-      />
+    <section style={{ maxWidth: 1152, margin: '0 auto', padding: '96px 24px' }}>
 
-      <ShowcaseRow
-        index="02"
-        eyebrow="Dark mode native"
-        title="One token swap. Whole library reflows."
-        body="No theme provider gymnastics. Toggle a class, every component repaints. CSS variables do the heavy lifting — no JS, no flicker, no flash of wrong colors."
-        reverse
-        preview={
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr 1fr',
-              gap: 16,
-              width: '100%',
-              maxWidth: 320,
-            }}
-          >
-            {/* Light mockup */}
+      {/* Heading */}
+      <div style={{ textAlign: 'center', marginBottom: 56 }}>
+        <p
+          style={{
+            fontSize: 11,
+            textTransform: 'uppercase',
+            letterSpacing: '0.1em',
+            color: 'var(--color-text-tertiary)',
+            fontWeight: 500,
+            marginBottom: 14,
+          }}
+        >
+          Developer Experience
+        </p>
+        <h2
+          style={{
+            fontSize: 'clamp(30px, 4vw, 48px)',
+            fontWeight: 500,
+            color: 'var(--color-text-primary)',
+            letterSpacing: '-0.03em',
+          }}
+        >
+          Built for the way you actually work.
+        </h2>
+      </div>
+
+      {/* 3-column grid */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
+
+        {/* ── Card 1 · TypeScript-first ── */}
+        <FeatureCard
+          gradient="linear-gradient(145deg, #F0F4FF 0%, #DDE5FB 55%, #C8D5F7 100%)"
+          eyebrow="TypeScript-first"
+          title="Autocomplete everything."
+          body="Every prop, every variant, every size — fully typed. Catch mistakes at compile time, not after deploy. No more guessing variant names."
+          preview={
+            /* Illustration: VS Code IDE — hex colors are intentional, representing VS Code UI */
             <div
               style={{
-                borderRadius: 10,
-                padding: 16,
+                width: '100%',
+                maxWidth: 320,
+                background: '#1E1E1E',
+                borderRadius: 12,
+                padding: '20px 22px',
+                boxShadow: '0 12px 40px rgba(0,0,0,0.25)',
+                fontFamily: 'var(--font-mono)',
+                fontSize: 12,
+              }}
+            >
+              <style>{`
+                @keyframes caret-blink {
+                  50% { opacity: 0; }
+                }
+              `}</style>
+              {/* Traffic lights — part of the VS Code illustration */}
+              <div style={{ display: 'flex', gap: 6, marginBottom: 16 }}>
+                <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#FF5F57' }} />
+                <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#FEBC2E' }} />
+                <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#28C840' }} />
+              </div>
+              {/* JSX line being typed */}
+              <div style={{ lineHeight: 1.9, marginBottom: 6 }}>
+                <span style={{ color: '#808080' }}>{'<'}</span>
+                <span style={{ color: '#4FC1FF' }}>Button</span>
+                <span style={{ color: '#D4D4D4' }}> </span>
+                <span style={{ color: '#9CDCFE' }}>variant</span>
+                <span style={{ color: '#D4D4D4' }}>=</span>
+                <span style={{ color: '#CE9178' }}>&quot;fi</span>
+                {/* blinking caret */}
+                <span
+                  style={{
+                    display: 'inline-block',
+                    width: 1.5,
+                    height: '1em',
+                    background: '#AEAFAD',
+                    verticalAlign: 'text-bottom',
+                    animation: 'caret-blink 1s steps(2) infinite',
+                  }}
+                />
+              </div>
+              {/* Autocomplete popup — aligned under the cursor */}
+              <div
+                style={{
+                  background: '#252526',
+                  border: '0.5px solid #454545',
+                  borderRadius: 4,
+                  overflow: 'hidden',
+                  marginLeft: 72,
+                }}
+              >
+                {([
+                  { label: 'filled',   highlighted: true  },
+                  { label: 'outlined', highlighted: false },
+                  { label: 'ghost',    highlighted: false },
+                ] as const).map(({ label, highlighted }) => (
+                  <div
+                    key={label}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      padding: '5px 10px',
+                      background: highlighted ? '#094771' : 'transparent',
+                    }}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <div
+                        style={{
+                          width: 14,
+                          height: 14,
+                          borderRadius: 3,
+                          background: '#007ACC',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          flexShrink: 0,
+                        }}
+                      >
+                        <span style={{ color: '#FFF', fontSize: 8, fontWeight: 500 }}>a</span>
+                      </div>
+                      <span style={{ color: '#D4D4D4', fontSize: 12 }}>{label}</span>
+                    </div>
+                    <span style={{ color: '#888', fontSize: 10 }}>string</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          }
+        />
+
+        {/* ── Card 2 · Accessible by default ── */}
+        <FeatureCard
+          gradient="linear-gradient(145deg, #FFF5EA 0%, #FCE6CC 55%, #F8D4A8 100%)"
+          eyebrow="Accessible by default"
+          title="Keyboard, screen reader, focus — handled."
+          body="WCAG-aware contrast. Visible focus rings. Proper ARIA on every interactive component. Tab through your app — everything just works."
+          preview={
+            /* Illustration: focused button UI — raw <button> used intentionally for fake focus state */
+            <div
+              style={{
+                width: '100%',
+                maxWidth: 300,
                 background: '#FFFFFF',
-                border: '0.5px solid #E5E5E5',
+                borderRadius: 12,
+                padding: '28px 24px',
+                boxShadow: '0 12px 40px rgba(0,0,0,0.1)',
               }}
             >
-              <div style={{ fontSize: 11, color: '#666', marginBottom: 10 }}>Light</div>
-              <div style={{ height: 6, borderRadius: 4, background: '#111', marginBottom: 6 }} />
-              <div style={{ height: 6, borderRadius: 4, background: '#999', marginBottom: 6 }} />
-              <div style={{ height: 6, borderRadius: 4, background: '#E5E5E5', width: '66%' }} />
-            </div>
-            {/* Dark mockup */}
-            <div
-              style={{
-                borderRadius: 10,
-                padding: 16,
-                background: '#0A0A0A',
-                border: '0.5px solid #222',
-              }}
-            >
-              <div style={{ fontSize: 11, color: '#888', marginBottom: 10 }}>Dark</div>
-              <div style={{ height: 6, borderRadius: 4, background: '#FAFAFA', marginBottom: 6 }} />
-              <div style={{ height: 6, borderRadius: 4, background: '#666', marginBottom: 6 }} />
-              <div style={{ height: 6, borderRadius: 4, background: '#222', width: '66%' }} />
-            </div>
-          </div>
-        }
-      />
+              {/* Tab hint */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 22 }}>
+                <div
+                  style={{
+                    padding: '3px 8px',
+                    background: '#F0F0F0',
+                    borderRadius: 4,
+                    border: '0.5px solid #DCDCDC',
+                  }}
+                >
+                  <span style={{ fontSize: 11, color: '#555', fontFamily: 'var(--font-mono)' }}>Tab ↹</span>
+                </div>
+                <span
+                  style={{
+                    fontSize: 10,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.06em',
+                    color: '#999',
+                  }}
+                >
+                  focus moves through
+                </span>
+              </div>
 
-      <ShowcaseRow
-        index="03"
-        eyebrow="Tailwind v4 native"
-        title="Plays nice with the rest of your stack."
-        body="No CSS-in-JS runtime. No global resets fighting your design system. Drop omverse-ui into a Next.js app with Tailwind v4 and it just works."
-        preview={
-          <div
-            style={{
-              width: '100%',
-              maxWidth: 320,
-              borderRadius: 10,
-              padding: 16,
-              fontFamily: 'var(--font-mono)',
-              fontSize: 12,
-              lineHeight: 1.9,
-              border: '0.5px solid var(--color-outline-variant)',
-              background: 'var(--color-background)',
-              color: 'var(--color-text-primary)',
-            }}
-          >
-            <div style={{ color: 'var(--color-text-tertiary)' }}>{'// app/layout.tsx'}</div>
-            <div>
-              {'import { Toaster } from '}
-              <span style={{ color: '#10B981' }}>&quot;omverse-ui&quot;</span>
-              {';'}
+              {/* Focused "Save changes" button */}
+              <div style={{ position: 'relative', display: 'inline-flex', marginBottom: 14 }}>
+                {/* Blue focus ring — illustration of WCAG visible focus */}
+                <div
+                  style={{
+                    position: 'absolute',
+                    inset: -4,
+                    border: '2px solid #2563EB',
+                    borderRadius: 10,
+                    pointerEvents: 'none',
+                  }}
+                />
+                <button
+                  style={{
+                    background: '#111',
+                    color: '#FFF',
+                    fontSize: 13,
+                    fontWeight: 500,
+                    padding: '8px 16px',
+                    borderRadius: 6,
+                    border: 'none',
+                    cursor: 'default',
+                    outline: 'none',
+                  }}
+                >
+                  Save changes
+                </button>
+              </div>
+
+              {/* Unfocused siblings */}
+              <div style={{ display: 'flex', gap: 8, marginBottom: 22 }}>
+                <button
+                  style={{
+                    background: 'transparent',
+                    color: '#999',
+                    fontSize: 13,
+                    fontWeight: 400,
+                    padding: '8px 16px',
+                    borderRadius: 6,
+                    border: '0.5px solid #E5E5E5',
+                    cursor: 'default',
+                  }}
+                >
+                  Cancel
+                </button>
+                <button
+                  style={{
+                    background: 'transparent',
+                    color: '#999',
+                    fontSize: 13,
+                    fontWeight: 400,
+                    padding: '8px 16px',
+                    borderRadius: 6,
+                    border: '0.5px solid #E5E5E5',
+                    cursor: 'default',
+                  }}
+                >
+                  Reset
+                </button>
+              </div>
+
+              {/* ARIA attribute hint — values in #10B981 per spec exception */}
+              <div
+                style={{
+                  background: '#F5F5F5',
+                  borderRadius: 6,
+                  padding: '10px 12px',
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: 10,
+                  lineHeight: 1.9,
+                }}
+              >
+                <div>
+                  <span style={{ color: '#777' }}>aria-label=</span>
+                  <span style={{ color: '#10B981' }}>&quot;Save changes&quot;</span>
+                </div>
+                <div>
+                  <span style={{ color: '#777' }}>role=</span>
+                  <span style={{ color: '#10B981' }}>&quot;button&quot;</span>
+                </div>
+              </div>
             </div>
-            <div style={{ marginTop: 12, color: 'var(--color-text-tertiary)' }}>{'// any page'}</div>
-            <div>
-              {'<'}
-              <span style={{ color: '#10B981' }}>Button</span>
-              {' variant='}
-              <span style={{ color: '#10B981' }}>&quot;filled&quot;</span>
-              {'>'}
+          }
+        />
+
+        {/* ── Card 3 · Performance ── */}
+        <FeatureCard
+          gradient="linear-gradient(145deg, #EDFBF3 0%, #D8F4E7 55%, #C2EDD9 100%)"
+          eyebrow="Performance you can measure"
+          title="Small bundle. Zero runtime."
+          body="Tree-shakes down to what you import. No CSS-in-JS runtime. No theme provider re-renders. Your bundle stays lean — your app stays fast."
+          preview={
+            <div style={{ width: '100%', maxWidth: 300, display: 'flex', flexDirection: 'column', gap: 10 }}>
+              {/* Big stat card — inner mockup, box-shadow intentional */}
+              <div
+                style={{
+                  background: '#FFF',
+                  borderRadius: 12,
+                  padding: '20px 22px',
+                  boxShadow: '0 8px 32px rgba(0,0,0,0.09)',
+                }}
+              >
+                <p
+                  style={{
+                    fontSize: 10,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.07em',
+                    color: '#999',
+                    marginBottom: 10,
+                  }}
+                >
+                  Gzipped bundle
+                </p>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'flex-end',
+                    justifyContent: 'space-between',
+                    marginBottom: 14,
+                  }}
+                >
+                  <span
+                    style={{
+                      fontSize: 32,
+                      fontWeight: 500,
+                      color: '#111',
+                      letterSpacing: '-0.03em',
+                      lineHeight: 1,
+                    }}
+                  >
+                    12 KB
+                  </span>
+                  <span style={{ fontSize: 11, color: '#10B981', fontWeight: 500 }}>↓ lean</span>
+                </div>
+                {/* Progress bar showing 18% of a typical 60+ KB baseline */}
+                <div
+                  style={{
+                    height: 6,
+                    borderRadius: 3,
+                    background: '#F0F0F0',
+                    overflow: 'hidden',
+                    marginBottom: 10,
+                  }}
+                >
+                  <div
+                    style={{ width: '18%', height: '100%', borderRadius: 3, background: '#111' }}
+                  />
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <span style={{ fontSize: 10, color: '#999' }}>omverse-ui</span>
+                  <span style={{ fontSize: 10, color: '#CCC' }}>vs 60+ KB typical</span>
+                </div>
+              </div>
+
+              {/* Two small stat cards */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+                <div
+                  style={{
+                    background: '#FFF',
+                    borderRadius: 10,
+                    padding: 16,
+                    boxShadow: '0 8px 32px rgba(0,0,0,0.09)',
+                  }}
+                >
+                  <p
+                    style={{
+                      fontSize: 10,
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.07em',
+                      color: '#999',
+                      marginBottom: 8,
+                    }}
+                  >
+                    Runtime CSS
+                  </p>
+                  <span
+                    style={{
+                      fontSize: 22,
+                      fontWeight: 500,
+                      color: '#111',
+                      letterSpacing: '-0.03em',
+                    }}
+                  >
+                    0 KB
+                  </span>
+                </div>
+                <div
+                  style={{
+                    background: '#FFF',
+                    borderRadius: 10,
+                    padding: 16,
+                    boxShadow: '0 8px 32px rgba(0,0,0,0.09)',
+                  }}
+                >
+                  <p
+                    style={{
+                      fontSize: 10,
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.07em',
+                      color: '#999',
+                      marginBottom: 8,
+                    }}
+                  >
+                    SSR-safe
+                  </p>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                    <i className="ti ti-check" style={{ fontSize: 18, color: '#10B981' }} aria-hidden="true" />
+                    <span
+                      style={{
+                        fontSize: 22,
+                        fontWeight: 500,
+                        color: '#111',
+                        letterSpacing: '-0.03em',
+                      }}
+                    >
+                      Yes
+                    </span>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div>&nbsp;&nbsp;Ship it</div>
-            <div>
-              {'</'}
-              <span style={{ color: '#10B981' }}>Button</span>
-              {'>'}
-            </div>
-          </div>
-        }
-      />
+          }
+        />
+
+      </div>
     </section>
   );
 }
