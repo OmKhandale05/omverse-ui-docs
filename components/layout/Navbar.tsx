@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useState, useEffect, useRef } from 'react'
 import { usePathname } from 'next/navigation'
+import { useSidebar } from '@/components/layout/Sidebar'
 
 /* ─── Tabler-style outline SVG icons ─── */
 
@@ -125,6 +126,9 @@ export function Navbar() {
   const [isHidden, setIsHidden] = useState(false)
   const pathname = usePathname()
   const isHome = pathname === '/'
+  const { isOpen: sidebarOpen, setIsOpen: setSidebarOpen } = useSidebar()
+  /* Hamburger is visible on mobile only on pages that have a sidebar */
+  const hasSidebar = !isHome
   const lastScrollY = useRef(0)
   const rafId = useRef<number | null>(null)
 
@@ -196,6 +200,44 @@ export function Navbar() {
       className="flex items-center px-4 h-12 shrink-0 w-full sticky top-0 z-50"
       style={navStyle}
     >
+      {/* ── Responsive rules — no Tailwind breakpoint classes needed ── */}
+      <style>{`
+        .nav-hamburger   { display: flex; }
+        .nav-links       { display: none; }
+        .nav-search      { display: none; }
+        .nav-get-started { display: none; }
+        .nav-right       { margin-left: auto; }
+        @media (min-width: 768px) {
+          .nav-hamburger   { display: none !important; }
+          .nav-links       { display: flex !important; }
+          .nav-search      { display: flex !important; }
+          .nav-get-started { display: inline-flex !important; }
+          .nav-right       { margin-left: 0 !important; }
+        }
+      `}</style>
+
+      {/* ── Hamburger — mobile only, sidebar pages only ── */}
+      {hasSidebar && (
+        <button
+          type="button"
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+          aria-label={sidebarOpen ? 'Close navigation' : 'Open navigation'}
+          className="nav-hamburger items-center justify-center w-8 h-8 rounded-md shrink-0 mr-2"
+          style={{
+            border: 'none',
+            background: 'transparent',
+            color: 'var(--color-text-secondary)',
+            cursor: 'pointer',
+          }}
+        >
+          <i
+            className={`ti ${sidebarOpen ? 'ti-x' : 'ti-menu-2'}`}
+            style={{ fontSize: 18 }}
+            aria-hidden="true"
+          />
+        </button>
+      )}
+
       {/* ── Logo ── */}
       <Link href="/" className="flex items-center gap-2 mr-8 shrink-0">
         <LogoMark />
@@ -217,8 +259,8 @@ export function Navbar() {
         </span>
       </Link>
 
-      {/* ── Nav links — centered ── */}
-      <div className="flex items-center gap-0.5 mx-auto">
+      {/* ── Nav links — centered, hidden on mobile ── */}
+      <div className="nav-links items-center gap-0.5 mx-auto">
         {NAV_LINKS.map((link) => (
           <Link
             key={link.label}
@@ -250,11 +292,11 @@ export function Navbar() {
       </div>
 
       {/* ── Right side ── */}
-      <div className="flex items-center gap-2 shrink-0">
-        {/* Search */}
+      <div className="nav-right flex items-center gap-2 shrink-0">
+        {/* Search — hidden on mobile */}
         <button
           type="button"
-          className="flex items-center gap-2 px-2.5 py-1.5 rounded-md transition-colors"
+          className="nav-search items-center gap-2 px-2.5 py-1.5 rounded-md transition-colors"
           style={{
             fontWeight: 400,
             fontSize: '13px',
@@ -289,7 +331,7 @@ export function Navbar() {
           </kbd>
         </button>
 
-        {/* Theme toggle */}
+        {/* Theme toggle — visible on all sizes */}
         <button
           type="button"
           onClick={toggleTheme}
@@ -311,10 +353,10 @@ export function Navbar() {
           {dark ? <SunIcon /> : <MoonIcon />}
         </button>
 
-        {/* Get started */}
+        {/* Get started — hidden on mobile */}
         <Link
           href="/docs"
-          className="inline-flex items-center justify-center rounded-md px-3 h-8 text-[13px] transition-colors"
+          className="nav-get-started items-center justify-center rounded-md px-3 h-8 text-[13px] transition-colors"
           style={{
             fontWeight: 500,
             background: 'var(--color-primary)',

@@ -50,6 +50,7 @@ function HeroBackdrop() {
         }
       `}</style>
       <div
+        className="hero-backdrop-grid"
         style={{
           position: 'absolute',
           inset: 0,
@@ -145,6 +146,7 @@ function Hero() {
 
         {/* CTAs */}
         <div
+          className="hero-ctas"
           style={{
             display: 'flex',
             gap: 10,
@@ -425,6 +427,7 @@ function LayerSection() {
           <button
             key={l.id}
             onClick={() => scrollToLayer(l.id)}
+            className="layer-tab-button"
             style={{
               padding: '20px 24px',
               textAlign: 'left',
@@ -439,6 +442,7 @@ function LayerSection() {
             }}
           >
             <div
+              className="layer-tab-label"
               style={{
                 fontSize: 15,
                 fontWeight: active === l.id ? 500 : 400,
@@ -452,6 +456,7 @@ function LayerSection() {
               {l.label}
             </div>
             <div
+              className="layer-tab-tagline"
               style={{
                 fontSize: 13,
                 color: 'var(--color-text-disabled)',
@@ -468,6 +473,7 @@ function LayerSection() {
       {LAYERS.map((l) => {
         const textCol = (
           <div
+            className="layer-text-col"
             style={{
               display: 'flex',
               flexDirection: 'column',
@@ -507,6 +513,7 @@ function LayerSection() {
 
         const gradientCol = (
           <div
+            className="layer-gradient-col"
             style={{
               background: l.gradient,
               borderRadius: 20,
@@ -525,6 +532,7 @@ function LayerSection() {
           <div
             key={l.id}
             ref={(el) => { if (el) sectionRefs.current.set(l.id, el); }}
+            className="layer-row"
             style={{
               display: 'grid',
               gridTemplateColumns: l.reverse ? '55% 45%' : '45% 55%',
@@ -573,6 +581,7 @@ function FeatureCard({
     >
       {/* Gradient preview area */}
       <div
+        className="showcase-preview-area"
         style={{
           background: gradient,
           padding: '48px 32px',
@@ -656,7 +665,7 @@ function ShowcaseSection() {
       </div>
 
       {/* 3-column grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
+      <div className="showcase-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
 
         {/* ── Card 1 · TypeScript-first ── */}
         <FeatureCard
@@ -1040,6 +1049,7 @@ function InstallBlock() {
 
       {/* Card — grid background is scoped inside here, not full-bleed */}
       <div
+        className="install-card"
         style={{
           position: 'relative',
           maxWidth: 1152,
@@ -1113,6 +1123,7 @@ function InstallBlock() {
 
         {/* ── Right: light card wraps to content, centered vertically ── */}
         <div
+          className="install-right"
           style={{
             position: 'relative',
             zIndex: 1,
@@ -1326,6 +1337,7 @@ function CategoryGrid() {
 
         {/* Tab bar — 4 equal columns, same style as LayerSection */}
         <div
+          className="category-tab-bar"
           style={{
             display: 'grid',
             gridTemplateColumns: `repeat(${categories.length}, 1fr)`,
@@ -1376,6 +1388,7 @@ function CategoryGrid() {
 
         {/* Component grid */}
         <div
+          className="category-items-grid"
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(4, 1fr)',
@@ -1751,6 +1764,7 @@ function Footer() {
 
         {/* ── Top 4-column section ── */}
         <div
+          className="footer-top-grid"
           style={{
             display: 'grid',
             gridTemplateColumns: '2fr 1fr 1fr 1fr',
@@ -1760,7 +1774,7 @@ function Footer() {
         >
 
           {/* Brand */}
-          <div>
+          <div className="footer-brand-col">
             <div
               style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 18 }}
             >
@@ -1831,6 +1845,7 @@ function Footer() {
 
         {/* ── Bottom strip ── */}
         <div
+          className="footer-bottom-strip"
           style={{
             borderTop: '0.5px solid var(--color-outline-variant)',
             padding: '20px 0 40px',
@@ -1856,6 +1871,73 @@ function Footer() {
 export default function LandingPage() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      {/* ── Responsive overrides (inline styles can't do media queries) ── */}
+      <style>{`
+        /* HeroBackdrop — 3-col grid on mobile, 6 on desktop */
+        @media (max-width: 767px) {
+          .hero-backdrop-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+          }
+        }
+
+        /* LayerSection tab bar — compact padding + hide taglines on mobile */
+        @media (max-width: 767px) {
+          .layer-tab-button  { padding: 12px 10px !important; }
+          .layer-tab-label   { font-size: 13px !important; }
+          .layer-tab-tagline { display: none !important; }
+        }
+
+        /* LayerSection rows — single column, text always first */
+        @media (max-width: 767px) {
+          .layer-row {
+            grid-template-columns: 1fr !important;
+            min-height: unset !important;
+          }
+          .layer-text-col {
+            padding: 40px 24px !important;
+            order: 1;
+          }
+          .layer-gradient-col {
+            order: 2;
+            margin: 0 16px 24px !important;
+            padding: 40px 24px !important;
+          }
+        }
+
+        /* ShowcaseSection — 1 column, shorter preview areas */
+        @media (max-width: 767px) {
+          .showcase-grid         { grid-template-columns: 1fr !important; }
+          .showcase-preview-area { min-height: 260px !important; }
+        }
+
+        /* InstallBlock — single column */
+        @media (max-width: 767px) {
+          .install-card  { grid-template-columns: 1fr !important; min-height: unset !important; }
+          .install-right { padding: 0 24px 32px !important; }
+        }
+
+        /* CategoryGrid tab bar — 2×2 on mobile; items — 2 columns */
+        @media (max-width: 767px) {
+          .category-tab-bar   { grid-template-columns: repeat(2, 1fr) !important; }
+          .category-items-grid { grid-template-columns: repeat(2, 1fr) !important; }
+        }
+
+        /* Footer — 2-col grid, brand full-width on top */
+        @media (max-width: 767px) {
+          .footer-top-grid  { grid-template-columns: 1fr 1fr !important; gap: 32px !important; }
+          .footer-brand-col { grid-column: 1 / -1; }
+          .footer-bottom-strip {
+            flex-direction: column !important;
+            gap: 8px !important;
+            align-items: flex-start !important;
+          }
+        }
+
+        /* Hero — wrap CTAs neatly on very small screens */
+        @media (max-width: 479px) {
+          .hero-ctas { flex-direction: column; align-items: center; }
+        }
+      `}</style>
       <Navbar />
       <main style={{ background: 'var(--color-background)', flex: 1 }}>
         <Hero />
