@@ -149,7 +149,7 @@ export default function IntroductionPage() {
           <Button variant="filled">Filled</Button>
           <Button variant="outlined">Outlined</Button>
           <Button variant="tonal">Tonal</Button>
-          <Button variant="gradient">Gradient</Button>
+          <Button variant="ghost">Ghost</Button>
           <Badge color="success">Success</Badge>
           <Badge color="primary">Primary</Badge>
           <Badge color="warning">Warning</Badge>
