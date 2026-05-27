@@ -114,21 +114,32 @@ interface NavLink {
 }
 
 const NAV_LINKS: NavLink[] = [
-  { label: 'Docs', href: '/docs' },
-  { label: 'Components', href: '/components' },
+  { label: 'Components', href: '/components/button' },
   { label: 'Examples', href: '/examples' },
   { label: 'GitHub', href: 'https://github.com/omverse/omverse-ui', external: true },
 ]
+
+function openCommandPalette() {
+  window.dispatchEvent(new CustomEvent('open-command-palette'))
+}
 
 export function Navbar() {
   const [dark, setDark] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const [isHidden, setIsHidden] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [kbdHint, setKbdHint] = useState('⌘K')
   const pathname = usePathname()
   const isHome = pathname === '/'
   const lastScrollY = useRef(0)
   const rafId = useRef<number | null>(null)
+
+  /* Detect platform for keyboard hint */
+  useEffect(() => {
+    const isMac = /Mac|iPhone|iPad|iPod/.test(navigator.platform) ||
+                  navigator.userAgent.includes('Macintosh')
+    setKbdHint(isMac ? '⌘K' : 'Ctrl K')
+  }, [])
 
   const closeMobileMenu = () => setMobileMenuOpen(false)
 
@@ -215,17 +226,19 @@ export function Navbar() {
     >
       {/* ── Responsive rules — no Tailwind breakpoint classes needed ── */}
       <style>{`
-        .nav-hamburger   { display: flex; }
-        .nav-links       { display: none; }
-        .nav-search      { display: none; }
-        .nav-get-started { display: none; }
-        .nav-right       { margin-left: auto; }
+        .nav-hamburger       { display: flex; }
+        .nav-links           { display: none; }
+        .nav-search          { display: none; }
+        .nav-search-mobile   { display: flex; }
+        .nav-get-started     { display: none; }
+        .nav-right           { margin-left: auto; }
         @media (min-width: 768px) {
-          .nav-hamburger   { display: none !important; }
-          .nav-links       { display: flex !important; }
-          .nav-search      { display: flex !important; }
-          .nav-get-started { display: inline-flex !important; }
-          .nav-right       { margin-left: 0 !important; }
+          .nav-hamburger     { display: none !important; }
+          .nav-links         { display: flex !important; }
+          .nav-search        { display: flex !important; }
+          .nav-search-mobile { display: none !important; }
+          .nav-get-started   { display: inline-flex !important; }
+          .nav-right         { margin-left: 0 !important; }
         }
       `}</style>
 
@@ -304,9 +317,11 @@ export function Navbar() {
 
       {/* ── Right side ── */}
       <div className="nav-right flex items-center gap-2 shrink-0">
-        {/* Search — hidden on mobile */}
+
+        {/* Search pill — desktop only */}
         <button
           type="button"
+          onClick={openCommandPalette}
           className="nav-search items-center gap-2 px-2.5 py-1.5 rounded-md transition-colors"
           style={{
             fontWeight: 400,
@@ -314,6 +329,7 @@ export function Navbar() {
             color: 'var(--color-text-secondary)',
             border: '0.5px solid var(--color-outline-variant)',
             background: 'transparent',
+            cursor: 'pointer',
           }}
           onMouseEnter={(e) => {
             ;(e.currentTarget as HTMLButtonElement).style.background =
@@ -338,8 +354,35 @@ export function Navbar() {
               color: 'var(--color-text-secondary)',
             }}
           >
-            ⌘K
+            {kbdHint}
           </kbd>
+        </button>
+
+        {/* Search icon — mobile only */}
+        <button
+          type="button"
+          onClick={openCommandPalette}
+          aria-label="Search"
+          className="nav-search-mobile items-center justify-center w-8 h-8 rounded-md transition-colors"
+          style={{
+            border:     'none',
+            background: 'transparent',
+            color:      'var(--color-text-secondary)',
+            cursor:     'pointer',
+          }}
+          onMouseEnter={(e) => {
+            ;(e.currentTarget as HTMLButtonElement).style.background =
+              'var(--color-surface)'
+            ;(e.currentTarget as HTMLButtonElement).style.color =
+              'var(--color-text-primary)'
+          }}
+          onMouseLeave={(e) => {
+            ;(e.currentTarget as HTMLButtonElement).style.background = 'transparent'
+            ;(e.currentTarget as HTMLButtonElement).style.color =
+              'var(--color-text-secondary)'
+          }}
+        >
+          <SearchIcon />
         </button>
 
         {/* Theme toggle — visible on all sizes */}
