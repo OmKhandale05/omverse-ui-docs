@@ -1036,111 +1036,204 @@ function ShowcaseSection() {
 
 function InstallBlock() {
   return (
-    <section
-      style={{ maxWidth: 1152, margin: '0 auto', padding: '96px 24px' }}
-    >
-      <div style={{ marginBottom: 48 }}>
-        <p style={{ fontSize: 13, color: 'var(--color-text-tertiary)', marginBottom: 12 }}>
-          Get started
-        </p>
-        <h2
-          style={{
-            fontSize: 'clamp(28px, 4vw, 40px)',
-            fontWeight: 500,
-            color: 'var(--color-text-primary)',
-            letterSpacing: '-0.03em',
-          }}
-        >
-          One install. One import. Ship.
-        </h2>
-      </div>
+    <section style={{ padding: '96px 24px', background: 'var(--color-background)' }}>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-        {/* Terminal card */}
+      {/* Card — grid background is scoped inside here, not full-bleed */}
+      <div
+        style={{
+          position: 'relative',
+          maxWidth: 1152,
+          margin: '0 auto',
+          minHeight: '80vh',
+          borderRadius: 20,
+          border: '0.5px solid var(--color-outline-variant)',
+          overflow: 'hidden',
+          display: 'grid',
+          gridTemplateColumns: '42% 58%',
+          alignItems: 'stretch',
+        }}
+      >
+        {/* Grid pattern — contained inside the card */}
+        <div
+          aria-hidden
+          style={{
+            position: 'absolute',
+            inset: 0,
+            backgroundImage: `
+              linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px)
+            `,
+            backgroundSize: '28px 28px',
+            pointerEvents: 'none',
+            zIndex: 0,
+          }}
+        />
+
+        {/* ── Left: text vertically centered ── */}
         <div
           style={{
-            borderRadius: 12,
-            padding: 24,
-            fontFamily: 'var(--font-mono)',
-            fontSize: 13,
-            lineHeight: 1.85,
-            border: '0.5px solid var(--color-outline-variant)',
-            background: 'var(--color-surface)',
-          }}
-        >
-          <div style={{ color: 'var(--color-text-tertiary)', marginBottom: 16 }}>$ install</div>
-          <div style={{ color: 'var(--color-text-primary)', marginBottom: 24 }}>
-            npm install omverse-ui
-          </div>
-          <div
-            style={{
-              borderTop: '0.5px solid var(--color-outline-variant)',
-              paddingTop: 24,
-            }}
-          >
-            <div style={{ color: 'var(--color-text-tertiary)', marginBottom: 8 }}>
-              {'// your component'}
-            </div>
-            <div style={{ color: 'var(--color-text-primary)' }}>
-              {'import { Button } from '}
-              <span style={{ color: '#10B981' }}>&quot;omverse-ui&quot;</span>
-              {';'}
-            </div>
-            <div style={{ marginTop: 8, color: 'var(--color-text-primary)' }}>
-              <div>{'export default function Demo() {'}</div>
-              <div>
-                &nbsp;&nbsp;{'return <'}
-                <span style={{ color: '#10B981' }}>Button</span>
-                {' variant='}
-                <span style={{ color: '#10B981' }}>&quot;filled&quot;</span>
-                {'>'}
-                Ship
-                {'</'}
-                <span style={{ color: '#10B981' }}>Button</span>
-                {'>;'}
-              </div>
-              <div>{'}'}</div>
-            </div>
-          </div>
-        </div>
-
-        {/* Rendered output card */}
-        <div
-          style={{
-            borderRadius: 12,
-            padding: 24,
+            position: 'relative',
+            zIndex: 1,
             display: 'flex',
             flexDirection: 'column',
-            gap: 20,
             justifyContent: 'center',
-            border: '0.5px solid var(--color-outline-variant)',
-            background: 'var(--color-surface)',
+            padding: '80px 56px 80px 56px',
           }}
         >
-          <p
+          <h2
             style={{
-              fontSize: 11,
-              textTransform: 'uppercase',
-              letterSpacing: '0.08em',
-              color: 'var(--color-text-tertiary)',
+              fontSize: 'clamp(30px, 3.5vw, 46px)',
               fontWeight: 500,
+              color: 'var(--color-text-primary)',
+              letterSpacing: '-0.03em',
+              lineHeight: 1.1,
+              marginBottom: 20,
             }}
           >
-            Rendered output
-          </p>
-          <Button variant="filled">Ship</Button>
+            Build with omverse-ui.
+          </h2>
           <p
             style={{
-              fontSize: 13,
+              fontSize: 15,
+              lineHeight: 1.75,
               color: 'var(--color-text-secondary)',
-              lineHeight: 1.65,
               fontWeight: 400,
+              marginBottom: 36,
+              maxWidth: 360,
             }}
           >
-            That's it. No config files. No provider wrappers (unless you want
-            toasts). No theme runtime.
+            A complete component library for Next.js and Tailwind v4.
+            Install once, import anywhere, theme with CSS variables.
+            No config. No provider wrapping. Just ship.
           </p>
+          <Link href="/docs/installation" style={{ textDecoration: 'none' }}>
+            <Button variant="filled" size="md">Read the docs</Button>
+          </Link>
         </div>
+
+        {/* ── Right: light card wraps to content, centered vertically ── */}
+        <div
+          style={{
+            position: 'relative',
+            zIndex: 1,
+            padding: '32px 32px 32px 0',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+          }}
+        >
+          <div
+            style={{
+              background: 'var(--color-surface)',
+              borderRadius: 16,
+              border: '0.5px solid var(--color-outline-variant)',
+              padding: '28px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 24,
+            }}
+          >
+
+            {/* ── Install code block ── */}
+            <div>
+              <p
+                style={{
+                  fontSize: 13,
+                  fontWeight: 400,
+                  color: 'var(--color-text-secondary)',
+                  marginBottom: 12,
+                }}
+              >
+                Install
+              </p>
+              <div
+                style={{
+                  background: '#161616',
+                  borderRadius: 10,
+                  padding: '20px 24px',
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: 13,
+                  lineHeight: 1.95,
+                }}
+              >
+                <div style={{ color: '#555' }}>$ terminal</div>
+                <div style={{ color: '#E8E8E8', marginBottom: 16 }}>
+                  npm install omverse-ui
+                </div>
+                <div style={{ height: '0.5px', background: '#2A2A2A', marginBottom: 16 }} />
+                <div style={{ color: '#555' }}>{'/* index.css */'}</div>
+                <div>
+                  <span style={{ color: '#A78BFA' }}>@import </span>
+                  <span style={{ color: '#10B981' }}>&quot;tailwindcss&quot;</span>
+                  <span style={{ color: '#E8E8E8' }}>;</span>
+                </div>
+                <div>
+                  <span style={{ color: '#A78BFA' }}>@import </span>
+                  <span style={{ color: '#10B981' }}>&quot;omverse-ui/styles&quot;</span>
+                  <span style={{ color: '#E8E8E8' }}>;</span>
+                </div>
+              </div>
+            </div>
+
+            {/* ── Usage code block ── */}
+            <div>
+              <p
+                style={{
+                  fontSize: 13,
+                  fontWeight: 400,
+                  color: 'var(--color-text-secondary)',
+                  marginBottom: 12,
+                }}
+              >
+                Usage
+              </p>
+              <div
+                style={{
+                  background: '#161616',
+                  borderRadius: 10,
+                  padding: '20px 24px',
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: 13,
+                  lineHeight: 1.95,
+                }}
+              >
+                <div style={{ color: '#555' }}>{'// any component file'}</div>
+                <div>
+                  <span style={{ color: '#E8E8E8' }}>{'import { '}</span>
+                  <span style={{ color: '#4FC1FF' }}>Button</span>
+                  <span style={{ color: '#E8E8E8' }}>{', '}</span>
+                  <span style={{ color: '#4FC1FF' }}>Badge</span>
+                  <span style={{ color: '#E8E8E8' }}>{' } from '}</span>
+                  <span style={{ color: '#10B981' }}>&quot;omverse-ui&quot;</span>
+                  <span style={{ color: '#E8E8E8' }}>;</span>
+                </div>
+                <div style={{ height: '0.5px', background: '#2A2A2A', margin: '12px 0' }} />
+                <div style={{ color: '#555' }}>{'export default function Page() {'}</div>
+                <div style={{ paddingLeft: 16 }}>
+                  <span style={{ color: '#E8E8E8' }}>{'return ('}</span>
+                </div>
+                <div style={{ paddingLeft: 32 }}>
+                  <span style={{ color: '#E8E8E8' }}>{'<'}</span>
+                  <span style={{ color: '#4FC1FF' }}>Button</span>
+                  <span style={{ color: '#9CDCFE' }}> variant</span>
+                  <span style={{ color: '#E8E8E8' }}>=</span>
+                  <span style={{ color: '#10B981' }}>&quot;filled&quot;</span>
+                  <span style={{ color: '#E8E8E8' }}>{'>'}</span>
+                </div>
+                <div style={{ paddingLeft: 48, color: '#E8E8E8' }}>Ship it</div>
+                <div style={{ paddingLeft: 32 }}>
+                  <span style={{ color: '#E8E8E8' }}>{'</'}</span>
+                  <span style={{ color: '#4FC1FF' }}>Button</span>
+                  <span style={{ color: '#E8E8E8' }}>{'>'}</span>
+                </div>
+                <div style={{ paddingLeft: 16, color: '#E8E8E8' }}>{')'}</div>
+                <div style={{ color: '#555' }}>{'}'}</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
       </div>
     </section>
   );
