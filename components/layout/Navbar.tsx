@@ -1,7 +1,8 @@
 'use client'
 
 import Link from 'next/link'
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import { usePathname } from 'next/navigation'
 
 /* ─── Tabler-style outline SVG icons ─── */
 
@@ -120,6 +121,45 @@ const NAV_LINKS: NavLink[] = [
 
 export function Navbar() {
   const [dark, setDark] = useState(false)
+  const [isScrolled, setIsScrolled] = useState(false)
+  const [isHidden, setIsHidden] = useState(false)
+  const pathname = usePathname()
+  const isHome = pathname === '/'
+  const lastScrollY = useRef(0)
+  const rafId = useRef<number | null>(null)
+
+  /* Single scroll listener — handles both transparent/solid and hide/show */
+  useEffect(() => {
+    function handleScroll() {
+      // Throttle via rAF — only queue one frame at a time
+      if (rafId.current !== null) return
+      rafId.current = requestAnimationFrame(() => {
+        rafId.current = null
+        const currentY = window.scrollY
+
+        // transparent → solid threshold (used by navStyle below)
+        setIsScrolled(currentY > 80)
+
+        // hide/show logic — works on every page
+        if (currentY < 80) {
+          setIsHidden(false)
+        } else if (currentY > lastScrollY.current) {
+          setIsHidden(true)   // scrolling down
+        } else {
+          setIsHidden(false)  // scrolling up
+        }
+
+        lastScrollY.current = currentY
+      })
+    }
+
+    handleScroll() // sync on mount
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      if (rafId.current !== null) cancelAnimationFrame(rafId.current)
+    }
+  }, [])
 
   function toggleTheme() {
     const next = !dark
@@ -127,13 +167,34 @@ export function Navbar() {
     document.documentElement.classList.toggle('dark', next)
   }
 
+  const navStyle: React.CSSProperties =
+    !isHome
+      ? {
+          background: 'var(--color-background)',
+          borderBottom: '0.5px solid var(--color-outline-variant)',
+          transform: isHidden ? 'translateY(-100%)' : 'translateY(0)',
+          transition: 'background 200ms, border-color 200ms, transform 250ms ease',
+        }
+      : isScrolled
+        ? {
+            background: 'color-mix(in srgb, var(--color-background) 80%, transparent)',
+            backdropFilter: 'blur(12px)',
+            WebkitBackdropFilter: 'blur(12px)',
+            borderBottom: '0.5px solid var(--color-outline-variant)',
+            transform: isHidden ? 'translateY(-100%)' : 'translateY(0)',
+            transition: 'background 200ms, border-color 200ms, transform 250ms ease',
+          }
+        : {
+            background: 'transparent',
+            borderBottom: '0.5px solid transparent',
+            transform: isHidden ? 'translateY(-100%)' : 'translateY(0)',
+            transition: 'background 200ms, border-color 200ms, transform 250ms ease',
+          }
+
   return (
     <nav
-      className="flex items-center px-4 h-12 shrink-0 w-full"
-      style={{
-        background: 'var(--color-background)',
-        borderBottom: '0.5px solid var(--color-outline-variant)',
-      }}
+      className="flex items-center px-4 h-12 shrink-0 w-full sticky top-0 z-50"
+      style={navStyle}
     >
       {/* ── Logo ── */}
       <Link href="/" className="flex items-center gap-2 mr-8 shrink-0">

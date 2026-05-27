@@ -1660,6 +1660,196 @@ function FinalCta() {
 }
 
 /* ─────────────────────────────────────────────────────────────────────────
+   FOOTER
+───────────────────────────────────────────────────────────────────────── */
+
+function FooterLink({
+  href,
+  children,
+  external,
+}: {
+  href: string;
+  children: React.ReactNode;
+  external?: boolean;
+}) {
+  const base: React.CSSProperties = {
+    display: 'block',
+    fontSize: 14,
+    color: 'var(--color-text-secondary)',
+    textDecoration: 'none',
+    fontWeight: 400,
+    lineHeight: 1,
+    transition: 'color 150ms',
+  };
+  const handleEnter = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.currentTarget.style.color = 'var(--color-text-primary)';
+  };
+  const handleLeave = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.currentTarget.style.color = 'var(--color-text-secondary)';
+  };
+  if (external) {
+    return (
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        style={base}
+        onMouseEnter={handleEnter}
+        onMouseLeave={handleLeave}
+      >
+        {children}
+      </a>
+    );
+  }
+  return (
+    <Link href={href} style={base} onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
+      {children}
+    </Link>
+  );
+}
+
+function Footer() {
+  const columns: {
+    heading: string;
+    links: { label: string; href: string; external?: boolean }[];
+  }[] = [
+    {
+      heading: 'Product',
+      links: [
+        { label: 'Components',   href: '/components/button'                                                       },
+        { label: 'Docs',         href: '/docs/introduction'                                                       },
+        { label: 'Storybook',    href: 'https://design-sys-components.vercel.app',           external: true       },
+      ],
+    },
+    {
+      heading: 'Resources',
+      links: [
+        { label: 'Installation',    href: '/docs/installation'                                                    },
+        { label: 'Theming',         href: '/docs/theming'                                                         },
+        { label: 'Design tokens',   href: '/docs/design-tokens'                                                   },
+        { label: 'GitHub',          href: 'https://github.com/OmKhandale05/design-sys-components', external: true },
+      ],
+    },
+    {
+      heading: 'Community',
+      links: [
+        { label: 'npm',          href: 'https://npmjs.com/package/omverse-ui',                               external: true },
+        { label: 'MIT License',  href: 'https://github.com/OmKhandale05/design-sys-components/blob/main/LICENSE', external: true },
+      ],
+    },
+  ];
+
+
+  return (
+    <footer
+      style={{
+        borderTop: '0.5px solid var(--color-outline-variant)',
+        background: 'var(--color-background)',
+      }}
+    >
+      <div style={{ maxWidth: 1152, margin: '0 auto', padding: '72px 24px 0' }}>
+
+        {/* ── Top 4-column section ── */}
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '2fr 1fr 1fr 1fr',
+            gap: 48,
+            marginBottom: 56,
+          }}
+        >
+
+          {/* Brand */}
+          <div>
+            <div
+              style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 18 }}
+            >
+              <div
+                style={{
+                  width: 28,
+                  height: 28,
+                  borderRadius: 8,
+                  background: 'var(--color-text-primary)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexShrink: 0,
+                }}
+              >
+                <i
+                  className="ti ti-hexagon-filled"
+                  style={{ fontSize: 14, color: 'var(--color-background)' }}
+                  aria-hidden="true"
+                />
+              </div>
+              <span style={{ fontSize: 15, fontWeight: 500, color: 'var(--color-text-primary)' }}>
+                omverse-ui
+              </span>
+            </div>
+            <p
+              style={{
+                fontSize: 14,
+                color: 'var(--color-text-secondary)',
+                lineHeight: 1.65,
+                marginBottom: 14,
+                maxWidth: 260,
+                fontWeight: 400,
+              }}
+            >
+              The universe of customizable interfaces.
+            </p>
+            <p style={{ fontSize: 13, color: 'var(--color-text-disabled)', fontWeight: 400 }}>
+              Built by Om Khandale
+            </p>
+          </div>
+
+          {/* Link columns */}
+          {columns.map(({ heading, links }) => (
+            <div key={heading}>
+              <p
+                style={{
+                  fontSize: 11,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.08em',
+                  fontWeight: 500,
+                  color: 'var(--color-text-primary)',
+                  marginBottom: 20,
+                }}
+              >
+                {heading}
+              </p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+                {links.map(({ label, href, external }) => (
+                  <FooterLink key={label} href={href} external={external}>
+                    {label}
+                  </FooterLink>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* ── Bottom strip ── */}
+        <div
+          style={{
+            borderTop: '0.5px solid var(--color-outline-variant)',
+            padding: '20px 0 40px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
+        >
+          <span style={{ fontSize: 13, color: 'var(--color-text-disabled)', fontWeight: 400 }}>
+            © 2026 omverse-ui · v0.1.4 · MIT
+          </span>
+        </div>
+
+      </div>
+    </footer>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
    PAGE
 ───────────────────────────────────────────────────────────────────────── */
 
@@ -1667,7 +1857,7 @@ export default function LandingPage() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <Navbar />
-      <main style={{ background: 'var(--color-background)' }}>
+      <main style={{ background: 'var(--color-background)', flex: 1 }}>
         <Hero />
         <LayerSection />
         <ShowcaseSection />
@@ -1675,6 +1865,7 @@ export default function LandingPage() {
         <CategoryGrid />
         <FinalCta />
       </main>
+      <Footer />
     </div>
   );
 }
