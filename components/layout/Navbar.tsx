@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { useState, useEffect, useRef } from 'react'
 import { usePathname } from 'next/navigation'
-import { useSidebar } from '@/components/layout/Sidebar'
+import { SECTIONS } from '@/components/layout/Sidebar'
 
 /* ─── Tabler-style outline SVG icons ─── */
 
@@ -124,13 +124,13 @@ export function Navbar() {
   const [dark, setDark] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const [isHidden, setIsHidden] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const pathname = usePathname()
   const isHome = pathname === '/'
-  const { isOpen: sidebarOpen, setIsOpen: setSidebarOpen } = useSidebar()
-  /* Hamburger is visible on mobile only on pages that have a sidebar */
-  const hasSidebar = !isHome
   const lastScrollY = useRef(0)
   const rafId = useRef<number | null>(null)
+
+  const closeMobileMenu = () => setMobileMenuOpen(false)
 
   /* Single scroll listener — handles both transparent/solid and hide/show */
   useEffect(() => {
@@ -165,6 +165,18 @@ export function Navbar() {
     }
   }, [])
 
+  /* Close mobile menu on route change */
+  useEffect(() => {
+    closeMobileMenu()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname])
+
+  /* Lock body scroll while mobile menu is open */
+  useEffect(() => {
+    document.body.style.overflow = mobileMenuOpen ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
+  }, [mobileMenuOpen])
+
   function toggleTheme() {
     const next = !dark
     setDark(next)
@@ -196,6 +208,7 @@ export function Navbar() {
           }
 
   return (
+  <>
     <nav
       className="flex items-center px-4 h-12 shrink-0 w-full sticky top-0 z-50"
       style={navStyle}
@@ -216,27 +229,25 @@ export function Navbar() {
         }
       `}</style>
 
-      {/* ── Hamburger — mobile only, sidebar pages only ── */}
-      {hasSidebar && (
-        <button
-          type="button"
-          onClick={() => setSidebarOpen(!sidebarOpen)}
-          aria-label={sidebarOpen ? 'Close navigation' : 'Open navigation'}
-          className="nav-hamburger items-center justify-center w-8 h-8 rounded-md shrink-0 mr-2"
-          style={{
-            border: 'none',
-            background: 'transparent',
-            color: 'var(--color-text-secondary)',
-            cursor: 'pointer',
-          }}
-        >
-          <i
-            className={`ti ${sidebarOpen ? 'ti-x' : 'ti-menu-2'}`}
-            style={{ fontSize: 18 }}
-            aria-hidden="true"
-          />
-        </button>
-      )}
+      {/* ── Hamburger — mobile only, all pages ── */}
+      <button
+        type="button"
+        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+        aria-label={mobileMenuOpen ? 'Close navigation' : 'Open navigation'}
+        className="nav-hamburger items-center justify-center w-8 h-8 rounded-md shrink-0 mr-2"
+        style={{
+          border: 'none',
+          background: 'transparent',
+          color: 'var(--color-text-secondary)',
+          cursor: 'pointer',
+        }}
+      >
+        <i
+          className={`ti ${mobileMenuOpen ? 'ti-x' : 'ti-menu-2'}`}
+          style={{ fontSize: 18 }}
+          aria-hidden="true"
+        />
+      </button>
 
       {/* ── Logo ── */}
       <Link href="/" className="flex items-center gap-2 mr-8 shrink-0">
@@ -367,5 +378,193 @@ export function Navbar() {
         </Link>
       </div>
     </nav>
+
+    {/* ── Mobile backdrop ── */}
+    <div
+      onClick={closeMobileMenu}
+      aria-hidden="true"
+      style={{
+        position: 'fixed',
+        inset: 0,
+        background: 'rgba(0,0,0,0.45)',
+        zIndex: 60,
+        opacity: mobileMenuOpen ? 1 : 0,
+        pointerEvents: mobileMenuOpen ? 'auto' : 'none',
+        transition: 'opacity 250ms ease',
+      }}
+    />
+
+    {/* ── Mobile drawer ── */}
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-label="Navigation"
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        bottom: 0,
+        width: 300,
+        background: 'var(--color-background)',
+        borderRight: '0.5px solid var(--color-outline-variant)',
+        zIndex: 70,
+        transform: mobileMenuOpen ? 'translateX(0)' : 'translateX(-100%)',
+        transition: 'transform 250ms ease',
+        display: 'flex',
+        flexDirection: 'column',
+      }}
+    >
+      {/* Header */}
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: '0 16px',
+          height: 48,
+          borderBottom: '0.5px solid var(--color-outline-variant)',
+          flexShrink: 0,
+        }}
+      >
+        <span style={{ fontSize: 13, fontWeight: 500, color: 'var(--color-text-primary)' }}>
+          omverse-ui
+        </span>
+        <button
+          onClick={closeMobileMenu}
+          aria-label="Close navigation"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: 32,
+            height: 32,
+            borderRadius: 6,
+            border: 'none',
+            background: 'transparent',
+            color: 'var(--color-text-secondary)',
+            cursor: 'pointer',
+          }}
+        >
+          <i className="ti ti-x" style={{ fontSize: 18 }} aria-hidden="true" />
+        </button>
+      </div>
+
+      {/* Scrollable body */}
+      <div style={{ flex: 1, overflowY: 'auto', padding: 24 }}>
+
+        {/* ── "Menu" — nav links, always shown ── */}
+        <p
+          style={{
+            fontSize: 10,
+            textTransform: 'uppercase',
+            letterSpacing: '0.1em',
+            fontWeight: 500,
+            color: 'var(--color-text-disabled)',
+            marginBottom: 4,
+          }}
+        >
+          Menu
+        </p>
+        {NAV_LINKS.map((link) => {
+          const isActive =
+            !link.external &&
+            (pathname === link.href || pathname.startsWith(link.href + '/'))
+          const style: React.CSSProperties = {
+            display: 'block',
+            padding: '10px 0',
+            fontSize: 14,
+            fontWeight: isActive ? 500 : 400,
+            color: isActive ? 'var(--color-text-primary)' : 'var(--color-text-secondary)',
+            textDecoration: 'none',
+          }
+          return link.external ? (
+            <a
+              key={link.label}
+              href={link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={style}
+              onClick={closeMobileMenu}
+            >
+              {link.label}
+            </a>
+          ) : (
+            <Link key={link.label} href={link.href} style={style} onClick={closeMobileMenu}>
+              {link.label}
+            </Link>
+          )
+        })}
+
+        {/* ── Sidebar sections — docs/component pages only ── */}
+        {!isHome && (
+          <>
+            <div
+              style={{
+                height: '0.5px',
+                background: 'var(--color-outline-variant)',
+                margin: '20px 0',
+              }}
+            />
+            {SECTIONS.map((section) => (
+              <div key={section.title}>
+                <p
+                  style={{
+                    fontSize: 10,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.1em',
+                    fontWeight: 500,
+                    color: 'var(--color-text-disabled)',
+                    marginBottom: 4,
+                    marginTop: 20,
+                  }}
+                >
+                  {section.title}
+                </p>
+                {section.items.map((item) => {
+                  const isItemActive = pathname === item.href
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={closeMobileMenu}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 8,
+                        padding: '10px 0',
+                        fontSize: 14,
+                        fontWeight: isItemActive ? 500 : 400,
+                        color: isItemActive
+                          ? 'var(--color-text-primary)'
+                          : 'var(--color-text-secondary)',
+                        textDecoration: 'none',
+                      }}
+                    >
+                      {item.label}
+                      {item.badge === 'new' && (
+                        <span
+                          style={{
+                            fontSize: 10,
+                            fontWeight: 500,
+                            padding: '1px 5px',
+                            borderRadius: 3,
+                            background: 'var(--color-primary-container)',
+                            color: 'var(--color-on-primary-container)',
+                          }}
+                        >
+                          new
+                        </span>
+                      )}
+                    </Link>
+                  )
+                })}
+              </div>
+            ))}
+          </>
+        )}
+
+      </div>
+    </div>
+  </>
   )
 }
