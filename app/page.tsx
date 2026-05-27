@@ -1456,74 +1456,204 @@ function CategoryGrid() {
 ───────────────────────────────────────────────────────────────────────── */
 
 function FinalCta() {
-  return (
-    <section
-      style={{
-        borderTop: '0.5px solid var(--color-outline-variant)',
-        padding: '96px 24px',
-        textAlign: 'center',
-      }}
-    >
-      <div style={{ maxWidth: 600, margin: '0 auto' }}>
-        <h2
-          style={{
-            fontSize: 'clamp(36px, 5vw, 56px)',
-            fontWeight: 500,
-            color: 'var(--color-text-primary)',
-            letterSpacing: '-0.04em',
-            lineHeight: 1.05,
-            marginBottom: 20,
-          }}
-        >
-          Start building.
-        </h2>
-        <p
-          style={{
-            fontSize: 16,
-            color: 'var(--color-text-secondary)',
-            lineHeight: 1.65,
-            marginBottom: 36,
-            fontWeight: 400,
-          }}
-        >
-          One install away from a complete component library. Free, open source,
-          and built for the way you actually ship.
-        </p>
+  const changelog = [
+    { version: 'v0.1.4', label: 'Latest',  items: 'DataTable · Skeleton · Alert'          },
+    { version: 'v0.1.3', label: null,       items: 'Chip · Divider · Badge variants'       },
+    { version: 'v0.1.2', label: null,       items: 'Dark mode · Token system overhaul'     },
+    { version: 'v0.1.1', label: null,       items: 'Dialog · Drawer · Tooltip · Popover'  },
+  ];
 
-        {/* Install command card */}
+  return (
+    <section style={{ padding: '0 24px 96px', background: 'var(--color-background)' }}>
+
+      {/* Gradient card — dark indigo/space gradient matching the omverse brand */}
+      <div
+        style={{
+          maxWidth: 1152,
+          margin: '0 auto',
+          borderRadius: 20,
+          overflow: 'hidden',
+          /* Illustration background — hex intentional, not docs UI chrome */
+          background: 'linear-gradient(135deg, #0C0C1E 0%, #151245 35%, #1F1760 60%, #2C1B78 80%, #180E45 100%)',
+          padding: '72px',
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr',
+          gap: 64,
+          alignItems: 'center',
+        }}
+      >
+
+        {/* ── Left: copy + install row + meta ── */}
+        <div>
+          <p
+            style={{
+              fontSize: 10,
+              textTransform: 'uppercase',
+              letterSpacing: '0.12em',
+              color: 'rgba(255,255,255,0.35)',
+              fontWeight: 500,
+              marginBottom: 20,
+            }}
+          >
+            Free · Open Source · MIT License
+          </p>
+
+          <h2
+            style={{
+              fontSize: 'clamp(32px, 4vw, 52px)',
+              fontWeight: 500,
+              color: '#FFFFFF',
+              letterSpacing: '-0.03em',
+              lineHeight: 1.1,
+              marginBottom: 20,
+            }}
+          >
+            Start building with omverse-ui.
+          </h2>
+
+          <p
+            style={{
+              fontSize: 15,
+              lineHeight: 1.75,
+              color: 'rgba(255,255,255,0.55)',
+              fontWeight: 400,
+              marginBottom: 36,
+              maxWidth: 400,
+            }}
+          >
+            27 components. One install. Full CSS variable theming.
+            Everything you need to ship a polished interface —
+            available on npm right now.
+          </p>
+
+          {/* Install pill + CTA button */}
+          <div style={{ display: 'flex', gap: 10, alignItems: 'center', marginBottom: 28, flexWrap: 'wrap' }}>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 10,
+                padding: '10px 18px',
+                borderRadius: 8,
+                border: '0.5px solid rgba(255,255,255,0.15)',
+                background: 'rgba(255,255,255,0.07)',
+                fontFamily: 'var(--font-mono)',
+                fontSize: 13,
+                color: 'rgba(255,255,255,0.75)',
+              }}
+            >
+              <i className="ti ti-terminal-2" style={{ fontSize: 14, color: 'rgba(255,255,255,0.35)' }} aria-hidden="true" />
+              npm install omverse-ui
+            </div>
+            <Link href="/docs/installation" style={{ textDecoration: 'none' }}>
+              <button
+                style={{
+                  padding: '10px 22px',
+                  background: '#FFFFFF',
+                  color: '#0C0C1E',
+                  border: 'none',
+                  borderRadius: 8,
+                  fontSize: 13,
+                  fontWeight: 500,
+                  cursor: 'pointer',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                Get started
+              </button>
+            </Link>
+          </div>
+
+          {/* Meta strip */}
+          <p
+            style={{
+              fontSize: 10,
+              textTransform: 'uppercase',
+              letterSpacing: '0.1em',
+              color: 'rgba(255,255,255,0.25)',
+              fontWeight: 500,
+            }}
+          >
+            27 components · TypeScript · Next.js App Router · Tailwind v4
+          </p>
+        </div>
+
+        {/* ── Right: white "What's included" card ── */}
         <div
           style={{
-            borderRadius: 10,
-            padding: '14px 20px',
-            maxWidth: 380,
-            margin: '0 auto 28px',
-            fontFamily: 'var(--font-mono)',
-            fontSize: 13,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            border: '0.5px solid var(--color-outline-variant)',
-            background: 'var(--color-surface)',
-            color: 'var(--color-text-primary)',
+            background: '#FFFFFF',
+            borderRadius: 16,
+            padding: '36px 32px',
           }}
         >
-          <span>npm install omverse-ui</span>
-          <i
-            className="ti ti-copy"
-            style={{ fontSize: 14, color: 'var(--color-text-tertiary)' }}
-            aria-hidden="true"
-          />
+          {/* Card header */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24 }}>
+            <p
+              style={{
+                fontSize: 11,
+                textTransform: 'uppercase',
+                letterSpacing: '0.09em',
+                color: '#999',
+                fontWeight: 500,
+              }}
+            >
+              Recently shipped
+            </p>
+            <span style={{ fontSize: 11, color: '#10B981', fontWeight: 500 }}>● Active</span>
+          </div>
+
+          {/* Changelog rows */}
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            {changelog.map(({ version, label, items }, i) => (
+              <div
+                key={version}
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: '64px 1fr',
+                  gap: 16,
+                  padding: '14px 0',
+                  borderTop: i === 0 ? 'none' : '0.5px solid #F0F0F0',
+                  alignItems: 'flex-start',
+                }}
+              >
+                {/* Version + label */}
+                <div>
+                  <div style={{ fontSize: 12, fontWeight: 500, color: '#111', fontFamily: 'var(--font-mono)' }}>
+                    {version}
+                  </div>
+                  {label && (
+                    <div style={{ fontSize: 10, color: '#10B981', fontWeight: 500, marginTop: 2 }}>
+                      {label}
+                    </div>
+                  )}
+                </div>
+                {/* Components shipped */}
+                <div style={{ fontSize: 13, color: '#555', lineHeight: 1.5, fontWeight: 400 }}>
+                  {items}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Footer */}
+          <div
+            style={{
+              marginTop: 20,
+              paddingTop: 18,
+              borderTop: '0.5px solid #E8E8E8',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}
+          >
+            <span style={{ fontSize: 12, color: '#999' }}>27 components shipped so far</span>
+            <Link href="/docs/introduction" style={{ fontSize: 12, color: '#111', fontWeight: 500, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 4 }}>
+              See all
+              <i className="ti ti-arrow-up-right" style={{ fontSize: 12 }} aria-hidden="true" />
+            </Link>
+          </div>
         </div>
 
-        {/* CTAs */}
-        <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
-          <Link href="/docs/installation">
-            <Button variant="filled">Read the docs</Button>
-          </Link>
-          <Link href="/components/button">
-            <Button variant="outlined">Browse components</Button>
-          </Link>
-        </div>
       </div>
     </section>
   );
