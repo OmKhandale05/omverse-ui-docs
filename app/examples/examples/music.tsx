@@ -141,7 +141,7 @@ export function Music() {
                   <i className="ti ti-arrows-shuffle" />
                 </Button>
                 <Button variant="ghost" size="sm">
-                  <i className="ti ti-player-skip-back-filled" />
+                  <i className="ti ti-player-skip-back" />
                 </Button>
                 <Button
                   variant="filled"
@@ -149,10 +149,10 @@ export function Music() {
                   shape="pill"
                   onClick={() => setPlaying((p) => !p)}
                 >
-                  <i className={playing ? 'ti ti-player-pause-filled' : 'ti ti-player-play-filled'} />
+                  <i className={playing ? 'ti ti-player-pause' : 'ti ti-player-play'} />
                 </Button>
                 <Button variant="ghost" size="sm">
-                  <i className="ti ti-player-skip-forward-filled" />
+                  <i className="ti ti-player-skip-forward" />
                 </Button>
                 <Button variant="ghost" size="sm">
                   <i className="ti ti-repeat" />

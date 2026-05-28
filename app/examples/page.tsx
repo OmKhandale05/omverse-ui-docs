@@ -31,16 +31,19 @@ export default function ExamplesPage() {
     <div>
       {/* Responsive rules */}
       <style>{`
-        .ex-header   { padding: 40px 48px 0; }
-        .ex-tabs     { padding: 0 48px; }
-        .ex-toggle   { padding: 10px 48px; }
-        .ex-content  { padding: 32px 48px 64px; }
+        .ex-header  { padding: 40px 48px 0; }
+        .ex-toggle  { padding: 10px 48px; }
+        .ex-content { padding: 32px 48px 64px; }
         @media (max-width: 767px) {
-          .ex-header  { padding: 28px 20px 0; }
-          .ex-tabs    { padding: 0 20px; }
-          .ex-toggle  { padding: 8px 20px; }
-          .ex-content { padding: 20px 20px 48px; }
+          .ex-header      { padding: 28px 16px 0; }
+          .ex-tabs-outer  { padding: 0 16px !important; }
+          .ex-toggle      { padding: 8px 16px; }
+          .ex-content     { padding: 16px 16px 48px; }
         }
+        .ex-tabs-outer { -webkit-overflow-scrolling: touch; scrollbar-width: thin; scrollbar-color: var(--color-outline-variant) transparent; }
+        .ex-tabs-outer::-webkit-scrollbar { height: 3px; }
+        .ex-tabs-outer::-webkit-scrollbar-track { background: transparent; }
+        .ex-tabs-outer::-webkit-scrollbar-thumb { background: var(--color-outline-variant); border-radius: 2px; }
       `}</style>
 
       {/* ── Page header ── */}
@@ -68,55 +71,53 @@ export default function ExamplesPage() {
 
       {/* ── Tab bar ── */}
       <div
+        className="ex-tabs-outer"
         style={{
+          display: 'flex',
           borderBottom: '0.5px solid var(--color-outline-variant)',
-          overflowX: 'auto',
-          scrollbarWidth: 'none',
+          overflowX: 'scroll',
+          padding: '0 48px',
         }}
       >
-        <div
-          className="ex-tabs"
-          style={{ display: 'flex', minWidth: 'max-content' }}
-        >
-          {EXAMPLES.map((ex) => {
-            const isActive = ex.id === activeId
-            return (
-              <button
-                key={ex.id}
-                onClick={() => handleTabChange(ex.id)}
-                style={{
-                  position: 'relative',
-                  padding: '10px 14px',
-                  fontSize: 13,
-                  fontWeight: isActive ? 500 : 400,
-                  color: isActive
-                    ? 'var(--color-text-primary)'
-                    : 'var(--color-text-secondary)',
-                  border: 'none',
-                  background: 'transparent',
-                  cursor: 'pointer',
-                  whiteSpace: 'nowrap',
-                  transition: 'color 150ms ease',
-                }}
-              >
-                {ex.label}
-                {isActive && (
-                  <span
-                    style={{
-                      position: 'absolute',
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      height: 1.5,
-                      background: 'var(--color-text-primary)',
-                      borderRadius: '2px 2px 0 0',
-                    }}
-                  />
-                )}
-              </button>
-            )
-          })}
-        </div>
+        {EXAMPLES.map((ex) => {
+          const isActive = ex.id === activeId
+          return (
+            <button
+              key={ex.id}
+              onClick={() => handleTabChange(ex.id)}
+              style={{
+                position: 'relative',
+                flexShrink: 0,
+                padding: '10px 14px',
+                fontSize: 13,
+                fontWeight: isActive ? 500 : 400,
+                color: isActive
+                  ? 'var(--color-text-primary)'
+                  : 'var(--color-text-secondary)',
+                border: 'none',
+                background: 'transparent',
+                cursor: 'pointer',
+                whiteSpace: 'nowrap',
+                transition: 'color 150ms ease',
+              }}
+            >
+              {ex.label}
+              {isActive && (
+                <span
+                  style={{
+                    position: 'absolute',
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    height: 1.5,
+                    background: 'var(--color-text-primary)',
+                    borderRadius: '2px 2px 0 0',
+                  }}
+                />
+              )}
+            </button>
+          )
+        })}
       </div>
 
       {/* ── Preview / Code toggle bar ── */}

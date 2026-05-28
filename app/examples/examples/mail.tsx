@@ -85,11 +85,18 @@ export function Mail() {
   const [activeFolder, setActiveFolder] = useState('Inbox')
   const [activeEmail, setActiveEmail]   = useState(1)
   const [search, setSearch]             = useState('')
+  const [mobileView, setMobileView]     = useState<'list' | 'detail'>('list')
 
   const email = EMAILS.find((e) => e.id === activeEmail)!
 
+  function openEmail(id: number) {
+    setActiveEmail(id)
+    setMobileView('detail')
+  }
+
   return (
     <div
+      className={mobileView === 'detail' ? 'mail-showing-detail' : ''}
       style={{
         height: 600,
         borderRadius: 12,
@@ -104,10 +111,14 @@ export function Mail() {
         .mail-sidebar { width: 200px; flex-shrink: 0; }
         .mail-list    { width: 280px; flex-shrink: 0; }
         .mail-detail  { flex: 1; min-width: 0; }
+        .mail-back-btn { display: none; }
         @media (max-width: 767px) {
           .mail-sidebar { display: none; }
           .mail-detail  { display: none; }
           .mail-list    { width: 100%; }
+          .mail-showing-detail .mail-list   { display: none; }
+          .mail-showing-detail .mail-detail { display: flex; width: 100%; }
+          .mail-back-btn { display: flex; }
         }
       `}</style>
 
@@ -198,7 +209,7 @@ export function Mail() {
             return (
               <div key={em.id}>
                 <button
-                  onClick={() => setActiveEmail(em.id)}
+                  onClick={() => openEmail(em.id)}
                   style={{
                     width: '100%',
                     textAlign: 'left',
@@ -315,17 +326,39 @@ export function Mail() {
               marginBottom: 10,
             }}
           >
-            <h2
-              style={{
-                fontSize: 15,
-                fontWeight: 600,
-                color: 'var(--color-text-primary)',
-                margin: 0,
-                lineHeight: 1.4,
-              }}
-            >
-              {email.subject}
-            </h2>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 0 }}>
+              <button
+                className="mail-back-btn"
+                onClick={() => setMobileView('list')}
+                style={{
+                  alignItems: 'center',
+                  gap: 4,
+                  padding: '4px 6px',
+                  border: 'none',
+                  background: 'transparent',
+                  color: 'var(--color-text-secondary)',
+                  cursor: 'pointer',
+                  flexShrink: 0,
+                  borderRadius: 6,
+                }}
+              >
+                <i className="ti ti-arrow-left" style={{ fontSize: 16 }} />
+              </button>
+              <h2
+                style={{
+                  fontSize: 15,
+                  fontWeight: 600,
+                  color: 'var(--color-text-primary)',
+                  margin: 0,
+                  lineHeight: 1.4,
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {email.subject}
+              </h2>
+            </div>
             <div style={{ display: 'flex', gap: 4, flexShrink: 0 }}>
               <Button variant="ghost" size="xs">
                 <i className="ti ti-arrow-back-up" />

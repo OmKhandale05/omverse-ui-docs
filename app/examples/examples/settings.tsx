@@ -405,13 +405,17 @@ export function Settings() {
           .st-sidebar { display: none; }
           .st-mobile-tabs {
             display: flex;
-            overflow-x: auto;
-            scrollbar-width: none;
+            overflow-x: scroll;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin;
+            scrollbar-color: var(--color-outline-variant) transparent;
             gap: 4px;
             margin-bottom: 16px;
-            padding-bottom: 2px;
+            padding-bottom: 4px;
           }
-          .st-mobile-tabs::-webkit-scrollbar { display: none; }
+          .st-mobile-tabs::-webkit-scrollbar { height: 3px; }
+          .st-mobile-tabs::-webkit-scrollbar-track { background: transparent; }
+          .st-mobile-tabs::-webkit-scrollbar-thumb { background: var(--color-outline-variant); border-radius: 2px; }
         }
       `}</style>
 
