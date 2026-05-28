@@ -222,7 +222,7 @@ export function Navbar() {
   <>
     <nav
       className="flex items-center px-4 h-12 shrink-0 w-full sticky top-0 z-50"
-      style={navStyle}
+      style={{ ...navStyle, position: 'relative' }}
     >
       {/* ── Responsive rules — no Tailwind breakpoint classes needed ── */}
       <style>{`
@@ -230,15 +230,13 @@ export function Navbar() {
         .nav-links           { display: none; }
         .nav-search          { display: none; }
         .nav-search-mobile   { display: flex; }
-        .nav-get-started     { display: none; }
         .nav-right           { margin-left: auto; }
         @media (min-width: 768px) {
           .nav-hamburger     { display: none !important; }
           .nav-links         { display: flex !important; }
           .nav-search        { display: flex !important; }
           .nav-search-mobile { display: none !important; }
-          .nav-get-started   { display: inline-flex !important; }
-          .nav-right         { margin-left: 0 !important; }
+          .nav-right         { margin-left: auto !important; }
         }
       `}</style>
 
@@ -263,28 +261,19 @@ export function Navbar() {
       </button>
 
       {/* ── Logo ── */}
-      <Link href="/" className="flex items-center gap-2 mr-8 shrink-0">
-        <LogoMark />
+      <Link href="/" className="flex items-center mr-8 shrink-0">
         <span
-          className="text-[13px]"
-          style={{ fontWeight: 500, color: 'var(--color-text-primary)' }}
+          style={{ fontWeight: 700, fontSize: 18, color: 'var(--color-text-primary)' }}
         >
           omverse-ui
         </span>
-        <span
-          className="text-[10px] px-1.5 py-0.5 rounded-sm"
-          style={{
-            fontWeight: 500,
-            background: 'var(--color-surface-variant)',
-            color: 'var(--color-text-secondary)',
-          }}
-        >
-          v0.1.4
-        </span>
       </Link>
 
-      {/* ── Nav links — centered, hidden on mobile ── */}
-      <div className="nav-links items-center gap-0.5 mx-auto">
+      {/* ── Nav links — absolutely centered in navbar ── */}
+      <div
+        className="nav-links items-center gap-0.5"
+        style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)' }}
+      >
         {NAV_LINKS.map((link) => (
           <Link
             key={link.label}
@@ -407,18 +396,6 @@ export function Navbar() {
           {dark ? <SunIcon /> : <MoonIcon />}
         </button>
 
-        {/* Get started — hidden on mobile */}
-        <Link
-          href="/docs"
-          className="nav-get-started items-center justify-center rounded-md px-3 h-8 text-[13px] transition-colors"
-          style={{
-            fontWeight: 500,
-            background: 'var(--color-primary)',
-            color: 'var(--color-on-primary)',
-          }}
-        >
-          Get started
-        </Link>
       </div>
     </nav>
 

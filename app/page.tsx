@@ -1791,30 +1791,10 @@ function Footer() {
 
           {/* Brand */}
           <div className="footer-brand-col">
-            <div
-              style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 18 }}
-            >
-              <div
-                style={{
-                  width: 28,
-                  height: 28,
-                  borderRadius: 8,
-                  background: 'var(--color-text-primary)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  flexShrink: 0,
-                }}
-              >
-                <i
-                  className="ti ti-hexagon-filled"
-                  style={{ fontSize: 14, color: 'var(--color-background)' }}
-                  aria-hidden="true"
-                />
-              </div>
-              <span style={{ fontSize: 15, fontWeight: 500, color: 'var(--color-text-primary)' }}>
+            <div style={{ marginBottom: 18 }}>
+              <Link href="/" style={{ fontSize: 20, fontWeight: 700, color: 'var(--color-text-primary)', textDecoration: 'none' }}>
                 omverse-ui
-              </span>
+              </Link>
             </div>
             <p
               style={{
