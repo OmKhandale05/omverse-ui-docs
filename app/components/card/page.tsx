@@ -295,40 +295,47 @@ export default function CardPage() {
           description="elevated (default), filled, outlined, ghost, gradient — all support hover states"
           layout="center"
         >
-          <Card variant="elevated" style={{ width: 176 }}>
-            <CardBody>
-              <p style={{ fontSize: 14, fontWeight: 500, color: 'var(--color-text-primary)' }}>Elevated</p>
-              <p style={{ fontSize: 12, color: 'var(--color-text-secondary)', marginTop: 4 }}>Shadow + hover lift</p>
-            </CardBody>
-          </Card>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))',
+            gap: 12,
+            width: '100%',
+          }}>
+            <Card variant="elevated">
+              <CardBody>
+                <p style={{ fontSize: 14, fontWeight: 500, color: 'var(--color-text-primary)' }}>Elevated</p>
+                <p style={{ fontSize: 12, color: 'var(--color-text-secondary)', marginTop: 4 }}>Shadow + hover lift</p>
+              </CardBody>
+            </Card>
 
-          <Card variant="filled" style={{ width: 176 }}>
-            <CardBody>
-              <p style={{ fontSize: 14, fontWeight: 500, color: 'var(--color-text-primary)' }}>Filled</p>
-              <p style={{ fontSize: 12, color: 'var(--color-text-secondary)', marginTop: 4 }}>Tonal background</p>
-            </CardBody>
-          </Card>
+            <Card variant="filled">
+              <CardBody>
+                <p style={{ fontSize: 14, fontWeight: 500, color: 'var(--color-text-primary)' }}>Filled</p>
+                <p style={{ fontSize: 12, color: 'var(--color-text-secondary)', marginTop: 4 }}>Tonal background</p>
+              </CardBody>
+            </Card>
 
-          <Card variant="outlined" style={{ width: 176 }}>
-            <CardBody>
-              <p style={{ fontSize: 14, fontWeight: 500, color: 'var(--color-text-primary)' }}>Outlined</p>
-              <p style={{ fontSize: 12, color: 'var(--color-text-secondary)', marginTop: 4 }}>Border highlight</p>
-            </CardBody>
-          </Card>
+            <Card variant="outlined">
+              <CardBody>
+                <p style={{ fontSize: 14, fontWeight: 500, color: 'var(--color-text-primary)' }}>Outlined</p>
+                <p style={{ fontSize: 12, color: 'var(--color-text-secondary)', marginTop: 4 }}>Border highlight</p>
+              </CardBody>
+            </Card>
 
-          <Card variant="ghost" style={{ width: 176 }}>
-            <CardBody>
-              <p style={{ fontSize: 14, fontWeight: 500, color: 'var(--color-text-primary)' }}>Ghost</p>
-              <p style={{ fontSize: 12, color: 'var(--color-text-secondary)', marginTop: 4 }}>Dashed border</p>
-            </CardBody>
-          </Card>
+            <Card variant="ghost">
+              <CardBody>
+                <p style={{ fontSize: 14, fontWeight: 500, color: 'var(--color-text-primary)' }}>Ghost</p>
+                <p style={{ fontSize: 12, color: 'var(--color-text-secondary)', marginTop: 4 }}>Dashed border</p>
+              </CardBody>
+            </Card>
 
-          <Card variant="gradient" style={{ width: 176 }}>
-            <CardBody>
-              <p style={{ fontSize: 14, fontWeight: 500 }}>Gradient</p>
-              <p style={{ fontSize: 12, marginTop: 4, opacity: 0.8 }}>Brand colors</p>
-            </CardBody>
-          </Card>
+            <Card variant="gradient">
+              <CardBody>
+                <p style={{ fontSize: 14, fontWeight: 500 }}>Gradient</p>
+                <p style={{ fontSize: 12, marginTop: 4, opacity: 0.8 }}>Brand colors</p>
+              </CardBody>
+            </Card>
+          </div>
         </ComponentPreview>
 
         <CodeBlock filename="App.tsx" code={VARIANTS_CODE} />
@@ -374,9 +381,10 @@ export default function CardPage() {
         >
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(2, 280px)',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
             gap: 16,
             alignItems: 'start',
+            width: '100%',
           }}>
             {/* Image overlay card */}
             <Card variant="elevated" interactive>

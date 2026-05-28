@@ -213,8 +213,22 @@ export default function StepperPage() {
         tags={['Default', 'Vertical', 'Pill', 'Dot', 'Badge', 'Gradient', 'Icon', 'Card', 'Progress bar', 'Timeline', 'Checklist', 'Error state']}
       />
 
+      <style>{`
+        @media (max-width: 767px) {
+          .stepper-page-content { padding: 12px !important; }
+          .stepper-page-content .component-preview-canvas { padding: 12px !important; }
+          .stepper-scroll-wrap {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            min-width: 0;
+            width: 100%;
+          }
+          .stepper-scroll-wrap > * { min-width: 500px; }
+        }
+      `}</style>
+
       {/* ── Content ── */}
-      <div style={{ padding: '28px 40px' }}>
+      <div className="stepper-page-content" style={{ padding: '28px 40px' }}>
 
         {/* ── Section 1: Default horizontal ── */}
         <ComponentPreview
@@ -222,7 +236,7 @@ export default function StepperPage() {
           description="Numbered circles with label and sublabel — steps before current are marked complete"
           layout="start"
         >
-          <div style={{ width: '100%' }}>
+          <div className="stepper-scroll-wrap" style={{ width: '100%' }}>
             <Stepper steps={basicSteps} activeStep={step} />
             <StepControls step={step} setStep={setStep} max={basicSteps.length - 1} />
           </div>
@@ -250,7 +264,7 @@ export default function StepperPage() {
           description="Pill-shaped step indicators"
           layout="start"
         >
-          <div style={{ width: '100%' }}>
+          <div className="stepper-scroll-wrap" style={{ width: '100%' }}>
             <Stepper steps={basicSteps} activeStep={step} variant="pill" />
             <StepControls step={step} setStep={setStep} max={basicSteps.length - 1} />
           </div>
@@ -264,7 +278,7 @@ export default function StepperPage() {
           description="Minimal dot indicators — great for compact progress"
           layout="start"
         >
-          <div style={{ width: '100%' }}>
+          <div className="stepper-scroll-wrap" style={{ width: '100%' }}>
             <Stepper steps={basicSteps} activeStep={step} variant="dot" />
             <StepControls step={step} setStep={setStep} max={basicSteps.length - 1} />
           </div>
@@ -278,7 +292,7 @@ export default function StepperPage() {
           description="Numbered badge indicators with label"
           layout="start"
         >
-          <div style={{ width: '100%' }}>
+          <div className="stepper-scroll-wrap" style={{ width: '100%' }}>
             <Stepper steps={basicSteps.slice(0, 4)} activeStep={Math.min(step, 3)} variant="badge" />
             <StepControls step={Math.min(step, 3)} setStep={setStep} max={3} />
           </div>
@@ -292,7 +306,7 @@ export default function StepperPage() {
           description="Gradient fill on active and completed steps"
           layout="start"
         >
-          <div style={{ width: '100%' }}>
+          <div className="stepper-scroll-wrap" style={{ width: '100%' }}>
             <Stepper steps={basicSteps.slice(0, 4)} activeStep={Math.min(step, 3)} variant="gradient" />
             <StepControls step={Math.min(step, 3)} setStep={setStep} max={3} />
           </div>
@@ -306,7 +320,7 @@ export default function StepperPage() {
           description="Custom icon inside each step indicator"
           layout="start"
         >
-          <div style={{ width: '100%' }}>
+          <div className="stepper-scroll-wrap" style={{ width: '100%' }}>
             <Stepper steps={iconSteps} activeStep={Math.min(step, iconSteps.length - 1)} variant="icon" />
             <StepControls step={Math.min(step, iconSteps.length - 1)} setStep={setStep} max={iconSteps.length - 1} />
           </div>
@@ -320,7 +334,7 @@ export default function StepperPage() {
           description="Each step rendered as a bordered card"
           layout="start"
         >
-          <div style={{ width: '100%' }}>
+          <div className="stepper-scroll-wrap" style={{ width: '100%' }}>
             <Stepper steps={basicSteps.slice(0, 4)} activeStep={Math.min(step, 3)} variant="card" />
             <StepControls step={Math.min(step, 3)} setStep={setStep} max={3} />
           </div>
@@ -334,7 +348,7 @@ export default function StepperPage() {
           description="showProgressBar renders a bar below the step indicators"
           layout="start"
         >
-          <div style={{ width: '100%' }}>
+          <div className="stepper-scroll-wrap" style={{ width: '100%' }}>
             <Stepper steps={basicSteps} activeStep={step} variant="progress" />
             <StepControls step={step} setStep={setStep} max={basicSteps.length - 1} />
           </div>
@@ -386,7 +400,7 @@ export default function StepperPage() {
           description="Use explicit status props to show complete, error, and pending states"
           layout="start"
         >
-          <div style={{ width: '100%' }}>
+          <div className="stepper-scroll-wrap" style={{ width: '100%' }}>
             <Stepper
               steps={[
                 { id: 'account', label: 'Account', status: 'done'    },

@@ -306,6 +306,28 @@ export default function NavbarPage() {
 
   return (
     <div>
+      <style>{`
+        @media (max-width: 767px) {
+          .navbar-page-content   { padding: 12px !important; }
+          .sidebar-preview       { flex-direction: column !important; height: auto !important; }
+          .sidebar-preview-body  { min-height: 200px !important; }
+
+          /* Reduce ComponentPreview canvas padding so previews have more room */
+          .navbar-page-content .component-preview-canvas {
+            padding: 12px !important;
+          }
+
+          /* Scrollable navbar preview — min-width:0 breaks flex min-size so overflow-x works */
+          .navbar-scroll-wrap {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            min-width: 0;
+            width: 100%;
+          }
+          .navbar-scroll-wrap > * { min-width: 560px; }
+        }
+      `}</style>
+
       {/* ── Page header ── */}
       <PageHeader
         breadcrumb={['Components', 'Navigation', 'Navbar']}
@@ -315,7 +337,7 @@ export default function NavbarPage() {
       />
 
       {/* ── Content ── */}
-      <div style={{ padding: '28px 40px' }}>
+      <div className="navbar-page-content" style={{ padding: '28px 40px' }}>
 
         {/* ── Section 1: SaaS ── */}
         <ComponentPreview
@@ -323,7 +345,7 @@ export default function NavbarPage() {
           description="Standard app navbar with brand, nav items and call-to-action buttons"
           layout="start"
         >
-          <div style={{ width: '100%' }}>
+          <div className="navbar-scroll-wrap" style={{ width: '100%' }}>
             <Navbar
               variant="saas"
               items={mainItems}
@@ -343,7 +365,7 @@ export default function NavbarPage() {
           description="Navigation items centered in the bar with logo and actions on the sides"
           layout="start"
         >
-          <div style={{ width: '100%' }}>
+          <div className="navbar-scroll-wrap" style={{ width: '100%' }}>
             <Navbar
               variant="centered"
               items={mainItems}
@@ -363,7 +385,7 @@ export default function NavbarPage() {
           description="Active item shown inside a pill-shaped segmented control"
           layout="start"
         >
-          <div style={{ width: '100%' }}>
+          <div className="navbar-scroll-wrap" style={{ width: '100%' }}>
             <Navbar
               variant="pill"
               items={mainItems}
@@ -383,7 +405,7 @@ export default function NavbarPage() {
           description="Bottom border indicator — clean and minimal like Stripe's nav"
           layout="start"
         >
-          <div style={{ width: '100%' }}>
+          <div className="navbar-scroll-wrap" style={{ width: '100%' }}>
             <Navbar
               variant="stripe"
               items={mainItems}
@@ -403,7 +425,7 @@ export default function NavbarPage() {
           description="Items grouped in a bordered segmented control — active item is filled"
           layout="start"
         >
-          <div style={{ width: '100%' }}>
+          <div className="navbar-scroll-wrap" style={{ width: '100%' }}>
             <Navbar
               variant="outlined"
               items={mainItems.slice(0, 4)}
@@ -423,7 +445,7 @@ export default function NavbarPage() {
           description="Dark navbar with light text — inspired by Vercel's design language"
           layout="start"
         >
-          <div style={{ width: '100%' }}>
+          <div className="navbar-scroll-wrap" style={{ width: '100%' }}>
             <Navbar
               variant="vercel"
               items={mainItems}
@@ -448,7 +470,7 @@ export default function NavbarPage() {
           description="Workspace switcher on the left with icon nav items — inspired by Linear"
           layout="start"
         >
-          <div style={{ width: '100%' }}>
+          <div className="navbar-scroll-wrap" style={{ width: '100%' }}>
             <Navbar
               variant="linear"
               items={mainItems}
@@ -469,7 +491,7 @@ export default function NavbarPage() {
           description="showSearch adds a ⌘K trigger — tap to open a command palette"
           layout="start"
         >
-          <div style={{ width: '100%' }}>
+          <div className="navbar-scroll-wrap" style={{ width: '100%' }}>
             <Navbar
               variant="command"
               items={mainItems}
@@ -491,7 +513,7 @@ export default function NavbarPage() {
           description="items renders as a breadcrumb trail with chevron separators — ideal for wikis and docs"
           layout="start"
         >
-          <div style={{ width: '100%' }}>
+          <div className="navbar-scroll-wrap" style={{ width: '100%' }}>
             <Navbar
               variant="notion"
               items={[
@@ -519,7 +541,7 @@ export default function NavbarPage() {
           description="Brand + title on top row, subItems as tab strip on the second row"
           layout="start"
         >
-          <div style={{ width: '100%' }}>
+          <div className="navbar-scroll-wrap" style={{ width: '100%' }}>
             <Navbar
               variant="two-row"
               title="Project settings"
@@ -553,7 +575,8 @@ export default function NavbarPage() {
           description="Frosted-glass effect — place over a gradient or image background"
           layout="start"
         >
-          <div style={{ width: '100%', background: 'linear-gradient(to right, #6366f1, #8b5cf6)', borderRadius: 10, padding: 20, overflow: 'hidden' }}>
+          <div className="navbar-scroll-wrap" style={{ width: '100%' }}>
+          <div style={{ background: 'linear-gradient(to right, #6366f1, #8b5cf6)', borderRadius: 10, padding: 20, overflow: 'hidden' }}>
             <Navbar
               variant="glass"
               items={mainItems.slice(0, 4)}
@@ -567,6 +590,7 @@ export default function NavbarPage() {
               }
             />
           </div>
+          </div>
         </ComponentPreview>
 
         <CodeBlock filename="App.tsx" code={GLASS_CODE} />
@@ -577,7 +601,8 @@ export default function NavbarPage() {
           description="Subtle backdrop-blur surface — works well on tinted or image backgrounds"
           layout="start"
         >
-          <div style={{ width: '100%', background: 'linear-gradient(to right, #e2e8f0, #f1f5f9)', borderRadius: 10, padding: 20, overflow: 'hidden' }}>
+          <div className="navbar-scroll-wrap" style={{ width: '100%' }}>
+          <div style={{ background: 'linear-gradient(to right, #e2e8f0, #f1f5f9)', borderRadius: 10, padding: 20, overflow: 'hidden' }}>
             <Navbar
               variant="frosted"
               items={mainItems.slice(0, 4)}
@@ -586,6 +611,7 @@ export default function NavbarPage() {
               brandName="✦ Studio"
               actions={<Button size="sm" variant="filled">Get in touch</Button>}
             />
+          </div>
           </div>
         </ComponentPreview>
 
@@ -597,7 +623,7 @@ export default function NavbarPage() {
           description="Gradient background navbar — high impact, ideal for landing pages"
           layout="start"
         >
-          <div style={{ width: '100%' }}>
+          <div className="navbar-scroll-wrap" style={{ width: '100%' }}>
             <Navbar
               variant="gradient"
               items={mainItems}
@@ -626,15 +652,18 @@ export default function NavbarPage() {
           description="Vertical sidebar with grouped sections — collapses to icon-only mode"
           layout="start"
         >
-          <div style={{
-            height: 400,
-            width: '100%',
-            position: 'relative',
-            overflow: 'hidden',
-            border: '0.5px solid var(--color-border-tertiary)',
-            borderRadius: 8,
-            display: 'flex',
-          }}>
+          <div
+            className="sidebar-preview"
+            style={{
+              height: 400,
+              width: '100%',
+              position: 'relative',
+              overflow: 'hidden',
+              border: '0.5px solid var(--color-border-tertiary)',
+              borderRadius: 8,
+              display: 'flex',
+            }}
+          >
             <Sidebar
               sections={sidebarSections}
               activeId={active}
@@ -643,14 +672,17 @@ export default function NavbarPage() {
               brandName="DesignSys"
               user={user}
             />
-            <div style={{
-              flex: 1,
-              padding: 16,
-              background: 'var(--color-surface-variant)',
-              display: 'flex',
-              alignItems: 'flex-start',
-              justifyContent: 'space-between',
-            }}>
+            <div
+              className="sidebar-preview-body"
+              style={{
+                flex: 1,
+                padding: 16,
+                background: 'var(--color-surface-variant)',
+                display: 'flex',
+                alignItems: 'flex-start',
+                justifyContent: 'space-between',
+              }}
+            >
               <p style={{ fontSize: 13, color: 'var(--color-text-secondary)' }}>Content area</p>
               <Button
                 size="sm"
