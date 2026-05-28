@@ -1481,6 +1481,7 @@ function FinalCta() {
 
       {/* Gradient card — dark indigo/space gradient matching the omverse brand */}
       <div
+        className="final-cta-card"
         style={{
           maxWidth: 1152,
           margin: '0 auto',
@@ -1730,6 +1731,7 @@ function Footer() {
       heading: 'Product',
       links: [
         { label: 'Components',   href: '/components/button'                                                       },
+        { label: 'Examples',     href: '/examples'                                                                },
         { label: 'Docs',         href: '/docs/introduction'                                                       },
         { label: 'Storybook',    href: 'https://design-sys-components.vercel.app',           external: true       },
       ],
@@ -1740,7 +1742,21 @@ function Footer() {
         { label: 'Installation',    href: '/docs/installation'                                                    },
         { label: 'Theming',         href: '/docs/theming'                                                         },
         { label: 'Design tokens',   href: '/docs/design-tokens'                                                   },
+        { label: 'Dark mode',       href: '/docs/dark-mode'                                                       },
         { label: 'GitHub',          href: 'https://github.com/OmKhandale05/design-sys-components', external: true },
+      ],
+    },
+    {
+      heading: 'Examples',
+      links: [
+        { label: 'Dashboard', href: '/examples?id=dashboard' },
+        { label: 'Mail',      href: '/examples?id=mail'      },
+        { label: 'Cards',     href: '/examples?id=cards'     },
+        { label: 'Forms',     href: '/examples?id=forms'     },
+        { label: 'Music',     href: '/examples?id=music'     },
+        { label: 'Settings',  href: '/examples?id=settings'  },
+        { label: 'Sign-in',   href: '/examples?id=signin'    },
+        { label: 'Pricing',   href: '/examples?id=pricing'   },
       ],
     },
     {
@@ -1767,7 +1783,7 @@ function Footer() {
           className="footer-top-grid"
           style={{
             display: 'grid',
-            gridTemplateColumns: '2fr 1fr 1fr 1fr',
+            gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr',
             gap: 48,
             marginBottom: 56,
           }}
@@ -1930,6 +1946,15 @@ export default function LandingPage() {
             flex-direction: column !important;
             gap: 8px !important;
             align-items: flex-start !important;
+          }
+        }
+
+        /* FinalCta — single column, reduced padding on mobile */
+        @media (max-width: 767px) {
+          .final-cta-card {
+            grid-template-columns: 1fr !important;
+            padding: 36px 24px !important;
+            gap: 32px !important;
           }
         }
 

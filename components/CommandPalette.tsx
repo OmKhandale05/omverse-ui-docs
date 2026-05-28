@@ -10,6 +10,7 @@ import {
   CommandItem,
   CommandList,
 } from 'cmdk'
+import * as Dialog from '@radix-ui/react-dialog'
 import { COMMAND_GROUPS, COMMAND_ITEMS } from './commandItems'
 
 /* ─── Search icon ─────────────────────────────────────────────────────────── */
@@ -186,6 +187,25 @@ export function CommandPalette() {
       `}</style>
 
       <CommandDialog open={open} onOpenChange={setOpen} label="Search docs and components">
+
+        {/* Visually hidden title — required by Radix Dialog for screen readers */}
+        <Dialog.Title asChild>
+          <span
+            style={{
+              position:   'absolute',
+              width:      1,
+              height:     1,
+              padding:    0,
+              margin:     -1,
+              overflow:   'hidden',
+              clip:       'rect(0,0,0,0)',
+              whiteSpace: 'nowrap',
+              borderWidth: 0,
+            }}
+          >
+            Search docs and components
+          </span>
+        </Dialog.Title>
 
         {/* ── Input row ── */}
         <div
