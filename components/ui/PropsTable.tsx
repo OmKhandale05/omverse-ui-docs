@@ -1,5 +1,7 @@
 'use client';
 
+import type { CSSProperties } from 'react';
+
 interface PropRow {
   name: string;
   type: string;
@@ -28,11 +30,13 @@ export function PropsTable({ props }: PropsTableProps) {
       </p>
 
       {/* Table wrapper */}
+      <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' } as CSSProperties}>
       <div
         style={{
           border: '0.5px solid var(--color-border-tertiary)',
           borderRadius: 10,
           overflow: 'hidden',
+          minWidth: 520,
         }}
       >
         {/* Header row */}
@@ -129,6 +133,7 @@ export function PropsTable({ props }: PropsTableProps) {
             </span>
           </div>
         ))}
+      </div>
       </div>
     </div>
   );
