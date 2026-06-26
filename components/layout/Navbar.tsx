@@ -116,7 +116,7 @@ interface NavLink {
 const NAV_LINKS: NavLink[] = [
   { label: 'Components', href: '/components/button' },
   { label: 'Examples', href: '/examples' },
-  { label: 'GitHub', href: 'https://github.com/omverse/omverse-ui', external: true },
+  { label: 'GitHub', href: 'https://github.com/OmKhandale05/omverse-ui-docs', external: true },
 ]
 
 function openCommandPalette() {
@@ -230,6 +230,7 @@ export function Navbar() {
         .nav-links           { display: none; }
         .nav-search          { display: none; }
         .nav-search-mobile   { display: flex; }
+        .nav-github          { display: flex; }
         .nav-right           { margin-left: auto; }
         @media (min-width: 768px) {
           .nav-hamburger     { display: none !important; }
@@ -373,6 +374,32 @@ export function Navbar() {
         >
           <SearchIcon />
         </button>
+
+        {/* GitHub repo */}
+        <a
+          href="https://github.com/OmKhandale05/omverse-ui-docs"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Open GitHub repository"
+          className="nav-github items-center justify-center w-8 h-8 rounded-md transition-colors"
+          style={{
+            color: 'var(--color-text-secondary)',
+            textDecoration: 'none',
+          }}
+          onMouseEnter={(e) => {
+            ;(e.currentTarget as HTMLAnchorElement).style.background =
+              'var(--color-surface)'
+            ;(e.currentTarget as HTMLAnchorElement).style.color =
+              'var(--color-text-primary)'
+          }}
+          onMouseLeave={(e) => {
+            ;(e.currentTarget as HTMLAnchorElement).style.background = 'transparent'
+            ;(e.currentTarget as HTMLAnchorElement).style.color =
+              'var(--color-text-secondary)'
+          }}
+        >
+          <GitHubIcon />
+        </a>
 
         {/* Theme toggle — visible on all sizes */}
         <button
