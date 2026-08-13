@@ -9,11 +9,19 @@ export interface CommandItem {
 }
 
 export const COMMAND_GROUPS = [
+  'Product',
   ...DOCS_NAVIGATION.map((section) => section.title),
   'Examples',
 ]
 
 export const COMMAND_ITEMS: CommandItem[] = [
+  {
+    id: '/enterprise',
+    label: 'Enterprise',
+    href: '/enterprise',
+    group: 'Product',
+    icon: 'ti-building-skyscraper',
+  },
   ...DOCS_NAVIGATION.flatMap((section) =>
     section.items.map((item) => ({
       id: item.href,

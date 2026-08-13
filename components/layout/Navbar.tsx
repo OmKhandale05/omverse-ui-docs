@@ -42,6 +42,7 @@ function GitHubIcon() {
 const PRIMARY_LINKS = [
   { label: 'Components', href: '/components/button' },
   { label: 'Examples', href: '/examples' },
+  { label: 'Enterprise', href: '/enterprise' },
 ]
 
 function openCommandPalette() {

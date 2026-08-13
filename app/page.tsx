@@ -1733,6 +1733,7 @@ function Footer() {
       links: [
         { label: 'Components',   href: '/components/button'                                                       },
         { label: 'Examples',     href: '/examples'                                                                },
+        { label: 'Enterprise',   href: '/enterprise'                                                              },
         { label: 'Docs',         href: '/docs/introduction'                                                       },
         { label: 'Storybook',    href: 'https://design-sys-components.vercel.app',           external: true       },
       ],
