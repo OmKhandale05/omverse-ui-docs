@@ -6,6 +6,17 @@ import { PageHeader } from '@/components/ui/PageHeader';
 import { ComponentPreview } from '@/components/ui/ComponentPreview';
 import { CodeBlock } from '@/components/ui/CodeBlock';
 import { PropsTable } from '@/components/ui/PropsTable';
+import {
+  AccessibilityChecklist,
+  BehaviorGrid,
+  ComponentDocSection,
+  ComponentDocumentation,
+  ContentGuidelines,
+  GuidanceList,
+  KeyboardTable,
+  RelatedComponents,
+  StateMatrix,
+} from '@/components/docs/ComponentDocumentation';
 
 /* ─── Props tables ─── */
 
@@ -630,8 +641,93 @@ export default function TabsPage() {
         tags={['Underline', 'Pill', 'Filled', 'Bordered', 'Card', 'Floating', 'Bubble', 'Gradient', 'Vertical (line)', 'Scrollable', 'StepTabs', 'With subtitle']}
       />
 
-      {/* ── Content ── */}
-      <div style={{ padding: '28px 40px' }}>
+      <ComponentDocumentation>
+        <ComponentDocSection id="overview" title="Overview" description="Tabs organize peer views within the same context and let people move between them without leaving the page.">
+          <div className="component-doc-stack">
+            <ComponentPreview title="Related views" description="The active tab is visually and programmatically connected to its panel." layout="start">
+              <div style={{ width: '100%', maxWidth: 560 }}><TabDemo tabs={underlineTabs.slice(0, 4)} variant="underline" /></div>
+            </ComponentPreview>
+            <CodeBlock filename="ProjectTabs.tsx" code={UNDERLINE_CODE} />
+          </div>
+        </ComponentDocSection>
+
+        <ComponentDocSection id="anatomy" title="Anatomy" description="Tabs consist of a tablist, ordered tab triggers, an active indicator, and one associated content panel.">
+          <BehaviorGrid items={[
+            { icon: 'ti-layout-navbar', title: 'Tablist', description: 'Groups peer tabs and declares horizontal or vertical orientation.' },
+            { icon: 'ti-pointer', title: 'Tab trigger', description: 'Names and activates one corresponding panel.' },
+            { icon: 'ti-line', title: 'Active indicator', description: 'Distinguishes the selected tab without relying on color alone.' },
+            { icon: 'ti-layout-bottombar', title: 'Tab panel', description: 'Contains the view controlled by the selected trigger.' },
+          ]} />
+        </ComponentDocSection>
+
+        <ComponentDocSection id="when-to-use" title="When to use" description="Use tabs when a small set of peer views belongs to one page context.">
+          <GuidanceList tone="do" items={[
+            { title: 'Switch between related views', description: 'Keep the page title and primary context stable while panel content changes.' },
+            { title: 'Organize manageable content', description: 'Use concise labels for a small, predictable set of categories.' },
+            { title: 'Preserve quick comparison', description: 'Let people move between views without a full navigation transition.' },
+          ]} />
+        </ComponentDocSection>
+
+        <ComponentDocSection id="when-not-to-use" title="When not to use" description="Choose navigation or progressive disclosure when content is not peer-level.">
+          <GuidanceList tone="dont" items={[
+            { title: 'Do not use for destinations', description: 'Use navigation links when each item has its own page, URL, or information hierarchy.' },
+            { title: 'Do not use for sequential tasks', description: 'Use a stepper for required ordered progress; StepTabs communicates progress, not peer views.' },
+            { title: 'Do not hide critical content', description: 'Use sections or Accordion when people need to read content together.' },
+          ]} />
+        </ComponentDocSection>
+
+        <ComponentDocSection id="variants" title="Variants" description="Visual variants must preserve the same tab semantics and interaction model.">
+          <BehaviorGrid items={[
+            { icon: 'ti-line', title: 'Underline', description: 'Default choice for page-level peer views.' },
+            { icon: 'ti-pill', title: 'Pill and filled', description: 'Compact choice for filters and tightly scoped views.' },
+            { icon: 'ti-layout-sidebar', title: 'Vertical line', description: 'Useful when labels are longer or the view count is larger.' },
+            { icon: 'ti-list-numbers', title: 'StepTabs', description: 'Shows progress through a sequential workflow.' },
+          ]} />
+        </ComponentDocSection>
+
+        <ComponentDocSection id="states" title="States" description="Each trigger communicates selection, focus, availability, and optional supporting status.">
+          <StateMatrix rows={[
+            { state: 'Inactive', trigger: 'Another tab is selected', visual: 'Neutral label', interaction: 'Can receive focus and activate' },
+            { state: 'Hover', trigger: 'Pointer enters an enabled tab', visual: 'Subtle emphasis', interaction: 'Signals availability' },
+            { state: 'Focus', trigger: 'Keyboard navigation', visual: 'Visible focus indicator', interaction: 'Arrow keys move focus' },
+            { state: 'Active', trigger: 'Tab is selected', visual: 'Indicator and emphasized label', interaction: 'Its panel is displayed' },
+            { state: 'Disabled', trigger: 'View is unavailable', visual: 'Reduced emphasis', interaction: 'Skipped by keyboard navigation' },
+            { state: 'Complete', trigger: 'StepTabs step is finished', visual: 'Completion mark and connector', interaction: 'May remain revisitable' },
+          ]} />
+        </ComponentDocSection>
+
+        <ComponentDocSection id="behavior" title="Behavior" description="Tabs use roving focus and keep every trigger associated with exactly one panel.">
+          <BehaviorGrid items={[
+            { icon: 'ti-arrows-horizontal', title: 'Focus movement', description: 'Arrow keys move focus through enabled tabs and wrap at list boundaries.' },
+            { icon: 'ti-link', title: 'Panel relationship', description: 'Trigger and panel share a stable value used for IDs and ARIA references.' },
+            { icon: 'ti-device-desktop', title: 'Overflow', description: 'Allow horizontal scrolling rather than shrinking labels beyond readability.' },
+            { icon: 'ti-refresh', title: 'Mounted state', description: 'Use keepMounted only when inactive panel state must persist.' },
+          ]} />
+        </ComponentDocSection>
+
+        <ComponentDocSection id="accessibility" title="Accessibility" description="Tabs follow the ARIA tab pattern with one tabbable trigger, directional navigation, and labelled tab panels.">
+          <div className="component-doc-stack">
+            <KeyboardTable rows={[
+              { keys: ['Tab'], action: 'Moves focus into the active tab, then into the active panel.' },
+              { keys: ['←', '→'], action: 'Moves focus across horizontal tabs.' },
+              { keys: ['↑', '↓'], action: 'Moves focus across vertical tabs.' },
+              { keys: ['Home', 'End'], action: 'Moves focus to the first or last enabled tab.' },
+            ]} />
+            <AccessibilityChecklist items={['Use concise, unique tab labels.', 'Keep one trigger in the page tab order.', 'Expose selected state with aria-selected.', 'Connect every trigger and panel with stable IDs.', 'Declare vertical orientation when applicable.', 'Do not use disabled tabs to advertise unavailable features without explanation.']} />
+          </div>
+        </ComponentDocSection>
+
+        <ComponentDocSection id="content-guidelines" title="Content guidelines" description="Tab labels describe the view—not the action of opening it.">
+          <ContentGuidelines rules={[
+            { label: 'Use short nouns', guidance: 'Name the content category with one or two familiar words.', example: 'Overview' },
+            { label: 'Keep labels parallel', guidance: 'Use the same grammatical pattern and level of specificity.', example: 'Overview · Activity · Settings' },
+            { label: 'Avoid instructions', guidance: 'Do not add “View,” “Open,” or “Go to” before labels.', example: 'Billing' },
+            { label: 'Use badges sparingly', guidance: 'Show actionable counts or status, not decorative metrics.', example: 'Messages 12' },
+          ]} />
+        </ComponentDocSection>
+
+        <ComponentDocSection id="examples" title="Examples" description="The examples below cover the supported visual treatments, orientations, overflow, subtitles, and sequential StepTabs pattern.">
+          <div className="component-doc-stack">
 
         {/* ── Section 1: Underline ── */}
         <ComponentPreview
@@ -881,7 +977,10 @@ export default function TabsPage() {
 
         <CodeBlock filename="App.tsx" code={SUBTITLE_CODE} />
 
-        {/* ── Props tables ── */}
+          </div>
+        </ComponentDocSection>
+
+        <ComponentDocSection id="props-api" title="Props / API" description="Tabs is the state provider; TabsList, TabsTrigger, and TabsContent form the compound structure. StepTabs exposes a separate progress API.">
         <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-text-primary)', marginBottom: 8, marginTop: 8 }}>
           Tabs props
         </p>
@@ -891,8 +990,17 @@ export default function TabsPage() {
           StepTabs props
         </p>
         <PropsTable props={STEP_PROPS} />
+        </ComponentDocSection>
 
-      </div>
+        <ComponentDocSection id="related-components" title="Related components" description="Choose the pattern based on whether people switch views, navigate, reveal content, or advance through steps.">
+          <RelatedComponents items={[
+            { name: 'Navbar', href: '/components/navbar', description: 'Navigate between destinations', icon: 'ti-navigation' },
+            { name: 'Accordion', href: '/components/accordion', description: 'Reveal sections in one content flow', icon: 'ti-layout-navbar-expand' },
+            { name: 'Breadcrumb', href: '/components/breadcrumb', description: 'Show hierarchical location', icon: 'ti-route' },
+            { name: 'Button', href: '/components/button', description: 'Trigger a single action', icon: 'ti-hand-click' },
+          ]} />
+        </ComponentDocSection>
+      </ComponentDocumentation>
     </div>
   );
 }
