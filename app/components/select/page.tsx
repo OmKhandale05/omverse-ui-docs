@@ -126,7 +126,17 @@ export default function SelectPage() {
 
         <ComponentDocSection id="anatomy" title="Anatomy" description="Select combines a field label, trigger, option list, and supporting feedback into one selection control.">
           <Anatomy
-            preview={<div className="component-anatomy-visual" style={{ width: 280 }}><Select label="Department" placeholder="Engineering" options={DEPARTMENTS} helperText="Choose one department." /><span className="component-anatomy-marker" style={{ top: -8, left: -8 }}>1</span><span className="component-anatomy-marker" style={{ top: 34, left: -8 }}>2</span><span className="component-anatomy-marker" style={{ top: 47, right: 8 }}>3</span><span className="component-anatomy-marker" style={{ bottom: -8, left: -8 }}>4</span></div>}
+            preview={
+              <div className="component-anatomy-visual select-anatomy" style={{ width: 280 }}>
+                <Select label="Department" placeholder="Engineering" options={DEPARTMENTS} helperText="Choose one department." />
+                <div className="select-anatomy-listbox" aria-hidden="true"><span>Design</span><span>Engineering</span><span>Marketing</span></div>
+                <span className="component-anatomy-marker component-anatomy-marker--leader-down" style={{ top: -34, left: 24 }}>1</span>
+                <span className="component-anatomy-marker component-anatomy-marker--leader-right" style={{ top: 34, left: -34 }}>2</span>
+                <span className="component-anatomy-marker component-anatomy-marker--leader-left" style={{ top: 47, right: -34 }}>3</span>
+                <span className="component-anatomy-marker component-anatomy-marker--leader-right" style={{ top: 88, left: -34 }}>4</span>
+                <span className="component-anatomy-marker component-anatomy-marker--leader-left" style={{ bottom: 34, right: -34 }}>5</span>
+              </div>
+            }
             items={[
               { number: 1, name: 'Label', description: 'Identifies the value being selected.', required: true },
               { number: 2, name: 'Trigger and value', description: 'Displays the placeholder or current selection.', required: true },

@@ -8,6 +8,7 @@ import { CodeBlock } from '@/components/ui/CodeBlock';
 import { PropsTable } from '@/components/ui/PropsTable';
 import {
   AccessibilityChecklist,
+  Anatomy,
   BehaviorGrid,
   ComponentDocSection,
   ComponentDocumentation,
@@ -652,11 +653,20 @@ export default function TabsPage() {
         </ComponentDocSection>
 
         <ComponentDocSection id="anatomy" title="Anatomy" description="Tabs consist of a tablist, ordered tab triggers, an active indicator, and one associated content panel.">
-          <BehaviorGrid items={[
-            { icon: 'ti-layout-navbar', title: 'Tablist', description: 'Groups peer tabs and declares horizontal or vertical orientation.' },
-            { icon: 'ti-pointer', title: 'Tab trigger', description: 'Names and activates one corresponding panel.' },
-            { icon: 'ti-line', title: 'Active indicator', description: 'Distinguishes the selected tab without relying on color alone.' },
-            { icon: 'ti-layout-bottombar', title: 'Tab panel', description: 'Contains the view controlled by the selected trigger.' },
+          <Anatomy preview={
+            <div className="component-anatomy-visual tabs-anatomy">
+              <div className="tabs-anatomy-list"><span data-active="true">Overview</span><span>Activity</span><span>Settings</span></div>
+              <div className="tabs-anatomy-panel">Overview panel content</div>
+              <span className="component-anatomy-marker component-anatomy-marker--leader-right" style={{ top: 12, left: -34 }}>1</span>
+              <span className="component-anatomy-marker component-anatomy-marker--leader-down" style={{ top: -34, left: 38 }}>2</span>
+              <span className="component-anatomy-marker component-anatomy-marker--leader-left" style={{ top: 37, right: -34 }}>3</span>
+              <span className="component-anatomy-marker component-anatomy-marker--leader-left" style={{ bottom: 26, right: -34 }}>4</span>
+            </div>
+          } items={[
+            { number: 1, name: 'Tablist', description: 'Groups peer tabs and declares horizontal or vertical orientation.', required: true },
+            { number: 2, name: 'Tab trigger', description: 'Names and activates one corresponding panel.', required: true },
+            { number: 3, name: 'Active indicator', description: 'Distinguishes the selected tab without relying on color alone.', required: true },
+            { number: 4, name: 'Tab panel', description: 'Contains the view controlled by the selected trigger.', required: true },
           ]} />
         </ComponentDocSection>
 

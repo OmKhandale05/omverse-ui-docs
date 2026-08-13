@@ -95,12 +95,12 @@ export default function ButtonPage() {
         >
           <Anatomy
             preview={
-              <div className="component-anatomy-visual">
+              <div className="component-anatomy-visual component-anatomy-visual--button">
                 <Button leadingIcon="plus" trailingIcon="arrow-right">Create project</Button>
-                <span className="component-anatomy-marker" style={{ top: -18, left: -10 }}>1</span>
-                <span className="component-anatomy-marker" style={{ top: 10, left: 18 }}>2</span>
-                <span className="component-anatomy-marker" style={{ top: 10, left: 76 }}>3</span>
-                <span className="component-anatomy-marker" style={{ top: 10, right: 18 }}>4</span>
+                <span className="component-anatomy-marker component-anatomy-marker--leader-down" style={{ top: -34, left: 12 }}>1</span>
+                <span className="component-anatomy-marker component-anatomy-marker--leader-right" style={{ top: 10, left: -34 }}>2</span>
+                <span className="component-anatomy-marker component-anatomy-marker--leader-up" style={{ bottom: -34, left: 76 }}>3</span>
+                <span className="component-anatomy-marker component-anatomy-marker--leader-left" style={{ top: 10, right: -34 }}>4</span>
               </div>
             }
             items={[

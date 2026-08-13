@@ -8,6 +8,7 @@ import { CodeBlock } from '@/components/ui/CodeBlock';
 import { PropsTable } from '@/components/ui/PropsTable';
 import {
   AccessibilityChecklist,
+  Anatomy,
   BehaviorGrid,
   ComponentDocSection,
   ComponentDocumentation,
@@ -359,11 +360,23 @@ export default function DialogPage() {
         </ComponentDocSection>
 
         <ComponentDocSection id="anatomy" title="Anatomy" description="A dialog combines a modal backdrop, labelled panel, optional media or status icon, body content, close affordance, and footer actions.">
-          <BehaviorGrid items={[
-            { icon: 'ti-box-align-middle', title: 'Backdrop', description: 'Separates the modal task from the inactive page.' },
-            { icon: 'ti-heading', title: 'Header', description: 'Provides the accessible title, optional subtitle, and close action.' },
-            { icon: 'ti-align-left', title: 'Body', description: 'Contains the message, form, or focused task content.' },
-            { icon: 'ti-layout-bottombar', title: 'Footer', description: 'Groups primary and secondary outcomes in a predictable order.' },
+          <Anatomy preview={
+            <div className="component-anatomy-visual dialog-anatomy">
+              <div className="dialog-anatomy-panel">
+                <div className="dialog-anatomy-header"><strong>Delete workspace?</strong><span>×</span></div>
+                <div className="dialog-anatomy-body">This action permanently deletes the workspace.</div>
+                <div className="dialog-anatomy-footer"><span>Cancel</span><strong>Delete</strong></div>
+              </div>
+              <span className="component-anatomy-marker component-anatomy-marker--leader-right" style={{ top: 48, left: -34 }}>1</span>
+              <span className="component-anatomy-marker component-anatomy-marker--leader-down" style={{ top: -34, left: 56 }}>2</span>
+              <span className="component-anatomy-marker component-anatomy-marker--leader-left" style={{ top: 88, right: -34 }}>3</span>
+              <span className="component-anatomy-marker component-anatomy-marker--leader-up" style={{ bottom: -34, left: 112 }}>4</span>
+            </div>
+          } items={[
+            { number: 1, name: 'Backdrop', description: 'Separates the modal task from the inactive page.', required: true },
+            { number: 2, name: 'Header', description: 'Provides the accessible title, optional subtitle, and close action.', required: true },
+            { number: 3, name: 'Body', description: 'Contains the message, form, or focused task content.', required: true },
+            { number: 4, name: 'Footer', description: 'Groups primary and secondary outcomes in a predictable order.' },
           ]} />
         </ComponentDocSection>
 

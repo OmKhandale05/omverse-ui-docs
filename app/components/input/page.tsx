@@ -123,12 +123,12 @@ export default function InputPage() {
             preview={
               <div className="component-anatomy-visual" style={{ width: 270 }}>
                 <Input label="Workspace URL" prefix="https://" suffix=".omverse.app" defaultValue="acme" helperText="You can change this later in workspace settings." />
-                <span className="component-anatomy-marker" style={{ top: -8, left: -8 }}>1</span>
-                <span className="component-anatomy-marker" style={{ top: 34, left: -8 }}>2</span>
-                <span className="component-anatomy-marker" style={{ top: 56, left: 18 }}>3</span>
-                <span className="component-anatomy-marker" style={{ top: 56, left: 94 }}>4</span>
-                <span className="component-anatomy-marker" style={{ top: 56, right: 4 }}>5</span>
-                <span className="component-anatomy-marker" style={{ bottom: -8, left: -8 }}>6</span>
+                <span className="component-anatomy-marker component-anatomy-marker--leader-down" style={{ top: -34, left: 24 }}>1</span>
+                <span className="component-anatomy-marker component-anatomy-marker--leader-right" style={{ top: 34, left: -34 }}>2</span>
+                <span className="component-anatomy-marker component-anatomy-marker--leader-up" style={{ bottom: -34, left: 24 }}>3</span>
+                <span className="component-anatomy-marker component-anatomy-marker--leader-up" style={{ bottom: -34, left: 112 }}>4</span>
+                <span className="component-anatomy-marker component-anatomy-marker--leader-left" style={{ top: 52, right: -34 }}>5</span>
+                <span className="component-anatomy-marker component-anatomy-marker--leader-up" style={{ bottom: -34, right: 24 }}>6</span>
               </div>
             }
             items={[

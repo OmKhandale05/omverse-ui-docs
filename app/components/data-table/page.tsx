@@ -127,11 +127,11 @@ export default function DataTablePage() {
             <div className="data-table-anatomy-caption">Enterprise projects</div>
             <div className="data-table-anatomy-header">☐　Project　 Owner　 Status　 Actions</div>
             <div className="data-table-anatomy-row">☐　Migration　 Maya　 Active　 Open</div>
-            <span className="component-anatomy-marker component-anatomy-marker--leader-left" style={{ top: 39, right: -38 }}>1</span>
-            <span className="component-anatomy-marker component-anatomy-marker--leader-right" style={{ top: 84, left: -20 }}>2</span>
-            <span className="component-anatomy-marker component-anatomy-marker--leader-left" style={{ top: 84, right: -38 }}>3</span>
-            <span className="component-anatomy-marker component-anatomy-marker--leader-right" style={{ top: 39, left: -20 }}>4</span>
-            <span className="component-anatomy-marker component-anatomy-marker--leader-down" style={{ top: -38, left: 36 }}>5</span>
+            <span className="component-anatomy-marker component-anatomy-marker--leader-left" style={{ top: 39, right: -34 }}>1</span>
+            <span className="component-anatomy-marker component-anatomy-marker--leader-right" style={{ top: 84, left: -34 }}>2</span>
+            <span className="component-anatomy-marker component-anatomy-marker--leader-left" style={{ top: 84, right: -34 }}>3</span>
+            <span className="component-anatomy-marker component-anatomy-marker--leader-right" style={{ top: 39, left: -34 }}>4</span>
+            <span className="component-anatomy-marker component-anatomy-marker--leader-down" style={{ top: -34, left: 36 }}>5</span>
           </div>
         } items={[
           { number: 1, name: 'Header row', description: 'Names columns and exposes sorting state.', required: true },

@@ -645,6 +645,121 @@ a {
   border-left: 1px dashed var(--color-primary);
 }
 
+.component-anatomy-marker--leader-up::after {
+  bottom: 20px;
+  left: 9px;
+  height: 24px;
+  border-left: 1px dashed var(--color-primary);
+}
+
+.component-anatomy-visual--button {
+  width: max-content;
+}
+
+.select-anatomy-listbox {
+  display: grid;
+  margin-top: 8px;
+  overflow: hidden;
+  border: 1px solid var(--color-outline-variant);
+  border-radius: 10px;
+  background: var(--color-background);
+  box-shadow: 0 10px 24px rgb(0 0 0 / 12%);
+}
+
+.select-anatomy-listbox span {
+  padding: 8px 12px;
+  border-top: 1px solid var(--color-outline-variant);
+  color: var(--color-text-secondary);
+  font-size: 11px;
+}
+
+.select-anatomy-listbox span:first-child {
+  border-top: 0;
+}
+
+.tabs-anatomy {
+  width: 270px;
+  overflow: visible;
+  border: 1px solid var(--color-outline-variant);
+  border-radius: 10px;
+  background: var(--color-background);
+}
+
+.tabs-anatomy-list {
+  display: flex;
+  border-bottom: 1px solid var(--color-outline-variant);
+}
+
+.tabs-anatomy-list span {
+  position: relative;
+  padding: 12px 10px;
+  color: var(--color-text-secondary);
+  font-size: 10px;
+}
+
+.tabs-anatomy-list span[data-active='true'] {
+  color: var(--color-primary);
+  font-weight: 650;
+}
+
+.tabs-anatomy-list span[data-active='true']::after {
+  position: absolute;
+  right: 8px;
+  bottom: -1px;
+  left: 8px;
+  height: 2px;
+  background: var(--color-primary);
+  content: '';
+}
+
+.tabs-anatomy-panel {
+  min-height: 78px;
+  padding: 18px;
+  color: var(--color-text-secondary);
+  font-size: 11px;
+}
+
+.dialog-anatomy {
+  width: 260px;
+  padding: 24px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--color-text-primary) 18%, transparent);
+}
+
+.dialog-anatomy-panel {
+  overflow: hidden;
+  border: 1px solid var(--color-outline-variant);
+  border-radius: 10px;
+  background: var(--color-background);
+  box-shadow: 0 12px 28px rgb(0 0 0 / 18%);
+}
+
+.dialog-anatomy-header,
+.dialog-anatomy-footer {
+  display: flex;
+  padding: 12px;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 10px;
+}
+
+.dialog-anatomy-body {
+  padding: 16px 12px;
+  border-block: 1px solid var(--color-outline-variant);
+  color: var(--color-text-secondary);
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.dialog-anatomy-footer {
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.dialog-anatomy-footer strong {
+  color: var(--color-error);
+}
+
 .component-anatomy-list {
   display: grid;
   margin: 0;
@@ -1027,7 +1142,7 @@ a {
 }
 
 .data-table-anatomy {
-  min-width: 330px;
+  width: 280px;
   overflow: visible;
   border: 1px solid var(--color-outline-variant);
   border-radius: 12px;
