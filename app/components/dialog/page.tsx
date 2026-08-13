@@ -6,6 +6,17 @@ import { PageHeader } from '@/components/ui/PageHeader';
 import { ComponentPreview } from '@/components/ui/ComponentPreview';
 import { CodeBlock } from '@/components/ui/CodeBlock';
 import { PropsTable } from '@/components/ui/PropsTable';
+import {
+  AccessibilityChecklist,
+  BehaviorGrid,
+  ComponentDocSection,
+  ComponentDocumentation,
+  ContentGuidelines,
+  GuidanceList,
+  KeyboardTable,
+  RelatedComponents,
+  StateMatrix,
+} from '@/components/docs/ComponentDocumentation';
 
 /* ─── Props table ─── */
 
@@ -337,8 +348,93 @@ export default function DialogPage() {
         tags={['Alert types', 'Form', 'Image header', 'Bottom drawer', 'Right panel', 'Fullscreen', 'Multi-step', 'Command palette']}
       />
 
-      {/* ── Content ── */}
-      <div style={{ padding: '28px 40px' }}>
+      <ComponentDocumentation>
+        <ComponentDocSection id="overview" title="Overview" description="Dialog interrupts the current page to focus attention on a decision, short task, or critical information that must be addressed before returning.">
+          <div className="component-doc-stack">
+            <ComponentPreview title="Focused task" description="A clear trigger opens a dialog with a specific title, concise body, and outcome-based actions.">
+              <Button variant="filled" onClick={() => setBasic(true)}>Open welcome dialog</Button>
+            </ComponentPreview>
+            <CodeBlock filename="WelcomeDialog.tsx" code={ALERT_CODE} />
+          </div>
+        </ComponentDocSection>
+
+        <ComponentDocSection id="anatomy" title="Anatomy" description="A dialog combines a modal backdrop, labelled panel, optional media or status icon, body content, close affordance, and footer actions.">
+          <BehaviorGrid items={[
+            { icon: 'ti-box-align-middle', title: 'Backdrop', description: 'Separates the modal task from the inactive page.' },
+            { icon: 'ti-heading', title: 'Header', description: 'Provides the accessible title, optional subtitle, and close action.' },
+            { icon: 'ti-align-left', title: 'Body', description: 'Contains the message, form, or focused task content.' },
+            { icon: 'ti-layout-bottombar', title: 'Footer', description: 'Groups primary and secondary outcomes in a predictable order.' },
+          ]} />
+        </ComponentDocSection>
+
+        <ComponentDocSection id="when-to-use" title="When to use" description="Use a dialog when the current workflow cannot safely continue without a response or focused subtask.">
+          <GuidanceList tone="do" items={[
+            { title: 'Confirm consequential actions', description: 'Ask for confirmation when an action is destructive, costly, or difficult to reverse.' },
+            { title: 'Complete a short focused task', description: 'Use for compact forms or decisions that preserve the underlying page context.' },
+            { title: 'Communicate blocking information', description: 'Use when people must acknowledge or resolve a condition before continuing.' },
+          ]} />
+        </ComponentDocSection>
+
+        <ComponentDocSection id="when-not-to-use" title="When not to use" description="Avoid modal interruption for information or work that belongs in the normal page flow.">
+          <GuidanceList tone="dont" items={[
+            { title: 'Do not use for passive status', description: 'Use Alert, Toast, or inline feedback when no immediate decision is required.' },
+            { title: 'Do not use for long workflows', description: 'Use a dedicated page when the task contains many fields, steps, or reference material.' },
+            { title: 'Do not stack dialogs', description: 'Close or replace the current dialog before opening another modal surface.' },
+          ]} />
+        </ComponentDocSection>
+
+        <ComponentDocSection id="variants" title="Variants" description="Type communicates intent; position and size adapt the surface to the amount and structure of content.">
+          <BehaviorGrid items={[
+            { icon: 'ti-window', title: 'Centered', description: 'Default for confirmations, alerts, and short forms.' },
+            { icon: 'ti-layout-bottombar', title: 'Bottom drawer', description: 'Supports touch-oriented choices or compact mobile tasks.' },
+            { icon: 'ti-layout-sidebar-right', title: 'Side panel', description: 'Supports contextual detail or editing with more vertical space.' },
+            { icon: 'ti-alert-triangle', title: 'Intent types', description: 'Default, destructive, success, warning, and info reinforce the message.' },
+          ]} />
+        </ComponentDocSection>
+
+        <ComponentDocSection id="states" title="States" description="Dialog state includes entry, focus containment, validation or progress inside the task, and a clear exit path.">
+          <StateMatrix rows={[
+            { state: 'Closed', trigger: 'No modal task is active', visual: 'Underlying page is available', interaction: 'Trigger can open the dialog' },
+            { state: 'Opening', trigger: 'open becomes true', visual: 'Backdrop and panel enter', interaction: 'Initial focus moves inside' },
+            { state: 'Open', trigger: 'Panel is active', visual: 'Page is visually de-emphasized', interaction: 'Focus remains within the dialog' },
+            { state: 'Validation', trigger: 'Submitted content is invalid', visual: 'Inline field feedback', interaction: 'Dialog stays open for correction' },
+            { state: 'Submitting', trigger: 'Async action is running', visual: 'Progress and disabled duplicate action', interaction: 'Dismissal follows the operation policy' },
+            { state: 'Closing', trigger: 'Action, close, Escape, or backdrop', visual: 'Panel exits', interaction: 'Focus returns to the opener' },
+          ]} />
+        </ComponentDocSection>
+
+        <ComponentDocSection id="behavior" title="Behavior" description="Opening a dialog moves focus into it, locks background scrolling, and prevents interaction with the underlying page until dismissal.">
+          <BehaviorGrid items={[
+            { icon: 'ti-focus-2', title: 'Initial focus', description: 'Focus the safest useful control; avoid placing focus on a destructive primary action.' },
+            { icon: 'ti-lock', title: 'Focus containment', description: 'Tab and Shift+Tab cycle through controls inside the active panel.' },
+            { icon: 'ti-door-exit', title: 'Dismissal', description: 'Escape, backdrop, close button, and actions follow the configured dismissal policy.' },
+            { icon: 'ti-arrow-back-up', title: 'Focus return', description: 'After close, restore focus to the element that opened the dialog.' },
+          ]} />
+        </ComponentDocSection>
+
+        <ComponentDocSection id="accessibility" title="Accessibility" description="Dialog exposes modal semantics, an accessible name, an optional description, contained focus, and predictable keyboard dismissal.">
+          <div className="component-doc-stack">
+            <KeyboardTable rows={[
+              { keys: ['Tab'], action: 'Moves to the next focusable control within the dialog.' },
+              { keys: ['Shift', 'Tab'], action: 'Moves to the previous focusable control within the dialog.' },
+              { keys: ['Esc'], action: 'Closes the dialog when closeOnEscape is enabled.' },
+              { keys: ['Enter', 'Space'], action: 'Activates the focused action.' },
+            ]} />
+            <AccessibilityChecklist items={['Provide a concise title for every dialog.', 'Keep focus inside while the dialog is open.', 'Return focus to the opening control after close.', 'Do not rely on backdrop click as the only dismissal method.', 'Keep destructive and cancel actions clearly distinguishable.', 'Describe meaningful hero images and leave decorative images with empty alt text.']} />
+          </div>
+        </ComponentDocSection>
+
+        <ComponentDocSection id="content-guidelines" title="Content guidelines" description="Dialog copy should explain why attention is required and what each available outcome will do.">
+          <ContentGuidelines rules={[
+            { label: 'State the task', guidance: 'Use a short title that names the decision or outcome.', example: 'Delete workspace?' },
+            { label: 'Explain consequences', guidance: 'Put essential context and irreversible effects in the body.', example: 'This permanently deletes 14 projects.' },
+            { label: 'Label outcomes', guidance: 'Use specific verbs for primary actions and plain “Cancel” for the safe exit.', example: 'Delete workspace' },
+            { label: 'Avoid redundant close choices', guidance: 'Do not present multiple actions that produce the same result unless the platform convention requires them.', example: 'Cancel' },
+          ]} />
+        </ComponentDocSection>
+
+        <ComponentDocSection id="examples" title="Examples" description="Examples cover alert intent, form and image composition, alternative positions, multi-step tasks, and command-palette behavior.">
+          <div className="component-doc-stack">
 
         {/* ── Section 1: Alert types ── */}
         <ComponentPreview
@@ -406,10 +502,22 @@ export default function DialogPage() {
 
         <CodeBlock filename="App.tsx" code={COMMAND_CODE} />
 
-        {/* ── Props table ── */}
-        <PropsTable props={DIALOG_PROPS} />
+          </div>
+        </ComponentDocSection>
 
-      </div>
+        <ComponentDocSection id="props-api" title="Props / API" description="Dialog is controlled through open and onClose; dismissal, position, size, intent, media, and footer composition are configurable.">
+        <PropsTable props={DIALOG_PROPS} />
+        </ComponentDocSection>
+
+        <ComponentDocSection id="related-components" title="Related components" description="Choose the least interruptive component that still matches the urgency and interaction requirement.">
+          <RelatedComponents items={[
+            { name: 'Alert', href: '/components/alert', description: 'Show persistent inline status', icon: 'ti-alert-circle' },
+            { name: 'Toast', href: '/components/toast', description: 'Confirm a non-blocking outcome', icon: 'ti-bell' },
+            { name: 'Popover', href: '/components/popover', description: 'Show lightweight contextual content', icon: 'ti-message' },
+            { name: 'Drawer', href: '/components/drawer', description: 'Present extended contextual work', icon: 'ti-layout-sidebar-right' },
+          ]} />
+        </ComponentDocSection>
+      </ComponentDocumentation>
 
       {/* ════════════════════════════════════════
           All Dialog instances (rendered outside
