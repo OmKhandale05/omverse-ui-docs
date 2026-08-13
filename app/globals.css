@@ -612,6 +612,37 @@ a {
   font-size: 9px;
   font-weight: 700;
   box-shadow: 0 2px 8px rgb(0 0 0 / 22%);
+  z-index: 1;
+}
+
+.component-anatomy-marker::after {
+  position: absolute;
+  border-color: var(--color-primary);
+  content: '';
+  opacity: 0.75;
+  z-index: -1;
+}
+
+.component-anatomy-marker--leader-left::after,
+.component-anatomy-marker--leader-right::after {
+  top: 9px;
+  width: 24px;
+  border-top: 1px dashed var(--color-primary);
+}
+
+.component-anatomy-marker--leader-left::after {
+  right: 20px;
+}
+
+.component-anatomy-marker--leader-right::after {
+  left: 20px;
+}
+
+.component-anatomy-marker--leader-down::after {
+  top: 20px;
+  left: 9px;
+  height: 24px;
+  border-left: 1px dashed var(--color-primary);
 }
 
 .component-anatomy-list {
@@ -996,7 +1027,7 @@ a {
 }
 
 .data-table-anatomy {
-  min-width: 300px;
+  min-width: 330px;
   overflow: visible;
   border: 1px solid var(--color-outline-variant);
   border-radius: 12px;
@@ -1007,6 +1038,23 @@ a {
   padding: 14px;
   border-bottom: 1px solid var(--color-outline-variant);
   font-size: 12px;
+}
+
+.data-table-anatomy .data-table-anatomy-caption {
+  padding-block: 8px;
+  color: var(--color-text-secondary);
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.data-table-anatomy .data-table-anatomy-header {
+  background: var(--color-surface-variant);
+  color: var(--color-text-secondary);
+  font-weight: 650;
+}
+
+.data-table-anatomy .data-table-anatomy-row {
+  border-bottom: 0;
 }
 
 @media (prefers-reduced-motion: reduce) {

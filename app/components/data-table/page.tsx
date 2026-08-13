@@ -122,7 +122,18 @@ export default function DataTablePage() {
       </ComponentDocSection>
 
       <ComponentDocSection id="anatomy" title="Anatomy" description="A data table combines a caption, column headers, rows, cells, optional selection, status, and row actions.">
-        <Anatomy preview={<div className="component-anatomy-visual data-table-anatomy"><div>☐　Project　 Owner　 Status</div><div>☐　Migration　 Maya　 Active</div><span className="component-anatomy-marker" style={{ top: -8, left: -8 }}>1</span><span className="component-anatomy-marker" style={{ top: 22, left: -8 }}>2</span><span className="component-anatomy-marker" style={{ bottom: -8, right: -8 }}>3</span></div>} items={[
+        <Anatomy preview={
+          <div className="component-anatomy-visual data-table-anatomy">
+            <div className="data-table-anatomy-caption">Enterprise projects</div>
+            <div className="data-table-anatomy-header">☐　Project　 Owner　 Status　 Actions</div>
+            <div className="data-table-anatomy-row">☐　Migration　 Maya　 Active　 Open</div>
+            <span className="component-anatomy-marker component-anatomy-marker--leader-left" style={{ top: 39, right: -38 }}>1</span>
+            <span className="component-anatomy-marker component-anatomy-marker--leader-right" style={{ top: 84, left: -20 }}>2</span>
+            <span className="component-anatomy-marker component-anatomy-marker--leader-left" style={{ top: 84, right: -38 }}>3</span>
+            <span className="component-anatomy-marker component-anatomy-marker--leader-right" style={{ top: 39, left: -20 }}>4</span>
+            <span className="component-anatomy-marker component-anatomy-marker--leader-down" style={{ top: -38, left: 36 }}>5</span>
+          </div>
+        } items={[
           { number: 1, name: 'Header row', description: 'Names columns and exposes sorting state.', required: true },
           { number: 2, name: 'Data row', description: 'Represents one record with a stable identifier.', required: true },
           { number: 3, name: 'Cell', description: 'Displays one value or a contextual action.', required: true },
