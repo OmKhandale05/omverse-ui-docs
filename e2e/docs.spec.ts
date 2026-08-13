@@ -38,7 +38,7 @@ test('enterprise route exposes its complete product story', async ({ page }) => 
   await expect(page.getByRole('link', { name: /Start building/ })).toHaveAttribute('href', '/docs/installation')
 })
 
-for (const route of ['/components/button', '/components/input', '/components/select', '/components/card', '/components/tabs', '/components/dialog']) {
+for (const route of ['/components/button', '/components/input', '/components/select', '/components/card', '/components/tabs', '/components/dialog', '/components/data-table']) {
   test(`${route} follows the canonical twelve-section structure`, async ({ page, isMobile }) => {
     await page.goto(route)
 
