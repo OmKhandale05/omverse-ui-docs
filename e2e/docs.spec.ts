@@ -38,15 +38,17 @@ test('enterprise route exposes its complete product story', async ({ page }) => 
   await expect(page.getByRole('link', { name: /Start building/ })).toHaveAttribute('href', '/docs/installation')
 })
 
-test('component documentation follows the canonical twelve-section structure', async ({ page, isMobile }) => {
-  await page.goto('/components/button')
+for (const route of ['/components/button', '/components/input', '/components/select']) {
+  test(`${route} follows the canonical twelve-section structure`, async ({ page, isMobile }) => {
+    await page.goto(route)
 
-  const sectionHeadings = page.locator('.component-doc-section > header h2')
-  const tableOfContents = page.locator('aside.component-doc-toc[aria-label="On this page"]')
-  await expect(sectionHeadings).toHaveText(componentDocumentationSections)
-  await expect(tableOfContents).toBeAttached()
-  await expect(tableOfContents).toBeVisible({ visible: !isMobile })
-})
+    const sectionHeadings = page.locator('.component-doc-section > header h2')
+    const tableOfContents = page.locator('aside.component-doc-toc[aria-label="On this page"]')
+    await expect(sectionHeadings).toHaveText(componentDocumentationSections)
+    await expect(tableOfContents).toBeAttached()
+    await expect(tableOfContents).toBeVisible({ visible: !isMobile })
+  })
+}
 
 test('component documentation highlights the active section', async ({ page, isMobile }) => {
   test.skip(isMobile, 'Desktop table of contents is hidden on mobile')
