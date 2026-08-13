@@ -6,7 +6,6 @@ import {
   Card,
   CardBody,
   Checkbox,
-  Divider,
   Input,
 } from 'omverse-ui'
 
@@ -64,9 +63,6 @@ function GoogleIcon() {
 
 export function SignIn() {
   const [mode, setMode]         = useState<'signin' | 'signup'>('signin')
-  const [email, setEmail]       = useState('')
-  const [password, setPassword] = useState('')
-  const [name, setName]         = useState('')
   const [remember, setRemember] = useState(false)
   const [agreed, setAgreed]     = useState(false)
 

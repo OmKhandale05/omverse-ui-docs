@@ -1,14 +1,10 @@
 'use client';
 
 import dynamic from 'next/dynamic';
+import { CommandPalette } from './CommandPalette';
 
 const Toaster = dynamic(
   () => import('omverse-ui').then(mod => ({ default: mod.Toaster })),
-  { ssr: false }
-);
-
-const CommandPalette = dynamic(
-  () => import('./CommandPalette').then(mod => ({ default: mod.CommandPalette })),
   { ssr: false }
 );
 

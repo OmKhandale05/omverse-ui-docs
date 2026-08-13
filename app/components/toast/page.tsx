@@ -167,9 +167,11 @@ export default function ToastPage() {
     toast.promise(
       new Promise<string>((resolve, reject) => {
         setTimeout(() => {
-          Math.random() > 0.3
-            ? resolve('done')
-            : reject(new Error('Failed'));
+          if (Math.random() > 0.3) {
+            resolve('done');
+          } else {
+            reject(new Error('Failed'));
+          }
         }, 2000);
       }),
       {

@@ -1,5 +1,6 @@
 import { Navbar } from '@/components/layout/Navbar'
 import { Sidebar } from '@/components/layout/Sidebar'
+import { DocsPager } from '@/components/layout/DocsPager'
 
 interface DocsShellProps {
   children: React.ReactNode
@@ -24,10 +25,13 @@ export function DocsShell({ children }: DocsShellProps) {
         <Sidebar />
 
         <main
+          id="main-content"
+          tabIndex={-1}
           className="flex-1 overflow-y-auto"
           style={{ color: 'var(--color-text-primary)' }}
         >
           {children}
+          <DocsPager />
         </main>
       </div>
     </div>

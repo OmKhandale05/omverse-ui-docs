@@ -6,25 +6,32 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "audit:docs": "node scripts/audit-docs.mjs",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "verify": "npm run lint && npm run audit:docs && tsc --noEmit && npm run build && npm run test:e2e"
   },
   "dependencies": {
     "@tabler/icons-webfont": "^3.44.0",
     "cmdk": "^1.1.1",
     "geist": "^1.7.1",
-    "next": "16.2.6",
+    "next": "16.3.0",
     "omverse-ui": "^0.1.6",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "shiki": "^4.1.0"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
+    "@playwright/test": "^1.62.1",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "16.2.6",
+    "eslint-config-next": "16.3.0",
+    "fdir": "^6.5.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

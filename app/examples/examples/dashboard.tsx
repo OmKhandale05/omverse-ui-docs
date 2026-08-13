@@ -232,7 +232,7 @@ export function Dashboard() {
                       padding: '12px 0',
                     }}
                   >
-                    <Avatar name={item.name} size="sm" />
+                    <Avatar name={item.name} size="sm" role="img" />
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <p
                         style={{
@@ -282,7 +282,7 @@ export function Dashboard() {
           }
         />
         <CardBody noPadding>
-          <div style={{ overflowX: 'auto' }}>
+          <div tabIndex={0} role="region" aria-label="Recent transactions" style={{ overflowX: 'auto' }}>
             <table
               style={{
                 width: '100%',

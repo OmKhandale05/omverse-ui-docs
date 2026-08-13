@@ -30,7 +30,12 @@ export function PropsTable({ props }: PropsTableProps) {
       </p>
 
       {/* Table wrapper */}
-      <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' } as CSSProperties}>
+      <div
+        tabIndex={0}
+        role="region"
+        aria-label="Component properties"
+        style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' } as CSSProperties}
+      >
       <div
         style={{
           border: '0.5px solid var(--color-border-tertiary)',

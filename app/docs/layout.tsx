@@ -1,24 +1,11 @@
-import { Navbar } from '@/components/layout/Navbar'
-import { Sidebar } from '@/components/layout/Sidebar'
+import type { Metadata } from 'next'
+import { DocsShell } from '@/components/layout/DocsShell'
 
-export default function DocsLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
-      <Navbar />
-      <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
-        <Sidebar />
-        <main style={{
-          flex: 1,
-          overflowY: 'auto',
-          background: 'var(--color-background-primary)',
-        }}>
-          {children}
-        </main>
-      </div>
-    </div>
-  )
+export const metadata: Metadata = {
+  title: 'Documentation',
+  description: 'Install, configure, theme, and extend omverse-ui in React applications.',
+}
+
+export default function DocsLayout({ children }: { children: React.ReactNode }) {
+  return <DocsShell>{children}</DocsShell>
 }

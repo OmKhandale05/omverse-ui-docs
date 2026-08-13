@@ -6,6 +6,10 @@ import {
   MenuSeparator,
   MenuGroup,
   MenuCheckboxItem,
+  MenuRadioItem,
+  MenuAvatarItem,
+  MenuColorPicker,
+  MenuEmojiReactions,
   MenuHeader,
   MenuSearch,
   ContextMenu,
@@ -159,6 +163,32 @@ const [query, setQuery] = useState('');
   <MenuItem icon="arrow-right" intent="danger">Sign out</MenuItem>
 </DropdownMenu>`;
 
+const SELECTION_CODE = `import { DropdownMenu, MenuRadioItem, MenuAvatarItem, MenuSeparator, Button } from 'omverse-ui'
+
+const [density, setDensity] = useState('comfortable');
+const [owner, setOwner] = useState('Maya Chen');
+
+<DropdownMenu trigger={<Button variant="outlined">Assignment</Button>} minWidth={260}>
+  <MenuRadioItem checked={density === 'compact'} onSelect={() => setDensity('compact')}>
+    Compact density
+  </MenuRadioItem>
+  <MenuRadioItem checked={density === 'comfortable'} onSelect={() => setDensity('comfortable')}>
+    Comfortable density
+  </MenuRadioItem>
+  <MenuSeparator />
+  <MenuAvatarItem name="Maya Chen" role="Design lead" selected={owner === 'Maya Chen'} onClick={() => setOwner('Maya Chen')} />
+  <MenuAvatarItem name="Alex Morgan" role="Engineering" selected={owner === 'Alex Morgan'} onClick={() => setOwner('Alex Morgan')} />
+</DropdownMenu>`;
+
+const RICH_INPUTS_CODE = `import { DropdownMenu, MenuColorPicker, MenuEmojiReactions, Button } from 'omverse-ui'
+
+const [color, setColor] = useState('#6366f1');
+
+<DropdownMenu trigger={<Button variant="outlined">Customize</Button>} minWidth={240}>
+  <MenuColorPicker value={color} onChange={setColor} />
+  <MenuEmojiReactions onReact={(emoji) => console.log(emoji)} />
+</DropdownMenu>`;
+
 /* ─── Checkbox demo with state ─── */
 
 function CheckboxDemo() {
@@ -194,6 +224,36 @@ function ProfileMenuDemo() {
       <MenuItem icon="settings">Settings</MenuItem>
       <MenuSeparator />
       <MenuItem icon="arrow-right" intent="danger">Sign out</MenuItem>
+    </DropdownMenu>
+  );
+}
+
+function SelectionMenuDemo() {
+  const [density, setDensity] = useState('comfortable');
+  const [owner, setOwner] = useState('Maya Chen');
+
+  return (
+    <DropdownMenu trigger={<Button variant="outlined">Assignment</Button>} minWidth={260}>
+      <MenuRadioItem checked={density === 'compact'} onSelect={() => setDensity('compact')}>
+        Compact density
+      </MenuRadioItem>
+      <MenuRadioItem checked={density === 'comfortable'} onSelect={() => setDensity('comfortable')}>
+        Comfortable density
+      </MenuRadioItem>
+      <MenuSeparator />
+      <MenuAvatarItem name="Maya Chen" role="Design lead" selected={owner === 'Maya Chen'} onClick={() => setOwner('Maya Chen')} />
+      <MenuAvatarItem name="Alex Morgan" role="Engineering" selected={owner === 'Alex Morgan'} onClick={() => setOwner('Alex Morgan')} />
+    </DropdownMenu>
+  );
+}
+
+function RichInputsMenuDemo() {
+  const [color, setColor] = useState('#6366f1');
+
+  return (
+    <DropdownMenu trigger={<Button variant="outlined">Customize</Button>} minWidth={240}>
+      <MenuColorPicker value={color} onChange={setColor} />
+      <MenuEmojiReactions />
     </DropdownMenu>
   );
 }
@@ -318,6 +378,24 @@ export default function DropdownMenuPage() {
         </ComponentPreview>
 
         <CodeBlock filename="App.tsx" code={HEADER_SEARCH_CODE} />
+
+        <ComponentPreview
+          title="Radio and avatar selection"
+          description="MenuRadioItem handles exclusive settings while MenuAvatarItem presents rich people pickers"
+        >
+          <SelectionMenuDemo />
+        </ComponentPreview>
+
+        <CodeBlock filename="App.tsx" code={SELECTION_CODE} />
+
+        <ComponentPreview
+          title="Color and reaction inputs"
+          description="MenuColorPicker and MenuEmojiReactions add compact rich-input controls inside a menu"
+        >
+          <RichInputsMenuDemo />
+        </ComponentPreview>
+
+        <CodeBlock filename="App.tsx" code={RICH_INPUTS_CODE} />
 
         {/* ── Props table ── */}
         <PropsTable props={DROPDOWN_PROPS} />

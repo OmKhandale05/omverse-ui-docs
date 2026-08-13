@@ -1,13 +1,19 @@
 'use client'
 
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { EXAMPLES } from './examples/index'
 import { CodeBlock } from '@/components/ui/CodeBlock'
 
 /* ─── Page ──────────────────────────────────────────────────────────────── */
 
-export default function ExamplesPage() {
-  const [activeId, setActiveId] = useState('dashboard')
+function ExamplesContent() {
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const requestedId = searchParams.get('id')
+  const activeId = EXAMPLES.some((example) => example.id === requestedId)
+    ? requestedId as string
+    : 'dashboard'
   const [view, setView] = useState<'preview' | 'code'>('preview')
   const [copied, setCopied] = useState(false)
 
@@ -23,8 +29,8 @@ export default function ExamplesPage() {
   }
 
   function handleTabChange(id: string) {
-    setActiveId(id)
     setView('preview')
+    router.replace(`/examples?id=${id}`, { scroll: false })
   }
 
   return (
@@ -72,6 +78,8 @@ export default function ExamplesPage() {
       {/* ── Tab bar ── */}
       <div
         className="ex-tabs-outer"
+        role="tablist"
+        aria-label="Example pages"
         style={{
           display: 'flex',
           borderBottom: '0.5px solid var(--color-outline-variant)',
@@ -84,6 +92,10 @@ export default function ExamplesPage() {
           return (
             <button
               key={ex.id}
+              id={`example-tab-${ex.id}`}
+              role="tab"
+              aria-selected={isActive}
+              aria-controls="example-content"
               onClick={() => handleTabChange(ex.id)}
               style={{
                 position: 'relative',
@@ -198,6 +210,11 @@ export default function ExamplesPage() {
 
       {/* ── Content ── */}
       <div className="ex-content">
+        <div
+          id="example-content"
+          role="tabpanel"
+          aria-labelledby={`example-tab-${activeId}`}
+        >
         {view === 'preview' && (
           Component ? (
             <Component />
@@ -217,8 +234,17 @@ export default function ExamplesPage() {
             <ComingSoon label={example?.label ?? ''} />
           )
         )}
+        </div>
       </div>
     </div>
+  )
+}
+
+export default function ExamplesPage() {
+  return (
+    <Suspense fallback={<div className="ex-content">Loading examples…</div>}>
+      <ExamplesContent />
+    </Suspense>
   )
 }
 

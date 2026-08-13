@@ -105,13 +105,13 @@ export default function IntroductionPage() {
           {/* Version pill */}
           <div style={{
             display: 'inline-flex', alignItems: 'center', gap: 6,
-            fontSize: 11, fontWeight: 500, color: 'rgba(255,255,255,0.45)',
+            fontSize: 11, fontWeight: 500, color: 'rgba(255,255,255,0.72)',
             background: 'rgba(255,255,255,0.07)',
             border: '0.5px solid rgba(255,255,255,0.1)',
             borderRadius: 9999, padding: '4px 12px',
           }}>
             <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#10B981', display: 'inline-block' }} />
-            v0.1.4 — Stable release
+            v0.1.6 — Stable release
           </div>
 
           {/* Floating component mini-cards */}
@@ -195,9 +195,9 @@ export default function IntroductionPage() {
               background: 'rgba(255,255,255,0.05)',
               border: '0.5px solid rgba(255,255,255,0.08)',
               fontSize: 12, fontFamily: 'var(--font-mono)',
-              color: 'rgba(255,255,255,0.35)',
+              color: 'rgba(255,255,255,0.72)',
             }}>
-              <span style={{ color: 'rgba(255,255,255,0.18)' }}>$</span>
+              <span style={{ color: 'rgba(255,255,255,0.72)' }}>$</span>
               npm install omverse-ui
               <i className="ti ti-copy" style={{ fontSize: 12, color: 'rgba(255,255,255,0.2)' }} aria-hidden="true" />
             </div>
@@ -467,7 +467,7 @@ export default function IntroductionPage() {
         </div>
         <CodeBlock
           filename="App.tsx"
-          code={`import { Button, Badge, Input } from 'omverse-ui'\n\nexport default function App() {\n  return (\n    <div>\n      <Button variant="filled">Get started</Button>\n      <Badge color="success">v0.1.4</Badge>\n      <Input label="Email" placeholder="you@example.com" />\n    </div>\n  )\n}`}
+          code={`import { Button, Badge, Input } from 'omverse-ui'\n\nexport default function App() {\n  return (\n    <div>\n      <Button variant="filled">Get started</Button>\n      <Badge color="success">v0.1.6</Badge>\n      <Input label="Email" placeholder="you@example.com" />\n    </div>\n  )\n}`}
         />
       </div>
 

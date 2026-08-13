@@ -285,7 +285,7 @@ export function CodeBlock({
             style={{
               fontSize: 11,
               fontFamily: 'var(--font-geist-mono), var(--font-mono), monospace',
-              color: 'rgba(255,255,255,0.4)',
+              color: 'rgba(255,255,255,0.72)',
               userSelect: 'none',
               letterSpacing: '0.01em',
             }}
@@ -301,7 +301,7 @@ export function CodeBlock({
             style={{
               fontSize: 10,
               fontFamily: 'var(--font-geist-mono), var(--font-mono), monospace',
-              color: 'rgba(255,255,255,0.3)',
+              color: 'rgba(255,255,255,0.72)',
               background: 'rgba(255,255,255,0.06)',
               borderRadius: 4,
               padding: '2px 7px',
@@ -316,6 +316,7 @@ export function CodeBlock({
           <button
             type="button"
             title={copied ? 'Copied!' : 'Copy'}
+            aria-label={copied ? 'Code copied' : `Copy ${filename} code`}
             onClick={handleCopy}
             onMouseEnter={() => setCopyHovered(true)}
             onMouseLeave={() => setCopyHovered(false)}
@@ -334,7 +335,7 @@ export function CodeBlock({
                 ? '#10B981'
                 : copyHovered
                 ? 'rgba(255,255,255,0.7)'
-                : 'rgba(255,255,255,0.3)',
+                : 'rgba(255,255,255,0.72)',
               cursor: 'pointer',
               transition: 'all 150ms ease',
               flexShrink: 0,
@@ -351,6 +352,9 @@ export function CodeBlock({
 
       {/* ── Code body ────────────────────────────────────────────────── */}
       <div
+        tabIndex={0}
+        role="region"
+        aria-label={`${filename} code`}
         style={{
           padding: 16,
           fontFamily: 'var(--font-geist-mono), var(--font-mono), monospace',
@@ -364,6 +368,7 @@ export function CodeBlock({
           <div key={idx} style={{ display: 'flex', minHeight: '1.8em' }}>
             {/* Line number */}
             <span
+              aria-hidden="true"
               style={{
                 color: 'rgba(255,255,255,0.15)',
                 userSelect: 'none',

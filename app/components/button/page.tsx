@@ -135,7 +135,6 @@ export default function ButtonPage() {
         title="Button"
         description="Triggers an action or event. Supports 6 variants, 5 sizes, loading states, icon support and full keyboard accessibility."
         tags={['6 variants', '5 sizes', 'Loading state', 'Icon support', 'WAI-ARIA']}
-        sourceUrl="https://github.com/OmKhandale05/design-sys-components/tree/main/src/components/Button"
         storybookUrl="https://design-sys-components.vercel.app/?path=/story/components-button--button-stories"
       />
 

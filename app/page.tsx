@@ -42,6 +42,7 @@ function HeroBackdrop() {
           'radial-gradient(ellipse 80% 70% at center, black 30%, transparent 75%)',
       }}
       aria-hidden
+      inert
     >
       <style>{`
         @keyframes breathe {
@@ -112,7 +113,7 @@ function Hero() {
           }}
         >
           <span style={{ color: '#10B981' }}>●</span>
-          v0.1.4 on npm
+          v0.1.6 on npm
         </div>
 
         {/* Headline */}
@@ -303,7 +304,7 @@ const LAYERS: LayerDef[] = [
                   border: '0.5px solid #E5E5E5',
                 }}
               />
-              <span style={{ fontSize: 8, color: '#999', lineHeight: 1.3 }}>{token}</span>
+              <span style={{ fontSize: 8, color: '#52525B', lineHeight: 1.3 }}>{token}</span>
             </div>
           ))}
         </div>
@@ -328,22 +329,22 @@ const LAYERS: LayerDef[] = [
             color: '#111',
           }}
         >
-          <div style={{ color: '#999' }}>$ npm install omverse-ui</div>
-          <div style={{ color: '#10B981', marginTop: 4 }}>✓ added 1 package in 2.1s</div>
+          <div style={{ color: '#52525B' }}>$ npm install omverse-ui</div>
+          <div style={{ color: '#047857', marginTop: 4 }}>✓ added 1 package in 2.1s</div>
           <div style={{ borderTop: '0.5px solid #E5E5E5', marginTop: 16, paddingTop: 16 }}>
-            <div style={{ color: '#999' }}>{'// app/page.tsx'}</div>
+            <div style={{ color: '#52525B' }}>{'// app/page.tsx'}</div>
             <div>
               {'import { '}
               <span style={{ color: '#7C3AED' }}>Button</span>
               {' } from '}
-              <span style={{ color: '#059669' }}>&quot;omverse-ui&quot;</span>
+              <span style={{ color: '#047857' }}>&quot;omverse-ui&quot;</span>
               {';'}
             </div>
             <div style={{ marginTop: 8 }}>
               {'<'}
               <span style={{ color: '#7C3AED' }}>Button</span>
               {' variant='}
-              <span style={{ color: '#059669' }}>&quot;filled&quot;</span>
+              <span style={{ color: '#047857' }}>&quot;filled&quot;</span>
               {'>'}
             </div>
             <div style={{ paddingLeft: 16 }}>Ship it</div>
@@ -760,7 +761,7 @@ function ShowcaseSection() {
                       </div>
                       <span style={{ color: '#D4D4D4', fontSize: 12 }}>{label}</span>
                     </div>
-                    <span style={{ color: '#888', fontSize: 10 }}>string</span>
+                    <span style={{ color: '#E5E7EB', fontSize: 10 }}>string</span>
                   </div>
                 ))}
               </div>
@@ -803,7 +804,7 @@ function ShowcaseSection() {
                     fontSize: 10,
                     textTransform: 'uppercase',
                     letterSpacing: '0.06em',
-                    color: '#999',
+                    color: '#52525B',
                   }}
                 >
                   focus moves through
@@ -844,7 +845,7 @@ function ShowcaseSection() {
                 <button
                   style={{
                     background: 'transparent',
-                    color: '#999',
+                    color: '#52525B',
                     fontSize: 13,
                     fontWeight: 400,
                     padding: '8px 16px',
@@ -858,7 +859,7 @@ function ShowcaseSection() {
                 <button
                   style={{
                     background: 'transparent',
-                    color: '#999',
+                    color: '#52525B',
                     fontSize: 13,
                     fontWeight: 400,
                     padding: '8px 16px',
@@ -883,12 +884,12 @@ function ShowcaseSection() {
                 }}
               >
                 <div>
-                  <span style={{ color: '#777' }}>aria-label=</span>
-                  <span style={{ color: '#10B981' }}>&quot;Save changes&quot;</span>
+                  <span style={{ color: '#52525B' }}>aria-label=</span>
+                  <span style={{ color: '#047857' }}>&quot;Save changes&quot;</span>
                 </div>
                 <div>
-                  <span style={{ color: '#777' }}>role=</span>
-                  <span style={{ color: '#10B981' }}>&quot;button&quot;</span>
+                  <span style={{ color: '#52525B' }}>role=</span>
+                  <span style={{ color: '#047857' }}>&quot;button&quot;</span>
                 </div>
               </div>
             </div>
@@ -917,7 +918,7 @@ function ShowcaseSection() {
                     fontSize: 10,
                     textTransform: 'uppercase',
                     letterSpacing: '0.07em',
-                    color: '#999',
+                    color: '#52525B',
                     marginBottom: 10,
                   }}
                 >
@@ -942,7 +943,7 @@ function ShowcaseSection() {
                   >
                     12 KB
                   </span>
-                  <span style={{ fontSize: 11, color: '#10B981', fontWeight: 500 }}>↓ lean</span>
+                  <span style={{ fontSize: 11, color: '#047857', fontWeight: 500 }}>↓ lean</span>
                 </div>
                 {/* Progress bar showing 18% of a typical 60+ KB baseline */}
                 <div
@@ -959,8 +960,8 @@ function ShowcaseSection() {
                   />
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <span style={{ fontSize: 10, color: '#999' }}>omverse-ui</span>
-                  <span style={{ fontSize: 10, color: '#CCC' }}>vs 60+ KB typical</span>
+                  <span style={{ fontSize: 10, color: '#52525B' }}>omverse-ui</span>
+                  <span style={{ fontSize: 10, color: '#52525B' }}>vs 60+ KB typical</span>
                 </div>
               </div>
 
@@ -979,7 +980,7 @@ function ShowcaseSection() {
                       fontSize: 10,
                       textTransform: 'uppercase',
                       letterSpacing: '0.07em',
-                      color: '#999',
+                      color: '#52525B',
                       marginBottom: 8,
                     }}
                   >
@@ -1009,14 +1010,14 @@ function ShowcaseSection() {
                       fontSize: 10,
                       textTransform: 'uppercase',
                       letterSpacing: '0.07em',
-                      color: '#999',
+                      color: '#52525B',
                       marginBottom: 8,
                     }}
                   >
                     SSR-safe
                   </p>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                    <i className="ti ti-check" style={{ fontSize: 18, color: '#10B981' }} aria-hidden="true" />
+                    <i className="ti ti-check" style={{ fontSize: 18, color: '#047857' }} aria-hidden="true" />
                     <span
                       style={{
                         fontSize: 22,
@@ -1167,12 +1168,12 @@ function InstallBlock() {
                   lineHeight: 1.95,
                 }}
               >
-                <div style={{ color: '#555' }}>$ terminal</div>
+                <div style={{ color: '#A3A3A3' }}>$ terminal</div>
                 <div style={{ color: '#E8E8E8', marginBottom: 16 }}>
                   npm install omverse-ui
                 </div>
                 <div style={{ height: '0.5px', background: '#2A2A2A', marginBottom: 16 }} />
-                <div style={{ color: '#555' }}>{'/* index.css */'}</div>
+                <div style={{ color: '#A3A3A3' }}>{'/* index.css */'}</div>
                 <div>
                   <span style={{ color: '#A78BFA' }}>@import </span>
                   <span style={{ color: '#10B981' }}>&quot;tailwindcss&quot;</span>
@@ -1208,7 +1209,7 @@ function InstallBlock() {
                   lineHeight: 1.95,
                 }}
               >
-                <div style={{ color: '#555' }}>{'// any component file'}</div>
+                <div style={{ color: '#A3A3A3' }}>{'// any component file'}</div>
                 <div>
                   <span style={{ color: '#E8E8E8' }}>{'import { '}</span>
                   <span style={{ color: '#4FC1FF' }}>Button</span>
@@ -1219,7 +1220,7 @@ function InstallBlock() {
                   <span style={{ color: '#E8E8E8' }}>;</span>
                 </div>
                 <div style={{ height: '0.5px', background: '#2A2A2A', margin: '12px 0' }} />
-                <div style={{ color: '#555' }}>{'export default function Page() {'}</div>
+                <div style={{ color: '#A3A3A3' }}>{'export default function Page() {'}</div>
                 <div style={{ paddingLeft: 16 }}>
                   <span style={{ color: '#E8E8E8' }}>{'return ('}</span>
                 </div>
@@ -1238,7 +1239,7 @@ function InstallBlock() {
                   <span style={{ color: '#E8E8E8' }}>{'>'}</span>
                 </div>
                 <div style={{ paddingLeft: 16, color: '#E8E8E8' }}>{')'}</div>
-                <div style={{ color: '#555' }}>{'}'}</div>
+                <div style={{ color: '#A3A3A3' }}>{'}'}</div>
               </div>
             </div>
 
@@ -1470,7 +1471,7 @@ function CategoryGrid() {
 
 function FinalCta() {
   const changelog = [
-    { version: 'v0.1.4', label: 'Latest',  items: 'DataTable · Skeleton · Alert'          },
+    { version: 'v0.1.6', label: 'Latest',  items: 'Latest package improvements and fixes'       },
     { version: 'v0.1.3', label: null,       items: 'Chip · Divider · Badge variants'       },
     { version: 'v0.1.2', label: null,       items: 'Dark mode · Token system overhaul'     },
     { version: 'v0.1.1', label: null,       items: 'Dialog · Drawer · Tooltip · Popover'  },
@@ -1504,7 +1505,7 @@ function FinalCta() {
               fontSize: 10,
               textTransform: 'uppercase',
               letterSpacing: '0.12em',
-              color: 'rgba(255,255,255,0.35)',
+              color: 'rgba(255,255,255,0.72)',
               fontWeight: 500,
               marginBottom: 20,
             }}
@@ -1556,7 +1557,7 @@ function FinalCta() {
                 color: 'rgba(255,255,255,0.75)',
               }}
             >
-              <i className="ti ti-terminal-2" style={{ fontSize: 14, color: 'rgba(255,255,255,0.35)' }} aria-hidden="true" />
+              <i className="ti ti-terminal-2" style={{ fontSize: 14, color: 'rgba(255,255,255,0.72)' }} aria-hidden="true" />
               npm install omverse-ui
             </div>
             <Link href="/docs/installation" style={{ textDecoration: 'none' }}>
@@ -1584,7 +1585,7 @@ function FinalCta() {
               fontSize: 10,
               textTransform: 'uppercase',
               letterSpacing: '0.1em',
-              color: 'rgba(255,255,255,0.25)',
+              color: 'rgba(255,255,255,0.72)',
               fontWeight: 500,
             }}
           >
@@ -1607,13 +1608,13 @@ function FinalCta() {
                 fontSize: 11,
                 textTransform: 'uppercase',
                 letterSpacing: '0.09em',
-                color: '#999',
+                color: '#52525B',
                 fontWeight: 500,
               }}
             >
               Recently shipped
             </p>
-            <span style={{ fontSize: 11, color: '#10B981', fontWeight: 500 }}>● Active</span>
+            <span style={{ fontSize: 11, color: '#047857', fontWeight: 500 }}>● Active</span>
           </div>
 
           {/* Changelog rows */}
@@ -1636,7 +1637,7 @@ function FinalCta() {
                     {version}
                   </div>
                   {label && (
-                    <div style={{ fontSize: 10, color: '#10B981', fontWeight: 500, marginTop: 2 }}>
+                    <div style={{ fontSize: 10, color: '#047857', fontWeight: 500, marginTop: 2 }}>
                       {label}
                     </div>
                   )}
@@ -1660,7 +1661,7 @@ function FinalCta() {
               justifyContent: 'space-between',
             }}
           >
-            <span style={{ fontSize: 12, color: '#999' }}>27 components shipped so far</span>
+            <span style={{ fontSize: 12, color: '#52525B' }}>27 components shipped so far</span>
             <Link href="/docs/introduction" style={{ fontSize: 12, color: '#111', fontWeight: 500, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 4 }}>
               See all
               <i className="ti ti-arrow-up-right" style={{ fontSize: 12 }} aria-hidden="true" />
@@ -1743,7 +1744,7 @@ function Footer() {
         { label: 'Theming',         href: '/docs/theming'                                                         },
         { label: 'Design tokens',   href: '/docs/design-tokens'                                                   },
         { label: 'Dark mode',       href: '/docs/dark-mode'                                                       },
-        { label: 'GitHub',          href: 'https://github.com/OmKhandale05/design-sys-components', external: true },
+        { label: 'GitHub',          href: 'https://github.com/OmKhandale05/omverse-ui-docs', external: true },
       ],
     },
     {
@@ -1763,7 +1764,7 @@ function Footer() {
       heading: 'Community',
       links: [
         { label: 'npm',          href: 'https://npmjs.com/package/omverse-ui',                               external: true },
-        { label: 'MIT License',  href: 'https://github.com/OmKhandale05/design-sys-components/blob/main/LICENSE', external: true },
+        { label: 'MIT License',  href: 'https://opensource.org/license/mit', external: true },
       ],
     },
   ];
@@ -1851,7 +1852,7 @@ function Footer() {
           }}
         >
           <span style={{ fontSize: 13, color: 'var(--color-text-disabled)', fontWeight: 400 }}>
-            © 2026 omverse-ui · v0.1.4 · MIT
+            © 2026 omverse-ui · v0.1.6 · MIT
           </span>
         </div>
 
@@ -1944,7 +1945,7 @@ export default function LandingPage() {
         }
       `}</style>
       <Navbar />
-      <main style={{ background: 'var(--color-background)', flex: 1 }}>
+      <main id="main-content" tabIndex={-1} style={{ background: 'var(--color-background)', flex: 1 }}>
         <Hero />
         <LayerSection />
         <ShowcaseSection />

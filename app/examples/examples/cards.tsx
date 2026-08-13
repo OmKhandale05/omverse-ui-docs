@@ -302,15 +302,6 @@ function GlassCard() {
 
 type FilterId = typeof FILTERS[number]['id']
 
-const CARD_CATEGORIES: Record<string, FilterId[]> = {
-  product: ['product'],
-  profile: ['profile'],
-  stats:   ['stats'],
-  article: ['article'],
-  feature: ['feature'],
-  glass:   ['feature'],
-}
-
 export function Cards() {
   const [activeFilter, setActiveFilter] = useState<string[]>(['all'])
   const filter = activeFilter[0] ?? 'all'

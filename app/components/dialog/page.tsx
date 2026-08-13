@@ -450,7 +450,7 @@ export default function DialogPage() {
                   Welcome back, John!
                 </p>
                 <p style={{ fontSize: 12, color: 'var(--color-text-secondary)', marginTop: 2 }}>
-                  Here's what's happening today
+                  Here&apos;s what&apos;s happening today
                 </p>
               </div>
             </div>
