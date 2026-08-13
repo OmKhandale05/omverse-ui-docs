@@ -53,6 +53,7 @@ export const DOCS_NAVIGATION: NavigationSection[] = [
     items: [
       { label: 'DataTable', href: '/components/data-table', icon: 'ti-table', badge: 'new' },
       { label: 'FilterBar', href: '/components/filter-bar', icon: 'ti-filter', badge: 'new' },
+      { label: 'Toolbar', href: '/components/toolbar', icon: 'ti-layout-navbar', badge: 'new' },
     ],
   },
   {
