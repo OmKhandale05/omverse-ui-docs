@@ -10,7 +10,7 @@ interface PropRow {
 }
 
 interface PropsTableProps {
-  props: PropRow[];
+  props: readonly PropRow[];
 }
 
 export function PropsTable({ props }: PropsTableProps) {
