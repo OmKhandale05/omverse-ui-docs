@@ -1,598 +1,192 @@
-'use client';
+'use client'
 
-import { useState } from 'react';
+import { useState } from 'react'
+import { Badge, Button, Card, CardBody, CardFooter, CardHeader, CardMedia } from 'omverse-ui'
+import { PageHeader } from '@/components/ui/PageHeader'
+import { ComponentPreview } from '@/components/ui/ComponentPreview'
+import { CodeBlock } from '@/components/ui/CodeBlock'
+import { PropsTable } from '@/components/ui/PropsTable'
 import {
-  Avatar,
-  Badge,
-  Button,
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  CardMedia,
-} from 'omverse-ui';
-import { PageHeader } from '@/components/ui/PageHeader';
-import { ComponentPreview } from '@/components/ui/ComponentPreview';
-import { CodeBlock } from '@/components/ui/CodeBlock';
-import { PropsTable } from '@/components/ui/PropsTable';
-
-/* ─── Props table data ─── */
+  AccessibilityChecklist,
+  Anatomy,
+  BehaviorGrid,
+  ComponentDocSection,
+  ComponentDocumentation,
+  ContentGuidelines,
+  GuidanceList,
+  KeyboardTable,
+  RelatedComponents,
+  StateMatrix,
+} from '@/components/docs/ComponentDocumentation'
 
 const CARD_PROPS = [
-  {
-    name: 'variant',
-    type: "'elevated' | 'filled' | 'outlined' | 'ghost' | 'gradient' | 'glass'",
-    default: "'elevated'",
-    description: 'Visual style of the card',
-  },
-  {
-    name: 'interactive',
-    type: 'boolean',
-    default: 'false',
-    description: 'Adds hover / focus / active states',
-  },
-  {
-    name: 'selected',
-    type: 'boolean',
-    default: 'false',
-    description: 'Shows a selected ring or border',
-  },
-  {
-    name: 'asButton',
-    type: 'boolean',
-    default: 'false',
-    description: 'Renders as a <button> for fully-clickable cards',
-  },
-  {
-    name: 'radius',
-    type: "'none' | 'sm' | 'md' | 'lg' | 'full'",
-    default: "'md'",
-    description: 'Border radius',
-  },
-] as const satisfies {
-  name: string;
-  type: string;
-  default: string;
-  description: string;
-}[];
+  { name: 'variant', type: "'elevated' | 'filled' | 'outlined' | 'ghost' | 'gradient' | 'glass'", default: "'elevated'", description: 'Sets the surface treatment.' },
+  { name: 'radius', type: "'none' | 'sm' | 'md' | 'lg' | 'full'", default: "'md'", description: 'Sets the corner radius.' },
+  { name: 'interactive', type: 'boolean', default: 'false', description: 'Adds hover, focus, and active feedback.' },
+  { name: 'selected', type: 'boolean', default: 'false', description: 'Shows a selected ring or border.' },
+  { name: 'asButton', type: 'boolean', default: 'false', description: 'Renders a semantic button when the entire card is one action.' },
+] as const
 
-/* ─── Code snippets ─── */
+const COMPOUND_PROPS = [
+  { name: 'CardMedia.src', type: 'string', default: 'undefined', description: 'Image source; omitting it renders placeholder content.' },
+  { name: 'CardMedia.alt', type: 'string', default: "''", description: 'Alternative text for meaningful media.' },
+  { name: 'CardMedia.height', type: 'number', default: "'100%'", description: 'Media height in pixels.' },
+  { name: 'CardMedia.overlay', type: 'boolean', default: 'false', description: 'Adds a contrast gradient over the image.' },
+  { name: 'CardMedia.overlayContent', type: 'ReactNode', default: 'undefined', description: 'Content positioned over the media.' },
+  { name: 'CardHeader.title', type: 'ReactNode', default: 'undefined', description: 'Primary card heading content.' },
+  { name: 'CardHeader.subtitle', type: 'ReactNode', default: 'undefined', description: 'Secondary heading context.' },
+  { name: 'CardHeader.avatar', type: 'ReactNode', default: 'undefined', description: 'Leading avatar or icon.' },
+  { name: 'CardHeader.action', type: 'ReactNode', default: 'undefined', description: 'Trailing status or local action.' },
+  { name: 'CardBody.noPadding', type: 'boolean', default: 'false', description: 'Removes the default body padding.' },
+  { name: 'CardFooter.divider', type: 'boolean', default: 'false', description: 'Adds a separator above footer content.' },
+  { name: 'CardFlip.front', type: 'ReactNode', default: 'required', description: 'Content on the initial face.' },
+  { name: 'CardFlip.back', type: 'ReactNode', default: 'required', description: 'Content on the reverse face.' },
+  { name: 'CardFlip.height', type: 'number', default: '160', description: 'Flip-card height in pixels.' },
+  { name: 'CardFlip.direction', type: "'horizontal' | 'vertical'", default: "'horizontal'", description: 'Axis used for the flip transition.' },
+] as const
 
-const VARIANTS_CODE = `import { Card, CardBody } from 'omverse-ui'
+const BASIC_CODE = `import { Card, CardBody, CardFooter, CardHeader } from 'omverse-ui'
 
-<Card variant="elevated" style={{ width: 176 }}>
-  <CardBody>
-    <p>Elevated</p>
-    <p style={{ opacity: 0.6, marginTop: 4 }}>Shadow + hover lift</p>
-  </CardBody>
-</Card>
-
-<Card variant="filled" style={{ width: 176 }}>
-  <CardBody>
-    <p>Filled</p>
-    <p style={{ opacity: 0.6, marginTop: 4 }}>Tonal background</p>
-  </CardBody>
-</Card>
-
-<Card variant="outlined" style={{ width: 176 }}>
-  <CardBody>
-    <p>Outlined</p>
-    <p style={{ opacity: 0.6, marginTop: 4 }}>Border highlight</p>
-  </CardBody>
-</Card>
-
-<Card variant="ghost" style={{ width: 176 }}>
-  <CardBody>
-    <p>Ghost</p>
-    <p style={{ opacity: 0.6, marginTop: 4 }}>Dashed border</p>
-  </CardBody>
-</Card>
-
-<Card variant="gradient" style={{ width: 176 }}>
-  <CardBody>
-    <p>Gradient</p>
-    <p style={{ opacity: 0.8, marginTop: 4 }}>Brand colors</p>
-  </CardBody>
-</Card>`;
-
-const GLASS_CODE = `import { Card, CardBody } from 'omverse-ui'
-
-{/* Glass needs a colored backdrop to show the frosted effect */}
-<div style={{
-  background: 'linear-gradient(135deg, #6366F1, #A855F7)',
-  padding: 32,
-  borderRadius: 16,
-  display: 'flex',
-  gap: 16,
-}}>
-  <Card variant="glass" style={{ width: 208 }}>
-    <CardBody>
-      <p>Glass card</p>
-      <p style={{ opacity: 0.8, marginTop: 4 }}>Frosted glass effect</p>
-    </CardBody>
-  </Card>
-
-  <Card variant="glass" style={{ width: 208 }}>
-    <CardBody>
-      <p>Another glass</p>
-      <p style={{ opacity: 0.8, marginTop: 4 }}>Works on any background</p>
-    </CardBody>
-  </Card>
-</div>`;
-
-const MEDIA_CODE = `import { Avatar, Badge, Button, Card, CardBody, CardFooter, CardHeader, CardMedia } from 'omverse-ui'
-
-{/* Card with image overlay content */}
-<Card variant="elevated" style={{ width: 208 }} interactive>
-  <CardMedia
-    src="https://picsum.photos/seed/mountain/400/200"
-    alt="Mountain Trek"
-    height={160}
-    overlay
-    overlayContent={
-      <>
-        <p style={{ fontWeight: 600 }}>Mountain Trek</p>
-        <p style={{ opacity: 0.8, fontSize: 12 }}>Himalayas · 5 days</p>
-      </>
-    }
-  />
-  <CardBody>
-    <p style={{ fontSize: 13, color: 'var(--color-text-secondary)' }}>
-      A 5-day guided trek through the Himalayas with expert guides.
-    </p>
-  </CardBody>
-  <CardFooter divider style={{ justifyContent: 'space-between' }}>
-    <Badge color="success" variant="tonal">Available</Badge>
-    <Button size="sm" variant="filled">Book now</Button>
+<Card variant="outlined">
+  <CardHeader title="Quarterly planning" subtitle="Updated 2 hours ago" />
+  <CardBody>Review goals, owners, and delivery risks.</CardBody>
+  <CardFooter divider>
+    <Button size="sm" variant="text">View plan</Button>
   </CardFooter>
-</Card>
+</Card>`
 
-{/* Card with header action */}
-<Card variant="elevated" style={{ width: 256 }} interactive>
-  <CardMedia
-    src="https://picsum.photos/seed/launch/400/140"
-    alt="Campaign"
-    height={140}
-  />
-  <CardHeader
-    title="Launch campaign"
-    subtitle="Marketing · 3 days left"
-    action={<Badge color="success" variant="tonal">Active</Badge>}
-  />
-  <CardBody>
-    <p style={{ fontSize: 13, color: 'var(--color-text-secondary)' }}>
-      Drive awareness for the new product launch across all channels.
-    </p>
-  </CardBody>
-  <CardFooter divider style={{ justifyContent: 'space-between' }}>
-    <div style={{ display: 'flex' }}>
-      <Avatar name="John Doe" size="xs" style={{ boxShadow: '0 0 0 2px var(--color-background)' }} />
-      <Avatar name="Alice Wang" size="xs" color="secondary" style={{ boxShadow: '0 0 0 2px var(--color-background)', marginLeft: -8 }} />
-    </div>
-    <div style={{ display: 'flex', gap: 8 }}>
-      <Button size="sm" variant="text">View</Button>
-      <Button size="sm" variant="filled">Edit</Button>
-    </div>
-  </CardFooter>
-</Card>`;
+const ACTION_CODE = `<Card
+  asButton
+  interactive
+  selected={selected}
+  onClick={() => setSelected(true)}
+  aria-pressed={selected}
+>
+  <CardHeader title="Start from a template" />
+  <CardBody>Use a predefined project structure.</CardBody>
+</Card>`
 
-const HORIZONTAL_CODE = `import { Button, Card, CardBody, CardHeader, CardMedia } from 'omverse-ui'
-
-<Card variant="elevated" style={{ width: 320, display: 'flex', flexDirection: 'row', overflow: 'hidden' }} interactive>
-  <CardMedia
-    src="https://picsum.photos/seed/music/200/200"
-    alt="Midnight Rain"
-    style={{ width: 96, flexShrink: 0, borderRadius: '12px 0 0 12px', height: 'auto', alignSelf: 'stretch' }}
-  />
-  <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-    <CardHeader title="Midnight Rain" subtitle="Taylor Swift · 3:54" />
-    <CardBody>
-      <Button size="sm" variant="filled" leadingIcon="play">Play</Button>
-    </CardBody>
-  </div>
-</Card>`;
-
-const ACTION_CODE = `import { useState } from 'react'
-import { Badge, Card, CardBody } from 'omverse-ui'
-
-const [selected, setSelected] = useState('template')
-
-const ICONS = { scratch: 'file-text', template: 'bookmark', import: 'upload' } as const
-
-const options = [
-  { id: 'scratch',  label: 'From scratch', desc: 'Start fresh' },
-  { id: 'template', label: 'Template',     desc: 'Use a preset' },
-  { id: 'import',   label: 'Import',       desc: 'Upload file' },
+const CARD_STATES = [
+  { state: 'Default', trigger: 'Static grouped content', visual: 'Stable surface treatment', interaction: 'Only nested controls are interactive' },
+  { state: 'Hover', trigger: 'Pointer enters an interactive card', visual: 'Surface or elevation changes', interaction: 'Signals the card can be activated' },
+  { state: 'Focus', trigger: 'Keyboard focuses an asButton card', visual: 'Visible focus indicator', interaction: 'Enter or Space activates the card' },
+  { state: 'Pressed', trigger: 'Card is being activated', visual: 'Brief active feedback', interaction: 'Action has not yet completed' },
+  { state: 'Selected', trigger: 'Card represents a chosen option', visual: 'Selected ring or border', interaction: 'Selection may be toggled or changed' },
+  { state: 'Disabled', trigger: 'Action is unavailable', visual: 'Use native disabled treatment on asButton', interaction: 'Cannot be activated' },
 ]
 
-<div style={{ display: 'flex', gap: 16 }}>
-  {options.map(opt => (
-    <Card
-      key={opt.id}
-      variant="outlined"
-      interactive
-      selected={selected === opt.id}
-      onClick={() => setSelected(opt.id)}
-      asButton
-      style={{ width: 176, textAlign: 'center' }}
-    >
-      <CardBody style={{ paddingTop: 20, paddingBottom: 20 }}>
-        <i className={\`ti ti-\${ICONS[opt.id]}\`} style={{ fontSize: 24 }} aria-hidden="true" />
-        <p style={{ fontSize: 14, fontWeight: 500, marginTop: 8 }}>{opt.label}</p>
-        <p style={{ fontSize: 12, color: 'var(--color-text-secondary)', marginTop: 4 }}>{opt.desc}</p>
-        {selected === opt.id && (
-          <Badge color="default" variant="tonal" style={{ marginTop: 8 }}>Selected</Badge>
-        )}
-      </CardBody>
-    </Card>
-  ))}
-</div>`;
-
-const STAT_CODE = `import { Card } from 'omverse-ui'
-
-<div style={{ display: 'flex', gap: 16 }}>
-  <Card variant="outlined" style={{ width: 176, padding: 16 }}>
-    <p style={{ fontSize: 12, color: 'var(--color-text-secondary)' }}>Total revenue</p>
-    <p style={{ fontSize: 22, fontWeight: 500, color: 'var(--color-text-primary)', marginTop: 4 }}>$48.2k</p>
-    <p style={{ fontSize: 12, fontWeight: 500, marginTop: 8, color: '#10B981' }}>+12.5%</p>
-  </Card>
-
-  <Card variant="outlined" style={{ width: 176, padding: 16 }}>
-    <p style={{ fontSize: 12, color: 'var(--color-text-secondary)' }}>Active users</p>
-    <p style={{ fontSize: 22, fontWeight: 500, color: 'var(--color-text-primary)', marginTop: 4 }}>2,841</p>
-    <p style={{ fontSize: 12, fontWeight: 500, marginTop: 8, color: '#10B981' }}>+8.2%</p>
-  </Card>
-
-  <Card variant="outlined" style={{ width: 176, padding: 16 }}>
-    <p style={{ fontSize: 12, color: 'var(--color-text-secondary)' }}>Bounce rate</p>
-    <p style={{ fontSize: 22, fontWeight: 500, color: 'var(--color-text-primary)', marginTop: 4 }}>24.1%</p>
-    <p style={{ fontSize: 12, fontWeight: 500, marginTop: 8, color: '#EF4444' }}>-3.1%</p>
-  </Card>
-</div>`;
-
-const PROFILE_CODE = `import { Avatar, Card, CardBody, CardFooter, CardMedia } from 'omverse-ui'
-
-<Card variant="outlined" style={{ width: 208, overflow: 'hidden' }}>
-  <CardMedia src="https://picsum.photos/seed/profile/400/120" alt="Cover" height={120} />
-  <div style={{ display: 'flex', justifyContent: 'center', marginTop: -28 }}>
-    <Avatar name="John Doe" size="lg" style={{ boxShadow: '0 0 0 4px var(--color-background)' }} />
-  </div>
-  <CardBody style={{ textAlign: 'center', paddingTop: 8, paddingBottom: 0 }}>
-    <p style={{ fontSize: 14, fontWeight: 600 }}>John Doe</p>
-    <p style={{ fontSize: 12, color: 'var(--color-text-secondary)', marginTop: 2 }}>Product Designer</p>
-  </CardBody>
-  <CardFooter divider style={{ justifyContent: 'space-around', padding: 0, marginTop: 12 }}>
-    {[['128', 'Projects'], ['4.2k', 'Followers'], ['98%', 'Rating']].map(([val, lbl]) => (
-      <div key={lbl} style={{ flex: 1, textAlign: 'center', padding: '12px 0' }}>
-        <p style={{ fontSize: 13, fontWeight: 600 }}>{val}</p>
-        <p style={{ fontSize: 12, color: 'var(--color-text-disabled)' }}>{lbl}</p>
-      </div>
-    ))}
-  </CardFooter>
-</Card>`;
-
-/* ─── Page ─── */
-
 export default function CardPage() {
-  const [selected, setSelected] = useState('template');
+  const [selected, setSelected] = useState(false)
 
   return (
     <div>
-      {/* ── Page header ── */}
-      <PageHeader
-        breadcrumb={['Components', 'Display', 'Card']}
-        title="Card"
-        description="A surface for grouping related content. 6 variants with support for media, interactive states, selected state, and composable header/body/footer."
-        tags={['6 variants', 'Interactive', 'Media', 'Selected state', 'Overlay']}
-      />
+      <PageHeader breadcrumb={['Components', 'Display', 'Card']} title="Card" description="Cards group related information and actions into a scannable surface. They can remain static or become one clearly defined interactive control." tags={['6 variants', 'Compound anatomy', 'Interactive', 'Selectable', 'Media']} />
 
-      {/* ── Content ── */}
-      <div style={{ padding: '28px 40px' }}>
-
-        {/* ── Section 1: Variants ── */}
-        <ComponentPreview
-          title="Variants"
-          description="elevated (default), filled, outlined, ghost, gradient — all support hover states"
-          layout="center"
-        >
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))',
-            gap: 12,
-            width: '100%',
-          }}>
-            <Card variant="elevated">
-              <CardBody>
-                <p style={{ fontSize: 14, fontWeight: 500, color: 'var(--color-text-primary)' }}>Elevated</p>
-                <p style={{ fontSize: 12, color: 'var(--color-text-secondary)', marginTop: 4 }}>Shadow + hover lift</p>
-              </CardBody>
-            </Card>
-
-            <Card variant="filled">
-              <CardBody>
-                <p style={{ fontSize: 14, fontWeight: 500, color: 'var(--color-text-primary)' }}>Filled</p>
-                <p style={{ fontSize: 12, color: 'var(--color-text-secondary)', marginTop: 4 }}>Tonal background</p>
-              </CardBody>
-            </Card>
-
-            <Card variant="outlined">
-              <CardBody>
-                <p style={{ fontSize: 14, fontWeight: 500, color: 'var(--color-text-primary)' }}>Outlined</p>
-                <p style={{ fontSize: 12, color: 'var(--color-text-secondary)', marginTop: 4 }}>Border highlight</p>
-              </CardBody>
-            </Card>
-
-            <Card variant="ghost">
-              <CardBody>
-                <p style={{ fontSize: 14, fontWeight: 500, color: 'var(--color-text-primary)' }}>Ghost</p>
-                <p style={{ fontSize: 12, color: 'var(--color-text-secondary)', marginTop: 4 }}>Dashed border</p>
-              </CardBody>
-            </Card>
-
-            <Card variant="gradient">
-              <CardBody>
-                <p style={{ fontSize: 14, fontWeight: 500 }}>Gradient</p>
-                <p style={{ fontSize: 12, marginTop: 4, opacity: 0.8 }}>Brand colors</p>
-              </CardBody>
-            </Card>
-          </div>
-        </ComponentPreview>
-
-        <CodeBlock filename="App.tsx" code={VARIANTS_CODE} />
-
-        {/* ── Section 2: Glass variant ── */}
-        <ComponentPreview
-          title="Glass variant"
-          description="Use on colored backgrounds to reveal the frosted-glass blur"
-        >
-          <div
-            style={{
-              background: 'linear-gradient(135deg, #6366F1, #A855F7)',
-              padding: 32,
-              borderRadius: 16,
-              display: 'flex',
-              gap: 16,
-              flexWrap: 'wrap',
-            }}
-          >
-            <Card variant="glass" style={{ width: 208 }}>
-              <CardBody>
-                <p style={{ fontSize: 14, fontWeight: 500 }}>Glass card</p>
-                <p style={{ fontSize: 12, marginTop: 4, opacity: 0.8 }}>Frosted glass effect</p>
-              </CardBody>
-            </Card>
-
-            <Card variant="glass" style={{ width: 208 }}>
-              <CardBody>
-                <p style={{ fontSize: 14, fontWeight: 500 }}>Another glass</p>
-                <p style={{ fontSize: 12, marginTop: 4, opacity: 0.8 }}>Works on any background</p>
-              </CardBody>
-            </Card>
-          </div>
-        </ComponentPreview>
-
-        <CodeBlock filename="App.tsx" code={GLASS_CODE} />
-
-        {/* ── Section 3: With media + header + footer ── */}
-        <ComponentPreview
-          title="With media + header + footer"
-          description="CardMedia, CardHeader (with action), CardBody and CardFooter compose the full card"
-          layout="center"
-        >
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-            gap: 16,
-            alignItems: 'start',
-            width: '100%',
-          }}>
-            {/* Image overlay card */}
-            <Card variant="elevated" interactive>
-              <CardMedia
-                src="https://picsum.photos/seed/mountain/400/200"
-                alt="Mountain Trek"
-                height={180}
-                overlay
-                overlayContent={
-                  <>
-                    <p style={{ fontWeight: 600, fontSize: 13 }}>Mountain Trek</p>
-                    <p style={{ fontSize: 12, opacity: 0.8 }}>Himalayas · 5 days</p>
-                  </>
-                }
-              />
-              <CardBody>
-                <p style={{ fontSize: 13, color: 'var(--color-text-secondary)', lineHeight: 1.6 }}>
-                  A 5-day guided trek through the Himalayas with expert guides.
-                </p>
-              </CardBody>
-              <CardFooter divider style={{ justifyContent: 'space-between' }}>
-                <Badge color="success" variant="tonal">Available</Badge>
-                <Button size="sm" variant="filled">Book now</Button>
-              </CardFooter>
-            </Card>
-
-            {/* Header with action card */}
-            <Card variant="elevated" interactive>
-              <CardMedia
-                src="https://picsum.photos/seed/launch/400/140"
-                alt="Campaign"
-                height={180}
-              />
-              <CardHeader
-                title="Launch campaign"
-                subtitle="Marketing · 3 days left"
-                action={<Badge color="success" variant="tonal">Active</Badge>}
-              />
-              <CardBody>
-                <p style={{ fontSize: 13, color: 'var(--color-text-secondary)' }}>
-                  Drive awareness for the new product launch across all channels.
-                </p>
-              </CardBody>
-              <CardFooter divider style={{ justifyContent: 'space-between' }}>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                  <Avatar name="John Doe" size="xs" style={{ boxShadow: '0 0 0 2px var(--color-background)' }} />
-                  <Avatar name="Alice Wang" size="xs" color="secondary" style={{ boxShadow: '0 0 0 2px var(--color-background)', marginLeft: -8 }} />
-                </div>
-                <div style={{ display: 'flex', gap: 8 }}>
-                  <Button size="sm" variant="text">View</Button>
-                  <Button size="sm" variant="filled">Edit</Button>
-                </div>
-              </CardFooter>
-            </Card>
-          </div>
-        </ComponentPreview>
-
-        <CodeBlock filename="App.tsx" code={MEDIA_CODE} />
-
-        {/* ── Section 4: Horizontal layout ── */}
-        <ComponentPreview
-          title="Horizontal layout"
-          description="Set the card to flex-row and give CardMedia a fixed width for side-by-side layouts"
-        >
-          <Card
-            variant="elevated"
-            interactive
-            style={{ width: 320, display: 'flex', flexDirection: 'row', overflow: 'hidden' }}
-          >
-            <CardMedia
-              src="https://picsum.photos/seed/music/200/200"
-              alt="Midnight Rain"
-              style={{
-                width: 96,
-                flexShrink: 0,
-                borderRadius: '12px 0 0 12px',
-                height: 'auto',
-                alignSelf: 'stretch',
-              }}
-            />
-            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-              <CardHeader title="Midnight Rain" subtitle="Taylor Swift · 3:54" />
-              <CardBody>
-                <Button size="sm" variant="filled" leadingIcon="play">Play</Button>
-              </CardBody>
-            </div>
-          </Card>
-        </ComponentPreview>
-
-        <CodeBlock filename="App.tsx" code={HORIZONTAL_CODE} />
-
-        {/* ── Section 5: Selected state — action cards ── */}
-        <ComponentPreview
-          title="Selected state — action cards"
-          description="Combine interactive + selected + asButton to create fully-clickable selectable cards"
-        >
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
-            {(['scratch', 'template', 'import'] as const).map(opt => (
-              <Card
-                key={opt}
-                variant="outlined"
-                interactive
-                selected={selected === opt}
-                onClick={() => setSelected(opt)}
-                asButton
-                style={{ width: 176, textAlign: 'center' }}
-              >
-                <CardBody style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  textAlign: 'center',
-                  gap: 8,
-                  padding: 16,
-                }}>
-                  <i
-                    className={`ti ti-${opt === 'scratch' ? 'file-text' : opt === 'template' ? 'bookmark' : 'upload'}`}
-                    style={{ fontSize: 24 }}
-                    aria-hidden="true"
-                  />
-                  <p style={{ fontSize: 14, fontWeight: 500, color: 'var(--color-text-primary)' }}>
-                    {opt === 'scratch' ? 'From scratch' : opt === 'template' ? 'Template' : 'Import'}
-                  </p>
-                  <p style={{ fontSize: 12, color: 'var(--color-text-secondary)' }}>
-                    {opt === 'scratch' ? 'Start fresh' : opt === 'template' ? 'Use a preset' : 'Upload file'}
-                  </p>
-                  {selected === opt && (
-                    <Badge color="default" variant="tonal">Selected</Badge>
-                  )}
-                </CardBody>
+      <ComponentDocumentation>
+        <ComponentDocSection id="overview" title="Overview" description="Use a card to create a meaningful content group whose elements share one topic or task.">
+          <div className="component-doc-stack">
+            <ComponentPreview title="Content card" description="Header, body, and footer establish a predictable reading and action order.">
+              <Card variant="outlined" style={{ width: 'min(100%, 360px)' }}>
+                <CardHeader title="Quarterly planning" subtitle="Updated 2 hours ago" action={<Badge variant="tonal">Draft</Badge>} />
+                <CardBody><p style={{ color: 'var(--color-text-secondary)' }}>Review goals, owners, and delivery risks before the planning session.</p></CardBody>
+                <CardFooter divider><Button size="sm" variant="text">View plan</Button></CardFooter>
               </Card>
-            ))}
+            </ComponentPreview>
+            <CodeBlock filename="PlanningCard.tsx" code={BASIC_CODE} />
           </div>
-        </ComponentPreview>
+        </ComponentDocSection>
 
-        <CodeBlock filename="App.tsx" code={ACTION_CODE} />
+        <ComponentDocSection id="anatomy" title="Anatomy" description="A card surface can contain media, a header, body content, and a footer, but only the regions needed by the content should be rendered.">
+          <Anatomy preview={<div className="component-anatomy-visual" style={{ width: 260 }}><Card variant="outlined"><CardMedia height={72}><span style={{ opacity: .65 }}>Media</span></CardMedia><CardHeader title="Project title" subtitle="Supporting context" /><CardBody>Primary content</CardBody><CardFooter divider>Actions</CardFooter></Card><span className="component-anatomy-marker" style={{ top: 8, left: -8 }}>1</span><span className="component-anatomy-marker" style={{ top: 84, left: -8 }}>2</span><span className="component-anatomy-marker" style={{ top: 142, left: -8 }}>3</span><span className="component-anatomy-marker" style={{ bottom: 8, left: -8 }}>4</span></div>} items={[
+            { number: 1, name: 'Media', description: 'Optional image, illustration, or visual preview.' },
+            { number: 2, name: 'Header', description: 'Title, supporting context, identity, and local status.' },
+            { number: 3, name: 'Body', description: 'Primary information that belongs to the card.', required: true },
+            { number: 4, name: 'Footer', description: 'Actions or metadata that conclude the group.' },
+          ]} />
+        </ComponentDocSection>
 
-        {/* ── Section 6: Stat cards ── */}
-        <ComponentPreview
-          title="Stat cards"
-          description="Cards as data containers — no CardBody needed when using padding directly on Card"
-        >
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
-            <Card variant="outlined" style={{ width: 176, padding: 16 }}>
-              <p style={{ fontSize: 12, color: 'var(--color-text-secondary)' }}>Total revenue</p>
-              <p style={{ fontSize: 22, fontWeight: 500, color: 'var(--color-text-primary)', marginTop: 4 }}>$48.2k</p>
-              <p style={{ fontSize: 12, fontWeight: 500, marginTop: 8, color: '#10B981' }}>+12.5%</p>
-            </Card>
+        <ComponentDocSection id="when-to-use" title="When to use" description="Cards work best for repeatable, self-contained content groups that benefit from visual separation.">
+          <GuidanceList tone="do" items={[
+            { title: 'Group one coherent subject', description: 'Keep the title, details, metadata, and actions about the same object or task.' },
+            { title: 'Support scanning', description: 'Use repeated card anatomy for comparable projects, people, assets, or plans.' },
+            { title: 'Offer one whole-card action', description: 'Use asButton when activating anywhere performs the same primary action.' },
+          ]} />
+        </ComponentDocSection>
 
-            <Card variant="outlined" style={{ width: 176, padding: 16 }}>
-              <p style={{ fontSize: 12, color: 'var(--color-text-secondary)' }}>Active users</p>
-              <p style={{ fontSize: 22, fontWeight: 500, color: 'var(--color-text-primary)', marginTop: 4 }}>2,841</p>
-              <p style={{ fontSize: 12, fontWeight: 500, marginTop: 8, color: '#10B981' }}>+8.2%</p>
-            </Card>
+        <ComponentDocSection id="when-not-to-use" title="When not to use" description="Do not add card surfaces when hierarchy, density, or semantics call for a simpler pattern.">
+          <GuidanceList tone="dont" items={[
+            { title: 'Do not card every section', description: 'Use headings, spacing, and dividers when content already belongs to one page flow.' },
+            { title: 'Do not use for dense comparison', description: 'Use DataTable or List when column alignment and rapid row scanning matter.' },
+            { title: 'Do not nest interactive cards', description: 'A whole-card button must not contain other links, buttons, or form controls.' },
+          ]} />
+        </ComponentDocSection>
 
-            <Card variant="outlined" style={{ width: 176, padding: 16 }}>
-              <p style={{ fontSize: 12, color: 'var(--color-text-secondary)' }}>Bounce rate</p>
-              <p style={{ fontSize: 22, fontWeight: 500, color: 'var(--color-text-primary)', marginTop: 4 }}>24.1%</p>
-              <p style={{ fontSize: 12, fontWeight: 500, marginTop: 8, color: '#EF4444' }}>-3.1%</p>
-            </Card>
+        <ComponentDocSection id="variants" title="Variants" description="Choose a surface treatment from hierarchy and background needs, not decoration alone.">
+          <div className="component-doc-stack">
+            <ComponentPreview title="Surface treatments" description="Elevated, filled, and outlined cover most product-interface needs.">
+              {(['elevated', 'filled', 'outlined', 'ghost', 'gradient'] as const).map((variant) => <Card key={variant} variant={variant} style={{ width: 150 }}><CardBody><strong style={{ textTransform: 'capitalize' }}>{variant}</strong></CardBody></Card>)}
+            </ComponentPreview>
+            <BehaviorGrid items={[
+              { icon: 'ti-shadow', title: 'Elevated', description: 'Separates content from a flat background with depth.' },
+              { icon: 'ti-square-filled', title: 'Filled', description: 'Groups content with a quiet tonal surface.' },
+              { icon: 'ti-square', title: 'Outlined', description: 'Defines a boundary without adding elevation.' },
+              { icon: 'ti-sparkles', title: 'Gradient and glass', description: 'Reserve expressive treatments for branded or promotional contexts.' },
+            ]} />
           </div>
-        </ComponentPreview>
+        </ComponentDocSection>
 
-        <CodeBlock filename="App.tsx" code={STAT_CODE} />
+        <ComponentDocSection id="states" title="States" description="Static cards do not need interaction states; interactive and selectable cards must communicate every available state."><StateMatrix rows={CARD_STATES} /></ComponentDocSection>
 
-        {/* ── Section 7: Profile card ── */}
-        <ComponentPreview
-          title="Profile card"
-          description="CardMedia + Avatar with negative margin creates a cover-photo-to-avatar overlap"
-        >
-          <Card variant="outlined" style={{ width: 208, overflow: 'hidden' }}>
-            <CardMedia
-              src="https://picsum.photos/seed/profile/400/120"
-              alt="Cover"
-              height={120}
-            />
-            <div style={{ display: 'flex', justifyContent: 'center', marginTop: -28 }}>
-              <Avatar
-                name="John Doe"
-                size="lg"
-                style={{ boxShadow: '0 0 0 4px var(--color-background)' }}
-              />
-            </div>
-            <CardBody style={{ textAlign: 'center', paddingTop: 8, paddingBottom: 0 }}>
-              <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-text-primary)' }}>John Doe</p>
-              <p style={{ fontSize: 12, color: 'var(--color-text-secondary)', marginTop: 2 }}>Product Designer</p>
-            </CardBody>
-            <CardFooter
-              divider
-              style={{ justifyContent: 'space-around', padding: 0, marginTop: 12 }}
-            >
-              {([['128', 'Projects'], ['4.2k', 'Followers'], ['98%', 'Rating']] as const).map(([val, lbl]) => (
-                <div key={lbl} style={{ flex: 1, textAlign: 'center', padding: '12px 0' }}>
-                  <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--color-text-primary)' }}>{val}</p>
-                  <p style={{ fontSize: 12, color: 'var(--color-text-disabled)' }}>{lbl}</p>
-                </div>
-              ))}
-            </CardFooter>
-          </Card>
-        </ComponentPreview>
+        <ComponentDocSection id="behavior" title="Behavior" description="The card’s semantics depend on whether it groups content or represents one action.">
+          <BehaviorGrid items={[
+            { icon: 'ti-layout-card', title: 'Static container', description: 'Leave as a div when the card only groups content and nested actions.' },
+            { icon: 'ti-hand-click', title: 'Whole-card action', description: 'Set asButton when the entire surface performs one action.' },
+            { icon: 'ti-check', title: 'Selection', description: 'Pair selected visuals with aria-pressed or selection state in the surrounding pattern.' },
+            { icon: 'ti-arrows-maximize', title: 'Responsive layout', description: 'Let cards reflow and avoid fixed heights that clip translated or enlarged content.' },
+          ]} />
+        </ComponentDocSection>
 
-        <CodeBlock filename="App.tsx" code={PROFILE_CODE} />
+        <ComponentDocSection id="accessibility" title="Accessibility" description="Card itself adds no landmark semantics; use meaningful headings and native controls according to the content and action model.">
+          <div className="component-doc-stack">
+            <KeyboardTable rows={[{ keys: ['Tab'], action: 'Moves to nested controls or to an asButton card.' }, { keys: ['Enter', 'Space'], action: 'Activates an asButton card.' }]} />
+            <AccessibilityChecklist items={['Use asButton for a single whole-card action.', 'Never place interactive descendants inside an asButton card.', 'Keep heading levels consistent with the page hierarchy.', 'Write useful alt text for meaningful media and empty alt text for decorative media.', 'Expose selected state programmatically.', 'Keep focus indicators visible against every variant.']} />
+          </div>
+        </ComponentDocSection>
 
-        {/* ── Props table ── */}
-        <PropsTable props={CARD_PROPS} />
+        <ComponentDocSection id="content-guidelines" title="Content guidelines" description="Card content should be concise enough to scan and complete enough to understand without guessing.">
+          <ContentGuidelines rules={[
+            { label: 'Lead with the subject', guidance: 'Use a specific title that distinguishes the card from nearby items.', example: 'Quarterly planning' },
+            { label: 'Prioritize details', guidance: 'Show only information needed to identify or act on the item.', example: 'Updated 2 hours ago' },
+            { label: 'Use clear actions', guidance: 'Label buttons with the outcome rather than generic direction.', example: 'View plan' },
+            { label: 'Keep repeated cards parallel', guidance: 'Use the same fields and content order across a collection.', example: 'Owner · Status · Due date' },
+          ]} />
+        </ComponentDocSection>
 
-      </div>
+        <ComponentDocSection id="examples" title="Examples" description="Interactive selection cards are appropriate when each card is one mutually comparable choice.">
+          <div className="component-doc-stack">
+            <ComponentPreview title="Selectable action card" description="The whole surface is one button and exposes pressed state.">
+              <Card variant="outlined" asButton interactive selected={selected} aria-pressed={selected} onClick={() => setSelected((value) => !value)} style={{ width: 'min(100%, 320px)' }}>
+                <CardHeader title="Start from a template" subtitle={selected ? 'Selected' : 'Recommended for repeatable work'} />
+                <CardBody>Use a predefined project structure and workflow.</CardBody>
+              </Card>
+            </ComponentPreview>
+            <CodeBlock filename="TemplateChoice.tsx" code={ACTION_CODE} />
+          </div>
+        </ComponentDocSection>
+
+        <ComponentDocSection id="props-api" title="Props / API" description="Card accepts native div attributes; asButton changes the rendered element to a button. Compound regions accept their matching div attributes.">
+          <div className="component-doc-stack"><h3>Card</h3><PropsTable props={CARD_PROPS} /><h3>Compound components</h3><PropsTable props={COMPOUND_PROPS} /></div>
+        </ComponentDocSection>
+
+        <ComponentDocSection id="related-components" title="Related components" description="Choose structure based on content density, hierarchy, and interaction model.">
+          <RelatedComponents items={[
+            { name: 'List', href: '/components/list', description: 'Scan denser repeated content', icon: 'ti-list' },
+            { name: 'DataTable', href: '/components/data-table', description: 'Compare structured values by column', icon: 'ti-table' },
+            { name: 'Dialog', href: '/components/dialog', description: 'Focus attention on a blocking task', icon: 'ti-window' },
+            { name: 'Accordion', href: '/components/accordion', description: 'Reveal sections within one content flow', icon: 'ti-layout-navbar-expand' },
+          ]} />
+        </ComponentDocSection>
+      </ComponentDocumentation>
     </div>
-  );
+  )
 }
