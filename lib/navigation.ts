@@ -42,6 +42,7 @@ export const DOCS_NAVIGATION: NavigationSection[] = [
       { label: 'Avatar', href: '/components/avatar', icon: 'ti-user-circle' },
       { label: 'Badge', href: '/components/badge', icon: 'ti-badge' },
       { label: 'Card', href: '/components/card', icon: 'ti-layout-cards' },
+      { label: 'DataTable', href: '/components/data-table', icon: 'ti-table', badge: 'new' },
       { label: 'Chip', href: '/components/chip', icon: 'ti-tag' },
       { label: 'Accordion', href: '/components/accordion', icon: 'ti-layout-list' },
       { label: 'Progress', href: '/components/progress', icon: 'ti-progress' },
