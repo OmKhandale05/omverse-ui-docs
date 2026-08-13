@@ -13,6 +13,16 @@ test('navigates documentation and exposes route metadata', async ({ page }) => {
   await expect(page).toHaveTitle('Input | omverse-ui')
 })
 
+test('enterprise route exposes its complete product story', async ({ page }) => {
+  await page.goto('/enterprise')
+
+  await expect(page).toHaveTitle('Enterprise | omverse-ui')
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', /\/enterprise$/)
+  await expect(page.getByRole('heading', { level: 1, name: /One interface system/ })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 2, name: /system teams can trust/ })).toBeVisible()
+  await expect(page.getByRole('link', { name: /Start building/ })).toHaveAttribute('href', '/docs/installation')
+})
+
 test('search opens a component page', async ({ page, isMobile }) => {
   test.skip(isMobile, 'Desktop command-palette flow')
   await page.goto('/docs/introduction')
