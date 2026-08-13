@@ -1,5 +1,20 @@
 import { expect, test } from '@playwright/test'
 
+const componentDocumentationSections = [
+  'Overview',
+  'Anatomy',
+  'When to use',
+  'When not to use',
+  'Variants',
+  'States',
+  'Behavior',
+  'Accessibility',
+  'Content guidelines',
+  'Examples',
+  'Props / API',
+  'Related components',
+]
+
 test('navigates documentation and exposes route metadata', async ({ page }) => {
   await page.goto('/components/button')
 
@@ -21,6 +36,32 @@ test('enterprise route exposes its complete product story', async ({ page }) => 
   await expect(page.getByRole('heading', { level: 1, name: /One interface system/ })).toBeVisible()
   await expect(page.getByRole('heading', { level: 2, name: /system teams can trust/ })).toBeVisible()
   await expect(page.getByRole('link', { name: /Start building/ })).toHaveAttribute('href', '/docs/installation')
+})
+
+test('component documentation follows the canonical twelve-section structure', async ({ page, isMobile }) => {
+  await page.goto('/components/button')
+
+  const sectionHeadings = page.locator('.component-doc-section > header h2')
+  const tableOfContents = page.locator('aside.component-doc-toc[aria-label="On this page"]')
+  await expect(sectionHeadings).toHaveText(componentDocumentationSections)
+  await expect(tableOfContents).toBeAttached()
+  await expect(tableOfContents).toBeVisible({ visible: !isMobile })
+})
+
+test('component documentation highlights the active section', async ({ page, isMobile }) => {
+  test.skip(isMobile, 'Desktop table of contents is hidden on mobile')
+  await page.goto('/components/button')
+
+  const main = page.locator('main#main-content')
+  const anatomyLink = page.locator('.component-doc-toc a[href="#anatomy"]')
+  await expect(page.locator('.component-doc-toc a[href="#overview"]')).toHaveAttribute('aria-current', 'location')
+
+  await main.evaluate((element) => {
+    const anatomy = element.querySelector<HTMLElement>('#anatomy')
+    if (anatomy) element.scrollTop = anatomy.offsetTop - 80
+  })
+
+  await expect(anatomyLink).toHaveAttribute('aria-current', 'location')
 })
 
 test('search opens a component page', async ({ page, isMobile }) => {
