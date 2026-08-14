@@ -57,6 +57,7 @@ export const DOCS_NAVIGATION: NavigationSection[] = [
       { label: 'TreeView', href: '/components/tree-view', icon: 'ti-hierarchy-2', badge: 'new' },
       { label: 'Combobox', href: '/components/combobox', icon: 'ti-list-search', badge: 'new' },
       { label: 'SidePanel', href: '/components/side-panel', icon: 'ti-layout-sidebar-right', badge: 'new' },
+      { label: 'CommandBar', href: '/components/command-bar', icon: 'ti-command', badge: 'new' },
     ],
   },
   {
