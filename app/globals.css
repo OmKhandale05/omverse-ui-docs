@@ -1713,6 +1713,31 @@ a {
 .textarea-anatomy > section i { position: absolute; right: 4px; bottom: 3px; color: var(--color-text-disabled); font-size: 8px; font-style: normal; }
 .textarea-anatomy > footer { display: flex; margin-top: 5px; justify-content: space-between; color: var(--color-text-secondary); font-size: 6px; }
 
+.search-field-demo { width: min(100%, 600px); }
+.search-field-demo > label { display: block; margin-bottom: 6px; color: var(--color-text-primary); font-size: 11px; font-weight: 650; }
+.search-field-demo > div { display: flex; min-height: 46px; padding: 4px 5px 4px 12px; align-items: center; border: 1px solid var(--color-outline); border-radius: 9px; background: var(--color-background); gap: 7px; }
+.search-field-demo > div:focus-within { border-color: var(--color-primary); box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-primary) 20%, transparent); }
+.search-field-demo > div > span:first-child { color: var(--color-text-secondary); }
+.search-field-demo input { min-width: 0; flex: 1; appearance: none; background: transparent; color: var(--color-text-primary); font-size: 12px; outline: 0; }
+.search-field-demo button { display: grid; width: 36px; height: 36px; place-items: center; border-radius: 7px; color: var(--color-text-secondary); font-size: 14px; }
+.search-field-demo button:last-child { background: var(--color-primary); color: var(--color-on-primary); }
+.search-field-demo footer { display: flex; margin-top: 6px; color: var(--color-text-secondary); font-size: 9px; gap: 10px; }
+.search-field-demo footer small { flex: 1; }
+.search-field-demo output { white-space: nowrap; }
+.search-field-spinner { animation: search-field-spin 900ms linear infinite; }
+@keyframes search-field-spin { to { transform: rotate(360deg); } }
+
+.search-field-anatomy { width: 280px; }
+.search-field-anatomy > label { display: block; margin-bottom: 5px; color: var(--color-text-primary); font-size: 8px; font-weight: 650; }
+.search-field-anatomy > section { display: grid; min-height: 42px; padding: 4px 5px 4px 9px; align-items: center; border: 1px solid var(--color-outline); border-radius: 8px; background: var(--color-background); grid-template-columns: 18px minmax(0, 1fr) 28px 28px; gap: 4px; }
+.search-field-anatomy > section > * { font-size: 8px; font-style: normal; }
+.search-field-anatomy > section b,
+.search-field-anatomy > section em { display: grid; width: 26px; height: 26px; place-items: center; border-radius: 6px; text-align: center; }
+.search-field-anatomy > section em { background: var(--color-primary); color: var(--color-on-primary); }
+.search-field-anatomy > footer { display: flex; margin-top: 5px; justify-content: space-between; color: var(--color-text-secondary); font-size: 6px; }
+
+@media (prefers-reduced-motion: reduce) { .search-field-spinner { animation: none; } }
+
 @media (max-width: 767px) {
   .toolbar-demo {
     align-items: flex-start;
