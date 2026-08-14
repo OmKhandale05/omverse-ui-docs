@@ -30,6 +30,7 @@ export const DOCS_NAVIGATION: NavigationSection[] = [
       { label: 'Input', href: '/components/input', icon: 'ti-cursor-text' },
       { label: 'Textarea', href: '/components/textarea', icon: 'ti-align-left', badge: 'new' },
       { label: 'SearchField', href: '/components/search-field', icon: 'ti-search', badge: 'new' },
+      { label: 'FileUpload', href: '/components/file-upload', icon: 'ti-cloud-upload', badge: 'new' },
       { label: 'Select', href: '/components/select', icon: 'ti-selector' },
       { label: 'Checkbox', href: '/components/checkbox', icon: 'ti-checkbox' },
       { label: 'Radio', href: '/components/radio', icon: 'ti-circle-dot' },

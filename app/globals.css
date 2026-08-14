@@ -1738,6 +1738,37 @@ a {
 
 @media (prefers-reduced-motion: reduce) { .search-field-spinner { animation: none; } }
 
+.file-upload-demo { width: min(100%, 620px); }
+.file-upload-drop { display: flex; width: 100%; min-height: 180px; padding: 25px; align-items: center; justify-content: center; flex-direction: column; border: 2px dashed var(--color-outline); border-radius: 11px; background: var(--color-background); text-align: center; gap: 8px; }
+.file-upload-drop:hover:not(:disabled) { border-color: var(--color-primary); background: color-mix(in srgb, var(--color-primary-container) 25%, transparent); }
+.file-upload-drop > span { display: grid; width: 44px; height: 44px; place-items: center; border-radius: 999px; background: var(--color-primary-container); color: var(--color-on-primary-container); font-size: 20px; }
+.file-upload-drop strong { color: var(--color-text-primary); font-size: 12px; }
+.file-upload-drop small { max-width: 400px; color: var(--color-text-secondary); font-size: 9px; }
+.file-upload-demo ul { margin: 10px 0 0; padding: 0; list-style: none; }
+.file-upload-demo li { display: flex; min-height: 54px; padding: 8px 10px; align-items: center; border: 1px solid var(--color-outline-variant); border-radius: 9px; background: var(--color-background); gap: 10px; }
+.file-upload-demo li > span { color: var(--color-text-secondary); }
+.file-upload-demo li p { min-width: 0; margin: 0; flex: 1; }
+.file-upload-demo li strong,
+.file-upload-demo li small { display: block; }
+.file-upload-demo li strong { overflow: hidden; font-size: 10px; text-overflow: ellipsis; white-space: nowrap; }
+.file-upload-demo li small { margin-top: 2px; color: var(--color-text-secondary); font-size: 8px; }
+.file-upload-demo li button { display: grid; width: 38px; height: 38px; place-items: center; border-radius: 7px; color: var(--color-text-secondary); }
+.file-upload-spin { animation: file-upload-spin 900ms linear infinite; }
+@keyframes file-upload-spin { to { transform: rotate(360deg); } }
+
+.file-upload-anatomy { width: 270px; }
+.file-upload-anatomy > section { display: flex; min-height: 120px; padding: 15px; align-items: center; justify-content: center; flex-direction: column; border: 2px dashed var(--color-outline); border-radius: 9px; gap: 4px; }
+.file-upload-anatomy > section i { display: grid; width: 32px; height: 32px; place-items: center; border-radius: 999px; background: var(--color-primary-container); color: var(--color-on-primary-container); font-size: 13px; font-style: normal; }
+.file-upload-anatomy > section strong { font-size: 8px; }
+.file-upload-anatomy > section small { color: var(--color-text-secondary); font-size: 6px; }
+.file-upload-anatomy > footer { display: grid; min-height: 46px; margin-top: 6px; padding: 6px 8px; align-items: center; border: 1px solid var(--color-outline-variant); border-radius: 7px; grid-template-columns: 22px 1fr 24px; gap: 6px; }
+.file-upload-anatomy > footer i,
+.file-upload-anatomy > footer em { font-size: 9px; font-style: normal; }
+.file-upload-anatomy > footer span { display: grid; }
+.file-upload-anatomy > footer b { font-size: 7px; }
+.file-upload-anatomy > footer small { color: var(--color-text-secondary); font-size: 5px; }
+@media (prefers-reduced-motion: reduce) { .file-upload-spin { animation: none; } }
+
 @media (max-width: 767px) {
   .toolbar-demo {
     align-items: flex-start;
