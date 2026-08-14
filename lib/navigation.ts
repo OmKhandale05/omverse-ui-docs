@@ -34,6 +34,7 @@ export const DOCS_NAVIGATION: NavigationSection[] = [
       { label: 'SegmentedControl', href: '/components/segmented-control', icon: 'ti-layout-columns', badge: 'new' },
       { label: 'SplitButton', href: '/components/split-button', icon: 'ti-layout-distribute-horizontal', badge: 'new' },
       { label: 'InlineEdit', href: '/components/inline-edit', icon: 'ti-pencil', badge: 'new' },
+      { label: 'TransferList', href: '/components/transfer-list', icon: 'ti-arrows-exchange', badge: 'new' },
       { label: 'Select', href: '/components/select', icon: 'ti-selector' },
       { label: 'Checkbox', href: '/components/checkbox', icon: 'ti-checkbox' },
       { label: 'Radio', href: '/components/radio', icon: 'ti-circle-dot' },
