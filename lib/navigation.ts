@@ -28,6 +28,7 @@ export const DOCS_NAVIGATION: NavigationSection[] = [
     items: [
       { label: 'Button', href: '/components/button', icon: 'ti-square-rounded' },
       { label: 'Input', href: '/components/input', icon: 'ti-cursor-text' },
+      { label: 'Textarea', href: '/components/textarea', icon: 'ti-align-left', badge: 'new' },
       { label: 'Select', href: '/components/select', icon: 'ti-selector' },
       { label: 'Checkbox', href: '/components/checkbox', icon: 'ti-checkbox' },
       { label: 'Radio', href: '/components/radio', icon: 'ti-circle-dot' },

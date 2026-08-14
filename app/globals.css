@@ -1696,6 +1696,23 @@ a {
   .alert-demo > button:last-child { grid-column: 3; grid-row: 1; }
 }
 
+.textarea-demo { width: min(100%, 600px); }
+.textarea-demo label { display: block; margin-bottom: 6px; color: var(--color-text-primary); font-size: 11px; font-weight: 650; }
+.textarea-demo label span { color: var(--color-error); }
+.textarea-demo textarea { display: block; width: 100%; min-height: 132px; padding: 12px; resize: vertical; border: 1px solid var(--color-outline); border-radius: 9px; background: var(--color-background); color: var(--color-text-primary); font-size: 12px; line-height: 1.55; outline: 0; }
+.textarea-demo textarea:focus { border-color: var(--color-primary); box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-primary) 20%, transparent); }
+.textarea-demo footer { display: flex; margin-top: 6px; color: var(--color-text-secondary); font-size: 9px; gap: 10px; }
+.textarea-demo footer small { flex: 1; }
+.textarea-demo output { white-space: nowrap; }
+.textarea-demo--error textarea { border-color: var(--color-error); }
+.textarea-demo--error footer { color: var(--color-error); }
+
+.textarea-anatomy { width: 270px; }
+.textarea-anatomy > label { display: block; margin-bottom: 5px; color: var(--color-text-primary); font-size: 8px; font-weight: 650; }
+.textarea-anatomy > section { position: relative; min-height: 105px; padding: 10px; border: 1px solid var(--color-outline); border-radius: 8px; background: var(--color-background); color: var(--color-text-primary); font-size: 8px; line-height: 1.5; }
+.textarea-anatomy > section i { position: absolute; right: 4px; bottom: 3px; color: var(--color-text-disabled); font-size: 8px; font-style: normal; }
+.textarea-anatomy > footer { display: flex; margin-top: 5px; justify-content: space-between; color: var(--color-text-secondary); font-size: 6px; }
+
 @media (max-width: 767px) {
   .toolbar-demo {
     align-items: flex-start;
