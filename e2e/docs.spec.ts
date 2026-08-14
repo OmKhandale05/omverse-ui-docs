@@ -38,7 +38,7 @@ test('enterprise route exposes its complete product story', async ({ page }) => 
   await expect(page.getByRole('link', { name: /Start building/ })).toHaveAttribute('href', '/docs/installation')
 })
 
-for (const route of ['/components/button', '/components/input', '/components/select', '/components/card', '/components/tabs', '/components/dialog', '/components/data-table', '/components/filter-bar', '/components/toolbar', '/components/tree-view', '/components/combobox', '/components/side-panel', '/components/command-bar', '/components/empty-state', '/components/audit-log', '/components/alert']) {
+for (const route of ['/components/button', '/components/input', '/components/textarea', '/components/select', '/components/card', '/components/tabs', '/components/dialog', '/components/data-table', '/components/filter-bar', '/components/toolbar', '/components/tree-view', '/components/combobox', '/components/side-panel', '/components/command-bar', '/components/empty-state', '/components/audit-log', '/components/alert']) {
   test(`${route} follows the canonical twelve-section structure`, async ({ page, isMobile }) => {
     await page.goto(route)
 
