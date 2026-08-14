@@ -1782,6 +1782,24 @@ a {
 .segmented-anatomy i { font-style: normal; }
 .segmented-anatomy b { padding: 1px 4px; border-radius: 999px; background: var(--color-surface-container); font-size: 5px; }
 
+.split-demo { min-height: 200px; }
+.split-demo > div { position: relative; display: inline-flex; }
+.split-demo > div > button { min-height: 44px; padding-inline: 16px; border: 1px solid var(--color-primary); background: var(--color-primary); color: var(--color-on-primary); font-size: 10px; font-weight: 650; }
+.split-demo > div > button:first-child { border-radius: 8px 0 0 8px; }
+.split-demo > div > button:nth-child(2) { width: 44px; padding: 0; border-left-color: color-mix(in srgb, var(--color-on-primary) 30%, transparent); border-radius: 0 8px 8px 0; }
+.split-demo [role='menu'] { position: absolute; z-index: 4; top: 52px; right: 0; width: 190px; padding: 5px; border: 1px solid var(--color-outline-variant); border-radius: 9px; background: var(--color-background); box-shadow: 0 10px 22px rgb(0 0 0 / 12%); }
+.split-demo [role='menuitem'] { display: block; width: 100%; min-height: 38px; padding: 8px; border-radius: 6px; color: var(--color-text-primary); font-size: 9px; text-align: left; }
+.split-demo [role='menuitem']:hover { background: var(--color-surface-variant); }
+.split-demo > p { margin: 115px 0 0; color: var(--color-text-secondary); font-size: 9px; }
+.split-anatomy { width: 240px; min-height: 175px; }
+.split-anatomy > header { display: flex; }
+.split-anatomy > header button { min-height: 38px; border: 1px solid var(--color-primary); background: var(--color-primary); color: var(--color-on-primary); font-size: 8px; }
+.split-anatomy > header button:first-child { width: 150px; border-radius: 7px 0 0 7px; }
+.split-anatomy > header button:last-child { width: 38px; border-left-color: color-mix(in srgb, var(--color-on-primary) 30%, transparent); border-radius: 0 7px 7px 0; }
+.split-anatomy > section { width: 188px; margin: 5px 0 0; padding: 4px; border: 1px solid var(--color-outline-variant); border-radius: 7px; background: var(--color-background); box-shadow: 0 7px 16px rgb(0 0 0 / 10%); }
+.split-anatomy > section p { min-height: 29px; margin: 0; padding: 7px; border-radius: 5px; font-size: 7px; }
+.split-anatomy > section p:first-child { background: var(--color-surface-variant); }
+
 @media (max-width: 767px) {
   .toolbar-demo {
     align-items: flex-start;
