@@ -58,6 +58,7 @@ export const DOCS_NAVIGATION: NavigationSection[] = [
   {
     title: 'Enterprise',
     items: [
+      { label: 'SavedViews', href: '/components/saved-views', icon: 'ti-bookmark', badge: 'new' },
       { label: 'DataTable', href: '/components/data-table', icon: 'ti-table', badge: 'new' },
       { label: 'FilterBar', href: '/components/filter-bar', icon: 'ti-filter', badge: 'new' },
       { label: 'Toolbar', href: '/components/toolbar', icon: 'ti-layout-navbar', badge: 'new' },
