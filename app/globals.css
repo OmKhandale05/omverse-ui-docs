@@ -1633,6 +1633,43 @@ a {
 .empty-state-anatomy > div span { border: 1px solid var(--color-outline); color: var(--color-primary); }
 .empty-state-anatomy > small { color: var(--color-text-disabled); font-size: 6px; }
 
+.audit-log-example { width: min(100%, 680px); }
+.audit-log-filters { display: flex; margin-bottom: 10px; flex-wrap: wrap; gap: 6px; }
+.audit-log-filters button { min-height: 36px; padding-inline: 12px; border: 1px solid var(--color-outline-variant); border-radius: 999px; color: var(--color-text-secondary); font-size: 10px; }
+.audit-log-filters button[aria-pressed='true'] { border-color: var(--color-primary); background: var(--color-primary-container); color: var(--color-on-primary-container); }
+.audit-log-demo { overflow: hidden; border: 1px solid var(--color-outline-variant); border-radius: 12px; background: var(--color-background); }
+.audit-log-demo > h3 { margin: 0; padding: 9px 15px; border-bottom: 1px solid var(--color-outline-variant); background: var(--color-surface); color: var(--color-text-secondary); font-size: 10px; font-weight: 650; }
+.audit-log-demo ol { margin: 0; padding: 0; list-style: none; }
+.audit-log-demo li { position: relative; display: grid; min-height: 76px; padding: 14px 16px; grid-template-columns: 36px minmax(0, 1fr); gap: 11px; }
+.audit-log-demo li + li { border-top: 1px solid var(--color-outline-variant); }
+.audit-log-marker { position: relative; z-index: 1; display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--color-outline-variant); border-radius: 999px; background: var(--color-background); color: var(--color-text-secondary); font-size: 10px; font-weight: 700; }
+.audit-log-marker--success { background: var(--color-success-container); color: var(--color-on-success-container); }
+.audit-log-marker--info { background: var(--color-primary-container); color: var(--color-on-primary-container); }
+.audit-log-marker--warning { background: var(--color-warning-container); color: var(--color-on-warning-container); }
+.audit-log-demo li > i { position: absolute; z-index: 0; top: 47px; bottom: -15px; left: 32px; width: 1px; background: var(--color-outline-variant); }
+.audit-log-demo li > div { min-width: 0; }
+.audit-log-demo li p { display: flex; margin: 0; flex-wrap: wrap; color: var(--color-text-primary); font-size: 11px; gap: 0 4px; }
+.audit-log-demo li p strong,
+.audit-log-demo li p b { font-weight: 650; }
+.audit-log-demo li time { margin-left: auto; color: var(--color-text-secondary); font-size: 9px; }
+.audit-log-demo li small { display: block; margin-top: 4px; color: var(--color-text-secondary); font-size: 9px; line-height: 1.5; }
+.audit-log-demo li code { display: block; margin-top: 7px; padding: 6px 8px; border-radius: 6px; background: var(--color-surface-variant); color: var(--color-text-secondary); font-size: 8px; }
+.audit-log-empty { margin: 0; padding: 34px; color: var(--color-text-secondary); font-size: 11px; text-align: center; }
+
+.audit-log-anatomy { width: 260px; overflow: visible; border: 1px solid var(--color-outline-variant); border-radius: 10px; background: var(--color-background); }
+.audit-log-anatomy header { min-height: 28px; padding: 8px; border-bottom: 1px solid var(--color-outline-variant); background: var(--color-surface); color: var(--color-text-secondary); font-size: 7px; font-weight: 650; }
+.audit-log-anatomy section { position: relative; display: grid; min-height: 68px; padding: 9px; align-items: start; grid-template-columns: 26px minmax(0, 1fr) 30px; gap: 6px; }
+.audit-log-anatomy section + section { border-top: 1px solid var(--color-outline-variant); }
+.audit-log-anatomy section > i { position: relative; z-index: 1; display: grid; width: 24px; height: 24px; place-items: center; border-radius: 999px; background: var(--color-primary-container); color: var(--color-on-primary-container); font-size: 7px; font-style: normal; }
+.audit-log-anatomy section:first-of-type::after { position: absolute; top: 33px; bottom: -35px; left: 21px; width: 1px; background: var(--color-outline-variant); content: ''; }
+.audit-log-anatomy section > span { font-size: 7px; }
+.audit-log-anatomy section strong,
+.audit-log-anatomy section b { font-weight: 700; }
+.audit-log-anatomy section small,
+.audit-log-anatomy section code { display: block; margin-top: 4px; color: var(--color-text-secondary); font-size: 5px; }
+.audit-log-anatomy section code { padding: 4px; border-radius: 4px; background: var(--color-surface-variant); }
+.audit-log-anatomy time { color: var(--color-text-secondary); font-size: 6px; text-align: right; }
+
 @media (max-width: 767px) {
   .toolbar-demo {
     align-items: flex-start;
