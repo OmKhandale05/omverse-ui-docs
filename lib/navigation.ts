@@ -58,6 +58,7 @@ export const DOCS_NAVIGATION: NavigationSection[] = [
       { label: 'Combobox', href: '/components/combobox', icon: 'ti-list-search', badge: 'new' },
       { label: 'SidePanel', href: '/components/side-panel', icon: 'ti-layout-sidebar-right', badge: 'new' },
       { label: 'CommandBar', href: '/components/command-bar', icon: 'ti-command', badge: 'new' },
+      { label: 'EmptyState', href: '/components/empty-state', icon: 'ti-layout-align-middle', badge: 'new' },
     ],
   },
   {
