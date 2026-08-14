@@ -62,6 +62,7 @@ export const DOCS_NAVIGATION: NavigationSection[] = [
       { label: 'QueryBuilder', href: '/components/query-builder', icon: 'ti-binary-tree', badge: 'new' },
       { label: 'ColumnManager', href: '/components/column-manager', icon: 'ti-columns', badge: 'new' },
       { label: 'PermissionMatrix', href: '/components/permission-matrix', icon: 'ti-lock-access', badge: 'new' },
+      { label: 'ActivityFeed', href: '/components/activity-feed', icon: 'ti-activity', badge: 'new' },
       { label: 'DataTable', href: '/components/data-table', icon: 'ti-table', badge: 'new' },
       { label: 'FilterBar', href: '/components/filter-bar', icon: 'ti-filter', badge: 'new' },
       { label: 'Toolbar', href: '/components/toolbar', icon: 'ti-layout-navbar', badge: 'new' },
