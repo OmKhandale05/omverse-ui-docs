@@ -1537,6 +1537,38 @@ a {
 .combobox-anatomy section p { display: flex; min-height: 30px; margin: 0; padding: 0 7px; align-items: center; justify-content: space-between; border-radius: 5px; font-size: 8px; }
 .combobox-anatomy section p:first-child { background: var(--color-surface-variant); color: var(--color-primary); }
 
+.side-panel-demo { display: grid; width: 100%; gap: 12px; }
+.side-panel-demo-stage { position: relative; min-height: 300px; overflow: hidden; border: 1px solid var(--color-outline-variant); border-radius: 12px; background: var(--color-surface); }
+.side-panel-demo-stage > span { position: absolute; top: 18px; left: 18px; color: var(--color-text-secondary); font-size: 11px; }
+.side-panel-demo-stage > section { position: absolute; top: 0; right: 0; display: flex; width: min(82%, 360px); height: 100%; flex-direction: column; border-left: 1px solid var(--color-outline-variant); background: var(--color-background); box-shadow: -12px 0 28px rgb(0 0 0 / 12%); }
+.side-panel-demo-stage header { display: flex; min-height: 62px; padding: 12px 14px; align-items: flex-start; border-bottom: 1px solid var(--color-outline-variant); gap: 8px; }
+.side-panel-demo-stage header > span { display: grid; flex: 1; gap: 3px; }
+.side-panel-demo-stage header strong { font-size: 12px; }
+.side-panel-demo-stage header small { color: var(--color-text-secondary); font-size: 9px; }
+.side-panel-demo-stage header button { width: 44px; height: 44px; border-radius: 8px; color: var(--color-text-secondary); font-size: 18px; }
+.side-panel-demo-stage header button:hover { background: var(--color-surface-variant); }
+.side-panel-demo-body { display: grid; padding: 14px; flex: 1; align-content: start; gap: 12px; }
+.side-panel-demo-body label { display: grid; gap: 5px; color: var(--color-text-secondary); font-size: 9px; font-weight: 600; }
+.side-panel-demo-body input,
+.side-panel-demo-body select { height: 40px; padding-inline: 10px; border: 1px solid var(--color-outline); border-radius: 7px; background: var(--color-background); color: var(--color-text-primary); font-size: 10px; }
+.side-panel-demo-stage footer { display: flex; min-height: 58px; padding: 9px 14px; align-items: center; justify-content: flex-end; border-top: 1px solid var(--color-outline-variant); gap: 8px; }
+.side-panel-demo-stage footer button { min-height: 40px; padding-inline: 14px; border-radius: 999px; color: var(--color-primary); font-size: 10px; font-weight: 600; }
+.side-panel-demo-stage footer button:last-child { background: var(--color-primary); color: var(--color-on-primary); }
+
+.side-panel-anatomy { width: 280px; height: 190px; border: 1px solid var(--color-outline-variant); border-radius: 10px; background: var(--color-surface); }
+.side-panel-anatomy-backdrop { position: absolute; inset: 0; border-radius: inherit; background: color-mix(in srgb, var(--color-text-primary) 12%, transparent); }
+.side-panel-anatomy section { position: absolute; inset-block: 0; right: 0; display: flex; width: 210px; flex-direction: column; border-left: 1px solid var(--color-outline-variant); background: var(--color-background); }
+.side-panel-anatomy header { display: flex; min-height: 50px; padding: 9px; align-items: flex-start; border-bottom: 1px solid var(--color-outline-variant); }
+.side-panel-anatomy header > span { display: grid; flex: 1; gap: 2px; }
+.side-panel-anatomy header strong { font-size: 9px; }
+.side-panel-anatomy header small { color: var(--color-text-secondary); font-size: 7px; }
+.side-panel-anatomy header b { font-size: 12px; }
+.side-panel-anatomy main { display: grid; padding: 10px; flex: 1; align-content: start; gap: 3px; }
+.side-panel-anatomy main i { color: var(--color-text-secondary); font-size: 6px; font-style: normal; }
+.side-panel-anatomy main p { margin: 0 0 5px; padding: 6px; border: 1px solid var(--color-outline-variant); border-radius: 5px; font-size: 7px; }
+.side-panel-anatomy footer { display: flex; min-height: 42px; padding: 7px 9px; align-items: center; justify-content: flex-end; border-top: 1px solid var(--color-outline-variant); gap: 9px; font-size: 7px; }
+.side-panel-anatomy footer strong { padding: 5px 8px; border-radius: 999px; background: var(--color-primary); color: var(--color-on-primary); }
+
 @media (max-width: 767px) {
   .toolbar-demo {
     align-items: flex-start;
