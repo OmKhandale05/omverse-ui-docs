@@ -1,7 +1,14 @@
 'use client'
 
 import { useMemo, useState } from 'react'
-import { Badge, Button } from 'omverse-ui'
+import {
+  Badge,
+  Button,
+  FilterBar,
+  type FilterBarFilter,
+  Select,
+  type SelectOption,
+} from 'omverse-ui'
 import { PageHeader } from '@/components/ui/PageHeader'
 import { ComponentPreview } from '@/components/ui/ComponentPreview'
 import { CodeBlock } from '@/components/ui/CodeBlock'
@@ -52,7 +59,7 @@ const FILTER_CODE = `const filters: FilterBarFilter[] = [
     onClear: () => setStatus(''),
     control: (
       <Select
-        options={statusOptions}
+        options={STATUS_OPTIONS}
         value={status}
         onChange={setStatus}
       />
@@ -67,22 +74,50 @@ const RECORDS = [
   { name: 'Audit reporting', owner: 'Maya Chen', status: 'Active' },
 ]
 
+const STATUS_OPTIONS: SelectOption[] = [
+  { value: '', label: 'All statuses' },
+  { value: 'Active', label: 'Active' },
+  { value: 'At risk', label: 'At risk' },
+  { value: 'Complete', label: 'Complete' },
+]
+
 function FilterBarPreview() {
   const [search, setSearch] = useState('')
   const [status, setStatus] = useState('')
   const results = useMemo(() => RECORDS.filter((record) => record.name.toLowerCase().includes(search.toLowerCase()) && (!status || record.status === status)), [search, status])
-  const active = search || status
+  const filters: FilterBarFilter[] = useMemo(() => [
+    {
+      id: 'status',
+      label: 'Status',
+      control: (
+        <Select
+          value={status}
+          options={STATUS_OPTIONS}
+          onChange={(value) => setStatus(value)}
+          placeholder="All statuses"
+        />
+      ),
+      activeLabel: status || undefined,
+      onClear: status ? () => setStatus('') : undefined,
+    },
+  ], [status])
   return <div className="filter-bar-demo">
-    <div className="filter-bar-demo-controls" role="search" aria-label="Filter projects">
-      <label>Search projects<input type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Project name…" /></label>
-      <label>Status<select value={status} onChange={(event) => setStatus(event.target.value)}><option value="">All statuses</option><option>Active</option><option>At risk</option><option>Complete</option></select></label>
-      <Button variant="outlined">Export</Button>
-      <div className="filter-bar-demo-summary">
-        {status && <button type="button" onClick={() => setStatus('')} aria-label={`Remove Status filter: ${status}`}>Status: {status} ×</button>}
-        {active && <button type="button" onClick={() => { setSearch(''); setStatus('') }}>Reset filters</button>}
-        <span aria-live="polite">{results.length} results</span>
-      </div>
-    </div>
+    <FilterBar
+      searchValue={search}
+      onSearchChange={setSearch}
+      searchLabel="Search projects"
+      searchPlaceholder="Project name…"
+      filters={filters}
+      resultCount={results.length}
+      formatResultCount={(count) => `${count} results`}
+      onReset={() => {
+        setSearch('')
+        setStatus('')
+      }}
+      resetLabel="Reset filters"
+      actions={<Button variant="outlined">Export</Button>}
+      collapsible={false}
+    />
     <ul>{results.map((record) => <li key={record.name}><span>{record.name}<small>{record.owner}</small></span><Badge variant="tonal" color={record.status === 'At risk' ? 'warning' : record.status === 'Complete' ? 'success' : 'default'}>{record.status}</Badge></li>)}</ul>
   </div>
 }
