@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { SearchField } from 'omverse-ui'
 import { PageHeader } from '@/components/ui/PageHeader'
 import { ComponentPreview } from '@/components/ui/ComponentPreview'
 import { CodeBlock } from '@/components/ui/CodeBlock'
@@ -29,7 +30,42 @@ const REMOTE = `<SearchField
   resultText={queryState.data ? \`${'${queryState.data.total}'} events\` : undefined}
 />`
 
-function SearchPreview() { const [query, setQuery] = useState('migration'); const [submitted, setSubmitted] = useState('migration'); const total = submitted ? 24 : 148; return <div className="search-field-demo"><label htmlFor="project-search-demo">Search projects</label><div role="search"><span aria-hidden>⌕</span><input id="project-search-demo" type="search" value={query} onChange={(event) => setQuery(event.target.value)} onKeyDown={(event) => { if (event.key === 'Enter') setSubmitted(query) }} />{query && <button type="button" aria-label="Clear search" onClick={() => { setQuery(''); setSubmitted('') }}>×</button>}<button type="button" aria-label="Search" onClick={() => setSubmitted(query)}>→</button></div><footer><small>Search by name, owner, or project ID.</small><output aria-live="polite">{total} results</output></footer></div> }
+function SearchPreview() {
+  const [query, setQuery] = useState('migration')
+  const [submitted, setSubmitted] = useState('migration')
+
+  const resultCount = submitted ? 24 : 148
+
+  return (
+    <SearchField
+      label="Search projects"
+      value={query}
+      onValueChange={setQuery}
+      onSearch={(value) => setSubmitted(value)}
+      onClear={() => setSubmitted('')}
+      resultText={`${resultCount} results`}
+      showSubmitButton
+      clearable
+      helperText="Search by name, owner, or project ID."
+    />
+  )
+}
+
+function SearchFieldRemoteExample() {
+  const [query, setQuery] = useState('access')
+
+  return (
+    <SearchField
+      aria-label="Search audit events"
+      value={query}
+      onValueChange={setQuery}
+      onSearch={() => {}}
+      loading
+      resultText="Searching…"
+      helperText="Search actor, action, or resource."
+    />
+  )
+}
 
 export default function SearchFieldPage() { return <div><PageHeader breadcrumb={['Components', 'Enterprise', 'SearchField']} title="SearchField" description="SearchField captures and submits a query without owning suggestions or results." tags={['Controlled query', '3 variants', '3 sizes', 'Loading', 'Result summary']} /><ComponentDocumentation>
   <ComponentDocSection id="overview" title="Overview" description="Use SearchField to find content in a page, collection, or remote data set when the application owns result retrieval and presentation."><div className="component-doc-stack"><ComponentPreview title="Project search" description="Edit the query, press Enter, clear it, or use the explicit submit control."><SearchPreview /></ComponentPreview><CodeBlock filename="ProjectSearch.tsx" code={BASIC} /></div></ComponentDocSection>
@@ -41,7 +77,7 @@ export default function SearchFieldPage() { return <div><PageHeader breadcrumb={
   <ComponentDocSection id="behavior" title="Behavior" description="SearchField owns query mechanics while debouncing, network requests, routing, result ranking, and analytics remain application concerns."><BehaviorGrid items={[{ icon: 'ti-keyboard', title: 'Submit', description: 'Enter and the optional submit control call onSearch.' }, { icon: 'ti-x', title: 'Clear', description: 'Escape or clear empties a populated query and restores input focus.' }, { icon: 'ti-loader', title: 'Progress', description: 'Loading replaces clear with a non-blocking progress indicator.' }, { icon: 'ti-speakerphone', title: 'Result summary', description: 'Result text uses a polite live status.' }]} /></ComponentDocSection>
   <ComponentDocSection id="accessibility" title="Accessibility" description="SearchField retains native search input behavior with persistent labeling and connected search feedback."><div className="component-doc-stack"><KeyboardTable rows={[{ keys: ['Enter'], action: 'Submits the current query.' }, { keys: ['Esc'], action: 'Clears a populated query when clearable.' }, { keys: ['Tab'], action: 'Moves through input and visible action controls.' }]} /><AccessibilityChecklist items={['Provide a visible label or an explicit aria-label.', 'Name clear and submit controls independently from their icons.', 'Announce result counts politely without moving focus.', 'Do not announce loading continuously during every keystroke.', 'Keep result content after the field in a logical reading order.', 'Use Combobox semantics instead when suggestions are selectable.']} /></div></ComponentDocSection>
   <ComponentDocSection id="content-guidelines" title="Content guidelines" description="Labels, placeholders, and result summaries should communicate scope without prescribing overly specific queries."><ContentGuidelines rules={[{ label: 'Name the scope', guidance: 'Identify what can be searched.', example: 'Search projects' }, { label: 'Offer useful terms', guidance: 'Describe supported identifiers in helper text.', example: 'Search by name, owner, or project ID.' }, { label: 'Keep placeholders short', guidance: 'Use a natural prompt when the label is already visible.', example: 'Name or project ID' }, { label: 'Quantify results', guidance: 'Use concise localized summaries.', example: '24 results' }]} /></ComponentDocSection>
-  <ComponentDocSection id="examples" title="Examples" description="Controlled state supports remote search while loading and result feedback remain aligned with the query."><div className="component-doc-stack"><ComponentPreview title="Remote audit search"><div className="search-field-demo"><div role="search"><span aria-hidden>⌕</span><input type="search" aria-label="Search audit events" defaultValue="access" /><span className="search-field-spinner" aria-label="Searching">↻</span></div><footer><small>Search actor, action, or resource.</small><output>Searching…</output></footer></div></ComponentPreview><CodeBlock filename="AuditSearch.tsx" code={REMOTE} /></div></ComponentDocSection>
+  <ComponentDocSection id="examples" title="Examples" description="Controlled state supports remote search while loading and result feedback remain aligned with the query."><div className="component-doc-stack"><ComponentPreview title="Remote audit search"><SearchFieldRemoteExample /></ComponentPreview><CodeBlock filename="AuditSearch.tsx" code={REMOTE} /></div></ComponentDocSection>
   <ComponentDocSection id="props-api" title="Props / API" description="SearchField extends native input attributes except values, change, type, and size replaced by its controlled API."><PropsTable props={PROPS} /></ComponentDocSection>
   <ComponentDocSection id="related-components" title="Related components" description="Choose based on whether people search content, select values, execute commands, or apply structured conditions."><RelatedComponents items={[{ name: 'Combobox', href: '/components/combobox', description: 'Search and select a value', icon: 'ti-list-search' }, { name: 'CommandBar', href: '/components/command-bar', description: 'Search actions and destinations', icon: 'ti-command' }, { name: 'FilterBar', href: '/components/filter-bar', description: 'Apply structured conditions', icon: 'ti-filter' }, { name: 'Input', href: '/components/input', description: 'Capture non-search text values', icon: 'ti-cursor-text' }]} /></ComponentDocSection>
  </ComponentDocumentation></div> }
