@@ -20,6 +20,7 @@ import { PageHeader } from '@/components/ui/PageHeader';
 import { ComponentPreview } from '@/components/ui/ComponentPreview';
 import { CodeBlock } from '@/components/ui/CodeBlock';
 import { PropsTable } from '@/components/ui/PropsTable';
+import { ComponentDocSection, ComponentDocumentation } from '@/components/docs/ComponentDocumentation'
 
 /* ─── Props table data ─── */
 
@@ -78,6 +79,8 @@ const DROPDOWN_PROPS = [
   default: string;
   description: string;
 }[];
+
+const API_PROPS = DROPDOWN_PROPS;
 
 /* ─── Code snippets ─── */
 
@@ -189,19 +192,19 @@ const [color, setColor] = useState('#6366f1');
   <MenuEmojiReactions onReact={(emoji) => console.log(emoji)} />
 </DropdownMenu>`;
 
-/* ─── Checkbox demo with state ─── */
+/* ─── Demos with state ─── */
 
 function CheckboxDemo() {
-  const [sidebar,   setSidebar]   = useState(true);
-  const [toolbar,   setToolbar]   = useState(false);
+  const [sidebar, setSidebar] = useState(true);
+  const [toolbar, setToolbar] = useState(false);
   const [statusbar, setStatusbar] = useState(true);
 
   return (
     <DropdownMenu trigger={<Button variant="outlined">Toggle features</Button>}>
-      <MenuCheckboxItem checked={sidebar}   onCheckedChange={setSidebar}>
+      <MenuCheckboxItem checked={sidebar} onCheckedChange={setSidebar}>
         Show sidebar
       </MenuCheckboxItem>
-      <MenuCheckboxItem checked={toolbar}   onCheckedChange={setToolbar}>
+      <MenuCheckboxItem checked={toolbar} onCheckedChange={setToolbar}>
         Show toolbar
       </MenuCheckboxItem>
       <MenuCheckboxItem checked={statusbar} onCheckedChange={setStatusbar}>
@@ -210,8 +213,6 @@ function CheckboxDemo() {
     </DropdownMenu>
   );
 }
-
-/* ─── Profile menu demo (MenuHeader + MenuSearch) ─── */
 
 function ProfileMenuDemo() {
   const [query, setQuery] = useState('');
@@ -263,7 +264,6 @@ function RichInputsMenuDemo() {
 export default function DropdownMenuPage() {
   return (
     <div>
-      {/* ── Page header ── */}
       <PageHeader
         breadcrumb={['Components', 'Overlay', 'DropdownMenu']}
         title="DropdownMenu"
@@ -271,136 +271,210 @@ export default function DropdownMenuPage() {
         tags={['MenuItem', 'Checkbox', 'Radio', 'Search', 'Context menu', 'Dark theme']}
       />
 
-      {/* ── Content ── */}
-      <div style={{ padding: '28px 40px' }}>
+      <ComponentDocumentation>
+        <ComponentDocSection id="overview" title="Overview" description="Floating panel of actions triggered by a button. Supports checkbox, radio, search, avatar items and context menus.">
+          <div className="component-doc-prose">
+            <p>Use DropdownMenu to present and interact with structured information in a predictable, accessible way.</p>
+            <p>The component examples below demonstrate practical variations you can adapt to your own interface.</p>
+          </div>
+        </ComponentDocSection>
 
-        {/* ── Section 1: Basic ── */}
-        <ComponentPreview
-          title="Basic"
-          description="Standard action list with icon, keyboard shortcut and a destructive delete item"
-        >
-          <DropdownMenu trigger={<Button variant="outlined">Actions</Button>}>
-            <MenuItem icon="edit"    shortcut="⌘E">Edit</MenuItem>
-            <MenuItem icon="refresh">Duplicate</MenuItem>
-            <MenuItem icon="share">Share</MenuItem>
-            <MenuSeparator />
-            <MenuItem icon="trash" intent="danger">Delete</MenuItem>
-          </DropdownMenu>
-        </ComponentPreview>
+        <ComponentDocSection id="anatomy" title="Anatomy">
+          <ul className="component-doc-prose">
+            <li>Root container and trigger area with popover boundary.</li>
+            <li>Menu content blocks grouped by sections and optional search controls.</li>
+            <li>Action rows with icons, shortcuts, and state indicators.</li>
+            <li>Context menu fallback surface for right-click or touch-hold use cases.</li>
+          </ul>
+          <CodeBlock filename="Diagram" code={`Trigger ──► MenuPanel ──► {MenuItem, MenuSeparator, MenuGroup, MenuCheckboxItem, MenuRadioItem, MenuAvatarItem...}`} />
+        </ComponentDocSection>
 
-        <CodeBlock filename="App.tsx" code={BASIC_CODE} />
+        <ComponentDocSection id="when-to-use" title="When to use">
+          <ul className="component-doc-prose">
+            <li>Choose DropdownMenu for command surfaces that open from one control.</li>
+            <li>Use for dense action sets that need contextual visibility on demand.</li>
+            <li>Use in lists, cards, and toolbars where actions share the same context.</li>
+          </ul>
+        </ComponentDocSection>
 
-        {/* ── Section 2: With groups ── */}
-        <ComponentPreview
-          title="With groups"
-          description="MenuGroup organises items under a label — useful for settings and filter menus"
-        >
-          <DropdownMenu trigger={<Button variant="outlined">View options</Button>}>
-            <MenuGroup label="Layout">
-              <MenuItem icon="dots">Grid view</MenuItem>
-              <MenuItem icon="dots-vertical">List view</MenuItem>
-            </MenuGroup>
-            <MenuSeparator />
-            <MenuGroup label="Sort by">
-              <MenuItem>Name</MenuItem>
-              <MenuItem>Date modified</MenuItem>
-              <MenuItem>Size</MenuItem>
-            </MenuGroup>
-          </DropdownMenu>
-        </ComponentPreview>
+        <ComponentDocSection id="when-not-to-use" title="When not to use">
+          <ul className="component-doc-prose">
+            <li>Do not use only for decorative layout without interaction meaning.</li>
+            <li>Avoid when actions are always visible and must not be hidden.</li>
+            <li>Prefer tabs or segmented controls for primary navigation.</li>
+          </ul>
+        </ComponentDocSection>
 
-        <CodeBlock filename="App.tsx" code={GROUPS_CODE} />
+        <ComponentDocSection id="variants" title="Variants">
+          <div className="component-doc-prose">
+            <p>Common variants include icon-only triggers, dark theme, compact width control, and table/context-menu entry styles.</p>
+          </div>
+        </ComponentDocSection>
 
-        {/* ── Section 3: Checkbox items ── */}
-        <ComponentPreview
-          title="Checkbox items"
-          description="MenuCheckboxItem shows a checked state and fires onCheckedChange — ideal for toggleable settings"
-        >
-          <CheckboxDemo />
-        </ComponentPreview>
+        <ComponentDocSection id="states" title="States">
+          <div className="component-doc-prose">
+            <ul>
+              <li>Idle, focus, open, disabled items, and checked/selected states.</li>
+              <li>Radio/checkbox states should preserve visual grouping and semantics.</li>
+              <li>Destructive actions should be clearly marked with intent styling.</li>
+            </ul>
+          </div>
+        </ComponentDocSection>
 
-        <CodeBlock filename="App.tsx" code={CHECKBOX_CODE} />
+        <ComponentDocSection id="behavior" title="Behavior">
+          <div className="component-doc-prose">
+            <p>Keep keyboard order natural and predictable. Right-click actions should mirror pointer interactions where possible.</p>
+          </div>
+        </ComponentDocSection>
 
-        {/* ── Section 4: Dark theme ── */}
-        <ComponentPreview
-          title="Dark theme"
-          description="theme='dark' gives the menu panel a dark background — works on any trigger"
-        >
-          <DropdownMenu trigger={<Button variant="filled">Dark menu</Button>} theme="dark">
-            <MenuItem icon="edit">Edit</MenuItem>
-            <MenuItem icon="refresh">Duplicate</MenuItem>
-            <MenuSeparator />
-            <MenuItem icon="trash" intent="danger">Delete</MenuItem>
-          </DropdownMenu>
-        </ComponentPreview>
+        <ComponentDocSection id="accessibility" title="Accessibility">
+          <ul className="component-doc-prose">
+            <li>Use visible labels with sufficient contrast, especially in compact menus.</li>
+            <li>Preserve focus ring and keyboard navigation order.</li>
+            <li>Use `intent="danger"` and ARIA labels for destructive actions.</li>
+          </ul>
+        </ComponentDocSection>
 
-        <CodeBlock filename="App.tsx" code={DARK_CODE} />
+        <ComponentDocSection id="content-guidelines" title="Content guidelines">
+          <ul className="component-doc-prose">
+            <li>Keep action labels concise and action-oriented.</li>
+            <li>Use similar phrasing across menus for consistency.</li>
+            <li>Limit nested content density so one menu remains easy to scan.</li>
+          </ul>
+        </ComponentDocSection>
 
-        {/* ── Section 5: Context menu ── */}
-        <ComponentPreview
-          title="Context menu — right click"
-          description="ContextMenu wraps any element and shows a menu on right-click"
-          align="start"
-        >
-          <ContextMenu
-            menu={
-              <>
-                <MenuItem icon="download"  shortcut="⌘C">Copy</MenuItem>
-                <MenuItem icon="minus"     shortcut="⌘X">Cut</MenuItem>
-                <MenuItem icon="bookmark"  shortcut="⌘V">Paste</MenuItem>
-                <MenuSeparator />
-                <MenuItem icon="trash" intent="danger">Delete</MenuItem>
-              </>
-            }
-          >
-            <div style={{
-              border: '0.5px dashed var(--color-border)',
-              borderRadius: 8,
-              padding: '20px 40px',
-              fontSize: 13,
-              color: 'var(--color-text-tertiary)',
-              cursor: 'context-menu',
-              userSelect: 'none',
-            }}>
-              Right-click anywhere here
+        <ComponentDocSection id="examples" title="Examples">
+          <div className="component-doc-stack">
+            <div style={{ padding: '28px 40px' }}>
+              <ComponentPreview
+                title="Basic"
+                description="Standard action list with icon, keyboard shortcut and a destructive delete item"
+              >
+                <DropdownMenu trigger={<Button variant="outlined">Actions</Button>}>
+                  <MenuItem icon="edit"    shortcut="⌘E">Edit</MenuItem>
+                  <MenuItem icon="refresh">Duplicate</MenuItem>
+                  <MenuItem icon="share">Share</MenuItem>
+                  <MenuSeparator />
+                  <MenuItem icon="trash" intent="danger">Delete</MenuItem>
+                </DropdownMenu>
+              </ComponentPreview>
+              <CodeBlock filename="App.tsx" code={BASIC_CODE} />
+
+              <ComponentPreview
+                title="With groups"
+                description="MenuGroup organises items under a label — useful for settings and filter menus"
+              >
+                <DropdownMenu trigger={<Button variant="outlined">View options</Button>}>
+                  <MenuGroup label="Layout">
+                    <MenuItem icon="dots">Grid view</MenuItem>
+                    <MenuItem icon="dots-vertical">List view</MenuItem>
+                  </MenuGroup>
+                  <MenuSeparator />
+                  <MenuGroup label="Sort by">
+                    <MenuItem>Name</MenuItem>
+                    <MenuItem>Date modified</MenuItem>
+                    <MenuItem>Size</MenuItem>
+                  </MenuGroup>
+                </DropdownMenu>
+              </ComponentPreview>
+              <CodeBlock filename="App.tsx" code={GROUPS_CODE} />
+
+              <ComponentPreview
+                title="Checkbox items"
+                description="MenuCheckboxItem shows a checked state and fires onCheckedChange"
+              >
+                <CheckboxDemo />
+              </ComponentPreview>
+              <CodeBlock filename="App.tsx" code={CHECKBOX_CODE} />
+
+              <ComponentPreview
+                title="Dark theme"
+                description="theme='dark' gives the menu panel a dark background"
+              >
+                <DropdownMenu trigger={<Button variant="filled">Dark menu</Button>} theme="dark">
+                  <MenuItem icon="edit">Edit</MenuItem>
+                  <MenuItem icon="refresh">Duplicate</MenuItem>
+                  <MenuSeparator />
+                  <MenuItem icon="trash" intent="danger">Delete</MenuItem>
+                </DropdownMenu>
+              </ComponentPreview>
+              <CodeBlock filename="App.tsx" code={DARK_CODE} />
+
+              <ComponentPreview
+                title="Context menu — right click"
+                description="ContextMenu wraps any element and shows a menu on right-click"
+                align="start"
+              >
+                <ContextMenu
+                  menu={
+                    <>
+                      <MenuItem icon="download"  shortcut="⌘C">Copy</MenuItem>
+                      <MenuItem icon="minus"     shortcut="⌘X">Cut</MenuItem>
+                      <MenuItem icon="bookmark"  shortcut="⌘V">Paste</MenuItem>
+                      <MenuSeparator />
+                      <MenuItem icon="trash" intent="danger">Delete</MenuItem>
+                    </>
+                  }
+                >
+                  <div style={{
+                    border: '0.5px dashed var(--color-border)',
+                    borderRadius: 8,
+                    padding: '20px 40px',
+                    fontSize: 13,
+                    color: 'var(--color-text-tertiary)',
+                    cursor: 'context-menu',
+                    userSelect: 'none',
+                  }}>
+                    Right-click anywhere here
+                  </div>
+                </ContextMenu>
+              </ComponentPreview>
+              <CodeBlock filename="App.tsx" code={CONTEXT_CODE} />
+
+              <ComponentPreview
+                title="Profile menu"
+                description="MenuHeader with search and action items"
+              >
+                <ProfileMenuDemo />
+              </ComponentPreview>
+              <CodeBlock filename="App.tsx" code={HEADER_SEARCH_CODE} />
+
+              <ComponentPreview
+                title="Radio and avatar selection"
+                description="MenuRadioItem handles exclusive settings while MenuAvatarItem presents people pickers"
+              >
+                <SelectionMenuDemo />
+              </ComponentPreview>
+              <CodeBlock filename="App.tsx" code={SELECTION_CODE} />
+
+              <ComponentPreview
+                title="Color and reaction inputs"
+                description="MenuColorPicker and MenuEmojiReactions add rich inputs inside a menu"
+              >
+                <RichInputsMenuDemo />
+              </ComponentPreview>
+              <CodeBlock filename="App.tsx" code={RICH_INPUTS_CODE} />
             </div>
-          </ContextMenu>
-        </ComponentPreview>
+          </div>
+        </ComponentDocSection>
 
-        <CodeBlock filename="App.tsx" code={CONTEXT_CODE} />
+        <ComponentDocSection id="props-api" title="Props / API">
+          <div className="component-doc-stack">
+            <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-text-primary)', marginBottom: 8, marginTop: 8 }}>Api Props</p>
+            <PropsTable props={API_PROPS} />
+          </div>
+        </ComponentDocSection>
 
-        {/* ── Section 6: Profile menu with header + search ── */}
-        <ComponentPreview
-          title="Profile menu"
-          description="MenuHeader shows user info at the top; MenuSearch adds a live search field inside the panel"
-        >
-          <ProfileMenuDemo />
-        </ComponentPreview>
-
-        <CodeBlock filename="App.tsx" code={HEADER_SEARCH_CODE} />
-
-        <ComponentPreview
-          title="Radio and avatar selection"
-          description="MenuRadioItem handles exclusive settings while MenuAvatarItem presents rich people pickers"
-        >
-          <SelectionMenuDemo />
-        </ComponentPreview>
-
-        <CodeBlock filename="App.tsx" code={SELECTION_CODE} />
-
-        <ComponentPreview
-          title="Color and reaction inputs"
-          description="MenuColorPicker and MenuEmojiReactions add compact rich-input controls inside a menu"
-        >
-          <RichInputsMenuDemo />
-        </ComponentPreview>
-
-        <CodeBlock filename="App.tsx" code={RICH_INPUTS_CODE} />
-
-        {/* ── Props table ── */}
-        <PropsTable props={DROPDOWN_PROPS} />
-
-      </div>
+        <ComponentDocSection id="related-components" title="Related components">
+          <div className="component-doc-prose">
+            <ul className="component-doc-prose">
+              <li>Use DropdownMenu with Button for primary actions.</li>
+              <li>Pair with Alert or NotificationCenter for contextual feedback.</li>
+              <li>Use layout containers to keep dropdown behavior visually consistent.</li>
+            </ul>
+          </div>
+        </ComponentDocSection>
+      </ComponentDocumentation>
     </div>
   );
 }

@@ -6,6 +6,7 @@ import { PageHeader } from '@/components/ui/PageHeader';
 import { ComponentPreview } from '@/components/ui/ComponentPreview';
 import { CodeBlock } from '@/components/ui/CodeBlock';
 import { PropsTable } from '@/components/ui/PropsTable';
+import { ComponentDocSection, ComponentDocumentation } from '@/components/docs/ComponentDocumentation'
 
 /* ─── Props tables ─── */
 
@@ -49,6 +50,17 @@ const DATERANGE_PROPS = [
   { name: 'minDate',        type: 'Date',                                        default: '—',     description: 'Earliest selectable date' },
   { name: 'maxDate',        type: 'Date',                                        default: '—',     description: 'Latest selectable date' },
 ] as const satisfies { name: string; type: string; default: string; description: string }[];
+
+const API_PROPS = [
+  ...CALENDAR_PROPS,
+  ...DATEPICKER_PROPS,
+  ...DATERANGE_PROPS,
+] as const satisfies {
+  name: string;
+  type: string;
+  default: string;
+  description: string;
+}[];
 
 /* ─── Code snippets ─── */
 
@@ -123,183 +135,262 @@ export default function DatePickerPage() {
   const [range,        setRange]        = useState<[Date | null, Date | null]>([null, null]);
   const [dualRange,    setDualRange]    = useState<[Date | null, Date | null]>([null, null]);
 
-  return (
+return (
     <div>
-      {/* ── Page header ── */}
-      <PageHeader
-        breadcrumb={['Components', 'Form', 'DatePicker']}
-        title="DatePicker"
-        description="Calendar · DatePicker input · DateRangePicker · 4 variants · presets · time picker"
-        tags={['Calendar variants', 'Presets', 'DatePicker', 'Sizes', 'States', 'Date+time', 'DateRangePicker', 'Dual month']}
-      />
+            <PageHeader        breadcrumb={['Components', 'Form', 'DatePicker']}        title="DatePicker"        description="Calendar · DatePicker input · DateRangePicker · 4 variants · presets · time picker"        tags={['Calendar variants', 'Presets', 'DatePicker', 'Sizes', 'States', 'Date+time', 'DateRangePicker', 'Dual month']}      />
 
-      {/* ── Content ── */}
-      <div style={{ padding: '28px 40px' }}>
-
-        {/* ── Section 1: Calendar variants ── */}
-        <ComponentPreview
-          title="Calendar variants"
-          description="Four visual styles: default, dark, gradient, and minimal"
-          layout="grid"
-        >
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 16 }}>
-            <div>
-              <p style={{ fontSize: 12, color: 'var(--color-text-secondary)', marginBottom: 8 }}>default</p>
-              <Calendar variant="default"  value={date}         onChange={setDate} />
-            </div>
-            <div>
-              <p style={{ fontSize: 12, color: 'var(--color-text-secondary)', marginBottom: 8 }}>dark</p>
-              <Calendar variant="dark"     value={darkDate}     onChange={setDarkDate} />
-            </div>
-            <div>
-              <p style={{ fontSize: 12, color: 'var(--color-text-secondary)', marginBottom: 8 }}>gradient</p>
-              <Calendar variant="gradient" value={gradientDate} onChange={setGradientDate} />
-            </div>
-            <div>
-              <p style={{ fontSize: 12, color: 'var(--color-text-secondary)', marginBottom: 8 }}>minimal</p>
-              <Calendar variant="minimal"  value={minimalDate}  onChange={setMinimalDate} />
-            </div>
+      <ComponentDocumentation>
+        <ComponentDocSection id="overview" title="Overview" description="Calendar · DatePicker input · DateRangePicker · 4 variants · presets · time picker">
+          <div className="component-doc-prose">
+            <p>Use DatePicker to present and interact with structured information in a predictable, accessible way.</p>
+            <p>The component examples below demonstrate practical variations you can adapt to your own interface.</p>
           </div>
-        </ComponentPreview>
+        </ComponentDocSection>
 
-        <CodeBlock filename="App.tsx" code={CALENDAR_VARIANTS_CODE} />
+        <ComponentDocSection id="anatomy" title="Anatomy">
+          <ul className="component-doc-prose">
+            <li>Root container and spacing boundary.</li>
+            <li>Primary content and optional secondary metadata.</li>
+            <li>State indicators and utility affordances (icons, badges, controls).</li>
+            <li>Optional helper text, grouping, and behavioral wrappers.</li>
+          </ul>
+        </ComponentDocSection>
 
-        {/* ── Section 2: With quick presets ── */}
-        <ComponentPreview
-          title="With quick presets"
-          description="quickPresets adds shortcut buttons beside the calendar"
-        >
-          <Calendar value={date} onChange={setDate} presets />
-        </ComponentPreview>
+        <ComponentDocSection id="when-to-use" title="When to use">
+          <ul className="component-doc-prose">
+            <li>Choose DatePicker when a repeated, structured interaction is required.</li>
+            <li>Use it for clear, consistent operations across similar surfaces.</li>
+            <li>Use in forms, lists, and action workflows where clarity matters.</li>
+          </ul>
+        </ComponentDocSection>
 
-        <CodeBlock filename="App.tsx" code={PRESETS_CODE} />
+        <ComponentDocSection id="when-not-to-use" title="When not to use">
+          <ul className="component-doc-prose">
+            <li>Do not use only for decorative layout without interaction meaning.</li>
+            <li>Avoid duplicating the same behavior without distinct user context.</li>
+            <li>Prefer simpler HTML or textual content for static, non-interactive labels.</li>
+          </ul>
+        </ComponentDocSection>
 
-        {/* ── Section 3: DatePicker input ── */}
-        <ComponentPreview
-          title="DatePicker input"
-          description="Dropdown-based date picker — with helper text, error, required, and disabled states"
-          layout="grid"
-        >
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 16 }}>
-            <DatePicker
-              label="Date"
-              value={date}
-              onChange={setDate}
-            />
-            <DatePicker
-              label="Start date"
-              helperText="Select the project start date"
-              value={date}
-              onChange={setDate}
-            />
-            <DatePicker
-              label="Due date"
-              error={!date}
-              errorText="Please select a due date"
-              value={date}
-              onChange={setDate}
-            />
-            <DatePicker
-              label="Locked date"
-              disabled
-              value={date}
-              onChange={setDate}
-            />
+        <ComponentDocSection id="variants" title="Variants">
+          <div className="component-doc-stack">
+            <p>Component variants should be documented by API props and examples below.</p>
           </div>
-        </ComponentPreview>
+        </ComponentDocSection>
 
-        <CodeBlock filename="App.tsx" code={DATEPICKER_BASIC_CODE} />
-
-        {/* ── Section 4: DatePicker with presets ── */}
-        <ComponentPreview
-          title="DatePicker with presets"
-          description="quickPresets prop adds shortcut buttons inside the dropdown"
-        >
-          <div style={{ width: 280 }}>
-            <DatePicker
-              label="Date"
-              value={date}
-              onChange={setDate}
-              presets
-            />
+        <ComponentDocSection id="states" title="States">
+          <div className="component-doc-stack">
+            <p>Common states include idle, active, disabled, focused, and loading/pending states where applicable.</p>
           </div>
-        </ComponentPreview>
+        </ComponentDocSection>
 
-        <CodeBlock filename="App.tsx" code={DATEPICKER_PRESETS_CODE} />
-
-        {/* ── Section 5: Sizes ── */}
-        <ComponentPreview
-          title="Sizes"
-          description="sm, md (default), and lg trigger heights"
-        >
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 16, width: 280 }}>
-            <DatePicker label="Small"            size="sm" value={date} onChange={setDate} />
-            <DatePicker label="Medium (default)" size="md" value={date} onChange={setDate} />
-            <DatePicker label="Large"            size="lg" value={date} onChange={setDate} />
+        <ComponentDocSection id="behavior" title="Behavior">
+          <div className="component-doc-stack">
+            <p>Behavior should remain deterministic and keyboard-friendly, with clear visual feedback for every state transition.</p>
           </div>
-        </ComponentPreview>
+        </ComponentDocSection>
 
-        <CodeBlock filename="App.tsx" code={SIZES_CODE} />
+        <ComponentDocSection id="accessibility" title="Accessibility">
+          <ul className="component-doc-prose">
+            <li>Use semantic structure and visible labels whenever possible.</li>
+            <li>Preserve keyboard navigation and focus visibility.</li>
+            <li>Announce status and changes when context requires it.</li>
+          </ul>
+        </ComponentDocSection>
 
-        {/* ── Section 6: States ── */}
-        <ComponentPreview
-          title="States"
-          description="Default, error, disabled, disable weekends, and min date"
-          layout="grid"
-        >
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 16 }}>
-            <DatePicker label="Date"          value={date} onChange={setDate} />
-            <DatePicker label="Date" error errorText="Invalid date" value={date} onChange={setDate} />
-            <DatePicker label="Date" disabled  value={date} onChange={setDate} />
-            <DatePicker label="Weekdays only"  disableWeekends value={date} onChange={setDate} />
-            <DatePicker label="From today"     minDate={new Date()} value={date} onChange={setDate} />
+        <ComponentDocSection id="content-guidelines" title="Content guidelines">
+          <ul className="component-doc-prose">
+            <li>Prefer short, clear labels.</li>
+            <li>Keep content actions scannable and outcome-oriented.</li>
+            <li>Use consistent wording across similar components.</li>
+          </ul>
+        </ComponentDocSection>
+
+        <ComponentDocSection id="examples" title="Examples">
+          <div className="component-doc-stack">
+          {/* ── Content ── */}
+          <div style={{ padding: '28px 40px' }}>
+          
+            {/* ── Section 1: Calendar variants ── */}
+            <ComponentPreview
+              title="Calendar variants"
+              description="Four visual styles: default, dark, gradient, and minimal"
+              layout="grid"
+            >
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 16 }}>
+                <div>
+                  <p style={{ fontSize: 12, color: 'var(--color-text-secondary)', marginBottom: 8 }}>default</p>
+                  <Calendar variant="default"  value={date}         onChange={setDate} />
+                </div>
+                <div>
+                  <p style={{ fontSize: 12, color: 'var(--color-text-secondary)', marginBottom: 8 }}>dark</p>
+                  <Calendar variant="dark"     value={darkDate}     onChange={setDarkDate} />
+                </div>
+                <div>
+                  <p style={{ fontSize: 12, color: 'var(--color-text-secondary)', marginBottom: 8 }}>gradient</p>
+                  <Calendar variant="gradient" value={gradientDate} onChange={setGradientDate} />
+                </div>
+                <div>
+                  <p style={{ fontSize: 12, color: 'var(--color-text-secondary)', marginBottom: 8 }}>minimal</p>
+                  <Calendar variant="minimal"  value={minimalDate}  onChange={setMinimalDate} />
+                </div>
+              </div>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={CALENDAR_VARIANTS_CODE} />
+          
+            {/* ── Section 2: With quick presets ── */}
+            <ComponentPreview
+              title="With quick presets"
+              description="quickPresets adds shortcut buttons beside the calendar"
+            >
+              <Calendar value={date} onChange={setDate} presets />
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={PRESETS_CODE} />
+          
+            {/* ── Section 3: DatePicker input ── */}
+            <ComponentPreview
+              title="DatePicker input"
+              description="Dropdown-based date picker — with helper text, error, required, and disabled states"
+              layout="grid"
+            >
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 16 }}>
+                <DatePicker
+                  label="Date"
+                  value={date}
+                  onChange={setDate}
+                />
+                <DatePicker
+                  label="Start date"
+                  helperText="Select the project start date"
+                  value={date}
+                  onChange={setDate}
+                />
+                <DatePicker
+                  label="Due date"
+                  error={!date}
+                  errorText="Please select a due date"
+                  value={date}
+                  onChange={setDate}
+                />
+                <DatePicker
+                  label="Locked date"
+                  disabled
+                  value={date}
+                  onChange={setDate}
+                />
+              </div>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={DATEPICKER_BASIC_CODE} />
+          
+            {/* ── Section 4: DatePicker with presets ── */}
+            <ComponentPreview
+              title="DatePicker with presets"
+              description="quickPresets prop adds shortcut buttons inside the dropdown"
+            >
+              <div style={{ width: 280 }}>
+                <DatePicker
+                  label="Date"
+                  value={date}
+                  onChange={setDate}
+                  presets
+                />
+              </div>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={DATEPICKER_PRESETS_CODE} />
+          
+            {/* ── Section 5: Sizes ── */}
+            <ComponentPreview
+              title="Sizes"
+              description="sm, md (default), and lg trigger heights"
+            >
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 16, width: 280 }}>
+                <DatePicker label="Small"            size="sm" value={date} onChange={setDate} />
+                <DatePicker label="Medium (default)" size="md" value={date} onChange={setDate} />
+                <DatePicker label="Large"            size="lg" value={date} onChange={setDate} />
+              </div>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={SIZES_CODE} />
+          
+            {/* ── Section 6: States ── */}
+            <ComponentPreview
+              title="States"
+              description="Default, error, disabled, disable weekends, and min date"
+              layout="grid"
+            >
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 16 }}>
+                <DatePicker label="Date"          value={date} onChange={setDate} />
+                <DatePicker label="Date" error errorText="Invalid date" value={date} onChange={setDate} />
+                <DatePicker label="Date" disabled  value={date} onChange={setDate} />
+                <DatePicker label="Weekdays only"  disableWeekends value={date} onChange={setDate} />
+                <DatePicker label="From today"     minDate={new Date()} value={date} onChange={setDate} />
+              </div>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={STATES_CODE} />
+          
+            {/* ── Section 7: Date + time ── */}
+            <ComponentPreview
+              title="Date + time"
+              description="showTime adds a time picker below the calendar grid"
+            >
+              <div style={{ width: 280 }}>
+                <DatePicker label="Date & time" showTime value={date} onChange={setDate} />
+              </div>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={DATETIME_CODE} />
+          
+            {/* ── Section 8: Date range picker ── */}
+            <ComponentPreview
+              title="Date range picker"
+              description="DateRangePicker for selecting a start and end date — dualMonth shows two months"
+            >
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 16, width: '100%', maxWidth: 520 }}>
+                <DateRangePicker label="Date range"      value={range}     onChange={setRange} />
+                <DateRangePicker label="Dual month view" value={dualRange} onChange={setDualRange} dualMonth />
+              </div>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={RANGE_CODE} />
+          
+            {/* ── Props tables ── */}
+            <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-text-primary)', marginBottom: 8, marginTop: 8 }}>
+              Calendar props
+            </p>
+          
+            <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-text-primary)', marginBottom: 8, marginTop: 24 }}>
+              DatePicker props
+            </p>
+          
+            <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-text-primary)', marginBottom: 8, marginTop: 24 }}>
+              DateRangePicker props
+            </p>
+          
           </div>
-        </ComponentPreview>
-
-        <CodeBlock filename="App.tsx" code={STATES_CODE} />
-
-        {/* ── Section 7: Date + time ── */}
-        <ComponentPreview
-          title="Date + time"
-          description="showTime adds a time picker below the calendar grid"
-        >
-          <div style={{ width: 280 }}>
-            <DatePicker label="Date & time" showTime value={date} onChange={setDate} />
           </div>
-        </ComponentPreview>
-
-        <CodeBlock filename="App.tsx" code={DATETIME_CODE} />
-
-        {/* ── Section 8: Date range picker ── */}
-        <ComponentPreview
-          title="Date range picker"
-          description="DateRangePicker for selecting a start and end date — dualMonth shows two months"
-        >
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 16, width: '100%', maxWidth: 520 }}>
-            <DateRangePicker label="Date range"      value={range}     onChange={setRange} />
-            <DateRangePicker label="Dual month view" value={dualRange} onChange={setDualRange} dualMonth />
+        </ComponentDocSection>
+        <ComponentDocSection id="props-api" title="Props / API">
+          <div className="component-doc-stack">
+            <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-text-primary)', marginBottom: 8, marginTop: 8 }}>Api Props</p>
+            <PropsTable props={API_PROPS} />
           </div>
-        </ComponentPreview>
+        </ComponentDocSection>
 
-        <CodeBlock filename="App.tsx" code={RANGE_CODE} />
-
-        {/* ── Props tables ── */}
-        <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-text-primary)', marginBottom: 8, marginTop: 8 }}>
-          Calendar props
-        </p>
-        <PropsTable props={CALENDAR_PROPS} />
-
-        <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-text-primary)', marginBottom: 8, marginTop: 24 }}>
-          DatePicker props
-        </p>
-        <PropsTable props={DATEPICKER_PROPS} />
-
-        <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-text-primary)', marginBottom: 8, marginTop: 24 }}>
-          DateRangePicker props
-        </p>
-        <PropsTable props={DATERANGE_PROPS} />
-
-      </div>
+        <ComponentDocSection id="related-components" title="Related components">
+          <div className="component-doc-prose">
+          <ul className="component-doc-prose">
+            <li>Use DatePicker alongside Button for primary actions.</li>
+            <li>Pair with Alert or NotificationCenter for contextual feedback.</li>
+            <li>Use layout containers to keep datepicker behavior visually consistent.</li>
+          </ul>
+          </div>
+        </ComponentDocSection>
+      </ComponentDocumentation>
     </div>
-  );
-}
+  )
+  }

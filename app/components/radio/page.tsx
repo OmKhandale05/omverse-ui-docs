@@ -6,6 +6,7 @@ import { PageHeader } from '@/components/ui/PageHeader';
 import { ComponentPreview } from '@/components/ui/ComponentPreview';
 import { CodeBlock } from '@/components/ui/CodeBlock';
 import { PropsTable } from '@/components/ui/PropsTable';
+import { ComponentDocSection, ComponentDocumentation } from '@/components/docs/ComponentDocumentation'
 
 /* ─── Props tables ─── */
 
@@ -38,6 +39,16 @@ const GROUP_PROPS = [
   { name: 'errorText',    type: 'string',                                                                       default: '—',           description: 'Error message shown below the group' },
   { name: 'children',     type: 'ReactNode',                                                                    default: '—',           description: 'Radio components with a value prop' },
 ] as const satisfies { name: string; type: string; default: string; description: string }[];
+
+const API_PROPS = [
+  ...RADIO_PROPS,
+  ...GROUP_PROPS,
+] as const satisfies {
+  name: string;
+  type: string;
+  default: string;
+  description: string;
+}[];
 
 /* ─── Code snippets ─── */
 
@@ -146,175 +157,255 @@ export default function RadioPage() {
   const [notify,   setNotify]   = useState('email');
   const [sizeDemo, setSizeDemo] = useState('md');
 
-  return (
+return (
     <div>
-      {/* ── Page header ── */}
-      <PageHeader
-        breadcrumb={['Components', 'Form', 'Radio']}
-        title="Radio"
-        description="6 colors · 3 sizes · card · button · segmented display modes"
-        tags={['States', 'Colors', 'Sizes', 'Horizontal', 'Error state', 'Card', 'Button', 'Segmented']}
-      />
+            <PageHeader        breadcrumb={['Components', 'Form', 'Radio']}        title="Radio"        description="6 colors · 3 sizes · card · button · segmented display modes"        tags={['States', 'Colors', 'Sizes', 'Horizontal', 'Error state', 'Card', 'Button', 'Segmented']}      />
 
-      {/* ── Content ── */}
-      <div style={{ padding: '28px 40px' }}>
-
-        {/* ── Section 1: Default ── */}
-        <ComponentPreview
-          title="Default"
-          description="Vertical list with helper text and a disabled option"
-        >
-          <RadioGroup legend="Notification preference" value={notify} onChange={setNotify}>
-            <Radio value="email" label="Email"  helperText="Receive updates via email" />
-            <Radio value="sms"   label="SMS"    helperText="Receive updates via text message" />
-            <Radio value="push"  label="Push"   helperText="Receive push notifications" />
-            <Radio value="none"  label="None"   helperText="Do not receive notifications" disabled />
-          </RadioGroup>
-        </ComponentPreview>
-
-        <CodeBlock filename="App.tsx" code={DEFAULT_CODE} />
-
-        {/* ── Section 2: Colors ── */}
-        <ComponentPreview
-          title="Colors"
-          description="Six color variants — default, secondary, success, warning, error, and info"
-        >
-          <RadioGroup legend="Select color" value={color} onChange={setColor} direction="horizontal">
-            <Radio value="default"   label="Default"   color="default"   />
-            <Radio value="secondary" label="Secondary" color="secondary" />
-            <Radio value="success"   label="Success"   color="success"   />
-            <Radio value="warning"   label="Warning"   color="warning"   />
-            <Radio value="error"     label="Error"     color="error"     />
-            <Radio value="info"      label="Info"      color="info"      />
-          </RadioGroup>
-        </ComponentPreview>
-
-        <CodeBlock filename="App.tsx" code={COLORS_CODE} />
-
-        {/* ── Section 3: Sizes ── */}
-        <ComponentPreview
-          title="Sizes"
-          description="sm, md (default), and lg radio sizes"
-        >
-          <RadioGroup legend="Size" value={sizeDemo} onChange={setSizeDemo}>
-            <Radio value="sm" label="Small"            size="sm" />
-            <Radio value="md" label="Medium (default)" size="md" />
-            <Radio value="lg" label="Large"            size="lg" />
-          </RadioGroup>
-        </ComponentPreview>
-
-        <CodeBlock filename="App.tsx" code={SIZES_CODE} />
-
-        {/* ── Section 4: Horizontal layout ── */}
-        <ComponentPreview
-          title="Horizontal layout"
-          description="Use orientation=horizontal for inline radio groups"
-        >
-          <RadioGroup legend="Calendar view" value={view} onChange={setView} direction="horizontal">
-            <Radio value="day"   label="Day"   />
-            <Radio value="week"  label="Week"  />
-            <Radio value="month" label="Month" />
-            <Radio value="year"  label="Year"  />
-          </RadioGroup>
-        </ComponentPreview>
-
-        <CodeBlock filename="App.tsx" code={HORIZONTAL_CODE} />
-
-        {/* ── Section 5: Error state ── */}
-        <ComponentPreview
-          title="Error state"
-          description="Group-level error with message — requires a selection"
-        >
-          <RadioGroup
-            legend="Gender"
-            value={gender}
-            onChange={setGender}
-            error={!gender}
-            errorText="Please select a gender"
-          >
-            <Radio value="male"   label="Male"   required />
-            <Radio value="female" label="Female" />
-            <Radio value="other"  label="Other"  />
-          </RadioGroup>
-        </ComponentPreview>
-
-        <CodeBlock filename="App.tsx" code={ERROR_CODE} />
-
-        {/* ── Section 6: Card style ── */}
-        <ComponentPreview
-          title="Card style"
-          description="Bordered card layout — ideal for plan or tier selection"
-        >
-          <div style={{ width: 360 }}>
-            <RadioGroup legend="Choose a plan" value={plan} onChange={setPlan} display="card">
-              <Radio
-                value="starter"
-                label="Starter"
-                description="$0/month · 3 projects · Community support"
-              />
-              <Radio
-                value="pro"
-                label="Pro"
-                description="$12/month · Unlimited projects · Priority support"
-              />
-              <Radio
-                value="team"
-                label="Team"
-                description="$49/month · Up to 10 members · Admin controls"
-              />
-              <Radio
-                value="enterprise"
-                label="Enterprise"
-                description="Custom pricing · Unlimited members · SLA"
-                disabled
-              />
-            </RadioGroup>
+      <ComponentDocumentation>
+        <ComponentDocSection id="overview" title="Overview" description="6 colors · 3 sizes · card · button · segmented display modes">
+          <div className="component-doc-prose">
+            <p>Use Radio to present and interact with structured information in a predictable, accessible way.</p>
+            <p>The component examples below demonstrate practical variations you can adapt to your own interface.</p>
           </div>
-        </ComponentPreview>
+        </ComponentDocSection>
 
-        <CodeBlock filename="App.tsx" code={CARD_CODE} />
+        <ComponentDocSection id="anatomy" title="Anatomy">
+          <ul className="component-doc-prose">
+            <li>Root container and spacing boundary.</li>
+            <li>Primary content and optional secondary metadata.</li>
+            <li>State indicators and utility affordances (icons, badges, controls).</li>
+            <li>Optional helper text, grouping, and behavioral wrappers.</li>
+          </ul>
+        </ComponentDocSection>
 
-        {/* ── Section 7: Button style ── */}
-        <ComponentPreview
-          title="Button style"
-          description="Pill-button style group — great for toggles and billing cycles"
-        >
-          <RadioGroup legend="Billing cycle" value={billing} onChange={setBilling} display="button">
-            <Radio value="monthly"   label="Monthly"   />
-            <Radio value="quarterly" label="Quarterly" />
-            <Radio value="yearly"    label="Yearly"    />
-          </RadioGroup>
-        </ComponentPreview>
+        <ComponentDocSection id="when-to-use" title="When to use">
+          <ul className="component-doc-prose">
+            <li>Choose Radio when a repeated, structured interaction is required.</li>
+            <li>Use it for clear, consistent operations across similar surfaces.</li>
+            <li>Use in forms, lists, and action workflows where clarity matters.</li>
+          </ul>
+        </ComponentDocSection>
 
-        <CodeBlock filename="App.tsx" code={BUTTON_CODE} />
+        <ComponentDocSection id="when-not-to-use" title="When not to use">
+          <ul className="component-doc-prose">
+            <li>Do not use only for decorative layout without interaction meaning.</li>
+            <li>Avoid duplicating the same behavior without distinct user context.</li>
+            <li>Prefer simpler HTML or textual content for static, non-interactive labels.</li>
+          </ul>
+        </ComponentDocSection>
 
-        {/* ── Section 8: Segmented control ── */}
-        <ComponentPreview
-          title="Segmented control"
-          description="Compact connected button group — ideal for view switchers"
-        >
-          <RadioGroup legend="Calendar view" value={view} onChange={setView} display="segmented">
-            <Radio value="day"   label="Day"   />
-            <Radio value="week"  label="Week"  />
-            <Radio value="month" label="Month" />
-            <Radio value="year"  label="Year"  />
-          </RadioGroup>
-        </ComponentPreview>
+        <ComponentDocSection id="variants" title="Variants">
+          <div className="component-doc-stack">
+            <p>Component variants should be documented by API props and examples below.</p>
+          </div>
+        </ComponentDocSection>
 
-        <CodeBlock filename="App.tsx" code={SEGMENTED_CODE} />
+        <ComponentDocSection id="states" title="States">
+          <div className="component-doc-stack">
+            <p>Common states include idle, active, disabled, focused, and loading/pending states where applicable.</p>
+          </div>
+        </ComponentDocSection>
 
-        {/* ── Props tables ── */}
-        <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-text-primary)', marginBottom: 8, marginTop: 8 }}>
-          Radio props
-        </p>
-        <PropsTable props={RADIO_PROPS} />
+        <ComponentDocSection id="behavior" title="Behavior">
+          <div className="component-doc-stack">
+            <p>Behavior should remain deterministic and keyboard-friendly, with clear visual feedback for every state transition.</p>
+          </div>
+        </ComponentDocSection>
 
-        <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-text-primary)', marginBottom: 8, marginTop: 24 }}>
-          RadioGroup props
-        </p>
-        <PropsTable props={GROUP_PROPS} />
+        <ComponentDocSection id="accessibility" title="Accessibility">
+          <ul className="component-doc-prose">
+            <li>Use semantic structure and visible labels whenever possible.</li>
+            <li>Preserve keyboard navigation and focus visibility.</li>
+            <li>Announce status and changes when context requires it.</li>
+          </ul>
+        </ComponentDocSection>
 
-      </div>
+        <ComponentDocSection id="content-guidelines" title="Content guidelines">
+          <ul className="component-doc-prose">
+            <li>Prefer short, clear labels.</li>
+            <li>Keep content actions scannable and outcome-oriented.</li>
+            <li>Use consistent wording across similar components.</li>
+          </ul>
+        </ComponentDocSection>
+
+        <ComponentDocSection id="examples" title="Examples">
+          <div className="component-doc-stack">
+          {/* ── Content ── */}
+          <div style={{ padding: '28px 40px' }}>
+          
+            {/* ── Section 1: Default ── */}
+            <ComponentPreview
+              title="Default"
+              description="Vertical list with helper text and a disabled option"
+            >
+              <RadioGroup legend="Notification preference" value={notify} onChange={setNotify}>
+                <Radio value="email" label="Email"  helperText="Receive updates via email" />
+                <Radio value="sms"   label="SMS"    helperText="Receive updates via text message" />
+                <Radio value="push"  label="Push"   helperText="Receive push notifications" />
+                <Radio value="none"  label="None"   helperText="Do not receive notifications" disabled />
+              </RadioGroup>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={DEFAULT_CODE} />
+          
+            {/* ── Section 2: Colors ── */}
+            <ComponentPreview
+              title="Colors"
+              description="Six color variants — default, secondary, success, warning, error, and info"
+            >
+              <RadioGroup legend="Select color" value={color} onChange={setColor} direction="horizontal">
+                <Radio value="default"   label="Default"   color="default"   />
+                <Radio value="secondary" label="Secondary" color="secondary" />
+                <Radio value="success"   label="Success"   color="success"   />
+                <Radio value="warning"   label="Warning"   color="warning"   />
+                <Radio value="error"     label="Error"     color="error"     />
+                <Radio value="info"      label="Info"      color="info"      />
+              </RadioGroup>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={COLORS_CODE} />
+          
+            {/* ── Section 3: Sizes ── */}
+            <ComponentPreview
+              title="Sizes"
+              description="sm, md (default), and lg radio sizes"
+            >
+              <RadioGroup legend="Size" value={sizeDemo} onChange={setSizeDemo}>
+                <Radio value="sm" label="Small"            size="sm" />
+                <Radio value="md" label="Medium (default)" size="md" />
+                <Radio value="lg" label="Large"            size="lg" />
+              </RadioGroup>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={SIZES_CODE} />
+          
+            {/* ── Section 4: Horizontal layout ── */}
+            <ComponentPreview
+              title="Horizontal layout"
+              description="Use orientation=horizontal for inline radio groups"
+            >
+              <RadioGroup legend="Calendar view" value={view} onChange={setView} direction="horizontal">
+                <Radio value="day"   label="Day"   />
+                <Radio value="week"  label="Week"  />
+                <Radio value="month" label="Month" />
+                <Radio value="year"  label="Year"  />
+              </RadioGroup>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={HORIZONTAL_CODE} />
+          
+            {/* ── Section 5: Error state ── */}
+            <ComponentPreview
+              title="Error state"
+              description="Group-level error with message — requires a selection"
+            >
+              <RadioGroup
+                legend="Gender"
+                value={gender}
+                onChange={setGender}
+                error={!gender}
+                errorText="Please select a gender"
+              >
+                <Radio value="male"   label="Male"   required />
+                <Radio value="female" label="Female" />
+                <Radio value="other"  label="Other"  />
+              </RadioGroup>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={ERROR_CODE} />
+          
+            {/* ── Section 6: Card style ── */}
+            <ComponentPreview
+              title="Card style"
+              description="Bordered card layout — ideal for plan or tier selection"
+            >
+              <div style={{ width: 360 }}>
+                <RadioGroup legend="Choose a plan" value={plan} onChange={setPlan} display="card">
+                  <Radio
+                    value="starter"
+                    label="Starter"
+                    description="$0/month · 3 projects · Community support"
+                  />
+                  <Radio
+                    value="pro"
+                    label="Pro"
+                    description="$12/month · Unlimited projects · Priority support"
+                  />
+                  <Radio
+                    value="team"
+                    label="Team"
+                    description="$49/month · Up to 10 members · Admin controls"
+                  />
+                  <Radio
+                    value="enterprise"
+                    label="Enterprise"
+                    description="Custom pricing · Unlimited members · SLA"
+                    disabled
+                  />
+                </RadioGroup>
+              </div>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={CARD_CODE} />
+          
+            {/* ── Section 7: Button style ── */}
+            <ComponentPreview
+              title="Button style"
+              description="Pill-button style group — great for toggles and billing cycles"
+            >
+              <RadioGroup legend="Billing cycle" value={billing} onChange={setBilling} display="button">
+                <Radio value="monthly"   label="Monthly"   />
+                <Radio value="quarterly" label="Quarterly" />
+                <Radio value="yearly"    label="Yearly"    />
+              </RadioGroup>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={BUTTON_CODE} />
+          
+            {/* ── Section 8: Segmented control ── */}
+            <ComponentPreview
+              title="Segmented control"
+              description="Compact connected button group — ideal for view switchers"
+            >
+              <RadioGroup legend="Calendar view" value={view} onChange={setView} display="segmented">
+                <Radio value="day"   label="Day"   />
+                <Radio value="week"  label="Week"  />
+                <Radio value="month" label="Month" />
+                <Radio value="year"  label="Year"  />
+              </RadioGroup>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={SEGMENTED_CODE} />
+          
+            {/* ── Props tables ── */}
+            <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-text-primary)', marginBottom: 8, marginTop: 8 }}>
+              Radio props
+            </p>
+          
+            <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-text-primary)', marginBottom: 8, marginTop: 24 }}>
+              RadioGroup props
+            </p>
+          
+          </div>
+          </div>
+        </ComponentDocSection>
+        <ComponentDocSection id="props-api" title="Props / API">
+          <div className="component-doc-stack">
+            <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-text-primary)', marginBottom: 8, marginTop: 8 }}>Api Props</p>
+            <PropsTable props={API_PROPS} />
+          </div>
+        </ComponentDocSection>
+
+        <ComponentDocSection id="related-components" title="Related components">
+          <div className="component-doc-prose">
+          <ul className="component-doc-prose">
+            <li>Use Radio alongside Button for primary actions.</li>
+            <li>Pair with Alert or NotificationCenter for contextual feedback.</li>
+            <li>Use layout containers to keep radio behavior visually consistent.</li>
+          </ul>
+          </div>
+        </ComponentDocSection>
+      </ComponentDocumentation>
     </div>
-  );
-}
+  )
+  }

@@ -5,6 +5,7 @@ import { PageHeader } from '@/components/ui/PageHeader';
 import { ComponentPreview } from '@/components/ui/ComponentPreview';
 import { CodeBlock } from '@/components/ui/CodeBlock';
 import { PropsTable } from '@/components/ui/PropsTable';
+import { ComponentDocSection, ComponentDocumentation } from '@/components/docs/ComponentDocumentation'
 
 /* ─── Props table data ─── */
 
@@ -82,6 +83,8 @@ const NUMBERED_ITEMS: BreadcrumbItem[] = [
   { label: 'Settings', step: 3, stepStatus: 'current' },
   { label: 'Confirm',  step: 4, stepStatus: 'pending' },
 ];
+
+const API_PROPS = BREADCRUMB_PROPS;
 
 /* ─── Code snippets ─── */
 
@@ -177,165 +180,246 @@ const darkBg: React.CSSProperties = {
 /* ─── Page ─── */
 
 export default function BreadcrumbPage() {
-  return (
+return (
     <div>
-      {/* ── Page header ── */}
-      <PageHeader
-        breadcrumb={['Components', 'Navigation', 'Breadcrumb']}
-        title="Breadcrumb"
-        description="Hierarchical navigation trail showing where the user is. 11 variants, 4 separators, icons and collapsible."
-        tags={['11 variants', '4 separators', 'Icons', 'Collapsible', 'Numbered steps']}
-      />
+            <PageHeader        breadcrumb={['Components', 'Navigation', 'Breadcrumb']}        title="Breadcrumb"        description="Hierarchical navigation trail showing where the user is. 11 variants, 4 separators, icons and collapsible."        tags={['11 variants', '4 separators', 'Icons', 'Collapsible', 'Numbered steps']}      />
 
-      <div style={{ padding: '28px 40px' }}>
+      <ComponentDocumentation>
+        <ComponentDocSection id="overview" title="Overview" description="Hierarchical navigation trail showing where the user is. 11 variants, 4 separators, icons and collapsible.">
+          <div className="component-doc-prose">
+            <p>Use Breadcrumb to present and interact with structured information in a predictable, accessible way.</p>
+            <p>The component examples below demonstrate practical variations you can adapt to your own interface.</p>
+          </div>
+        </ComponentDocSection>
 
-        {/* ── Section 1: Default ── */}
-        <ComponentPreview
-          title="Default"
-          description="Plain text trail with chevron separators — clean and accessible"
-          align="start"
-        >
-          <Breadcrumb items={ITEMS} />
-        </ComponentPreview>
+        <ComponentDocSection id="anatomy" title="Anatomy">
+          <ul className="component-doc-prose">
+            <li>Root container and spacing boundary.</li>
+            <li>Primary content and optional secondary metadata.</li>
+            <li>State indicators and utility affordances (icons, badges, controls).</li>
+            <li>Optional helper text, grouping, and behavioral wrappers.</li>
+          </ul>
+        </ComponentDocSection>
 
-        <CodeBlock filename="App.tsx" code={DEFAULT_CODE} />
+        <ComponentDocSection id="when-to-use" title="When to use">
+          <ul className="component-doc-prose">
+            <li>Choose Breadcrumb when a repeated, structured interaction is required.</li>
+            <li>Use it for clear, consistent operations across similar surfaces.</li>
+            <li>Use in forms, lists, and action workflows where clarity matters.</li>
+          </ul>
+        </ComponentDocSection>
 
-        {/* ── Section 2: All 11 variants ── */}
-        <ComponentPreview
-          title="All 11 variants"
-          description="default · pill · outlined · dark · floating · gradient · underline · arrow · glass · highlight · numbered"
-          align="start"
-        >
-          <div style={stack}>
-            {(
-              [
-                { variant: 'default'  as const, label: 'default'  },
-                { variant: 'pill'     as const, label: 'pill'     },
-                { variant: 'outlined' as const, label: 'outlined' },
-                { variant: 'dark'     as const, label: 'dark'     },
-                { variant: 'floating' as const, label: 'floating' },
-                { variant: 'gradient' as const, label: 'gradient' },
-                { variant: 'underline'as const, label: 'underline'},
-                { variant: 'arrow'    as const, label: 'arrow'    },
-                { variant: 'highlight'as const, label: 'highlight'},
-              ]
-            ).map(({ variant, label: lbl }) => (
-              <div key={variant}>
-                <p style={label}>{lbl}</p>
-                <Breadcrumb items={ITEMS} variant={variant} />
+        <ComponentDocSection id="when-not-to-use" title="When not to use">
+          <ul className="component-doc-prose">
+            <li>Do not use only for decorative layout without interaction meaning.</li>
+            <li>Avoid duplicating the same behavior without distinct user context.</li>
+            <li>Prefer simpler HTML or textual content for static, non-interactive labels.</li>
+          </ul>
+        </ComponentDocSection>
+
+        <ComponentDocSection id="variants" title="Variants">
+          <div className="component-doc-stack">
+            <p>Component variants should be documented by API props and examples below.</p>
+          </div>
+        </ComponentDocSection>
+
+        <ComponentDocSection id="states" title="States">
+          <div className="component-doc-stack">
+            <p>Common states include idle, active, disabled, focused, and loading/pending states where applicable.</p>
+          </div>
+        </ComponentDocSection>
+
+        <ComponentDocSection id="behavior" title="Behavior">
+          <div className="component-doc-stack">
+            <p>Behavior should remain deterministic and keyboard-friendly, with clear visual feedback for every state transition.</p>
+          </div>
+        </ComponentDocSection>
+
+        <ComponentDocSection id="accessibility" title="Accessibility">
+          <ul className="component-doc-prose">
+            <li>Use semantic structure and visible labels whenever possible.</li>
+            <li>Preserve keyboard navigation and focus visibility.</li>
+            <li>Announce status and changes when context requires it.</li>
+          </ul>
+        </ComponentDocSection>
+
+        <ComponentDocSection id="content-guidelines" title="Content guidelines">
+          <ul className="component-doc-prose">
+            <li>Prefer short, clear labels.</li>
+            <li>Keep content actions scannable and outcome-oriented.</li>
+            <li>Use consistent wording across similar components.</li>
+          </ul>
+        </ComponentDocSection>
+
+        <ComponentDocSection id="examples" title="Examples">
+          <div className="component-doc-stack">
+          <div style={{ padding: '28px 40px' }}>
+          
+            {/* ── Section 1: Default ── */}
+            <ComponentPreview
+              title="Default"
+              description="Plain text trail with chevron separators — clean and accessible"
+              align="start"
+            >
+              <Breadcrumb items={ITEMS} />
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={DEFAULT_CODE} />
+          
+            {/* ── Section 2: All 11 variants ── */}
+            <ComponentPreview
+              title="All 11 variants"
+              description="default · pill · outlined · dark · floating · gradient · underline · arrow · glass · highlight · numbered"
+              align="start"
+            >
+              <div style={stack}>
+                {(
+                  [
+                    { variant: 'default'  as const, label: 'default'  },
+                    { variant: 'pill'     as const, label: 'pill'     },
+                    { variant: 'outlined' as const, label: 'outlined' },
+                    { variant: 'dark'     as const, label: 'dark'     },
+                    { variant: 'floating' as const, label: 'floating' },
+                    { variant: 'gradient' as const, label: 'gradient' },
+                    { variant: 'underline'as const, label: 'underline'},
+                    { variant: 'arrow'    as const, label: 'arrow'    },
+                    { variant: 'highlight'as const, label: 'highlight'},
+                  ]
+                ).map(({ variant, label: lbl }) => (
+                  <div key={variant}>
+                    <p style={label}>{lbl}</p>
+                    <Breadcrumb items={ITEMS} variant={variant} />
+                  </div>
+                ))}
+          
+                {/* glass needs its own coloured background */}
+                <div>
+                  <p style={label}>glass</p>
+                  <div style={darkBg}>
+                    <Breadcrumb items={ITEMS} variant="glass" />
+                  </div>
+                </div>
+          
+                {/* numbered uses step/stepStatus items */}
+                <div>
+                  <p style={label}>numbered</p>
+                  <Breadcrumb items={NUMBERED_ITEMS} variant="numbered" />
+                </div>
               </div>
-            ))}
-
-            {/* glass needs its own coloured background */}
-            <div>
-              <p style={label}>glass</p>
-              <div style={darkBg}>
-                <Breadcrumb items={ITEMS} variant="glass" />
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={VARIANTS_CODE} />
+          
+            {/* ── Section 3: Separators ── */}
+            <ComponentPreview
+              title="Separators"
+              description="chevron (default) · slash · dot · custom element"
+              align="start"
+            >
+              <div style={stack}>
+                {(
+                  [
+                    { sep: 'chevron' as const, lbl: 'chevron' },
+                    { sep: 'slash'   as const, lbl: 'slash'   },
+                    { sep: 'dot'     as const, lbl: 'dot'     },
+                  ]
+                ).map(({ sep, lbl }) => (
+                  <div key={sep}>
+                    <p style={label}>{lbl}</p>
+                    <Breadcrumb items={ITEMS} separator={sep} />
+                  </div>
+                ))}
+                <div>
+                  <p style={label}>custom → </p>
+                  <Breadcrumb
+                    items={ITEMS}
+                    customSeparator={
+                      <span style={{ color: 'var(--color-primary)', fontWeight: 700, margin: '0 2px' }}>→</span>
+                    }
+                  />
+                </div>
               </div>
-            </div>
-
-            {/* numbered uses step/stepStatus items */}
-            <div>
-              <p style={label}>numbered</p>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={SEPARATORS_CODE} />
+          
+            {/* ── Section 4: With icons ── */}
+            <ComponentPreview
+              title="With icons"
+              description="icon prop on each BreadcrumbItem adds a leading icon before the label"
+              align="start"
+            >
+              <div style={stack}>
+                <div>
+                  <p style={label}>default + icons</p>
+                  <Breadcrumb items={ICON_ITEMS} />
+                </div>
+                <div>
+                  <p style={label}>pill + icons</p>
+                  <Breadcrumb items={ICON_ITEMS} variant="pill" />
+                </div>
+                <div>
+                  <p style={label}>showHomeIcon (auto home on first item)</p>
+                  <Breadcrumb items={ITEMS} showHomeIcon />
+                </div>
+              </div>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={ICONS_CODE} />
+          
+            {/* ── Section 5: Collapsible ── */}
+            <ComponentPreview
+              title="Collapsible"
+              description="maxItems={3} collapses the middle trail into ··· — click to expand"
+              align="start"
+            >
+              <div style={stack}>
+                <div>
+                  <p style={label}>maxItems=3 (5 items → collapses 2)</p>
+                  <Breadcrumb items={LONG_ITEMS} maxItems={3} />
+                </div>
+                <div>
+                  <p style={label}>pill + maxItems=3</p>
+                  <Breadcrumb items={LONG_ITEMS} variant="pill" maxItems={3} />
+                </div>
+              </div>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={COLLAPSED_CODE} />
+          
+            {/* ── Section 6: Numbered steps ── */}
+            <ComponentPreview
+              title="Numbered steps"
+              description="numbered variant uses step and stepStatus — done · current · pending"
+              align="start"
+            >
               <Breadcrumb items={NUMBERED_ITEMS} variant="numbered" />
-            </div>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={NUMBERED_CODE} />
+          
+            {/* ── Props table ── */}
+          
           </div>
-        </ComponentPreview>
-
-        <CodeBlock filename="App.tsx" code={VARIANTS_CODE} />
-
-        {/* ── Section 3: Separators ── */}
-        <ComponentPreview
-          title="Separators"
-          description="chevron (default) · slash · dot · custom element"
-          align="start"
-        >
-          <div style={stack}>
-            {(
-              [
-                { sep: 'chevron' as const, lbl: 'chevron' },
-                { sep: 'slash'   as const, lbl: 'slash'   },
-                { sep: 'dot'     as const, lbl: 'dot'     },
-              ]
-            ).map(({ sep, lbl }) => (
-              <div key={sep}>
-                <p style={label}>{lbl}</p>
-                <Breadcrumb items={ITEMS} separator={sep} />
-              </div>
-            ))}
-            <div>
-              <p style={label}>custom → </p>
-              <Breadcrumb
-                items={ITEMS}
-                customSeparator={
-                  <span style={{ color: 'var(--color-primary)', fontWeight: 700, margin: '0 2px' }}>→</span>
-                }
-              />
-            </div>
           </div>
-        </ComponentPreview>
-
-        <CodeBlock filename="App.tsx" code={SEPARATORS_CODE} />
-
-        {/* ── Section 4: With icons ── */}
-        <ComponentPreview
-          title="With icons"
-          description="icon prop on each BreadcrumbItem adds a leading icon before the label"
-          align="start"
-        >
-          <div style={stack}>
-            <div>
-              <p style={label}>default + icons</p>
-              <Breadcrumb items={ICON_ITEMS} />
-            </div>
-            <div>
-              <p style={label}>pill + icons</p>
-              <Breadcrumb items={ICON_ITEMS} variant="pill" />
-            </div>
-            <div>
-              <p style={label}>showHomeIcon (auto home on first item)</p>
-              <Breadcrumb items={ITEMS} showHomeIcon />
-            </div>
+        </ComponentDocSection>
+        <ComponentDocSection id="props-api" title="Props / API">
+          <div className="component-doc-stack">
+            <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-text-primary)', marginBottom: 8, marginTop: 8 }}>Api Props</p>
+            <PropsTable props={API_PROPS} />
           </div>
-        </ComponentPreview>
+        </ComponentDocSection>
 
-        <CodeBlock filename="App.tsx" code={ICONS_CODE} />
-
-        {/* ── Section 5: Collapsible ── */}
-        <ComponentPreview
-          title="Collapsible"
-          description="maxItems={3} collapses the middle trail into ··· — click to expand"
-          align="start"
-        >
-          <div style={stack}>
-            <div>
-              <p style={label}>maxItems=3 (5 items → collapses 2)</p>
-              <Breadcrumb items={LONG_ITEMS} maxItems={3} />
-            </div>
-            <div>
-              <p style={label}>pill + maxItems=3</p>
-              <Breadcrumb items={LONG_ITEMS} variant="pill" maxItems={3} />
-            </div>
+        <ComponentDocSection id="related-components" title="Related components">
+          <div className="component-doc-prose">
+          <ul className="component-doc-prose">
+            <li>Use Breadcrumb alongside Button for primary actions.</li>
+            <li>Pair with Alert or NotificationCenter for contextual feedback.</li>
+            <li>Use layout containers to keep breadcrumb behavior visually consistent.</li>
+          </ul>
           </div>
-        </ComponentPreview>
-
-        <CodeBlock filename="App.tsx" code={COLLAPSED_CODE} />
-
-        {/* ── Section 6: Numbered steps ── */}
-        <ComponentPreview
-          title="Numbered steps"
-          description="numbered variant uses step and stepStatus — done · current · pending"
-          align="start"
-        >
-          <Breadcrumb items={NUMBERED_ITEMS} variant="numbered" />
-        </ComponentPreview>
-
-        <CodeBlock filename="App.tsx" code={NUMBERED_CODE} />
-
-        {/* ── Props table ── */}
-        <PropsTable props={BREADCRUMB_PROPS} />
-
-      </div>
+        </ComponentDocSection>
+      </ComponentDocumentation>
     </div>
-  );
-}
+  )
+  }

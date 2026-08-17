@@ -5,6 +5,7 @@ import { PageHeader } from '@/components/ui/PageHeader';
 import { ComponentPreview } from '@/components/ui/ComponentPreview';
 import { CodeBlock } from '@/components/ui/CodeBlock';
 import { PropsTable } from '@/components/ui/PropsTable';
+import { ComponentDocSection, ComponentDocumentation } from '@/components/docs/ComponentDocumentation'
 
 /* ─── Props tables ─── */
 
@@ -32,6 +33,16 @@ const ITEM_PROPS = [
   { name: 'disabled',   type: 'boolean',                                           default: 'false',      description: 'Prevents the item from being opened' },
   { name: 'children',   type: 'ReactNode',                                         default: '—',          description: 'Content shown when the item is open' },
 ] as const satisfies { name: string; type: string; default: string; description: string }[];
+
+const API_PROPS = [
+  ...ACCORDION_PROPS,
+  ...ITEM_PROPS,
+] as const satisfies {
+  name: string;
+  type: string;
+  default: string;
+  description: string;
+}[];
 
 /* ─── Code snippets ─── */
 
@@ -333,7 +344,6 @@ function DemoItem({
         }}
       >
         {isImageVariant ? (
-          /* ── Image / media layout ── */
           <>
             <div style={{
               width: 44, height: 44, borderRadius: 12, flexShrink: 0,
@@ -354,7 +364,6 @@ function DemoItem({
             </div>
           </>
         ) : (
-          /* ── Standard layout ── */
           <>
             {step !== undefined && (
               <span style={{
@@ -436,7 +445,7 @@ function DemoAccordion({
     flush:     { overflow: 'hidden' },
     separated: { display: 'flex', flexDirection: 'column', gap: 8 },
     gradient:  { border: '1px solid var(--color-border-secondary, #e2e8f0)', borderRadius: 8, overflow: 'hidden' },
-    plus:      { border: '1px solid var(--color-border-secondary, #e2e8f0)', borderRadius: 8, overflow: 'hidden' },
+    plus:      { border: '1.5px solid var(--color-border-secondary, #e2e8f0)', borderRadius: 8, overflow: 'hidden' },
     numbered:  { border: '1.5px solid var(--color-border-secondary, #e2e8f0)', borderRadius: 8, overflow: 'hidden' },
     image:     { display: 'flex', flexDirection: 'column', gap: 8 },
   };
@@ -453,7 +462,6 @@ function DemoAccordion({
 export default function AccordionPage() {
   return (
     <div>
-      {/* ── Page header ── */}
       <PageHeader
         breadcrumb={['Components', 'Data Display', 'Accordion']}
         title="Accordion"
@@ -461,345 +469,431 @@ export default function AccordionPage() {
         tags={['Default', 'Bordered', 'Filled', 'Card', 'Flush', 'Separated', 'Gradient', 'Plus / minus', 'Numbered', 'Image', 'Multiple open']}
       />
 
-      {/* ── Content ── */}
-      <div style={{ padding: '28px 40px' }}>
+      <ComponentDocumentation>
+        <ComponentDocSection id="overview" title="Overview" description="10 variants · single + multiple · badge · icon · subtitle · image">
+          <div className="component-doc-prose">
+            <p>Use Accordion to present and interact with structured information in a predictable, accessible way.</p>
+            <p>The component examples below demonstrate practical variations you can adapt to your own interface.</p>
+          </div>
+        </ComponentDocSection>
 
-        {/* ── Section 1: Default ── */}
-        <ComponentPreview
-          title="Default"
-          description="Clean accordion with underline dividers — single open mode"
-        >
-          <DemoAccordion variant="default">
-            <DemoItem title="What is a design system?" defaultOpen>
-              A design system is a collection of reusable components guided by clear
-              standards that can be assembled to build any number of applications.
-            </DemoItem>
-            <DemoItem title="How do I install the package?">
-              Run <code>npm install @yourscope/design-system</code> in your project directory.
-            </DemoItem>
-            <DemoItem title="Can I customize the colors?">
-              Yes! All colors are defined as CSS variables in your index.css file using the @theme block.
-            </DemoItem>
-            <DemoItem title="Is TypeScript supported?">
-              Fully supported. Every component exports its props type for complete type safety.
-            </DemoItem>
-          </DemoAccordion>
-        </ComponentPreview>
+        <ComponentDocSection id="anatomy" title="Anatomy">
+          <ul className="component-doc-prose">
+            <li>Root container and spacing boundary.</li>
+            <li>Primary content and optional secondary metadata.</li>
+            <li>State indicators and utility affordances (icons, badges, controls).</li>
+            <li>Optional helper text, grouping, and behavioral wrappers.</li>
+          </ul>
+        </ComponentDocSection>
 
-        <CodeBlock filename="App.tsx" code={DEFAULT_CODE} />
+        <ComponentDocSection id="when-to-use" title="When to use">
+          <ul className="component-doc-prose">
+            <li>Choose Accordion when a repeated, structured interaction is required.</li>
+            <li>Use it for clear, consistent operations across similar surfaces.</li>
+            <li>Use in forms, lists, and action workflows where clarity matters.</li>
+          </ul>
+        </ComponentDocSection>
 
-        {/* ── Section 2: Bordered ── */}
-        <ComponentPreview
-          title="Bordered"
-          description="Full outer border with dividers between items — great for settings panels"
-        >
-          <DemoAccordion variant="bordered">
-            <DemoItem title="Account settings" defaultOpen variant="bordered">
-              Manage your account details, email preferences, and connected applications.
-            </DemoItem>
-            <DemoItem title="Privacy & security" variant="bordered">
-              Control your privacy settings and manage two-factor authentication.
-            </DemoItem>
-            <DemoItem title="Notifications" variant="bordered">
-              Configure how and when you receive email and push notifications.
-            </DemoItem>
-          </DemoAccordion>
-        </ComponentPreview>
+        <ComponentDocSection id="when-not-to-use" title="When not to use">
+          <ul className="component-doc-prose">
+            <li>Do not use only for decorative layout without interaction meaning.</li>
+            <li>Avoid duplicating the same behavior without distinct user context.</li>
+            <li>Prefer simpler HTML or textual content for static, non-interactive labels.</li>
+          </ul>
+        </ComponentDocSection>
 
-        <CodeBlock filename="App.tsx" code={BORDERED_CODE} />
+        <ComponentDocSection id="variants" title="Variants">
+          <div className="component-doc-stack">
+            <p>Component variants should be documented by API props and examples below.</p>
+          </div>
+        </ComponentDocSection>
 
-        {/* ── Section 3: Filled ── */}
-        <ComponentPreview
-          title="Filled"
-          description="Secondary tonal background fills the accordion container"
-        >
-          <DemoAccordion variant="filled">
-            <DemoItem title="Why choose our platform?" defaultOpen>
-              We offer the most comprehensive design system with TypeScript,
-              dark mode, and accessibility built in.
-            </DemoItem>
-            <DemoItem title="What's included in Pro?">
-              Unlimited projects, priority support, advanced analytics, and custom domains.
-            </DemoItem>
-            <DemoItem title="Is there a free trial?">
-              Yes! Start with our free plan — no credit card required.
-            </DemoItem>
-          </DemoAccordion>
-        </ComponentPreview>
+        <ComponentDocSection id="states" title="States">
+          <div className="component-doc-stack">
+            <p>Common states include idle, active, disabled, focused, and loading/pending states where applicable.</p>
+          </div>
+        </ComponentDocSection>
 
-        <CodeBlock filename="App.tsx" code={FILLED_CODE} />
+        <ComponentDocSection id="behavior" title="Behavior">
+          <div className="component-doc-stack">
+            <p>Behavior should remain deterministic and keyboard-friendly, with clear visual feedback for every state transition.</p>
+          </div>
+        </ComponentDocSection>
 
-        {/* ── Section 4: Card — with icon + badge ── */}
-        <ComponentPreview
-          title="Card — with icon + badge"
-          description="Card variant supports icon, iconBg, badge, badgeColor, and subtitle on each item"
-        >
-          <DemoAccordion variant="card">
-            <DemoItem
-              title="General settings"
-              subtitle="Manage your workspace"
-              icon="settings"
-              iconBg="bg-secondary-container"
-              defaultOpen
+        <ComponentDocSection id="accessibility" title="Accessibility">
+          <ul className="component-doc-prose">
+            <li>Use semantic structure and visible labels whenever possible.</li>
+            <li>Preserve keyboard navigation and focus visibility.</li>
+            <li>Announce status and changes when context requires it.</li>
+          </ul>
+        </ComponentDocSection>
+
+        <ComponentDocSection id="content-guidelines" title="Content guidelines">
+          <ul className="component-doc-prose">
+            <li>Prefer short, clear labels.</li>
+            <li>Keep content actions scannable and outcome-oriented.</li>
+            <li>Use consistent wording across similar components.</li>
+          </ul>
+        </ComponentDocSection>
+
+        <ComponentDocSection id="examples" title="Examples">
+          <div className="component-doc-stack">
+          {/* ── Content ── */}
+          <div style={{ padding: '28px 40px' }}>
+          
+            {/* ── Section 1: Default ── */}
+            <ComponentPreview
+              title="Default"
+              description="Clean accordion with underline dividers — single open mode"
             >
-              Configure your workspace name, timezone, and default language settings.
-            </DemoItem>
-            <DemoItem
-              title="Team members"
-              subtitle="5 members · 2 pending"
-              icon="info"
-              iconBg="bg-primary-container"
-              badge="2 pending"
-              badgeColor="default"
+              <DemoAccordion variant="default">
+                <DemoItem title="What is a design system?" defaultOpen>
+                  A design system is a collection of reusable components guided by clear
+                  standards that can be assembled to build any number of applications.
+                </DemoItem>
+                <DemoItem title="How do I install the package?">
+                  Run <code>npm install @yourscope/design-system</code> in your project directory.
+                </DemoItem>
+                <DemoItem title="Can I customize the colors?">
+                  Yes! All colors are defined as CSS variables in your index.css file using the @theme block.
+                </DemoItem>
+                <DemoItem title="Is TypeScript supported?">
+                  Fully supported. Every component exports its props type for complete type safety.
+                </DemoItem>
+              </DemoAccordion>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={DEFAULT_CODE} />
+          
+            {/* ── Section 2: Bordered ── */}
+            <ComponentPreview
+              title="Bordered"
+              description="Full outer border with dividers between items — great for settings panels"
             >
-              Manage team access and permissions for your workspace.
-            </DemoItem>
-            <DemoItem
-              title="Security"
-              subtitle="2FA not enabled"
-              icon="alert-circle"
-              iconBg="bg-error-container"
-              badge="Action needed"
-              badgeColor="error"
+              <DemoAccordion variant="bordered">
+                <DemoItem title="Account settings" defaultOpen variant="bordered">
+                  Manage your account details, email preferences, and connected applications.
+                </DemoItem>
+                <DemoItem title="Privacy & security" variant="bordered">
+                  Control your privacy settings and manage two-factor authentication.
+                </DemoItem>
+                <DemoItem title="Notifications" variant="bordered">
+                  Configure how and when you receive email and push notifications.
+                </DemoItem>
+              </DemoAccordion>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={BORDERED_CODE} />
+          
+            {/* ── Section 3: Filled ── */}
+            <ComponentPreview
+              title="Filled"
+              description="Secondary tonal background fills the accordion container"
             >
-              Enable two-factor authentication to secure your account.
-            </DemoItem>
-          </DemoAccordion>
-        </ComponentPreview>
-
-        <CodeBlock filename="App.tsx" code={CARD_CODE} />
-
-        {/* ── Section 5: Flush — multiple open ── */}
-        <ComponentPreview
-          title="Flush — multiple open"
-          description="No outer border, dividers only — mode=multiple allows any combination to be open"
-        >
-          <DemoAccordion variant="flush">
-            <DemoItem title="What is included?">
-              All components, dark mode, TypeScript types, and full documentation.
-            </DemoItem>
-            <DemoItem title="How does licensing work?">
-              Single license covers unlimited projects for one developer.
-            </DemoItem>
-            <DemoItem title="Can I use in commercial projects?">
-              Yes, the license covers commercial use without any restrictions.
-            </DemoItem>
-          </DemoAccordion>
-        </ComponentPreview>
-
-        <CodeBlock filename="App.tsx" code={FLUSH_CODE} />
-
-        {/* ── Section 6: Separated ── */}
-        <ComponentPreview
-          title="Separated"
-          description="Each item is an individual card separated by a gap"
-        >
-          <DemoAccordion variant="separated">
-            <div style={{ border: '1px solid var(--color-border-secondary, #e2e8f0)', borderRadius: 8, overflow: 'hidden' }}>
-              <DemoItem title="Getting started" defaultOpen>
-                Install the package and follow the setup guide to get started quickly.
-              </DemoItem>
-            </div>
-            <div style={{ border: '1px solid var(--color-border-secondary, #e2e8f0)', borderRadius: 8, overflow: 'hidden' }}>
-              <DemoItem title="Configuration options">
-                Customize tokens, themes, and component defaults via your config file.
-              </DemoItem>
-            </div>
-            <div style={{ border: '1px solid var(--color-border-secondary, #e2e8f0)', borderRadius: 8, overflow: 'hidden' }}>
-              <DemoItem title="Advanced usage">
-                Learn about composition patterns, compound components, and more.
-              </DemoItem>
-            </div>
-          </DemoAccordion>
-        </ComponentPreview>
-
-        <CodeBlock filename="App.tsx" code={SEPARATED_CODE} />
-
-        {/* ── Section 7: Gradient header ── */}
-        <ComponentPreview
-          title="Gradient header"
-          description="Brand gradient header on the open trigger — ideal for marketing pages"
-        >
-          <DemoAccordion variant="gradient">
-            <DemoItem
-              title="Pro features"
-              subtitle="Everything you need to scale"
-              defaultOpen
-              variant="gradient"
+              <DemoAccordion variant="filled">
+                <DemoItem title="Why choose our platform?" defaultOpen>
+                  We offer the most comprehensive design system with TypeScript,
+                  dark mode, and accessibility built in.
+                </DemoItem>
+                <DemoItem title="What's included in Pro?">
+                  Unlimited projects, priority support, advanced analytics, and custom domains.
+                </DemoItem>
+                <DemoItem title="Is there a free trial?">
+                  Yes! Start with our free plan — no credit card required.
+                </DemoItem>
+              </DemoAccordion>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={FILLED_CODE} />
+          
+            {/* ── Section 4: Card — with icon + badge ── */}
+            <ComponentPreview
+              title="Card — with icon + badge"
+              description="Card variant supports icon, iconBg, badge, badgeColor, and subtitle on each item"
             >
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                {['Unlimited projects', 'Priority support 24/7', 'Advanced analytics', 'Custom domains', 'Team collaboration'].map(f => (
-                  <div key={f} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <i className="ti ti-circle-check" style={{ fontSize: 16, color: '#16a34a', flexShrink: 0 }} aria-hidden="true" />
-                    <span style={{ fontSize: 13 }}>{f}</span>
-                  </div>
-                ))}
-              </div>
-            </DemoItem>
-            <DemoItem
-              title="Team collaboration"
-              subtitle="Work together seamlessly"
-              variant="gradient"
+              <DemoAccordion variant="card">
+                <DemoItem
+                  title="General settings"
+                  subtitle="Manage your workspace"
+                  icon="settings"
+                  iconBg="bg-secondary-container"
+                  defaultOpen
+                >
+                  Configure your workspace name, timezone, and default language settings.
+                </DemoItem>
+                <DemoItem
+                  title="Team members"
+                  subtitle="5 members · 2 pending"
+                  icon="info"
+                  iconBg="bg-primary-container"
+                  badge="2 pending"
+                  badgeColor="default"
+                >
+                  Manage team access and permissions for your workspace.
+                </DemoItem>
+                <DemoItem
+                  title="Security"
+                  subtitle="2FA not enabled"
+                  icon="alert-circle"
+                  iconBg="bg-error-container"
+                  badge="Action needed"
+                  badgeColor="error"
+                >
+                  Enable two-factor authentication to secure your account.
+                </DemoItem>
+              </DemoAccordion>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={CARD_CODE} />
+          
+            {/* ── Section 5: Flush — multiple open ── */}
+            <ComponentPreview
+              title="Flush — multiple open"
+              description="No outer border, dividers only — mode=multiple allows any combination to be open"
             >
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                {['Shared workspaces', 'Role-based permissions', 'Real-time co-editing', 'Activity feed', 'Slack integration'].map(f => (
-                  <div key={f} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <i className="ti ti-circle-check" style={{ fontSize: 16, color: '#16a34a', flexShrink: 0 }} aria-hidden="true" />
-                    <span style={{ fontSize: 13 }}>{f}</span>
-                  </div>
-                ))}
-              </div>
-            </DemoItem>
-            <DemoItem
-              title="Enterprise plan"
-              subtitle="Custom pricing and SLAs"
-              variant="gradient"
+              <DemoAccordion variant="flush">
+                <DemoItem title="What is included?">
+                  All components, dark mode, TypeScript types, and full documentation.
+                </DemoItem>
+                <DemoItem title="How does licensing work?">
+                  Single license covers unlimited projects for one developer.
+                </DemoItem>
+                <DemoItem title="Can I use in commercial projects?">
+                  Yes, the license covers commercial use without any restrictions.
+                </DemoItem>
+              </DemoAccordion>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={FLUSH_CODE} />
+          
+            {/* ── Section 6: Separated ── */}
+            <ComponentPreview
+              title="Separated"
+              description="Each item is an individual card separated by a gap"
             >
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                {['Dedicated account manager', 'SLA guarantees', 'SSO & SAML support', 'Audit logs', 'Custom contracts'].map(f => (
-                  <div key={f} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <i className="ti ti-circle-check" style={{ fontSize: 16, color: '#16a34a', flexShrink: 0 }} aria-hidden="true" />
-                    <span style={{ fontSize: 13 }}>{f}</span>
-                  </div>
-                ))}
-              </div>
-            </DemoItem>
-          </DemoAccordion>
-        </ComponentPreview>
-
-        <CodeBlock filename="App.tsx" code={GRADIENT_CODE} />
-
-        {/* ── Section 8: Plus / minus — FAQ style ── */}
-        <ComponentPreview
-          title="Plus / minus — FAQ style"
-          description="iconStyle=plus replaces the chevron with a + / − toggle inside a rounded box"
-        >
-          <DemoAccordion variant="plus">
-            <DemoItem title="Is there a free plan?" defaultOpen iconStyle="plus">
-              Yes! Our free plan includes 3 projects and all basic components.
-            </DemoItem>
-            <DemoItem title="Do you offer refunds?" iconStyle="plus">
-              We offer a 30-day money-back guarantee, no questions asked.
-            </DemoItem>
-            <DemoItem title="How do I cancel my subscription?" iconStyle="plus">
-              You can cancel anytime from your account settings page.
-            </DemoItem>
-            <DemoItem title="Can I upgrade or downgrade?" iconStyle="plus">
-              Yes, plan changes take effect immediately and are prorated.
-            </DemoItem>
-          </DemoAccordion>
-        </ComponentPreview>
-
-        <CodeBlock filename="App.tsx" code={PLUS_CODE} />
-
-        {/* ── Section 9: Numbered — onboarding steps ── */}
-        <ComponentPreview
-          title="Numbered — onboarding steps"
-          description="step prop shows a numbered circle before the title"
-        >
-          <DemoAccordion variant="numbered">
-            <DemoItem title="Create your account" step={1} defaultOpen>
-              Sign up with your email or continue with Google or GitHub.
-            </DemoItem>
-            <DemoItem title="Set up your workspace" step={2}>
-              Name your workspace and configure basic settings.
-            </DemoItem>
-            <DemoItem title="Invite your team" step={3}>
-              Add teammates by email and assign their roles and permissions.
-            </DemoItem>
-            <DemoItem title="Build your first project" step={4}>
-              Create a new project and start using your design system components.
-            </DemoItem>
-          </DemoAccordion>
-        </ComponentPreview>
-
-        <CodeBlock filename="App.tsx" code={NUMBERED_CODE} />
-
-        {/* ── Section 10: Image / media ── */}
-        <ComponentPreview
-          title="Image / media"
-          description="image prop shows an emoji in a gradient side panel — subtitle provides context"
-        >
-          <DemoAccordion variant="image">
-            <div style={{ border: '1px solid var(--color-border-secondary, #e2e8f0)', borderRadius: 8, overflow: 'hidden' }}>
-              <DemoItem title="Design system" subtitle="30 components · TypeScript" image="🎨" defaultOpen variant="image">
-                <p style={{ margin: '0 0 12px' }}>
-                  A complete design system with 30+ components, dark mode support, and full TypeScript definitions.
-                </p>
-                <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-                  {['React', 'TypeScript', 'Tailwind', 'Dark mode'].map(tag => (
-                    <span key={tag} style={{ fontSize: 11, padding: '3px 10px', borderRadius: 999, background: '#eff6ff', color: '#1d4ed8' }}>
-                      {tag}
-                    </span>
-                  ))}
+              <DemoAccordion variant="separated">
+                <div style={{ border: '1px solid var(--color-border-secondary, #e2e8f0)', borderRadius: 8, overflow: 'hidden' }}>
+                  <DemoItem title="Getting started" defaultOpen>
+                    Install the package and follow the setup guide to get started quickly.
+                  </DemoItem>
                 </div>
-              </DemoItem>
-            </div>
-            <div style={{ border: '1px solid var(--color-border-secondary, #e2e8f0)', borderRadius: 8, overflow: 'hidden' }}>
-              <DemoItem title="Starter templates" subtitle="12 templates · Next.js" image="🚀" variant="image">
-                <p style={{ margin: '0 0 12px' }}>
-                  Production-ready templates for dashboards, landing pages, and SaaS applications.
-                </p>
-                <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-                  {['Next.js', 'Vite', 'Dashboard', 'Landing page'].map(tag => (
-                    <span key={tag} style={{ fontSize: 11, padding: '3px 10px', borderRadius: 999, background: '#f5f3ff', color: '#6d28d9' }}>
-                      {tag}
-                    </span>
-                  ))}
+                <div style={{ border: '1px solid var(--color-border-secondary, #e2e8f0)', borderRadius: 8, overflow: 'hidden' }}>
+                  <DemoItem title="Configuration options">
+                    Customize tokens, themes, and component defaults via your config file.
+                  </DemoItem>
                 </div>
-              </DemoItem>
-            </div>
-            <div style={{ border: '1px solid var(--color-border-secondary, #e2e8f0)', borderRadius: 8, overflow: 'hidden' }}>
-              <DemoItem title="Component library" subtitle="50+ components · React" image="⚛️" variant="image">
-                <p style={{ margin: '0 0 12px' }}>
-                  Every component is accessible, typed, and follows your design tokens automatically.
-                </p>
-                <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-                  {['Accessible', 'WCAG AA', 'CVA', 'Composable'].map(tag => (
-                    <span key={tag} style={{ fontSize: 11, padding: '3px 10px', borderRadius: 999, background: '#dcfce7', color: '#15803d' }}>
-                      {tag}
-                    </span>
-                  ))}
+                <div style={{ border: '1px solid var(--color-border-secondary, #e2e8f0)', borderRadius: 8, overflow: 'hidden' }}>
+                  <DemoItem title="Advanced usage">
+                    Learn about composition patterns, compound components, and more.
+                  </DemoItem>
                 </div>
-              </DemoItem>
-            </div>
-          </DemoAccordion>
-        </ComponentPreview>
+              </DemoAccordion>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={SEPARATED_CODE} />
+          
+            {/* ── Section 7: Gradient header ── */}
+            <ComponentPreview
+              title="Gradient header"
+              description="Brand gradient header on the open trigger — ideal for marketing pages"
+            >
+              <DemoAccordion variant="gradient">
+                <DemoItem
+                  title="Pro features"
+                  subtitle="Everything you need to scale"
+                  defaultOpen
+                  variant="gradient"
+                >
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    {['Unlimited projects', 'Priority support 24/7', 'Advanced analytics', 'Custom domains', 'Team collaboration'].map(f => (
+                      <div key={f} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                        <i className="ti ti-circle-check" style={{ fontSize: 16, color: '#16a34a', flexShrink: 0 }} aria-hidden="true" />
+                        <span style={{ fontSize: 13 }}>{f}</span>
+                      </div>
+                    ))}
+                  </div>
+                </DemoItem>
+                <DemoItem
+                  title="Team collaboration"
+                  subtitle="Work together seamlessly"
+                  variant="gradient"
+                >
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    {['Shared workspaces', 'Role-based permissions', 'Real-time co-editing', 'Activity feed', 'Slack integration'].map(f => (
+                      <div key={f} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                        <i className="ti ti-circle-check" style={{ fontSize: 16, color: '#16a34a', flexShrink: 0 }} aria-hidden="true" />
+                        <span style={{ fontSize: 13 }}>{f}</span>
+                      </div>
+                    ))}
+                  </div>
+                </DemoItem>
+                <DemoItem
+                  title="Enterprise plan"
+                  subtitle="Custom pricing and SLAs"
+                  variant="gradient"
+                >
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    {['Dedicated account manager', 'SLA guarantees', 'SSO & SAML support', 'Audit logs', 'Custom contracts'].map(f => (
+                      <div key={f} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                        <i className="ti ti-circle-check" style={{ fontSize: 16, color: '#16a34a', flexShrink: 0 }} aria-hidden="true" />
+                        <span style={{ fontSize: 13 }}>{f}</span>
+                      </div>
+                    ))}
+                  </div>
+                </DemoItem>
+              </DemoAccordion>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={GRADIENT_CODE} />
+          
+            {/* ── Section 8: Plus / minus — FAQ style ── */}
+            <ComponentPreview
+              title="Plus / minus — FAQ style"
+              description="iconStyle=plus replaces the chevron with a + / − toggle inside a rounded box"
+            >
+              <DemoAccordion variant="plus">
+                <DemoItem title="Is there a free plan?" defaultOpen iconStyle="plus">
+                  Yes! Our free plan includes 3 projects and all basic components.
+                </DemoItem>
+                <DemoItem title="Do you offer refunds?" iconStyle="plus">
+                  We offer a 30-day money-back guarantee, no questions asked.
+                </DemoItem>
+                <DemoItem title="How do I cancel my subscription?" iconStyle="plus">
+                  You can cancel anytime from your account settings page.
+                </DemoItem>
+                <DemoItem title="Can I upgrade or downgrade?" iconStyle="plus">
+                  Yes, plan changes take effect immediately and are prorated.
+                </DemoItem>
+              </DemoAccordion>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={PLUS_CODE} />
+          
+            {/* ── Section 9: Numbered — onboarding steps ── */}
+            <ComponentPreview
+              title="Numbered — onboarding steps"
+              description="step prop shows a numbered circle before the title"
+            >
+              <DemoAccordion variant="numbered">
+                <DemoItem title="Create your account" step={1} defaultOpen>
+                  Sign up with your email or continue with Google or GitHub.
+                </DemoItem>
+                <DemoItem title="Set up your workspace" step={2}>
+                  Name your workspace and configure basic settings.
+                </DemoItem>
+                <DemoItem title="Invite your team" step={3}>
+                  Add teammates by email and assign their roles and permissions.
+                </DemoItem>
+                <DemoItem title="Build your first project" step={4}>
+                  Create a new project and start using your design system components.
+                </DemoItem>
+              </DemoAccordion>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={NUMBERED_CODE} />
+          
+            {/* ── Section 10: Image / media ── */}
+            <ComponentPreview
+              title="Image / media"
+              description="image prop shows an emoji in a gradient side panel — subtitle provides context"
+            >
+              <DemoAccordion variant="image">
+                <div style={{ border: '1px solid var(--color-border-secondary, #e2e8f0)', borderRadius: 8, overflow: 'hidden' }}>
+                  <DemoItem title="Design system" subtitle="30 components · TypeScript" image="🎨" defaultOpen variant="image">
+                    <p style={{ margin: '0 0 12px' }}>
+                      A complete design system with 30+ components, dark mode support, and full TypeScript definitions.
+                    </p>
+                    <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                      {['React', 'TypeScript', 'Tailwind', 'Dark mode'].map(tag => (
+                        <span key={tag} style={{ fontSize: 11, padding: '3px 10px', borderRadius: 999, background: '#eff6ff', color: '#1d4ed8' }}>
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </DemoItem>
+                </div>
+                <div style={{ border: '1px solid var(--color-border-secondary, #e2e8f0)', borderRadius: 8, overflow: 'hidden' }}>
+                  <DemoItem title="Starter templates" subtitle="12 templates · Next.js" image="🚀" variant="image">
+                    <p style={{ margin: '0 0 12px' }}>
+                      Production-ready templates for dashboards, landing pages, and SaaS applications.
+                    </p>
+                    <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                      {['Next.js', 'Vite', 'Dashboard', 'Landing page'].map(tag => (
+                        <span key={tag} style={{ fontSize: 11, padding: '3px 10px', borderRadius: 999, background: '#f5f3ff', color: '#6d28d9' }}>
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </DemoItem>
+                </div>
+                <div style={{ border: '1px solid var(--color-border-secondary, #e2e8f0)', borderRadius: 8, overflow: 'hidden' }}>
+                  <DemoItem title="Component library" subtitle="50+ components · React" image="⚛️" variant="image">
+                    <p style={{ margin: '0 0 12px' }}>
+                      Every component is accessible, typed, and follows your design tokens automatically.
+                    </p>
+                    <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                      {['Accessible', 'WCAG AA', 'CVA', 'Composable'].map(tag => (
+                        <span key={tag} style={{ fontSize: 11, padding: '3px 10px', borderRadius: 999, background: '#dcfce7', color: '#15803d' }}>
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </DemoItem>
+                </div>
+              </DemoAccordion>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={IMAGE_CODE} />
+          
+            {/* ── Section 11: Multiple open ── */}
+            <ComponentPreview
+              title="Multiple open at once"
+              description="mode=multiple lets any number of items be open simultaneously"
+            >
+              <DemoAccordion variant="bordered">
+                <DemoItem title="First item — open by default" defaultOpen variant="bordered">
+                  This item starts open. Multiple items can be open simultaneously.
+                </DemoItem>
+                <DemoItem title="Second item — click to open" variant="bordered">
+                  Click to expand without closing other items.
+                </DemoItem>
+                <DemoItem title="Third item — also open" defaultOpen variant="bordered">
+                  This item also starts open. All three can be open at the same time.
+                </DemoItem>
+              </DemoAccordion>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={MULTIPLE_CODE} />
+          
+            {/* ── Props tables ── */}
+            <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-text-primary)', marginBottom: 8, marginTop: 8 }}>
+              Accordion props
+            </p>
+          
+            <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-text-primary)', marginBottom: 8, marginTop: 24 }}>
+              AccordionItem props
+            </p>
+          
+          </div>
+          </div>
+        </ComponentDocSection>
+        <ComponentDocSection id="props-api" title="Props / API">
+          <div className="component-doc-stack">
+            <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-text-primary)', marginBottom: 8, marginTop: 8 }}>Api Props</p>
+            <PropsTable props={API_PROPS} />
+          </div>
+        </ComponentDocSection>
 
-        <CodeBlock filename="App.tsx" code={IMAGE_CODE} />
-
-        {/* ── Section 11: Multiple open ── */}
-        <ComponentPreview
-          title="Multiple open at once"
-          description="mode=multiple lets any number of items be open simultaneously"
-        >
-          <DemoAccordion variant="bordered">
-            <DemoItem title="First item — open by default" defaultOpen variant="bordered">
-              This item starts open. Multiple items can be open simultaneously.
-            </DemoItem>
-            <DemoItem title="Second item — click to open" variant="bordered">
-              Click to expand without closing other items.
-            </DemoItem>
-            <DemoItem title="Third item — also open" defaultOpen variant="bordered">
-              This item also starts open. All three can be open at the same time.
-            </DemoItem>
-          </DemoAccordion>
-        </ComponentPreview>
-
-        <CodeBlock filename="App.tsx" code={MULTIPLE_CODE} />
-
-        {/* ── Props tables ── */}
-        <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-text-primary)', marginBottom: 8, marginTop: 8 }}>
-          Accordion props
-        </p>
-        <PropsTable props={ACCORDION_PROPS} />
-
-        <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-text-primary)', marginBottom: 8, marginTop: 24 }}>
-          AccordionItem props
-        </p>
-        <PropsTable props={ITEM_PROPS} />
-
-      </div>
+        <ComponentDocSection id="related-components" title="Related components">
+          <div className="component-doc-prose">
+          <ul className="component-doc-prose">
+            <li>Use Accordion alongside Button for primary actions.</li>
+            <li>Pair with Alert or NotificationCenter for contextual feedback.</li>
+            <li>Use layout containers to keep accordion behavior visually consistent.</li>
+          </ul>
+          </div>
+        </ComponentDocSection>
+      </ComponentDocumentation>
     </div>
-  );
+  )
 }

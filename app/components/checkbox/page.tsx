@@ -6,6 +6,7 @@ import { PageHeader } from '@/components/ui/PageHeader';
 import { ComponentPreview } from '@/components/ui/ComponentPreview';
 import { CodeBlock } from '@/components/ui/CodeBlock';
 import { PropsTable } from '@/components/ui/PropsTable';
+import { ComponentDocSection, ComponentDocumentation } from '@/components/docs/ComponentDocumentation'
 
 /* ─── Props tables ─── */
 
@@ -37,6 +38,16 @@ const GROUP_PROPS = [
   { name: 'size',           type: "'sm' | 'md' | 'lg'",                                                          default: '—',           description: 'Size applied to all child checkboxes' },
   { name: 'children',       type: 'ReactNode',                                                                    default: '—',           description: 'Checkbox components with a value prop' },
 ] as const satisfies { name: string; type: string; default: string; description: string }[];
+
+const API_PROPS = [
+  ...CHECKBOX_PROPS,
+  ...GROUP_PROPS,
+] as const satisfies {
+  name: string;
+  type: string;
+  default: string;
+  description: string;
+}[];
 
 /* ─── Code snippets ─── */
 
@@ -132,179 +143,259 @@ export default function CheckboxPage() {
   const [terms, setTerms] = useState(false);
   const [plan, setPlan] = useState('pro');
 
-  return (
+return (
     <div>
-      {/* ── Page header ── */}
-      <PageHeader
-        breadcrumb={['Components', 'Form', 'Checkbox']}
-        title="Checkbox"
-        description="6 colors · 3 sizes · card style · CheckboxGroup with select all"
-        tags={['States', 'Colors', 'Sizes', 'Card style', 'CheckboxGroup', 'Select all']}
-      />
+            <PageHeader        breadcrumb={['Components', 'Form', 'Checkbox']}        title="Checkbox"        description="6 colors · 3 sizes · card style · CheckboxGroup with select all"        tags={['States', 'Colors', 'Sizes', 'Card style', 'CheckboxGroup', 'Select all']}      />
 
-      {/* ── Content ── */}
-      <div style={{ padding: '28px 40px' }}>
-
-        {/* ── Section 1: States ── */}
-        <ComponentPreview
-          title="States"
-          description="Unchecked, checked, indeterminate, disabled, and disabled checked"
-        >
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            <Checkbox label="Unchecked" />
-            <Checkbox label="Checked" defaultChecked />
-            <Checkbox label="Indeterminate" indeterminate />
-            <Checkbox label="Disabled" disabled />
-            <Checkbox label="Disabled checked" disabled defaultChecked />
+      <ComponentDocumentation>
+        <ComponentDocSection id="overview" title="Overview" description="6 colors · 3 sizes · card style · CheckboxGroup with select all">
+          <div className="component-doc-prose">
+            <p>Use Checkbox to present and interact with structured information in a predictable, accessible way.</p>
+            <p>The component examples below demonstrate practical variations you can adapt to your own interface.</p>
           </div>
-        </ComponentPreview>
+        </ComponentDocSection>
 
-        <CodeBlock filename="App.tsx" code={STATES_CODE} />
+        <ComponentDocSection id="anatomy" title="Anatomy">
+          <ul className="component-doc-prose">
+            <li>Root container and spacing boundary.</li>
+            <li>Primary content and optional secondary metadata.</li>
+            <li>State indicators and utility affordances (icons, badges, controls).</li>
+            <li>Optional helper text, grouping, and behavioral wrappers.</li>
+          </ul>
+        </ComponentDocSection>
 
-        {/* ── Section 2: Colors ── */}
-        <ComponentPreview
-          title="Colors"
-          description="Six color variants — default, secondary, success, warning, error, and info"
-        >
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            <Checkbox label="Default (primary)" color="default"   defaultChecked />
-            <Checkbox label="Secondary"         color="secondary" defaultChecked />
-            <Checkbox label="Success"           color="success"   defaultChecked />
-            <Checkbox label="Warning"           color="warning"   defaultChecked />
-            <Checkbox label="Error"             color="error"     defaultChecked />
-            <Checkbox label="Info"              color="info"      defaultChecked />
+        <ComponentDocSection id="when-to-use" title="When to use">
+          <ul className="component-doc-prose">
+            <li>Choose Checkbox when a repeated, structured interaction is required.</li>
+            <li>Use it for clear, consistent operations across similar surfaces.</li>
+            <li>Use in forms, lists, and action workflows where clarity matters.</li>
+          </ul>
+        </ComponentDocSection>
+
+        <ComponentDocSection id="when-not-to-use" title="When not to use">
+          <ul className="component-doc-prose">
+            <li>Do not use only for decorative layout without interaction meaning.</li>
+            <li>Avoid duplicating the same behavior without distinct user context.</li>
+            <li>Prefer simpler HTML or textual content for static, non-interactive labels.</li>
+          </ul>
+        </ComponentDocSection>
+
+        <ComponentDocSection id="variants" title="Variants">
+          <div className="component-doc-stack">
+            <p>Component variants should be documented by API props and examples below.</p>
           </div>
-        </ComponentPreview>
+        </ComponentDocSection>
 
-        <CodeBlock filename="App.tsx" code={COLORS_CODE} />
-
-        {/* ── Section 3: Sizes ── */}
-        <ComponentPreview
-          title="Sizes"
-          description="sm, md (default), and lg checkbox sizes"
-        >
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            <Checkbox label="Small"            size="sm" defaultChecked />
-            <Checkbox label="Medium (default)" size="md" defaultChecked />
-            <Checkbox label="Large"            size="lg" defaultChecked />
+        <ComponentDocSection id="states" title="States">
+          <div className="component-doc-stack">
+            <p>Common states include idle, active, disabled, focused, and loading/pending states where applicable.</p>
           </div>
-        </ComponentPreview>
+        </ComponentDocSection>
 
-        <CodeBlock filename="App.tsx" code={SIZES_CODE} />
-
-        {/* ── Section 4: Shape ── */}
-        <ComponentPreview
-          title="Shape"
-          description="Square (rounded corners, default) or circle shape"
-        >
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            <Checkbox label="Square (default)" shape="square" defaultChecked />
-            <Checkbox label="Circle"           shape="circle" defaultChecked />
+        <ComponentDocSection id="behavior" title="Behavior">
+          <div className="component-doc-stack">
+            <p>Behavior should remain deterministic and keyboard-friendly, with clear visual feedback for every state transition.</p>
           </div>
-        </ComponentPreview>
+        </ComponentDocSection>
 
-        <CodeBlock filename="App.tsx" code={SHAPE_CODE} />
+        <ComponentDocSection id="accessibility" title="Accessibility">
+          <ul className="component-doc-prose">
+            <li>Use semantic structure and visible labels whenever possible.</li>
+            <li>Preserve keyboard navigation and focus visibility.</li>
+            <li>Announce status and changes when context requires it.</li>
+          </ul>
+        </ComponentDocSection>
 
-        {/* ── Section 5: With helper + error ── */}
-        <ComponentPreview
-          title="With helper + error"
-          description="Helper text shown below the label; error state with message and required indicator"
-        >
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            <Checkbox
-              label="Email notifications"
-              helperText="Receive product updates and announcements"
-              defaultChecked
-            />
-            <Checkbox
-              label="Accept terms and conditions"
-              required
-              error={!terms}
-              errorText="You must accept the terms to continue"
-              checked={terms}
-              onChange={e => setTerms(e.target.checked)}
-            />
-          </div>
-        </ComponentPreview>
+        <ComponentDocSection id="content-guidelines" title="Content guidelines">
+          <ul className="component-doc-prose">
+            <li>Prefer short, clear labels.</li>
+            <li>Keep content actions scannable and outcome-oriented.</li>
+            <li>Use consistent wording across similar components.</li>
+          </ul>
+        </ComponentDocSection>
 
-        <CodeBlock filename="App.tsx" code={HELPER_CODE} />
-
-        {/* ── Section 6: Card style ── */}
-        <ComponentPreview
-          title="Card style"
-          description="Bordered card layout — ideal for plan selection and feature toggles"
-        >
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12, width: 360 }}>
-            <Checkbox
-              card
-              label="Pro plan"
-              description="$12/month · Unlimited projects · Priority support"
-              checked={plan === 'pro'}
-              onChange={() => setPlan('pro')}
-            />
-            <Checkbox
-              card
-              label="Team plan"
-              description="$49/month · Up to 10 members · Admin controls"
-              checked={plan === 'team'}
-              onChange={() => setPlan('team')}
-            />
-            <Checkbox
-              card
-              label="Enterprise"
-              description="Custom pricing · Unlimited members · SLA"
-              checked={plan === 'enterprise'}
-              onChange={() => setPlan('enterprise')}
-            />
-            <Checkbox
-              card
-              label="Unavailable plan"
-              description="This option is currently disabled"
-              disabled
-            />
-          </div>
-        </ComponentPreview>
-
-        <CodeBlock filename="App.tsx" code={CARD_CODE} />
-
-        {/* ── Section 7: CheckboxGroup with select all ── */}
-        <ComponentPreview
-          title="CheckboxGroup — select all"
-          description="Managed group with auto indeterminate state on the select-all parent"
-        >
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            <CheckboxGroup
-              legend="User permissions"
-              selectAll
-              selectAllLabel="All permissions"
-              value={permissions}
-              onChange={setPermissions}
+        <ComponentDocSection id="examples" title="Examples">
+          <div className="component-doc-stack">
+          {/* ── Content ── */}
+          <div style={{ padding: '28px 40px' }}>
+          
+            {/* ── Section 1: States ── */}
+            <ComponentPreview
+              title="States"
+              description="Unchecked, checked, indeterminate, disabled, and disabled checked"
             >
-              <Checkbox value="read"   label="Read"   helperText="View all content" />
-              <Checkbox value="write"  label="Write"  helperText="Create and edit content" />
-              <Checkbox value="delete" label="Delete" helperText="Remove content permanently" />
-              <Checkbox value="admin"  label="Admin"  helperText="Full system access" />
-            </CheckboxGroup>
-            <p style={{ fontSize: 13, color: 'var(--color-text-secondary)', marginTop: 4 }}>
-              Selected: {permissions.join(', ') || 'none'}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                <Checkbox label="Unchecked" />
+                <Checkbox label="Checked" defaultChecked />
+                <Checkbox label="Indeterminate" indeterminate />
+                <Checkbox label="Disabled" disabled />
+                <Checkbox label="Disabled checked" disabled defaultChecked />
+              </div>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={STATES_CODE} />
+          
+            {/* ── Section 2: Colors ── */}
+            <ComponentPreview
+              title="Colors"
+              description="Six color variants — default, secondary, success, warning, error, and info"
+            >
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                <Checkbox label="Default (primary)" color="default"   defaultChecked />
+                <Checkbox label="Secondary"         color="secondary" defaultChecked />
+                <Checkbox label="Success"           color="success"   defaultChecked />
+                <Checkbox label="Warning"           color="warning"   defaultChecked />
+                <Checkbox label="Error"             color="error"     defaultChecked />
+                <Checkbox label="Info"              color="info"      defaultChecked />
+              </div>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={COLORS_CODE} />
+          
+            {/* ── Section 3: Sizes ── */}
+            <ComponentPreview
+              title="Sizes"
+              description="sm, md (default), and lg checkbox sizes"
+            >
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                <Checkbox label="Small"            size="sm" defaultChecked />
+                <Checkbox label="Medium (default)" size="md" defaultChecked />
+                <Checkbox label="Large"            size="lg" defaultChecked />
+              </div>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={SIZES_CODE} />
+          
+            {/* ── Section 4: Shape ── */}
+            <ComponentPreview
+              title="Shape"
+              description="Square (rounded corners, default) or circle shape"
+            >
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                <Checkbox label="Square (default)" shape="square" defaultChecked />
+                <Checkbox label="Circle"           shape="circle" defaultChecked />
+              </div>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={SHAPE_CODE} />
+          
+            {/* ── Section 5: With helper + error ── */}
+            <ComponentPreview
+              title="With helper + error"
+              description="Helper text shown below the label; error state with message and required indicator"
+            >
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                <Checkbox
+                  label="Email notifications"
+                  helperText="Receive product updates and announcements"
+                  defaultChecked
+                />
+                <Checkbox
+                  label="Accept terms and conditions"
+                  required
+                  error={!terms}
+                  errorText="You must accept the terms to continue"
+                  checked={terms}
+                  onChange={e => setTerms(e.target.checked)}
+                />
+              </div>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={HELPER_CODE} />
+          
+            {/* ── Section 6: Card style ── */}
+            <ComponentPreview
+              title="Card style"
+              description="Bordered card layout — ideal for plan selection and feature toggles"
+            >
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 12, width: 360 }}>
+                <Checkbox
+                  card
+                  label="Pro plan"
+                  description="$12/month · Unlimited projects · Priority support"
+                  checked={plan === 'pro'}
+                  onChange={() => setPlan('pro')}
+                />
+                <Checkbox
+                  card
+                  label="Team plan"
+                  description="$49/month · Up to 10 members · Admin controls"
+                  checked={plan === 'team'}
+                  onChange={() => setPlan('team')}
+                />
+                <Checkbox
+                  card
+                  label="Enterprise"
+                  description="Custom pricing · Unlimited members · SLA"
+                  checked={plan === 'enterprise'}
+                  onChange={() => setPlan('enterprise')}
+                />
+                <Checkbox
+                  card
+                  label="Unavailable plan"
+                  description="This option is currently disabled"
+                  disabled
+                />
+              </div>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={CARD_CODE} />
+          
+            {/* ── Section 7: CheckboxGroup with select all ── */}
+            <ComponentPreview
+              title="CheckboxGroup — select all"
+              description="Managed group with auto indeterminate state on the select-all parent"
+            >
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                <CheckboxGroup
+                  legend="User permissions"
+                  selectAll
+                  selectAllLabel="All permissions"
+                  value={permissions}
+                  onChange={setPermissions}
+                >
+                  <Checkbox value="read"   label="Read"   helperText="View all content" />
+                  <Checkbox value="write"  label="Write"  helperText="Create and edit content" />
+                  <Checkbox value="delete" label="Delete" helperText="Remove content permanently" />
+                  <Checkbox value="admin"  label="Admin"  helperText="Full system access" />
+                </CheckboxGroup>
+                <p style={{ fontSize: 13, color: 'var(--color-text-secondary)', marginTop: 4 }}>
+                  Selected: {permissions.join(', ') || 'none'}
+                </p>
+              </div>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={GROUP_CODE} />
+          
+            {/* ── Props tables ── */}
+            <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-text-primary)', marginBottom: 8, marginTop: 8 }}>
+              Checkbox props
             </p>
+          
+            <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-text-primary)', marginBottom: 8, marginTop: 24 }}>
+              CheckboxGroup props
+            </p>
+          
           </div>
-        </ComponentPreview>
+          </div>
+        </ComponentDocSection>
+        <ComponentDocSection id="props-api" title="Props / API">
+          <div className="component-doc-stack">
+            <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-text-primary)', marginBottom: 8, marginTop: 8 }}>Api Props</p>
+            <PropsTable props={API_PROPS} />
+          </div>
+        </ComponentDocSection>
 
-        <CodeBlock filename="App.tsx" code={GROUP_CODE} />
-
-        {/* ── Props tables ── */}
-        <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-text-primary)', marginBottom: 8, marginTop: 8 }}>
-          Checkbox props
-        </p>
-        <PropsTable props={CHECKBOX_PROPS} />
-
-        <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-text-primary)', marginBottom: 8, marginTop: 24 }}>
-          CheckboxGroup props
-        </p>
-        <PropsTable props={GROUP_PROPS} />
-
-      </div>
+        <ComponentDocSection id="related-components" title="Related components">
+          <div className="component-doc-prose">
+          <ul className="component-doc-prose">
+            <li>Use Checkbox alongside Button for primary actions.</li>
+            <li>Pair with Alert or NotificationCenter for contextual feedback.</li>
+            <li>Use layout containers to keep checkbox behavior visually consistent.</li>
+          </ul>
+          </div>
+        </ComponentDocSection>
+      </ComponentDocumentation>
     </div>
-  );
-}
+  )
+  }

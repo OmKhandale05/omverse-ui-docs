@@ -6,6 +6,7 @@ import { PageHeader } from '@/components/ui/PageHeader';
 import { ComponentPreview } from '@/components/ui/ComponentPreview';
 import { CodeBlock } from '@/components/ui/CodeBlock';
 import { PropsTable } from '@/components/ui/PropsTable';
+import { ComponentDocSection, ComponentDocumentation } from '@/components/docs/ComponentDocumentation'
 
 /* ─── Props tables ─── */
 
@@ -35,6 +36,16 @@ const GROUP_PROPS = [
   { name: 'variant',    type: "'outlined' | 'filled' | 'tonal' | 'elevated'",                                 default: '—',         description: 'Variant applied to all chips' },
   { name: 'children',  type: 'ReactNode',                                                                      default: '—',         description: 'Chip components with a value prop' },
 ] as const satisfies { name: string; type: string; default: string; description: string }[];
+
+const API_PROPS = [
+  ...CHIP_PROPS,
+  ...GROUP_PROPS,
+] as const satisfies {
+  name: string;
+  type: string;
+  default: string;
+  description: string;
+}[];
 
 /* ─── Code snippets ─── */
 
@@ -132,253 +143,333 @@ export default function ChipPage() {
   const [filter, setFilter] = useState<string[]>(['all']);
   const [emails, setEmails] = useState(['john@example.com', 'alice@example.com', 'bob@example.com']);
 
-  return (
+return (
     <div>
-      {/* ── Page header ── */}
-      <PageHeader
-        breadcrumb={['Components', 'Data Display', 'Chip']}
-        title="Chip"
-        description="4 variants · 6 colors · 3 sizes · ChipGroup single/multi · icons · avatar · badge · removable"
-        tags={['Variants', 'Colors', 'Single select', 'Multi select', 'Overflow', 'Icons', 'Badge', 'Loading', 'Removable', 'Avatar', 'Color dot', 'Sizes']}
-      />
+            <PageHeader        breadcrumb={['Components', 'Data Display', 'Chip']}        title="Chip"        description="4 variants · 6 colors · 3 sizes · ChipGroup single/multi · icons · avatar · badge · removable"        tags={['Variants', 'Colors', 'Single select', 'Multi select', 'Overflow', 'Icons', 'Badge', 'Loading', 'Removable', 'Avatar', 'Color dot', 'Sizes']}      />
 
-      {/* ── Content ── */}
-      <div style={{ padding: '28px 40px' }}>
-
-        {/* ── Section 1: Variants ── */}
-        <ComponentPreview
-          title="Variants"
-          description="outlined, filled, tonal, and elevated chip styles"
-        >
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-            <Chip variant="outlined">Outlined (default)</Chip>
-            <Chip variant="filled">Filled</Chip>
-            <Chip variant="tonal">Tonal</Chip>
-            <Chip variant="elevated">Elevated</Chip>
+      <ComponentDocumentation>
+        <ComponentDocSection id="overview" title="Overview" description="4 variants · 6 colors · 3 sizes · ChipGroup single/multi · icons · avatar · badge · removable">
+          <div className="component-doc-prose">
+            <p>Use Chip to present and interact with structured information in a predictable, accessible way.</p>
+            <p>The component examples below demonstrate practical variations you can adapt to your own interface.</p>
           </div>
-        </ComponentPreview>
+        </ComponentDocSection>
 
-        <CodeBlock filename="App.tsx" code={VARIANTS_CODE} />
+        <ComponentDocSection id="anatomy" title="Anatomy">
+          <ul className="component-doc-prose">
+            <li>Root container and spacing boundary.</li>
+            <li>Primary content and optional secondary metadata.</li>
+            <li>State indicators and utility affordances (icons, badges, controls).</li>
+            <li>Optional helper text, grouping, and behavioral wrappers.</li>
+          </ul>
+        </ComponentDocSection>
 
-        {/* ── Section 2: Colors selected state ── */}
-        <ComponentPreview
-          title="Colors — selected state"
-          description="All six color variants shown in outlined and filled styles"
-        >
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-              <Chip color="default"   variant="outlined" selected>Default</Chip>
-              <Chip color="secondary" variant="outlined" selected>Secondary</Chip>
-              <Chip color="success"   variant="outlined" selected>Success</Chip>
-              <Chip color="warning"   variant="outlined" selected>Warning</Chip>
-              <Chip color="error"     variant="outlined" selected>Error</Chip>
-              <Chip color="info"      variant="outlined" selected>Info</Chip>
-            </div>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-              <Chip color="default"   variant="filled" selected>Default</Chip>
-              <Chip color="secondary" variant="filled" selected>Secondary</Chip>
-              <Chip color="success"   variant="filled" selected>Success</Chip>
-              <Chip color="warning"   variant="filled" selected>Warning</Chip>
-              <Chip color="error"     variant="filled" selected>Error</Chip>
-              <Chip color="info"      variant="filled" selected>Info</Chip>
-            </div>
+        <ComponentDocSection id="when-to-use" title="When to use">
+          <ul className="component-doc-prose">
+            <li>Choose Chip when a repeated, structured interaction is required.</li>
+            <li>Use it for clear, consistent operations across similar surfaces.</li>
+            <li>Use in forms, lists, and action workflows where clarity matters.</li>
+          </ul>
+        </ComponentDocSection>
+
+        <ComponentDocSection id="when-not-to-use" title="When not to use">
+          <ul className="component-doc-prose">
+            <li>Do not use only for decorative layout without interaction meaning.</li>
+            <li>Avoid duplicating the same behavior without distinct user context.</li>
+            <li>Prefer simpler HTML or textual content for static, non-interactive labels.</li>
+          </ul>
+        </ComponentDocSection>
+
+        <ComponentDocSection id="variants" title="Variants">
+          <div className="component-doc-stack">
+            <p>Component variants should be documented by API props and examples below.</p>
           </div>
-        </ComponentPreview>
+        </ComponentDocSection>
 
-        <CodeBlock filename="App.tsx" code={COLORS_CODE} />
-
-        {/* ── Section 3: ChipGroup single select ── */}
-        <ComponentPreview
-          title="ChipGroup — single select"
-          description="mode=single allows only one chip to be active at a time"
-        >
-          <ChipGroup
-            mode="single"
-            value={filter}
-            onChange={setFilter}
-            variant="filled"
-          >
-            <Chip value="all">All</Chip>
-            <Chip value="active">Active</Chip>
-            <Chip value="pending">Pending</Chip>
-            <Chip value="archived">Archived</Chip>
-          </ChipGroup>
-        </ComponentPreview>
-
-        <CodeBlock filename="App.tsx" code={SINGLE_CODE} />
-
-        {/* ── Section 4: ChipGroup multi select ── */}
-        <ComponentPreview
-          title="ChipGroup — multi select"
-          description="mode=multi allows any number of chips to be selected simultaneously"
-        >
-          <ChipGroup
-            mode="multi"
-            value={tags}
-            onChange={setTags}
-          >
-            <Chip value="react">React</Chip>
-            <Chip value="ts">TypeScript</Chip>
-            <Chip value="tailwind">Tailwind</Chip>
-            <Chip value="vue">Vue</Chip>
-            <Chip value="angular">Angular</Chip>
-            <Chip value="svelte">Svelte</Chip>
-          </ChipGroup>
-        </ComponentPreview>
-
-        <CodeBlock filename="App.tsx" code={MULTI_CODE} />
-
-        {/* ── Section 5: Overflow ── */}
-        <ComponentPreview
-          title="Overflow"
-          description="max prop limits visible chips and adds a +N more indicator"
-        >
-          <ChipGroup
-            mode="multi"
-            value={tags}
-            onChange={setTags}
-            max={3}
-          >
-            <Chip value="react">React</Chip>
-            <Chip value="ts">TypeScript</Chip>
-            <Chip value="tailwind">Tailwind</Chip>
-            <Chip value="vue">Vue</Chip>
-            <Chip value="angular">Angular</Chip>
-          </ChipGroup>
-        </ComponentPreview>
-
-        <CodeBlock filename="App.tsx" code={OVERFLOW_CODE} />
-
-        {/* ── Section 6: With icons ── */}
-        <ComponentPreview
-          title="With icons"
-          description="leadingIcon renders an icon before the label — must be a valid IconName from omverse-ui"
-        >
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-            <Chip leadingIcon="star">Starred</Chip>
-            <Chip leadingIcon="settings">Settings</Chip>
-            <Chip leadingIcon="bell"  color="warning" variant="tonal">Alerts</Chip>
-            <Chip leadingIcon="check" color="success" variant="tonal">Done</Chip>
+        <ComponentDocSection id="states" title="States">
+          <div className="component-doc-stack">
+            <p>Common states include idle, active, disabled, focused, and loading/pending states where applicable.</p>
           </div>
-        </ComponentPreview>
+        </ComponentDocSection>
 
-        <CodeBlock filename="App.tsx" code={ICONS_CODE} />
-
-        {/* ── Section 7: With badge ── */}
-        <ComponentPreview
-          title="With badge"
-          description="badgeCount shows a numeric badge after the label"
-        >
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-            <Chip badgeCount={4}>Inbox</Chip>
-            <Chip badgeCount={12} color="error"  variant="tonal">Unread</Chip>
-            <Chip badgeCount={3}  color="info"   variant="filled">Mentions</Chip>
+        <ComponentDocSection id="behavior" title="Behavior">
+          <div className="component-doc-stack">
+            <p>Behavior should remain deterministic and keyboard-friendly, with clear visual feedback for every state transition.</p>
           </div>
-        </ComponentPreview>
+        </ComponentDocSection>
 
-        <CodeBlock filename="App.tsx" code={BADGE_CODE} />
+        <ComponentDocSection id="accessibility" title="Accessibility">
+          <ul className="component-doc-prose">
+            <li>Use semantic structure and visible labels whenever possible.</li>
+            <li>Preserve keyboard navigation and focus visibility.</li>
+            <li>Announce status and changes when context requires it.</li>
+          </ul>
+        </ComponentDocSection>
 
-        {/* ── Section 8: Loading ── */}
-        <ComponentPreview
-          title="Loading"
-          description="loading prop replaces the chip content with a spinner"
-        >
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-            <Chip loading>Processing...</Chip>
-            <Chip loading color="secondary" variant="tonal">Uploading...</Chip>
-          </div>
-        </ComponentPreview>
+        <ComponentDocSection id="content-guidelines" title="Content guidelines">
+          <ul className="component-doc-prose">
+            <li>Prefer short, clear labels.</li>
+            <li>Keep content actions scannable and outcome-oriented.</li>
+            <li>Use consistent wording across similar components.</li>
+          </ul>
+        </ComponentDocSection>
 
-        <CodeBlock filename="App.tsx" code={LOADING_CODE} />
-
-        {/* ── Section 9: Input chips — removable ── */}
-        <ComponentPreview
-          title="Input chips — removable"
-          description="removable adds a × button; onRemove fires when it's clicked"
-        >
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-            {emails.map(email => (
-              <Chip
-                key={email}
-                removable
-                onRemove={() => setEmails(prev => prev.filter(e => e !== email))}
-                variant="tonal"
+        <ComponentDocSection id="examples" title="Examples">
+          <div className="component-doc-stack">
+          {/* ── Content ── */}
+          <div style={{ padding: '28px 40px' }}>
+          
+            {/* ── Section 1: Variants ── */}
+            <ComponentPreview
+              title="Variants"
+              description="outlined, filled, tonal, and elevated chip styles"
+            >
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                <Chip variant="outlined">Outlined (default)</Chip>
+                <Chip variant="filled">Filled</Chip>
+                <Chip variant="tonal">Tonal</Chip>
+                <Chip variant="elevated">Elevated</Chip>
+              </div>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={VARIANTS_CODE} />
+          
+            {/* ── Section 2: Colors selected state ── */}
+            <ComponentPreview
+              title="Colors — selected state"
+              description="All six color variants shown in outlined and filled styles"
+            >
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                  <Chip color="default"   variant="outlined" selected>Default</Chip>
+                  <Chip color="secondary" variant="outlined" selected>Secondary</Chip>
+                  <Chip color="success"   variant="outlined" selected>Success</Chip>
+                  <Chip color="warning"   variant="outlined" selected>Warning</Chip>
+                  <Chip color="error"     variant="outlined" selected>Error</Chip>
+                  <Chip color="info"      variant="outlined" selected>Info</Chip>
+                </div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                  <Chip color="default"   variant="filled" selected>Default</Chip>
+                  <Chip color="secondary" variant="filled" selected>Secondary</Chip>
+                  <Chip color="success"   variant="filled" selected>Success</Chip>
+                  <Chip color="warning"   variant="filled" selected>Warning</Chip>
+                  <Chip color="error"     variant="filled" selected>Error</Chip>
+                  <Chip color="info"      variant="filled" selected>Info</Chip>
+                </div>
+              </div>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={COLORS_CODE} />
+          
+            {/* ── Section 3: ChipGroup single select ── */}
+            <ComponentPreview
+              title="ChipGroup — single select"
+              description="mode=single allows only one chip to be active at a time"
+            >
+              <ChipGroup
+                mode="single"
+                value={filter}
+                onChange={setFilter}
+                variant="filled"
               >
-                {email}
-              </Chip>
-            ))}
+                <Chip value="all">All</Chip>
+                <Chip value="active">Active</Chip>
+                <Chip value="pending">Pending</Chip>
+                <Chip value="archived">Archived</Chip>
+              </ChipGroup>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={SINGLE_CODE} />
+          
+            {/* ── Section 4: ChipGroup multi select ── */}
+            <ComponentPreview
+              title="ChipGroup — multi select"
+              description="mode=multi allows any number of chips to be selected simultaneously"
+            >
+              <ChipGroup
+                mode="multi"
+                value={tags}
+                onChange={setTags}
+              >
+                <Chip value="react">React</Chip>
+                <Chip value="ts">TypeScript</Chip>
+                <Chip value="tailwind">Tailwind</Chip>
+                <Chip value="vue">Vue</Chip>
+                <Chip value="angular">Angular</Chip>
+                <Chip value="svelte">Svelte</Chip>
+              </ChipGroup>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={MULTI_CODE} />
+          
+            {/* ── Section 5: Overflow ── */}
+            <ComponentPreview
+              title="Overflow"
+              description="max prop limits visible chips and adds a +N more indicator"
+            >
+              <ChipGroup
+                mode="multi"
+                value={tags}
+                onChange={setTags}
+                max={3}
+              >
+                <Chip value="react">React</Chip>
+                <Chip value="ts">TypeScript</Chip>
+                <Chip value="tailwind">Tailwind</Chip>
+                <Chip value="vue">Vue</Chip>
+                <Chip value="angular">Angular</Chip>
+              </ChipGroup>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={OVERFLOW_CODE} />
+          
+            {/* ── Section 6: With icons ── */}
+            <ComponentPreview
+              title="With icons"
+              description="leadingIcon renders an icon before the label — must be a valid IconName from omverse-ui"
+            >
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                <Chip leadingIcon="star">Starred</Chip>
+                <Chip leadingIcon="settings">Settings</Chip>
+                <Chip leadingIcon="bell"  color="warning" variant="tonal">Alerts</Chip>
+                <Chip leadingIcon="check" color="success" variant="tonal">Done</Chip>
+              </div>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={ICONS_CODE} />
+          
+            {/* ── Section 7: With badge ── */}
+            <ComponentPreview
+              title="With badge"
+              description="badgeCount shows a numeric badge after the label"
+            >
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                <Chip badgeCount={4}>Inbox</Chip>
+                <Chip badgeCount={12} color="error"  variant="tonal">Unread</Chip>
+                <Chip badgeCount={3}  color="info"   variant="filled">Mentions</Chip>
+              </div>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={BADGE_CODE} />
+          
+            {/* ── Section 8: Loading ── */}
+            <ComponentPreview
+              title="Loading"
+              description="loading prop replaces the chip content with a spinner"
+            >
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                <Chip loading>Processing...</Chip>
+                <Chip loading color="secondary" variant="tonal">Uploading...</Chip>
+              </div>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={LOADING_CODE} />
+          
+            {/* ── Section 9: Input chips — removable ── */}
+            <ComponentPreview
+              title="Input chips — removable"
+              description="removable adds a × button; onRemove fires when it's clicked"
+            >
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                {emails.map(email => (
+                  <Chip
+                    key={email}
+                    removable
+                    onRemove={() => setEmails(prev => prev.filter(e => e !== email))}
+                    variant="tonal"
+                  >
+                    {email}
+                  </Chip>
+                ))}
+              </div>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={REMOVABLE_CODE} />
+          
+            {/* ── Section 10: With avatar ── */}
+            <ComponentPreview
+              title="With avatar"
+              description="avatarSrc renders a profile image before the label"
+            >
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                <Chip avatarSrc="https://i.pravatar.cc/150?img=1" avatarAlt="John">John Doe</Chip>
+                <Chip avatarSrc="https://i.pravatar.cc/150?img=5" avatarAlt="Jane">Jane Smith</Chip>
+                <Chip avatarSrc="https://i.pravatar.cc/150?img=3" avatarAlt="Bob">Bob Lee</Chip>
+              </div>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={AVATAR_CODE} />
+          
+            {/* ── Section 11: Color dot ── */}
+            <ComponentPreview
+              title="Color dot"
+              description="colorDot renders a small colored circle before the label"
+            >
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                <Chip colorDot="#10B981">Design</Chip>
+                <Chip colorDot="#3B82F6">Engineering</Chip>
+                <Chip colorDot="#F59E0B">Marketing</Chip>
+                <Chip colorDot="#EF4444">On hold</Chip>
+              </div>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={COLOR_DOT_CODE} />
+          
+            {/* ── Section 12: Sizes ── */}
+            <ComponentPreview
+              title="Sizes"
+              description="sm, md (default), and lg chip sizes"
+            >
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, alignItems: 'center' }}>
+                <Chip size="sm" variant="filled">Small</Chip>
+                <Chip size="md" variant="filled">Medium</Chip>
+                <Chip size="lg" variant="filled">Large</Chip>
+              </div>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={SIZES_CODE} />
+          
+            {/* ── Section 13: Disabled ── */}
+            <ComponentPreview
+              title="Disabled"
+              description="disabled prevents all interaction"
+            >
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                <Chip disabled>Outlined</Chip>
+                <Chip disabled variant="filled">Filled</Chip>
+                <Chip disabled variant="tonal">Tonal</Chip>
+              </div>
+            </ComponentPreview>
+          
+            {/* ── Props tables ── */}
+            <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-text-primary)', marginBottom: 8, marginTop: 8 }}>
+              Chip props
+            </p>
+          
+            <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-text-primary)', marginBottom: 8, marginTop: 24 }}>
+              ChipGroup props
+            </p>
+          
           </div>
-        </ComponentPreview>
-
-        <CodeBlock filename="App.tsx" code={REMOVABLE_CODE} />
-
-        {/* ── Section 10: With avatar ── */}
-        <ComponentPreview
-          title="With avatar"
-          description="avatarSrc renders a profile image before the label"
-        >
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-            <Chip avatarSrc="https://i.pravatar.cc/150?img=1" avatarAlt="John">John Doe</Chip>
-            <Chip avatarSrc="https://i.pravatar.cc/150?img=5" avatarAlt="Jane">Jane Smith</Chip>
-            <Chip avatarSrc="https://i.pravatar.cc/150?img=3" avatarAlt="Bob">Bob Lee</Chip>
           </div>
-        </ComponentPreview>
-
-        <CodeBlock filename="App.tsx" code={AVATAR_CODE} />
-
-        {/* ── Section 11: Color dot ── */}
-        <ComponentPreview
-          title="Color dot"
-          description="colorDot renders a small colored circle before the label"
-        >
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-            <Chip colorDot="#10B981">Design</Chip>
-            <Chip colorDot="#3B82F6">Engineering</Chip>
-            <Chip colorDot="#F59E0B">Marketing</Chip>
-            <Chip colorDot="#EF4444">On hold</Chip>
+        </ComponentDocSection>
+        <ComponentDocSection id="props-api" title="Props / API">
+          <div className="component-doc-stack">
+            <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-text-primary)', marginBottom: 8, marginTop: 8 }}>Api Props</p>
+            <PropsTable props={API_PROPS} />
           </div>
-        </ComponentPreview>
+        </ComponentDocSection>
 
-        <CodeBlock filename="App.tsx" code={COLOR_DOT_CODE} />
-
-        {/* ── Section 12: Sizes ── */}
-        <ComponentPreview
-          title="Sizes"
-          description="sm, md (default), and lg chip sizes"
-        >
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, alignItems: 'center' }}>
-            <Chip size="sm" variant="filled">Small</Chip>
-            <Chip size="md" variant="filled">Medium</Chip>
-            <Chip size="lg" variant="filled">Large</Chip>
+        <ComponentDocSection id="related-components" title="Related components">
+          <div className="component-doc-prose">
+          <ul className="component-doc-prose">
+            <li>Use Chip alongside Button for primary actions.</li>
+            <li>Pair with Alert or NotificationCenter for contextual feedback.</li>
+            <li>Use layout containers to keep chip behavior visually consistent.</li>
+          </ul>
           </div>
-        </ComponentPreview>
-
-        <CodeBlock filename="App.tsx" code={SIZES_CODE} />
-
-        {/* ── Section 13: Disabled ── */}
-        <ComponentPreview
-          title="Disabled"
-          description="disabled prevents all interaction"
-        >
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-            <Chip disabled>Outlined</Chip>
-            <Chip disabled variant="filled">Filled</Chip>
-            <Chip disabled variant="tonal">Tonal</Chip>
-          </div>
-        </ComponentPreview>
-
-        {/* ── Props tables ── */}
-        <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-text-primary)', marginBottom: 8, marginTop: 8 }}>
-          Chip props
-        </p>
-        <PropsTable props={CHIP_PROPS} />
-
-        <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-text-primary)', marginBottom: 8, marginTop: 24 }}>
-          ChipGroup props
-        </p>
-        <PropsTable props={GROUP_PROPS} />
-
-      </div>
+        </ComponentDocSection>
+      </ComponentDocumentation>
     </div>
-  );
-}
+  )
+  }

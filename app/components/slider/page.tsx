@@ -6,6 +6,7 @@ import { PageHeader } from '@/components/ui/PageHeader';
 import { ComponentPreview } from '@/components/ui/ComponentPreview';
 import { CodeBlock } from '@/components/ui/CodeBlock';
 import { PropsTable } from '@/components/ui/PropsTable';
+import { ComponentDocSection, ComponentDocumentation } from '@/components/docs/ComponentDocumentation'
 
 /* ─── Props tables ─── */
 
@@ -44,6 +45,16 @@ const RANGE_PROPS = [
   { name: 'formatValue',  type: '(value: number) => string',                                           default: '—',       description: 'Formats the tooltip / label values' },
   { name: 'disabled',     type: 'boolean',                                                              default: 'false',   description: 'Disables the range slider' },
 ] as const satisfies { name: string; type: string; default: string; description: string }[];
+
+const API_PROPS = [
+  ...SLIDER_PROPS,
+  ...RANGE_PROPS,
+] as const satisfies {
+  name: string;
+  type: string;
+  default: string;
+  description: string;
+}[];
 
 /* ─── Code snippets ─── */
 
@@ -145,192 +156,272 @@ export default function SliderPage() {
     { value: 100, label: '100°' },
   ];
 
-  return (
+return (
     <div>
-      {/* ── Page header ── */}
-      <PageHeader
-        breadcrumb={['Components', 'Form', 'Slider']}
-        title="Slider"
-        description="6 colors · 5 sizes · thumb styles · track styles · marks · range · vertical"
-        tags={['Basic', 'Colors', 'Thumb styles', 'Track styles', 'Sizes', 'Marks', 'With input', 'Range', 'Vertical']}
-      />
+            <PageHeader        breadcrumb={['Components', 'Form', 'Slider']}        title="Slider"        description="6 colors · 5 sizes · thumb styles · track styles · marks · range · vertical"        tags={['Basic', 'Colors', 'Thumb styles', 'Track styles', 'Sizes', 'Marks', 'With input', 'Range', 'Vertical']}      />
 
-      {/* ── Content ── */}
-      <div style={{ padding: '28px 40px' }}>
-
-        {/* ── Section 1: Basic ── */}
-        <ComponentPreview
-          title="Basic"
-          description="showLabels shows min/max, showTooltip shows the current value above the thumb"
-        >
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 24, width: '100%', maxWidth: 480 }}>
-            <Slider value={volume} onChange={setVolume} showLabels showTooltip />
-            <Slider value={volume} onChange={setVolume} showLabels showTooltip disabled />
+      <ComponentDocumentation>
+        <ComponentDocSection id="overview" title="Overview" description="6 colors · 5 sizes · thumb styles · track styles · marks · range · vertical">
+          <div className="component-doc-prose">
+            <p>Use Slider to present and interact with structured information in a predictable, accessible way.</p>
+            <p>The component examples below demonstrate practical variations you can adapt to your own interface.</p>
           </div>
-        </ComponentPreview>
+        </ComponentDocSection>
 
-        <CodeBlock filename="App.tsx" code={BASIC_CODE} />
+        <ComponentDocSection id="anatomy" title="Anatomy">
+          <ul className="component-doc-prose">
+            <li>Root container and spacing boundary.</li>
+            <li>Primary content and optional secondary metadata.</li>
+            <li>State indicators and utility affordances (icons, badges, controls).</li>
+            <li>Optional helper text, grouping, and behavioral wrappers.</li>
+          </ul>
+        </ComponentDocSection>
 
-        {/* ── Section 2: Colors ── */}
-        <ComponentPreview
-          title="Colors"
-          description="Six color variants for the track and thumb"
-        >
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 20, width: '100%', maxWidth: 480 }}>
-            <Slider defaultValue={60} color="default"   showTooltip />
-            <Slider defaultValue={60} color="secondary" showTooltip />
-            <Slider defaultValue={60} color="success"   showTooltip />
-            <Slider defaultValue={60} color="warning"   showTooltip />
-            <Slider defaultValue={60} color="error"     showTooltip />
+        <ComponentDocSection id="when-to-use" title="When to use">
+          <ul className="component-doc-prose">
+            <li>Choose Slider when a repeated, structured interaction is required.</li>
+            <li>Use it for clear, consistent operations across similar surfaces.</li>
+            <li>Use in forms, lists, and action workflows where clarity matters.</li>
+          </ul>
+        </ComponentDocSection>
+
+        <ComponentDocSection id="when-not-to-use" title="When not to use">
+          <ul className="component-doc-prose">
+            <li>Do not use only for decorative layout without interaction meaning.</li>
+            <li>Avoid duplicating the same behavior without distinct user context.</li>
+            <li>Prefer simpler HTML or textual content for static, non-interactive labels.</li>
+          </ul>
+        </ComponentDocSection>
+
+        <ComponentDocSection id="variants" title="Variants">
+          <div className="component-doc-stack">
+            <p>Component variants should be documented by API props and examples below.</p>
           </div>
-        </ComponentPreview>
+        </ComponentDocSection>
 
-        <CodeBlock filename="App.tsx" code={COLORS_CODE} />
-
-        {/* ── Section 3: Thumb styles ── */}
-        <ComponentPreview
-          title="Thumb styles"
-          description="default, pill, square, and bubble thumb shapes"
-        >
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 24, width: '100%', maxWidth: 480 }}>
-            <Slider defaultValue={50} thumbStyle="default" showTooltip />
-            <Slider defaultValue={50} thumbStyle="pill"    showTooltip />
-            <Slider defaultValue={50} thumbStyle="square"  showTooltip />
-            <Slider defaultValue={50} thumbStyle="bubble"  showTooltip />
+        <ComponentDocSection id="states" title="States">
+          <div className="component-doc-stack">
+            <p>Common states include idle, active, disabled, focused, and loading/pending states where applicable.</p>
           </div>
-        </ComponentPreview>
+        </ComponentDocSection>
 
-        <CodeBlock filename="App.tsx" code={THUMB_CODE} />
-
-        {/* ── Section 4: Track styles ── */}
-        <ComponentPreview
-          title="Track styles"
-          description="default, glow, gradient, and spectrum filled track styles"
-        >
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 24, width: '100%', maxWidth: 480 }}>
-            <Slider defaultValue={65} trackStyle="default"  showTooltip formatValue={v => `${v}%`} />
-            <Slider defaultValue={65} trackStyle="glow"     showTooltip formatValue={v => `${v}%`} />
-            <Slider defaultValue={65} trackStyle="gradient" showTooltip formatValue={v => `${v}%`} />
-            <Slider defaultValue={65} trackStyle="spectrum" showTooltip formatValue={v => `${v}%`} />
+        <ComponentDocSection id="behavior" title="Behavior">
+          <div className="component-doc-stack">
+            <p>Behavior should remain deterministic and keyboard-friendly, with clear visual feedback for every state transition.</p>
           </div>
-        </ComponentPreview>
+        </ComponentDocSection>
 
-        <CodeBlock filename="App.tsx" code={TRACK_CODE} />
+        <ComponentDocSection id="accessibility" title="Accessibility">
+          <ul className="component-doc-prose">
+            <li>Use semantic structure and visible labels whenever possible.</li>
+            <li>Preserve keyboard navigation and focus visibility.</li>
+            <li>Announce status and changes when context requires it.</li>
+          </ul>
+        </ComponentDocSection>
 
-        {/* ── Section 5: Sizes ── */}
-        <ComponentPreview
-          title="Sizes"
-          description="Five track heights: xs, sm, md (default), lg, xl"
-        >
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 20, width: '100%', maxWidth: 480 }}>
-            <Slider defaultValue={50} size="xs" showTooltip />
-            <Slider defaultValue={50} size="sm" showTooltip />
-            <Slider defaultValue={50} size="md" showTooltip />
-            <Slider defaultValue={50} size="lg" showTooltip />
-            <Slider defaultValue={50} size="xl" showTooltip />
+        <ComponentDocSection id="content-guidelines" title="Content guidelines">
+          <ul className="component-doc-prose">
+            <li>Prefer short, clear labels.</li>
+            <li>Keep content actions scannable and outcome-oriented.</li>
+            <li>Use consistent wording across similar components.</li>
+          </ul>
+        </ComponentDocSection>
+
+        <ComponentDocSection id="examples" title="Examples">
+          <div className="component-doc-stack">
+          {/* ── Content ── */}
+          <div style={{ padding: '28px 40px' }}>
+          
+            {/* ── Section 1: Basic ── */}
+            <ComponentPreview
+              title="Basic"
+              description="showLabels shows min/max, showTooltip shows the current value above the thumb"
+            >
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 24, width: '100%', maxWidth: 480 }}>
+                <Slider value={volume} onChange={setVolume} showLabels showTooltip />
+                <Slider value={volume} onChange={setVolume} showLabels showTooltip disabled />
+              </div>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={BASIC_CODE} />
+          
+            {/* ── Section 2: Colors ── */}
+            <ComponentPreview
+              title="Colors"
+              description="Six color variants for the track and thumb"
+            >
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 20, width: '100%', maxWidth: 480 }}>
+                <Slider defaultValue={60} color="default"   showTooltip />
+                <Slider defaultValue={60} color="secondary" showTooltip />
+                <Slider defaultValue={60} color="success"   showTooltip />
+                <Slider defaultValue={60} color="warning"   showTooltip />
+                <Slider defaultValue={60} color="error"     showTooltip />
+              </div>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={COLORS_CODE} />
+          
+            {/* ── Section 3: Thumb styles ── */}
+            <ComponentPreview
+              title="Thumb styles"
+              description="default, pill, square, and bubble thumb shapes"
+            >
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 24, width: '100%', maxWidth: 480 }}>
+                <Slider defaultValue={50} thumbStyle="default" showTooltip />
+                <Slider defaultValue={50} thumbStyle="pill"    showTooltip />
+                <Slider defaultValue={50} thumbStyle="square"  showTooltip />
+                <Slider defaultValue={50} thumbStyle="bubble"  showTooltip />
+              </div>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={THUMB_CODE} />
+          
+            {/* ── Section 4: Track styles ── */}
+            <ComponentPreview
+              title="Track styles"
+              description="default, glow, gradient, and spectrum filled track styles"
+            >
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 24, width: '100%', maxWidth: 480 }}>
+                <Slider defaultValue={65} trackStyle="default"  showTooltip formatValue={v => `${v}%`} />
+                <Slider defaultValue={65} trackStyle="glow"     showTooltip formatValue={v => `${v}%`} />
+                <Slider defaultValue={65} trackStyle="gradient" showTooltip formatValue={v => `${v}%`} />
+                <Slider defaultValue={65} trackStyle="spectrum" showTooltip formatValue={v => `${v}%`} />
+              </div>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={TRACK_CODE} />
+          
+            {/* ── Section 5: Sizes ── */}
+            <ComponentPreview
+              title="Sizes"
+              description="Five track heights: xs, sm, md (default), lg, xl"
+            >
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 20, width: '100%', maxWidth: 480 }}>
+                <Slider defaultValue={50} size="xs" showTooltip />
+                <Slider defaultValue={50} size="sm" showTooltip />
+                <Slider defaultValue={50} size="md" showTooltip />
+                <Slider defaultValue={50} size="lg" showTooltip />
+                <Slider defaultValue={50} size="xl" showTooltip />
+              </div>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={SIZES_CODE} />
+          
+            {/* ── Section 6: With marks ── */}
+            <ComponentPreview
+              title="With marks"
+              description="Auto tick marks every step, or custom marks with labels"
+            >
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 36, width: '100%', maxWidth: 480 }}>
+                <Slider value={temp} onChange={setTemp} step={20} showMarks showTooltip showLabels />
+                <Slider value={markValue} onChange={setMarkValue} marks={temperatureMarks} showTooltip showLabels />
+              </div>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={MARKS_CODE} />
+          
+            {/* ── Section 7: With input ── */}
+            <ComponentPreview
+              title="With input"
+              description="showInput adds a number input field that stays in sync with the slider"
+            >
+              <div style={{ width: '100%', maxWidth: 480 }}>
+                <Slider value={brightness} onChange={setBrightness} showInput showTooltip />
+              </div>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={INPUT_CODE} />
+          
+            {/* ── Section 8: Range slider ── */}
+            <ComponentPreview
+              title="Range slider"
+              description="RangeSlider lets the user select a min/max range with two thumbs"
+            >
+              <div style={{ width: '100%', maxWidth: 480 }}>
+                <RangeSlider
+                  value={price}
+                  onChange={setPrice}
+                  min={0}
+                  max={1000}
+                  showTooltip
+                  showLabels
+                  formatValue={v => `$${v}`}
+                />
+              </div>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={RANGE_CODE} />
+          
+            {/* ── Section 9: Vertical ── */}
+            <ComponentPreview
+              title="Vertical"
+              description="Set orientation=vertical for column-direction sliders"
+            >
+              <div style={{ height: 200 }}>
+                <Slider
+                  value={opacity}
+                  onChange={setOpacity}
+                  orientation="vertical"
+                  showTooltip
+                  showLabels
+                  formatValue={v => `${v}%`}
+                />
+              </div>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={VERTICAL_CODE} />
+          
+            {/* ── Section 10: Volume control ── */}
+            <ComponentPreview
+              title="Volume control"
+              description="Pair an Icon with a Slider for a compact media control"
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, width: '100%', maxWidth: 360 }}>
+                <i className="ti ti-volume" style={{ fontSize: 16, color: 'var(--color-text-secondary)', flexShrink: 0 }} aria-hidden="true" />
+                <Slider
+                  value={volume}
+                  onChange={setVolume}
+                  size="xs"
+                  thumbStyle="default"
+                  color="default"
+                  style={{ flex: 1 }}
+                />
+                <i className="ti ti-volume-2" style={{ fontSize: 20, color: 'var(--color-text-primary)', flexShrink: 0 }} aria-hidden="true" />
+                <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--color-text-primary)', minWidth: 28, textAlign: 'right' }}>{volume}</span>
+              </div>
+            </ComponentPreview>
+          
+            <CodeBlock filename="App.tsx" code={VOLUME_CODE} />
+          
+            {/* ── Props tables ── */}
+            <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-text-primary)', marginBottom: 8, marginTop: 8 }}>
+              Slider props
+            </p>
+          
+            <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-text-primary)', marginBottom: 8, marginTop: 24 }}>
+              RangeSlider props
+            </p>
+          
           </div>
-        </ComponentPreview>
-
-        <CodeBlock filename="App.tsx" code={SIZES_CODE} />
-
-        {/* ── Section 6: With marks ── */}
-        <ComponentPreview
-          title="With marks"
-          description="Auto tick marks every step, or custom marks with labels"
-        >
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 36, width: '100%', maxWidth: 480 }}>
-            <Slider value={temp} onChange={setTemp} step={20} showMarks showTooltip showLabels />
-            <Slider value={markValue} onChange={setMarkValue} marks={temperatureMarks} showTooltip showLabels />
           </div>
-        </ComponentPreview>
-
-        <CodeBlock filename="App.tsx" code={MARKS_CODE} />
-
-        {/* ── Section 7: With input ── */}
-        <ComponentPreview
-          title="With input"
-          description="showInput adds a number input field that stays in sync with the slider"
-        >
-          <div style={{ width: '100%', maxWidth: 480 }}>
-            <Slider value={brightness} onChange={setBrightness} showInput showTooltip />
+        </ComponentDocSection>
+        <ComponentDocSection id="props-api" title="Props / API">
+          <div className="component-doc-stack">
+            <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-text-primary)', marginBottom: 8, marginTop: 8 }}>Api Props</p>
+            <PropsTable props={API_PROPS} />
           </div>
-        </ComponentPreview>
+        </ComponentDocSection>
 
-        <CodeBlock filename="App.tsx" code={INPUT_CODE} />
-
-        {/* ── Section 8: Range slider ── */}
-        <ComponentPreview
-          title="Range slider"
-          description="RangeSlider lets the user select a min/max range with two thumbs"
-        >
-          <div style={{ width: '100%', maxWidth: 480 }}>
-            <RangeSlider
-              value={price}
-              onChange={setPrice}
-              min={0}
-              max={1000}
-              showTooltip
-              showLabels
-              formatValue={v => `$${v}`}
-            />
+        <ComponentDocSection id="related-components" title="Related components">
+          <div className="component-doc-prose">
+          <ul className="component-doc-prose">
+            <li>Use Slider alongside Button for primary actions.</li>
+            <li>Pair with Alert or NotificationCenter for contextual feedback.</li>
+            <li>Use layout containers to keep slider behavior visually consistent.</li>
+          </ul>
           </div>
-        </ComponentPreview>
-
-        <CodeBlock filename="App.tsx" code={RANGE_CODE} />
-
-        {/* ── Section 9: Vertical ── */}
-        <ComponentPreview
-          title="Vertical"
-          description="Set orientation=vertical for column-direction sliders"
-        >
-          <div style={{ height: 200 }}>
-            <Slider
-              value={opacity}
-              onChange={setOpacity}
-              orientation="vertical"
-              showTooltip
-              showLabels
-              formatValue={v => `${v}%`}
-            />
-          </div>
-        </ComponentPreview>
-
-        <CodeBlock filename="App.tsx" code={VERTICAL_CODE} />
-
-        {/* ── Section 10: Volume control ── */}
-        <ComponentPreview
-          title="Volume control"
-          description="Pair an Icon with a Slider for a compact media control"
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12, width: '100%', maxWidth: 360 }}>
-            <i className="ti ti-volume" style={{ fontSize: 16, color: 'var(--color-text-secondary)', flexShrink: 0 }} aria-hidden="true" />
-            <Slider
-              value={volume}
-              onChange={setVolume}
-              size="xs"
-              thumbStyle="default"
-              color="default"
-              style={{ flex: 1 }}
-            />
-            <i className="ti ti-volume-2" style={{ fontSize: 20, color: 'var(--color-text-primary)', flexShrink: 0 }} aria-hidden="true" />
-            <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--color-text-primary)', minWidth: 28, textAlign: 'right' }}>{volume}</span>
-          </div>
-        </ComponentPreview>
-
-        <CodeBlock filename="App.tsx" code={VOLUME_CODE} />
-
-        {/* ── Props tables ── */}
-        <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-text-primary)', marginBottom: 8, marginTop: 8 }}>
-          Slider props
-        </p>
-        <PropsTable props={SLIDER_PROPS} />
-
-        <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-text-primary)', marginBottom: 8, marginTop: 24 }}>
-          RangeSlider props
-        </p>
-        <PropsTable props={RANGE_PROPS} />
-
-      </div>
+        </ComponentDocSection>
+      </ComponentDocumentation>
     </div>
-  );
-}
+  )
+  }
