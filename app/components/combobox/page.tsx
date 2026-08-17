@@ -1,6 +1,7 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
+import { Combobox, type ComboboxOption } from 'omverse-ui'
 import { PageHeader } from '@/components/ui/PageHeader'
 import { ComponentPreview } from '@/components/ui/ComponentPreview'
 import { CodeBlock } from '@/components/ui/CodeBlock'
@@ -61,24 +62,27 @@ const MULTI_CODE = `<Combobox
   variant="filled"
 />`
 
-const PEOPLE = [
-  { id: 'maya', name: 'Maya Chen', role: 'Program manager' },
-  { id: 'noah', name: 'Noah Williams', role: 'Platform engineer' },
-  { id: 'aarav', name: 'Aarav Shah', role: 'Security lead' },
+const COMBO_OPTIONS: readonly ComboboxOption[] = [
+  { value: 'maya', label: 'Maya Chen', description: 'Program manager' },
+  { value: 'noah', label: 'Noah Williams', description: 'Platform engineer' },
+  { value: 'aarav', label: 'Aarav Shah', description: 'Security lead' },
 ]
 
 function ComboboxPreview() {
-  const [open, setOpen] = useState(false)
-  const [query, setQuery] = useState('')
   const [selected, setSelected] = useState('maya')
-  const options = useMemo(() => PEOPLE.filter((person) => `${person.name} ${person.role}`.toLowerCase().includes(query.toLowerCase())), [query])
-  const selectedPerson = PEOPLE.find((person) => person.id === selected)
-  return <div className="combobox-demo">
-    <label htmlFor="owner-combobox-demo">Project owner</label>
-    <div><span aria-hidden>⌕</span><input id="owner-combobox-demo" role="combobox" aria-expanded={open} aria-controls="owner-combobox-options" aria-autocomplete="list" value={open ? query : selectedPerson?.name ?? ''} placeholder="Search people…" onFocus={() => setOpen(true)} onChange={(event) => { setQuery(event.target.value); setOpen(true) }} onKeyDown={(event) => { if (event.key === 'Escape') setOpen(false) }} /><button type="button" aria-label={`${open ? 'Close' : 'Open'} Project owner options`} onClick={() => setOpen((value) => !value)}>⌄</button></div>
-    <small>Search by person, role, or project.</small>
-    {open && <div id="owner-combobox-options" role="listbox" aria-label="Project owner options">{options.length ? options.map((person) => <div key={person.id} role="option" aria-selected={person.id === selected} onMouseDown={(event) => event.preventDefault()} onClick={() => { setSelected(person.id); setQuery(''); setOpen(false) }}><span><strong>{person.name}</strong><small>{person.role}</small></span>{person.id === selected && <b aria-hidden>✓</b>}</div>) : <p role="status">No people found.</p>}</div>}
-  </div>
+  const [query, setQuery] = useState('')
+
+  return (
+    <Combobox
+      label="Project owner"
+      options={COMBO_OPTIONS}
+      value={selected}
+      inputValue={query}
+      onValueChange={(value) => setSelected(value as string)}
+      onInputValueChange={setQuery}
+      helperText="Search by person, role, or project."
+    />
+  )
 }
 
 export default function ComboboxPage() {
