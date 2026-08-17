@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Button } from 'omverse-ui'
+import { Button, Checkbox, IconButton, Toolbar } from 'omverse-ui'
 import { PageHeader } from '@/components/ui/PageHeader'
 import { ComponentPreview } from '@/components/ui/ComponentPreview'
 import { CodeBlock } from '@/components/ui/CodeBlock'
@@ -59,14 +59,28 @@ const CONTROLLED_CODE = `const [overflowOpen, setOverflowOpen] = useState(false)
 function ToolbarPreview() {
   const [selected, setSelected] = useState(true)
   const [overflowOpen, setOverflowOpen] = useState(false)
-
-  return <div className="toolbar-demo" role="toolbar" aria-label="Project actions">
-    <label className="toolbar-demo-select"><input type="checkbox" checked={selected} onChange={(event) => setSelected(event.target.checked)} /><span className="sr-only">Select all projects</span></label>
-    <div className="toolbar-demo-context"><strong>Migration projects</strong><small>{selected ? '3 selected' : 'No selection'}</small></div>
-    <div className="toolbar-demo-actions"><Button variant="outlined" disabled={!selected}>Assign</Button><Button>Add project</Button></div>
-    <button type="button" className="toolbar-demo-refresh" aria-label="Refresh projects">↻</button>
-    <div className="toolbar-demo-overflow"><button type="button" aria-label="More project actions" aria-expanded={overflowOpen} onClick={() => setOverflowOpen((open) => !open)}>•••</button>{overflowOpen && <div role="group" aria-label="More project actions"><button type="button">Duplicate</button><button type="button">Archive</button><button type="button">Delete</button></div>}</div>
-  </div>
+  return (
+    <Toolbar
+      label="Project actions"
+      leading={<Checkbox checked={selected} onChange={() => setSelected((value) => !value)} aria-label="Select all projects" />}
+      title="Migration projects"
+      description={selected ? '3 selected' : 'No selection'}
+      overflow={
+        <>
+          <Button variant="text">Duplicate</Button>
+          <Button variant="text">Archive</Button>
+          <Button variant="text">Delete</Button>
+        </>
+      }
+      overflowLabel="More project actions"
+      overflowOpen={overflowOpen}
+      onOverflowOpenChange={setOverflowOpen}
+      trailing={<IconButton icon="refresh" aria-label="Refresh projects" />}
+    >
+      <Button variant="outlined" disabled={!selected}>Assign</Button>
+      <Button>Add project</Button>
+    </Toolbar>
+  )
 }
 
 export default function ToolbarPage() {
