@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Button } from 'omverse-ui'
+import { Button, Input, SidePanel } from 'omverse-ui'
 import { PageHeader } from '@/components/ui/PageHeader'
 import { ComponentPreview } from '@/components/ui/ComponentPreview'
 import { CodeBlock } from '@/components/ui/CodeBlock'
@@ -59,8 +59,27 @@ const INLINE_CODE = `<SidePanel
 </SidePanel>`
 
 function SidePanelPreview() {
-  const [open, setOpen] = useState(true)
-  return <div className="side-panel-demo"><div className="side-panel-demo-stage"><span>Project workspace</span>{open && <section role="dialog" aria-labelledby="side-panel-demo-title"><header><span><strong id="side-panel-demo-title">Edit project</strong><small>Migration program</small></span><button type="button" aria-label="Close edit project panel" onClick={() => setOpen(false)}>×</button></header><div className="side-panel-demo-body"><label>Owner<input defaultValue="Maya Chen" /></label><label>Status<select defaultValue="Active"><option>Active</option><option>At risk</option></select></label></div><footer><button type="button" onClick={() => setOpen(false)}>Cancel</button><button type="button" onClick={() => setOpen(false)}>Save</button></footer></section>}</div>{!open && <Button onClick={() => setOpen(true)}>Open edit panel</Button>}</div>
+  const [open, setOpen] = useState(false)
+  return (
+    <div className="side-panel-demo">
+      <Button onClick={() => setOpen(true)}>Open edit panel</Button>
+      <SidePanel
+        open={open}
+        onOpenChange={setOpen}
+        title="Edit project"
+        description="Migration program"
+        footer={
+          <>
+            <Button variant="text" onClick={() => setOpen(false)}>Cancel</Button>
+            <Button onClick={() => setOpen(false)}>Save</Button>
+          </>
+        }
+      >
+        <Input label="Owner" defaultValue="Maya Chen" />
+        <Input label="Status" defaultValue="Active" />
+      </SidePanel>
+    </div>
+  )
 }
 
 export default function SidePanelPage() {
