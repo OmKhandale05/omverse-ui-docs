@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react'
+import { InlineEdit } from 'omverse-ui'
 import { PageHeader } from '@/components/ui/PageHeader'; import { ComponentPreview } from '@/components/ui/ComponentPreview'; import { CodeBlock } from '@/components/ui/CodeBlock'; import { PropsTable } from '@/components/ui/PropsTable'
 import { AccessibilityChecklist, Anatomy, BehaviorGrid, ComponentDocSection, ComponentDocumentation, ContentGuidelines, GuidanceList, KeyboardTable, RelatedComponents, StateMatrix } from '@/components/docs/ComponentDocumentation'
 const PROPS = [{ name:'value',type:'string',default:'undefined',description:'Controlled committed value.'},{name:'defaultValue',type:'string',default:"''",description:'Initial committed value.'},{name:'onValueChange',type:'(value: string) => void',default:'undefined',description:'Runs when committed value changes.'},{name:'onSave',type:'(value: string) => void',default:'undefined',description:'Runs after validation when save is requested.'},{name:'onCancel',type:'() => void',default:'undefined',description:'Runs when the draft is cancelled.'},{name:'editing',type:'boolean',default:'undefined',description:'Controlled editing state.'},{name:'defaultEditing',type:'boolean',default:'false',description:'Initial uncontrolled editing state.'},{name:'onEditingChange',type:'(editing: boolean) => void',default:'undefined',description:'Runs when editing state changes.'},{name:'label',type:'ReactNode',default:'undefined',description:'Visible field label.'},{name:'emptyText',type:'ReactNode',default:"'Add a value'",description:'Text shown for an empty committed value.'},{name:'validate',type:'(value) => ReactNode | undefined',default:'undefined',description:'Returns validation feedback.'},{name:'multiline',type:'boolean',default:'false',description:'Uses a multi-line editor.'},{name:'disabled',type:'boolean',default:'false',description:'Prevents editing.'},{name:'saving',type:'boolean',default:'false',description:'Shows asynchronous save progress.'},{name:'variant',type:"'plain' | 'outlined' | 'tonal'",default:"'plain'",description:'Controls container treatment.'},{name:'size',type:"'sm' | 'md' | 'lg'",default:"'md'",description:'Controls spacing and editor scale.'}] as const
@@ -14,7 +15,34 @@ const BASIC=`import { InlineEdit } from 'omverse-ui'
   variant="outlined"
 />`
 const MULTI=`<InlineEdit label="Description" value={description} onValueChange={setDescription} multiline saving={mutation.isPending} />`
-function EditPreview(){const [value,setValue]=useState('Enterprise migration');const [draft,setDraft]=useState(value);const [editing,setEditing]=useState(false);return <div className="inline-edit-demo"><label>Project name</label>{editing?<div><input aria-label="Project name" value={draft} onChange={e=>setDraft(e.target.value)} onKeyDown={e=>{if(e.key==='Enter'){setValue(draft);setEditing(false)}if(e.key==='Escape'){setDraft(value);setEditing(false)}}}/><button aria-label="Save changes" onClick={()=>{setValue(draft);setEditing(false)}}>✓</button><button aria-label="Cancel editing" onClick={()=>{setDraft(value);setEditing(false)}}>×</button></div>:<button className="inline-edit-display" aria-label="Edit project name" onClick={()=>setEditing(true)}><span>{value}</span><i aria-hidden>✎</i></button>}</div>}
+function EditPreview() {
+  const [value, setValue] = useState('Enterprise migration')
+
+  return (
+    <InlineEdit
+      label="Project name"
+      value={value}
+      onValueChange={setValue}
+      onSave={(next) => setValue(next)}
+      onCancel={() => {}}
+    />
+  )
+}
+
+function MultilinePreview() {
+  const [value, setValue] = useState('Coordinate the migration across product teams.')
+
+  return (
+    <InlineEdit
+      label="Description"
+      multiline
+      value={value}
+      onValueChange={setValue}
+      onSave={(next) => setValue(next)}
+      onCancel={() => {}}
+    />
+  )
+}
 export default function InlineEditPage(){return <div><PageHeader breadcrumb={['Components','Enterprise','InlineEdit']} title="InlineEdit" description="InlineEdit supports a focused edit-save-cancel cycle without leaving context." tags={['Controlled value','Validation','Multiline','3 variants','3 sizes']}/><ComponentDocumentation>
 <ComponentDocSection id="overview" title="Overview" description="Use InlineEdit for short, low-risk updates where keeping surrounding context is more valuable than opening a form or panel."><div className="component-doc-stack"><ComponentPreview title="Project name" description="Activate the value, edit it, then save with Enter or cancel with Escape."><EditPreview/></ComponentPreview><CodeBlock filename="ProjectName.tsx" code={BASIC}/></div></ComponentDocSection>
 <ComponentDocSection id="anatomy" title="Anatomy" description="InlineEdit moves between a readable display and an editor with explicit save, cancel, and validation feedback."><Anatomy preview={<div className="component-anatomy-visual inline-edit-anatomy"><label>Project name</label><section><span>Enterprise migration</span><button>✓</button><button>×</button></section><small>Enter a unique project name.</small><span className="component-anatomy-marker component-anatomy-marker--leader-down" style={{top:-34,left:50}}>1</span><span className="component-anatomy-marker component-anatomy-marker--leader-right" style={{top:55,left:-34}}>2</span><span className="component-anatomy-marker component-anatomy-marker--leader-down" style={{top:-34,right:72}}>3</span><span className="component-anatomy-marker component-anatomy-marker--leader-down" style={{top:-34,right:22}}>4</span><span className="component-anatomy-marker component-anatomy-marker--leader-up" style={{bottom:-34,left:75}}>5</span></div>} items={[{number:1,name:'Label',description:'Names the editable property.'},{number:2,name:'Editor',description:'Holds a temporary draft value.'},{number:3,name:'Save',description:'Validates and commits the draft.'},{number:4,name:'Cancel',description:'Discards the draft and restores the value.'},{number:5,name:'Validation',description:'Explains why the draft cannot be saved.'}]}/></ComponentDocSection>
@@ -25,7 +53,7 @@ export default function InlineEditPage(){return <div><PageHeader breadcrumb={['C
 <ComponentDocSection id="behavior" title="Behavior" description="InlineEdit owns draft and focus mechanics while applications own persistence, authorization, conflicts, and notifications."><BehaviorGrid items={[{icon:'ti-pencil',title:'Begin',description:'Entering edit mode copies the committed value into a selected draft.'},{icon:'ti-check',title:'Commit',description:'Save validates before changing the committed value.'},{icon:'ti-x',title:'Cancel',description:'Cancel restores the original value without firing change.'},{icon:'ti-device-floppy',title:'Persistence',description:'Saving state can hold controls while remote work completes.'}]}/></ComponentDocSection>
 <ComponentDocSection id="accessibility" title="Accessibility" description="Display and edit modes expose explicit native controls, visible labeling, invalid state, and predictable focus."><div className="component-doc-stack"><KeyboardTable rows={[{keys:['Enter','Space'],action:'Enters edit mode from the display control.'},{keys:['Enter'],action:'Saves a single-line draft.'},{keys:['⌘/Ctrl','Enter'],action:'Saves a multiline draft.'},{keys:['Esc'],action:'Cancels and restores the committed value.'},{keys:['Tab'],action:'Moves among editor, save, and cancel.'}]}/><AccessibilityChecklist items={['Provide a visible property label or explicit input label.','Give edit, save, and cancel controls specific names.','Expose invalid state and connect its message.','Do not save automatically when focus moves unexpectedly.','Return to a stable control after mode changes.','Keep the committed value available outside edit mode.']}/></div></ComponentDocSection>
 <ComponentDocSection id="content-guidelines" title="Content guidelines" description="Labels, empty prompts, and errors should describe the property and correction precisely."><ContentGuidelines rules={[{label:'Name the property',guidance:'Use its established product label.',example:'Project name'},{label:'Prompt empty values',guidance:'Use Add plus the property.',example:'Add an owner note'},{label:'Explain constraints',guidance:'State how to make the draft valid.',example:'Enter a unique project name.'},{label:'Keep controls direct',guidance:'Use Save and Cancel accessible names.',example:'Save changes'}]}/></ComponentDocSection>
-<ComponentDocSection id="examples" title="Examples" description="Multiline and saving state support concise descriptions with remote persistence."><div className="component-doc-stack"><ComponentPreview title="Description editor"><div className="inline-edit-demo"><label>Description</label><div><textarea aria-label="Description" defaultValue="Coordinate the migration across product teams."/><button aria-label="Save changes">✓</button><button aria-label="Cancel editing">×</button></div></div></ComponentPreview><CodeBlock filename="DescriptionEdit.tsx" code={MULTI}/></div></ComponentDocSection>
+<ComponentDocSection id="examples" title="Examples" description="Multiline and saving state support concise descriptions with remote persistence."><div className="component-doc-stack"><ComponentPreview title="Description editor"><MultilinePreview /></ComponentPreview><CodeBlock filename="DescriptionEdit.tsx" code={MULTI}/></div></ComponentDocSection>
 <ComponentDocSection id="props-api" title="Props / API" description="InlineEdit extends div attributes and supports controlled committed value and editing state."><PropsTable props={PROPS}/></ComponentDocSection>
 <ComponentDocSection id="related-components" title="Related components" description="Choose based on edit scope, field type, and risk."><RelatedComponents items={[{name:'Input',href:'/components/input',description:'Edit inside a conventional form',icon:'ti-cursor-text'},{name:'Textarea',href:'/components/textarea',description:'Capture longer free-form content',icon:'ti-align-left'},{name:'SidePanel',href:'/components/side-panel',description:'Edit several contextual properties',icon:'ti-layout-sidebar-right'},{name:'Dialog',href:'/components/dialog',description:'Confirm consequential changes',icon:'ti-layout-sidebar-right'}]}/></ComponentDocSection>
 </ComponentDocumentation></div>}
