@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { Textarea } from 'omverse-ui'
 import { PageHeader } from '@/components/ui/PageHeader'
 import { ComponentPreview } from '@/components/ui/ComponentPreview'
 import { CodeBlock } from '@/components/ui/CodeBlock'
@@ -28,7 +29,34 @@ const CONTROLLED = `<Textarea
   autoResize
 />`
 
-function TextareaPreview() { const [value, setValue] = useState(''); return <div className="textarea-demo"><label htmlFor="rationale-demo">Change rationale <span>*</span></label><textarea id="rationale-demo" value={value} maxLength={500} placeholder="Explain why this change is required…" onChange={(event) => setValue(event.target.value)} /><footer><small>This rationale is included in the audit record.</small><output aria-live="polite">{value.length} / 500</output></footer></div> }
+function TextareaPreview() {
+  const [value, setValue] = useState('')
+
+  return (
+    <Textarea
+      label="Change rationale"
+      value={value}
+      onChange={(event) => setValue(event.target.value)}
+      placeholder="Explain why this change is required…"
+      helperText="This rationale is included in the audit record."
+      showCount
+      maxLength={500}
+      required
+    />
+  )
+}
+
+function ErrorPreview() {
+  return (
+    <Textarea
+      label="Review response"
+      value="Approval requires another reviewer."
+      errorText="Address the unresolved policy exception."
+      onChange={() => {}}
+      autoResize
+    />
+  )
+}
 
 export default function TextareaPage() { return <div><PageHeader breadcrumb={['Components', 'Enterprise', 'Textarea']} title="Textarea" description="Textarea captures multi-line free-form input with labeling, guidance, validation, and counting." tags={['3 variants', '3 sizes', 'Validation', 'Character count', 'Auto-resize']} /><ComponentDocumentation>
   <ComponentDocSection id="overview" title="Overview" description="Use Textarea for multi-line responses where people need space to explain, summarize, comment, or provide structured free-form context."><div className="component-doc-stack"><ComponentPreview title="Change rationale" description="Type to see the live character count update."><TextareaPreview /></ComponentPreview><CodeBlock filename="ChangeRationale.tsx" code={BASIC} /></div></ComponentDocSection>
@@ -40,7 +68,7 @@ export default function TextareaPage() { return <div><PageHeader breadcrumb={['C
   <ComponentDocSection id="behavior" title="Behavior" description="Textarea follows native text-entry behavior and adds design-system guidance, validation, counting, and height management."><BehaviorGrid items={[{ icon: 'ti-text-wrap', title: 'Text wrapping', description: 'Long text wraps without horizontal scrolling by default.' }, { icon: 'ti-calculator', title: 'Character count', description: 'Count reflects controlled or uncontrolled values.' }, { icon: 'ti-arrows-vertical', title: 'Auto-resize', description: 'Height follows scroll height while manual resize is disabled.' }, { icon: 'ti-forms', title: 'Form integration', description: 'Native name, required, disabled, and maxLength remain available.' }]} /></ComponentDocSection>
   <ComponentDocSection id="accessibility" title="Accessibility" description="Textarea preserves native semantics and programmatically connects labels, messages, counts, and invalid state."><div className="component-doc-stack"><KeyboardTable rows={[{ keys: ['Tab'], action: 'Moves focus into or away from the field.' }, { keys: ['Enter'], action: 'Creates a new line.' }, { keys: ['Shift', 'Tab'], action: 'Moves focus to the previous control.' }]} /><AccessibilityChecklist items={['Provide a persistent visible label for every textarea.', 'Use helper text for instructions that remain relevant during entry.', 'Expose invalid state and connect error text with aria-describedby.', 'Do not use placeholder text as the only label.', 'Set a meaningful maxLength before showing a limit count.', 'Keep resize or auto-resize behavior usable at high zoom.']} /></div></ComponentDocSection>
   <ComponentDocSection id="content-guidelines" title="Content guidelines" description="Labels and guidance should make the expected depth, purpose, and constraints of the response clear."><ContentGuidelines rules={[{ label: 'Name the response', guidance: 'Use a concise noun phrase.', example: 'Change rationale' }, { label: 'Explain purpose', guidance: 'Say how the response will be used.', example: 'Included in the audit record.' }, { label: 'Demonstrate format', guidance: 'Use placeholder examples sparingly.', example: 'Summarize the customer impact…' }, { label: 'Write corrective errors', guidance: 'Explain how to resolve the problem.', example: 'Add at least 20 characters.' }]} /></ComponentDocSection>
-  <ComponentDocSection id="examples" title="Examples" description="Controlled value and auto-resize support review workflows while validation remains application-owned."><div className="component-doc-stack"><ComponentPreview title="Controlled response"><div className="textarea-demo textarea-demo--error"><label htmlFor="review-response-demo">Review response</label><textarea id="review-response-demo" defaultValue="Approval requires another reviewer." aria-invalid="true" /><footer><small>Address the unresolved policy exception.</small></footer></div></ComponentPreview><CodeBlock filename="ReviewResponse.tsx" code={CONTROLLED} /></div></ComponentDocSection>
+  <ComponentDocSection id="examples" title="Examples" description="Controlled value and auto-resize support review workflows while validation remains application-owned."><div className="component-doc-stack"><ComponentPreview title="Controlled response"><ErrorPreview /></ComponentPreview><CodeBlock filename="ReviewResponse.tsx" code={CONTROLLED} /></div></ComponentDocSection>
   <ComponentDocSection id="props-api" title="Props / API" description="Textarea extends native textarea attributes except the conflicting size attribute."><PropsTable props={PROPS} /></ComponentDocSection>
   <ComponentDocSection id="related-components" title="Related components" description="Choose controls based on response length, value constraints, and editing complexity."><RelatedComponents items={[{ name: 'Input', href: '/components/input', description: 'Capture single-line values', icon: 'ti-cursor-text' }, { name: 'Combobox', href: '/components/combobox', description: 'Search governed options', icon: 'ti-list-search' }, { name: 'Alert', href: '/components/alert', description: 'Communicate form-level conditions', icon: 'ti-alert-circle' }, { name: 'Button', href: '/components/button', description: 'Submit or cancel form changes', icon: 'ti-square-rounded' }]} /></ComponentDocSection>
  </ComponentDocumentation></div> }
