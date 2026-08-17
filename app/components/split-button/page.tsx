@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react'
+import { SplitButton } from 'omverse-ui'
 import { PageHeader } from '@/components/ui/PageHeader'
 import { ComponentPreview } from '@/components/ui/ComponentPreview'
 import { CodeBlock } from '@/components/ui/CodeBlock'
@@ -19,7 +20,33 @@ const BASIC = `import { SplitButton } from 'omverse-ui'
   Publish
 </SplitButton>`
 const CONTROLLED = `<SplitButton items={actions} open={open} onOpenChange={setOpen} loading={isPublishing}>Publish</SplitButton>`
-function SplitPreview() { const [open, setOpen] = useState(true); const [status, setStatus] = useState('Ready to publish'); return <div className="split-demo"><div><button type="button" onClick={() => setStatus('Published now')}>⇧ Publish</button><button type="button" aria-label="More publish actions" aria-haspopup="menu" aria-expanded={open} onClick={() => setOpen(!open)}>⌄</button>{open && <div role="menu" aria-label="More publish actions"><button role="menuitem" onClick={() => { setStatus('Saved as draft'); setOpen(false) }}>☆ Save as draft</button><button role="menuitem" onClick={() => { setStatus('Publish scheduled'); setOpen(false) }}>▷ Schedule publish</button><button role="menuitem">▤ Save as template</button></div>}</div><p role="status">{status}</p></div> }
+function SplitPreview() {
+  const [open, setOpen] = useState(false)
+  const [status, setStatus] = useState('Ready to publish')
+
+  return (
+    <div className="split-demo">
+      <SplitButton
+        leadingIcon="upload"
+        open={open}
+        onOpenChange={(next) => setOpen(next)}
+        onClick={() => setStatus('Published now')}
+        onItemSelect={(item) => {
+          if (item.id === 'draft') setStatus('Saved as draft')
+          if (item.id === 'schedule') setStatus('Publish scheduled')
+        }}
+        items={[
+          { id: 'draft', label: 'Save as draft' },
+          { id: 'schedule', label: 'Schedule publish' },
+          { id: 'template', label: 'Save as template' },
+        ]}
+      >
+        Publish
+      </SplitButton>
+      <p role="status">{status}</p>
+    </div>
+  )
+}
 export default function SplitButtonPage() { return <div><PageHeader breadcrumb={['Components', 'Enterprise', 'SplitButton']} title="SplitButton" description="SplitButton pairs one primary action with a menu of closely related alternatives." tags={['Primary + menu', '3 variants', '3 sizes', 'Keyboard menu', 'Controlled open']} /><ComponentDocumentation>
 <ComponentDocSection id="overview" title="Overview" description="Use SplitButton when one action is clearly the default and a small menu exposes variations of that same intent."><div className="component-doc-stack"><ComponentPreview title="Publish actions" description="Run the default publish action or choose a closely related alternative."><SplitPreview /></ComponentPreview><CodeBlock filename="PublishButton.tsx" code={BASIC} /></div></ComponentDocSection>
 <ComponentDocSection id="anatomy" title="Anatomy" description="The control joins a default action and menu trigger while the open menu lists closely related alternatives."><Anatomy preview={<div className="component-anatomy-visual split-anatomy"><header><button>⇧ Publish</button><button>⌄</button></header><section><p>☆ Save as draft</p><p>▷ Schedule publish</p><p>▤ Save as template</p></section><span className="component-anatomy-marker component-anatomy-marker--leader-down" style={{ top: -34, left: 65 }}>1</span><span className="component-anatomy-marker component-anatomy-marker--leader-right" style={{ top: 26, left: -34 }}>2</span><span className="component-anatomy-marker component-anatomy-marker--leader-down" style={{ top: -34, right: 18 }}>3</span><span className="component-anatomy-marker component-anatomy-marker--leader-left" style={{ top: 84, right: -34 }}>4</span><span className="component-anatomy-marker component-anatomy-marker--leader-up" style={{ bottom: -34, left: 95 }}>5</span></div>} items={[{ number: 1, name: 'Primary action', description: 'Runs the most likely action immediately.' }, { number: 2, name: 'Shared boundary', description: 'Communicates that both controls belong to one action family.' }, { number: 3, name: 'Menu trigger', description: 'Opens the related alternatives without running the default.' }, { number: 4, name: 'Action menu', description: 'Provides a named menu surface.' }, { number: 5, name: 'Alternative item', description: 'Runs one closely related action and closes the menu.' }]} /></ComponentDocSection>
