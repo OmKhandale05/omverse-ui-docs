@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { NotificationCenter } from 'omverse-ui'
+import { NotificationCenter, type NotificationCenterItem } from 'omverse-ui'
 import { PageHeader } from '@/components/ui/PageHeader'
 import { ComponentPreview } from '@/components/ui/ComponentPreview'
 import { CodeBlock } from '@/components/ui/CodeBlock'
@@ -19,7 +19,7 @@ import {
   StateMatrix,
 } from '@/components/docs/ComponentDocumentation'
 
-const NOTICES = [
+const NOTICES: readonly NotificationCenterItem[] = [
   {
     id: 'risk',
     title: 'Project moved to at risk',
@@ -71,7 +71,7 @@ const notices = [/* ... */]
 />`
 
 function Demo() {
-  const [readIds, setReadIds] = useState(['access'])
+  const [readIds, setReadIds] = useState<readonly string[]>(['access'])
 
   return (
     <NotificationCenter

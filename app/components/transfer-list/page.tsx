@@ -24,7 +24,7 @@ const TEAM_MEMBERS: TransferListOption[] = [
   { value: 'priya-shah', label: 'Priya Shah' },
 ]
 function TransferPreview() {
-  const [value, setValue] = useState(['security'])
+  const [value, setValue] = useState<readonly string[]>(['security'])
   return (
     <TransferList
       value={value}

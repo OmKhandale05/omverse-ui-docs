@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { PermissionMatrix } from 'omverse-ui'
+import { PermissionMatrix, type PermissionMatrixValue } from 'omverse-ui'
 import { CodeBlock } from '@/components/ui/CodeBlock'
 import { ComponentPreview } from '@/components/ui/ComponentPreview'
 import { PageHeader } from '@/components/ui/PageHeader'
@@ -69,7 +69,7 @@ const resources = [
 <PermissionMatrix permissions={permissions} resources={resources} defaultValue={{ projects: ['read'] }} />`
 
 function Demo() {
-  const [grants, setGrants] = useState({
+  const [grants, setGrants] = useState<PermissionMatrixValue>({
     projects: ['read'],
     billing: ['read'],
   })

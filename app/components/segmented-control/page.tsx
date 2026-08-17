@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react'
-import { SegmentedControl } from 'omverse-ui'
+import { SegmentedControl, type SegmentedControlItem } from 'omverse-ui'
 import { PageHeader } from '@/components/ui/PageHeader'
 import { ComponentPreview } from '@/components/ui/ComponentPreview'
 import { CodeBlock } from '@/components/ui/CodeBlock'
@@ -25,7 +25,7 @@ const VIEW_ITEMS = [
   { value: 'list', label: 'List', icon: 'file-text' },
   { value: 'board', label: 'Board', icon: 'folder' },
   { value: 'timeline', label: 'Timeline', icon: 'refresh' },
-]
+] as const satisfies readonly SegmentedControlItem[]
 
 const INTERVAL_ITEMS = [
   { value: 'daily', label: 'Daily' },

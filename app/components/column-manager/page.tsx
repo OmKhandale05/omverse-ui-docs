@@ -52,7 +52,7 @@ const columns = [
 <ColumnManager columns={columns} defaultValue={['name', 'owner', 'status']} />`
 
 function Demo() {
-  const [value, setValue] = useState(['name', 'owner', 'status'])
+  const [value, setValue] = useState<readonly string[]>(['name', 'owner', 'status'])
 
   return (
     <ColumnManager

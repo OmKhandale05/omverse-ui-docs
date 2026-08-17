@@ -7,7 +7,6 @@ import {
   FilterBar,
   type FilterBarFilter,
   Select,
-  type SelectOption,
 } from 'omverse-ui'
 import { PageHeader } from '@/components/ui/PageHeader'
 import { ComponentPreview } from '@/components/ui/ComponentPreview'
@@ -74,7 +73,12 @@ const RECORDS = [
   { name: 'Audit reporting', owner: 'Maya Chen', status: 'Active' },
 ]
 
-const STATUS_OPTIONS: SelectOption[] = [
+type StatusOption = {
+  value: string
+  label: string
+}
+
+const STATUS_OPTIONS: StatusOption[] = [
   { value: '', label: 'All statuses' },
   { value: 'Active', label: 'Active' },
   { value: 'At risk', label: 'At risk' },
