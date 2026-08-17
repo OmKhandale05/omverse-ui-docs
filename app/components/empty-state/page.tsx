@@ -5,6 +5,7 @@ import { PageHeader } from '@/components/ui/PageHeader'
 import { ComponentPreview } from '@/components/ui/ComponentPreview'
 import { CodeBlock } from '@/components/ui/CodeBlock'
 import { PropsTable } from '@/components/ui/PropsTable'
+import { Button, EmptyState } from 'omverse-ui'
 import {
   AccessibilityChecklist, Anatomy, BehaviorGrid, ComponentDocSection,
   ComponentDocumentation, ContentGuidelines, GuidanceList, RelatedComponents, StateMatrix,
@@ -44,8 +45,20 @@ const STATUS_CODE = `<EmptyState
 function EmptyStatePreview() {
   const [created, setCreated] = useState(false)
   return created
-    ? <div className="empty-state-result" role="status"><span aria-hidden>✓</span><strong>Project created</strong><p>Your workspace is ready for configuration.</p><button type="button" onClick={() => setCreated(false)}>Reset example</button></div>
-    : <section className="empty-state-demo" aria-labelledby="empty-state-demo-title"><span className="empty-state-demo-visual" aria-hidden>▤</span><div><h3 id="empty-state-demo-title">No projects yet</h3><p>Create your first enterprise project to coordinate work, owners, and delivery milestones.</p></div><div className="empty-state-demo-actions"><button type="button" onClick={() => setCreated(true)}>＋ Create project</button><button type="button">Import projects</button></div><small>Projects created here are visible to workspace members.</small></section>
+    ? <EmptyState
+      variant="bordered"
+      title="Project created"
+      description="Your workspace is ready for configuration."
+      status="success"
+      primaryAction={<Button onClick={() => setCreated(false)}>Reset example</Button>}
+    />
+    : <EmptyState
+      variant="bordered"
+      title="No projects yet"
+      description="Create your first enterprise project to coordinate work, owners, and delivery milestones."
+      primaryAction={<Button onClick={() => setCreated(true)}>＋ Create project</Button>}
+      secondaryAction={<Button variant="outlined">Import projects</Button>}
+    />
 }
 
 export default function EmptyStatePage() {
@@ -67,7 +80,13 @@ export default function EmptyStatePage() {
       <ComponentDocSection id="behavior" title="Behavior" description="EmptyState structures content and visual hierarchy while applications own conditions, actions, analytics, and navigation."><BehaviorGrid items={[{ icon: 'ti-priority', title: 'Action priority', description: 'Render one primary action before a lower-emphasis alternative.' }, { icon: 'ti-arrows-maximize', title: 'Responsive centering', description: 'Content remains centered while actions wrap on narrow surfaces.' }, { icon: 'ti-photo', title: 'Visual override', description: 'Product illustrations can replace the status icon without changing structure.' }, { icon: 'ti-box-padding', title: 'Bounded scale', description: 'Three sizes provide predictable minimum height and spacing.' }]} /></ComponentDocSection>
       <ComponentDocSection id="accessibility" title="Accessibility" description="EmptyState is a semantic section whose heading names the region; action components retain their native keyboard behavior."><AccessibilityChecklist items={['Connect the section to a visible heading when the surrounding page does not already provide one.', 'Treat decorative icons and illustrations as hidden from assistive technology.', 'Include meaningful alternative text only when a custom visual contributes unique information.', 'Do not rely on status color or iconography to communicate the outcome.', 'Use descriptive action labels such as “Clear filters” instead of “Click here”.', 'Move focus only when the surrounding workflow requires a newly important announcement.']} /></ComponentDocSection>
       <ComponentDocSection id="content-guidelines" title="Content guidelines" description="Write for the next decision: confirm the outcome, add only useful context, and label the best available action."><ContentGuidelines rules={[{ label: 'State the outcome', guidance: 'Use a direct title without blame or alarm.', example: 'No matching projects' }, { label: 'Explain the next step', guidance: 'Keep supporting text to one or two short sentences.', example: 'Try removing a filter.' }, { label: 'Use specific actions', guidance: 'Name the action and its object.', example: 'Create project' }, { label: 'Avoid dead ends', guidance: 'When no action is possible, explain when or how the state can change.', example: 'Ask a workspace admin for access.' }]} /></ComponentDocSection>
-      <ComponentDocSection id="examples" title="Examples" description="Status and size can create a compact zero-result message without changing the action model."><div className="component-doc-stack"><ComponentPreview title="Search with no results" description="A compact search state points directly to filter recovery." layout="start"><section className="empty-state-search-example"><span aria-hidden>⌕</span><strong>No matching projects</strong><p>Try removing a filter or using a broader search term.</p><button type="button">Clear filters</button></section></ComponentPreview><CodeBlock filename="SearchEmptyState.tsx" code={STATUS_CODE} /></div></ComponentDocSection>
+      <ComponentDocSection id="examples" title="Examples" description="Status and size can create a compact zero-result message without changing the action model."><div className="component-doc-stack"><ComponentPreview title="Search with no results" description="A compact search state points directly to filter recovery." layout="start"><EmptyState
+            status="search"
+            size="sm"
+            title="No matching projects"
+            description="Try removing a filter or using a broader search term."
+            primaryAction={<Button variant="text">Clear filters</Button>}
+          /></ComponentPreview><CodeBlock filename="SearchEmptyState.tsx" code={STATUS_CODE} /></div></ComponentDocSection>
       <ComponentDocSection id="props-api" title="Props / API" description="EmptyState extends section attributes and composes design-system actions without owning their behavior."><PropsTable props={EMPTY_STATE_PROPS} /></ComponentDocSection>
       <ComponentDocSection id="related-components" title="Related components" description="Choose adjacent feedback patterns based on whether content is absent, loading, transient, or requires confirmation."><RelatedComponents items={[{ name: 'Spinner', href: '/components/spinner', description: 'Communicate short asynchronous loading', icon: 'ti-loader' }, { name: 'Toast', href: '/components/toast', description: 'Report transient operation feedback', icon: 'ti-bell' }, { name: 'Dialog', href: '/components/dialog', description: 'Request focused confirmation or input', icon: 'ti-layout-sidebar-right' }, { name: 'Button', href: '/components/button', description: 'Provide recovery and creation actions', icon: 'ti-square-rounded' }]} /></ComponentDocSection>
     </ComponentDocumentation>
