@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { Alert, Button } from 'omverse-ui'
 import { PageHeader } from '@/components/ui/PageHeader'
 import { ComponentPreview } from '@/components/ui/ComponentPreview'
 import { CodeBlock } from '@/components/ui/CodeBlock'
@@ -39,7 +40,20 @@ const INLINE = `<Alert tone="success" layout="inline" title="Policy published">
 
 function AlertPreview() {
   const [visible, setVisible] = useState(true)
-  return visible ? <div className="alert-demo" role="status"><span aria-hidden>!</span><div><strong>Certificate expires in 8 days</strong><p>Rotate the certificate to avoid service interruption.</p></div><button type="button">Rotate certificate</button><button type="button" aria-label="Dismiss alert" onClick={() => setVisible(false)}>×</button></div> : <button type="button" className="alert-demo-reset" onClick={() => setVisible(true)}>Show alert again</button>
+  return visible ? (
+    <Alert
+      tone="warning"
+      title="Certificate expires in 8 days"
+      action={<Button size="sm" variant="text">Rotate certificate</Button>}
+      dismissible
+      dismissLabel="Dismiss alert"
+      onDismiss={() => setVisible(false)}
+    >
+      Rotate the certificate to avoid service interruption.
+    </Alert>
+  ) : (
+    <Button variant="outlined" onClick={() => setVisible(true)}>Show alert again</Button>
+  )
 }
 
 export default function AlertPage() {
@@ -53,7 +67,7 @@ export default function AlertPage() {
     <ComponentDocSection id="behavior" title="Behavior" description="Alert owns semantic presentation; applications own visibility, timing, recovery, persistence, and telemetry."><BehaviorGrid items={[{ icon: 'ti-bell', title: 'Announcement', description: 'Error defaults to alert; other tones default to polite status.' }, { icon: 'ti-x', title: 'Controlled dismissal', description: 'Dismiss invokes a callback and leaves visibility to the parent.' }, { icon: 'ti-focus-2', title: 'Action focus', description: 'Actions and close controls retain native keyboard behavior.' }, { icon: 'ti-arrows-maximize', title: 'Responsive flow', description: 'Content and controls reflow without truncating the message.' }]} /></ComponentDocSection>
     <ComponentDocSection id="accessibility" title="Accessibility" description="Every alert must remain understandable without color, iconography, or visual position."><AccessibilityChecklist items={['Use alert only for urgent, dynamically introduced failures; use status for other updates.', 'Include the condition in visible text instead of relying on the status icon.', 'Do not move focus to an alert unless the workflow genuinely requires immediate attention.', 'Give dismissal a specific accessible label when several alerts are present.', 'Keep action labels explicit and unique in context.', 'Do not automatically dismiss content before people can read or operate it.']} /></ComponentDocSection>
     <ComponentDocSection id="content-guidelines" title="Content guidelines" description="State the condition first, explain impact briefly, and offer a specific next step only when one exists."><ContentGuidelines rules={[{ label: 'Lead with the condition', guidance: 'Use a factual, concise title.', example: 'Certificate expires in 8 days' }, { label: 'Explain impact', guidance: 'Say what happens if the condition continues.', example: 'Service connections may stop.' }, { label: 'Name the response', guidance: 'Use an action-and-object label.', example: 'Rotate certificate' }, { label: 'Avoid alarmism', guidance: 'Match urgency to actual consequence.', example: 'Deployment blocked' }]} /></ComponentDocSection>
-    <ComponentDocSection id="examples" title="Examples" description="Inline layout supports concise confirmation while retaining the same semantic structure."><div className="component-doc-stack"><ComponentPreview title="Inline success"><div className="alert-demo alert-demo--success"><span aria-hidden>✓</span><div><strong>Policy published</strong><p>The policy now applies to every workspace member.</p></div></div></ComponentPreview><CodeBlock filename="PublishedAlert.tsx" code={INLINE} /></div></ComponentDocSection>
+    <ComponentDocSection id="examples" title="Examples" description="Inline layout supports concise confirmation while retaining the same semantic structure."><div className="component-doc-stack"><ComponentPreview title="Inline success"><Alert tone="success" layout="inline" title="Policy published"><Button variant="text" size="sm">View published policy</Button>The policy now applies to every workspace member.</Alert></ComponentPreview><CodeBlock filename="PublishedAlert.tsx" code={INLINE} /></div></ComponentDocSection>
     <ComponentDocSection id="props-api" title="Props / API" description="Alert extends div attributes and composes application-owned actions."><PropsTable props={PROPS} /></ComponentDocSection>
     <ComponentDocSection id="related-components" title="Related components" description="Select feedback based on duration, urgency, interaction, and scope."><RelatedComponents items={[{ name: 'Toast', href: '/components/toast', description: 'Transient operation feedback', icon: 'ti-bell' }, { name: 'Dialog', href: '/components/dialog', description: 'Blocking confirmation or input', icon: 'ti-layout-sidebar-right' }, { name: 'EmptyState', href: '/components/empty-state', description: 'Explain an unavailable outcome', icon: 'ti-layout-align-middle' }, { name: 'Badge', href: '/components/badge', description: 'Label status within compact content', icon: 'ti-badge' }]} /></ComponentDocSection>
   </ComponentDocumentation></div>
