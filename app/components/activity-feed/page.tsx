@@ -1,5 +1,7 @@
+'use client'
 import { useState } from 'react'
 import { ActivityFeed } from 'omverse-ui'
+
 import { PageHeader } from '@/components/ui/PageHeader'
 import { ComponentPreview } from '@/components/ui/ComponentPreview'
 import { CodeBlock } from '@/components/ui/CodeBlock'
