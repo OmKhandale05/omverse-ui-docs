@@ -14,9 +14,9 @@ const BASIC=`import { SavedViews } from 'omverse-ui'
   onCreate={openCreateView} onRename={openRenameView} onDelete={confirmDelete} />`
 const CONTROLLED=`<SavedViews views={views} value={route.viewId} onValueChange={(id) => navigate({ viewId: id })} variant="filled" />`
 const VIEWS: SavedView[] = [
-  { id: 'mine', name: 'My open work', detail: 'Assigned to me · Open', meta: 'You · Updated today', default: true },
-  { id: 'risk', name: 'Projects at risk', detail: 'Health is at risk or blocked', meta: 'Maya · Updated yesterday', shared: true },
-  { id: 'launch', name: 'Q4 launches', detail: 'Launch date this quarter', meta: 'Program office · Updated Aug 12', shared: true },
+  { id: 'mine', name: 'My open work', description: 'Assigned to me · Open', owner: 'You', updatedAt: 'Updated today', isDefault: true },
+  { id: 'risk', name: 'Projects at risk', description: 'Health is at risk or blocked', owner: 'Maya', updatedAt: 'Updated yesterday', shared: true },
+  { id: 'launch', name: 'Q4 launches', description: 'Launch date this quarter', owner: 'Program office', updatedAt: 'Updated Aug 12', shared: true },
 ]
 
 function SavedViewsPreview() {
@@ -31,7 +31,7 @@ function SavedViewsPreview() {
       onValueChange={(id) => setSelected(id)}
       onCreate={() => {
         const id = `view-${Date.now()}`
-        setViews((current) => [...current, { id, name: `Custom view ${current.length + 1}`, detail: 'Created in this example', meta: 'You · Just now' }])
+        setViews((current) => [...current, { id, name: `Custom view ${current.length + 1}`, description: 'Created in this example', owner: 'You', updatedAt: 'Just now' }])
         setSelected(id)
       }}
       onRename={(view) => setViews((current) => current.map((item) => (item.id === view.id ? { ...item, name: `${item.name} (renamed)` } : item)))}
@@ -43,7 +43,7 @@ function SavedViewsPreview() {
         setSelected((previous) => (previous === view.id ? 'mine' : previous))
       }}
       onSetDefault={(view) => {
-        setViews((current) => current.map((item) => (item.id === view.id ? { ...item, default: true } : { ...item, default: false })))
+        setViews((current) => current.map((item) => (item.id === view.id ? { ...item, isDefault: true } : { ...item, isDefault: false })))
       }}
     />
   )
