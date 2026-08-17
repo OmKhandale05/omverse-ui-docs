@@ -1,13 +1,53 @@
 'use client'
-import { useState } from 'react'; import { PageHeader } from '@/components/ui/PageHeader'; import { ComponentPreview } from '@/components/ui/ComponentPreview'; import { CodeBlock } from '@/components/ui/CodeBlock'; import { PropsTable } from '@/components/ui/PropsTable'; import { AccessibilityChecklist, Anatomy, BehaviorGrid, ComponentDocSection, ComponentDocumentation, ContentGuidelines, GuidanceList, KeyboardTable, RelatedComponents, StateMatrix } from '@/components/docs/ComponentDocumentation'
+
+import { useState } from 'react'
+import { SavedView, SavedViews } from 'omverse-ui'
+import { PageHeader } from '@/components/ui/PageHeader'
+import { ComponentPreview } from '@/components/ui/ComponentPreview'
+import { CodeBlock } from '@/components/ui/CodeBlock'
+import { PropsTable } from '@/components/ui/PropsTable'
+import { AccessibilityChecklist, Anatomy, BehaviorGrid, ComponentDocSection, ComponentDocumentation, ContentGuidelines, GuidanceList, KeyboardTable, RelatedComponents, StateMatrix } from '@/components/docs/ComponentDocumentation'
 const PROPS=[{name:'views',type:'readonly SavedView[]',default:'required',description:'Governed saved-view collection.'},{name:'value',type:'string',default:'undefined',description:'Controlled active view identifier.'},{name:'defaultValue',type:'string',default:'undefined',description:'Initial active view.'},{name:'onValueChange',type:'(id: string) => void',default:'undefined',description:'Runs when a view becomes active.'},{name:'title',type:'ReactNode',default:"'Saved views'",description:'Visible collection heading.'},{name:'searchable',type:'boolean',default:'true',description:'Enables local name filtering.'},{name:'onCreate',type:'() => void',default:'undefined',description:'Shows and handles create view.'},{name:'onRename',type:'(view) => void',default:'undefined',description:'Handles rename.'},{name:'onDuplicate',type:'(view) => void',default:'undefined',description:'Handles duplication.'},{name:'onDelete',type:'(view) => void',default:'undefined',description:'Handles deletion.'},{name:'onSetDefault',type:'(view) => void',default:'undefined',description:'Handles default assignment.'},{name:'disabled',type:'boolean',default:'false',description:'Disables the collection.'},{name:'loading',type:'boolean',default:'false',description:'Shows view resolution progress.'},{name:'emptyState',type:'ReactNode',default:"'No saved views'",description:'No-result content.'},{name:'variant',type:"'outlined' | 'filled' | 'raised'",default:"'outlined'",description:'Controls surface treatment.'},{name:'size',type:"'sm' | 'md' | 'lg'",default:"'md'",description:'Controls row density.'}] as const
 const BASIC=`import { SavedViews } from 'omverse-ui'
 
 <SavedViews views={projectViews} value={activeView} onValueChange={setActiveView}
   onCreate={openCreateView} onRename={openRenameView} onDelete={confirmDelete} />`
 const CONTROLLED=`<SavedViews views={views} value={route.viewId} onValueChange={(id) => navigate({ viewId: id })} variant="filled" />`
-const VIEWS=[{id:'mine',name:'My open work',detail:'Assigned to me · Open',meta:'You · Updated today',default:true},{id:'risk',name:'Projects at risk',detail:'Health is at risk or blocked',meta:'Maya · Updated yesterday',shared:true},{id:'launch',name:'Q4 launches',detail:'Launch date this quarter',meta:'Program office · Updated Aug 12',shared:true}]
-function SavedViewsPreview(){const [selected,setSelected]=useState('mine');const [query,setQuery]=useState('');const filtered=VIEWS.filter(view=>view.name.toLowerCase().includes(query.toLowerCase()));return <section className="saved-views-demo"><header><span><strong>Saved views</strong><small>3 views</small></span><button>＋ New view</button></header><label><span className="sr-only">Search saved views</span>⌕ <input type="search" placeholder="Search views" value={query} onChange={event=>setQuery(event.target.value)}/></label><div aria-label="Saved views">{filtered.map(view=><article key={view.id} className={selected===view.id?'selected':''}><button aria-current={selected===view.id?'page':undefined} onClick={()=>setSelected(view.id)}><i aria-hidden>♧</i><span><strong>{view.name}</strong>{view.default&&<em>Default</em>}{view.shared&&<b aria-label="Shared view">♙</b>}<small>{view.detail}</small><small>{view.meta}</small></span></button><button aria-label={`Manage ${view.name}`}>⋮</button></article>)}</div></section>}
+const VIEWS: SavedView[] = [
+  { id: 'mine', name: 'My open work', detail: 'Assigned to me · Open', meta: 'You · Updated today', default: true },
+  { id: 'risk', name: 'Projects at risk', detail: 'Health is at risk or blocked', meta: 'Maya · Updated yesterday', shared: true },
+  { id: 'launch', name: 'Q4 launches', detail: 'Launch date this quarter', meta: 'Program office · Updated Aug 12', shared: true },
+]
+
+function SavedViewsPreview() {
+  const [views, setViews] = useState<SavedView[]>(VIEWS)
+  const [selected, setSelected] = useState('mine')
+
+  return (
+    <SavedViews
+      views={views}
+      value={selected}
+      searchable
+      onValueChange={(id) => setSelected(id)}
+      onCreate={() => {
+        const id = `view-${Date.now()}`
+        setViews((current) => [...current, { id, name: `Custom view ${current.length + 1}`, detail: 'Created in this example', meta: 'You · Just now' }])
+        setSelected(id)
+      }}
+      onRename={(view) => setViews((current) => current.map((item) => (item.id === view.id ? { ...item, name: `${item.name} (renamed)` } : item)))}
+      onDuplicate={(view) => {
+        setViews((current) => [...current, { ...view, id: `view-${Date.now()}`, name: `${view.name} (copy)` }])
+      }}
+      onDelete={(view) => {
+        setViews((current) => current.filter((item) => item.id !== view.id))
+        setSelected((previous) => (previous === view.id ? 'mine' : previous))
+      }}
+      onSetDefault={(view) => {
+        setViews((current) => current.map((item) => (item.id === view.id ? { ...item, default: true } : { ...item, default: false })))
+      }}
+    />
+  )
+}
 export default function SavedViewsPage(){return <div><PageHeader breadcrumb={['Components','Enterprise','SavedViews']} title="SavedViews" description="SavedViews selects and manages reusable query, filter, and layout configurations." tags={['Controlled selection','Search','Defaults','Sharing','Management actions']}/><ComponentDocumentation>
 <ComponentDocSection id="overview" title="Overview" description="Use SavedViews when people repeatedly return to named combinations of filters, sorting, columns, and layout in data-heavy enterprise workflows."><div className="component-doc-stack"><ComponentPreview title="Project views" description="Choose a saved configuration, search the collection, or open its management actions."><SavedViewsPreview/></ComponentPreview><CodeBlock filename="ProjectViews.tsx" code={BASIC}/></div></ComponentDocSection>
 <ComponentDocSection id="anatomy" title="Anatomy" description="SavedViews combines collection-level discovery and creation with identifiable, selectable, and manageable view rows."><Anatomy preview={<div className="component-anatomy-visual saved-views-anatomy"><header><span>Saved views<small>3 views</small></span><button>＋ New</button></header><label>⌕ Search views</label><section><i>♧</i><span><b>My open work</b><small>Assigned to me · Open</small></span><em>Default</em><button>⋮</button></section><span className="component-anatomy-marker component-anatomy-marker--leader-down" style={{top:-28,left:42}}>1</span><span className="component-anatomy-marker component-anatomy-marker--leader-down" style={{top:-28,right:32}}>2</span><span className="component-anatomy-marker component-anatomy-marker--leader-right" style={{top:66,left:-26}}>3</span><span className="component-anatomy-marker component-anatomy-marker--leader-up" style={{bottom:-28,left:55}}>4</span><span className="component-anatomy-marker component-anatomy-marker--leader-up" style={{bottom:-28,right:18}}>5</span></div>} items={[{number:1,name:'Collection header',description:'Names the saved-view set and states its count.'},{number:2,name:'Create action',description:'Starts a new saved configuration workflow.'},{number:3,name:'Search',description:'Filters saved views by name.'},{number:4,name:'View row',description:'Shows identity, scope, ownership, and recency.'},{number:5,name:'Management action',description:'Opens allowed operations for one view.'}]}/></ComponentDocSection>
