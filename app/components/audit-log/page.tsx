@@ -247,6 +247,22 @@ export default function AuditLogPage() {
         </ComponentDocSection>
 
         <ComponentDocSection
+          id="examples"
+          title="Examples"
+          description="Use examples that mirror operational review and incident workflows."
+        >
+          <div className="component-doc-stack">
+            <ComponentPreview
+              title="Review workflow with immutable audit context"
+              description="Open a selected event and keep a stable action log for investigators."
+            >
+              <AuditLogPreview />
+            </ComponentPreview>
+            <CodeBlock filename="ReviewedAction.tsx" code={BASIC_CODE} />
+          </div>
+        </ComponentDocSection>
+
+        <ComponentDocSection
           id="props-api"
           title="Props / API"
           description="AuditLog extends div attributes; AuditLogEntry defines event identity, actor, action, target, timestamp, evidence, marker, and optional destination."

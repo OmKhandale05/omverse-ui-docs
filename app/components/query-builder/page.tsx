@@ -251,6 +251,22 @@ export default function QueryBuilderPage() {
           />
         </ComponentDocSection>
 
+        <ComponentDocSection
+          id="examples"
+          title="Examples"
+          description="Use query composition examples that match governance and reporting rules."
+        >
+          <div className="component-doc-stack">
+            <ComponentPreview
+              title="Enterprise saved conditions"
+              description="Build a governed rule set users can review and reproduce."
+            >
+              <QueryBuilderPreview />
+            </ComponentPreview>
+            <CodeBlock filename="QueryComposition.tsx" code={BASIC_CODE} />
+          </div>
+        </ComponentDocSection>
+
         <ComponentDocSection id="props-api" title="Props / API">
           <PropsTable props={QUERY_BUILDER_PROPS} />
         </ComponentDocSection>
