@@ -392,12 +392,39 @@ export function WorkItemsView() {
         ],
         examples: [
           {
-            heading: 'Production use',
+            heading: 'Connect governed decisions',
             points: [
               'Attach request metadata as read-only fields to prevent tampering.',
               'Log every transition to the audit stream before API commit.',
               'Show timeout warnings near the next required action.',
             ],
+            filename: 'AccessApproval.tsx',
+            language: 'tsx',
+            code: `const [rationale, setRationale] = useState('')
+
+<ApprovalCard
+  requestId={request.id}
+  title={request.title}
+  status={request.status}
+  requester={request.requester.name}
+  currentApprover={request.currentReviewer.name}
+  stages={request.stages}
+  checks={request.policyChecks}
+  readOnly={!permissions.canDecide}
+  actions={
+    <>
+      <Button variant="outlined" onClick={() => decide('returned')}>Return</Button>
+      <Button variant="destructive" onClick={() => decide('rejected')}>Reject</Button>
+      <Button onClick={() => decide('approved')}>Approve</Button>
+    </>
+  }
+/>
+
+<Textarea
+  label="Reviewer rationale"
+  value={rationale}
+  onChange={(event) => setRationale(event.target.value)}
+/>`,
           },
         ],
         props: [
@@ -407,6 +434,7 @@ export function WorkItemsView() {
           { name: 'readOnly', type: 'boolean', default: 'false', description: 'Locks actions while still rendering timeline.' },
         ],
         related: [
+          { name: 'ApprovalCard', href: '/components/approval-card', description: 'Present request context, stages, checks, and decision actions.', icon: 'ti-forms' },
           { name: 'NotificationCenter', href: '/components/notification-center', description: 'Keep approvers informed of pending actions.', icon: 'ti-bell' },
           { name: 'SidePanel', href: '/components/side-panel', description: 'Review context and decision controls in one surface.', icon: 'ti-layout-sidebar-right' },
           { name: 'CommandBar', href: '/components/command-bar', description: 'Global actions for routing and quick review assignment.', icon: 'ti-command' },

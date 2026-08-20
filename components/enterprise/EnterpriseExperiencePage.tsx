@@ -20,6 +20,7 @@ import type { EnterpriseResource } from '@/lib/enterprise-experiences'
 import { EnterpriseAnatomyPreview } from './EnterpriseAnatomyPreview'
 import { FilteringRecordsPreview } from './FilteringRecordsPreview'
 import { BulkActionsPreview } from './BulkActionsPreview'
+import { ApprovalFlowPreview } from './ApprovalFlowPreview'
 
 interface EnterpriseExperiencePageProps {
   breadcrumb: string[]
@@ -66,6 +67,17 @@ export function EnterpriseExperiencePage({ breadcrumb, resource }: EnterpriseExp
                 layout="grid"
               >
                 <BulkActionsPreview />
+              </ComponentPreview>
+            </div>
+          )}
+          {resource.slug === 'approval-flow' && (
+            <div className="enterprise-pattern-preview">
+              <ComponentPreview
+                title="Review a governed access request"
+                description="Add rationale, test guarded return and rejection decisions, approve the request, and inspect the resulting handoff and timeline."
+                layout="grid"
+              >
+                <ApprovalFlowPreview />
               </ComponentPreview>
             </div>
           )}

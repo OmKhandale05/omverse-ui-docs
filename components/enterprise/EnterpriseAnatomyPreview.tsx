@@ -43,9 +43,26 @@ function BulkActionsAnatomy() {
   )
 }
 
+function ApprovalFlowAnatomy() {
+  return (
+    <div className="enterprise-approval-anatomy" aria-label="Approval flow anatomy diagram">
+      <div className="enterprise-approval-anatomy-request"><span><small>APR-2048</small><strong>Access exception</strong></span><b>In review</b></div>
+      <div className="enterprise-approval-anatomy-stages"><span>✓ Request</span><span>● Finance</span><span>→ Security</span></div>
+      <div className="enterprise-approval-anatomy-checks"><span>✓ Manager</span><span>! Evidence</span></div>
+      <div className="enterprise-approval-anatomy-actions"><i>Timeline</i><button type="button" tabIndex={-1}>Return</button><button type="button" tabIndex={-1}>Approve</button></div>
+      <Marker number={1} className="enterprise-approval-marker--one component-anatomy-marker--leader-down" />
+      <Marker number={2} className="enterprise-approval-marker--two component-anatomy-marker--leader-down" />
+      <Marker number={3} className="enterprise-approval-marker--three component-anatomy-marker--leader-left" />
+      <Marker number={4} className="enterprise-approval-marker--four component-anatomy-marker--leader-up" />
+      <Marker number={5} className="enterprise-approval-marker--five component-anatomy-marker--leader-right" />
+    </div>
+  )
+}
+
 export function EnterpriseAnatomyPreview({ resource }: { resource: EnterpriseResource }) {
   if (resource.slug === 'filtering-records') return <FilteringAnatomy />
   if (resource.slug === 'bulk-actions') return <BulkActionsAnatomy />
+  if (resource.slug === 'approval-flow') return <ApprovalFlowAnatomy />
 
   return (
     <div className="enterprise-floorplan-diagram" aria-label={`${resource.title} anatomy diagram`}>
