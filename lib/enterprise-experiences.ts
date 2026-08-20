@@ -46,6 +46,8 @@ interface ExampleItem {
   heading: string
   points: string[]
   code?: string
+  filename?: string
+  language?: string
 }
 
 export interface EnterpriseProp {
@@ -160,12 +162,52 @@ export const ENTERPRISE_EXPERIENCE_CATALOG: Record<EnterpriseCategory, Enterpris
         ],
         examples: [
           {
-            heading: 'Production use',
+            heading: 'Compose the pattern',
             points: [
-              'Offer saved presets like My pending approvals and high priority only.',
-              'Show result count changes inline before full apply when possible.',
-              'Keep active filter chips copyable in support tickets and handoffs.',
+              'Keep query state in the application so the URL, saved views, and data request can share it.',
+              'Let FilterBar announce the result count and DataTable preserve semantic table behavior.',
+              'Use the same reset function for active chips, empty-state recovery, and saved-view changes.',
             ],
+            filename: 'WorkItemsView.tsx',
+            language: 'tsx',
+            code: `import { DataTable, FilterBar, Select } from 'omverse-ui'
+
+export function WorkItemsView() {
+  const [query, setQuery] = useState('')
+  const [status, setStatus] = useState('')
+  const results = filterWorkItems(workItems, { query, status })
+
+  return (
+    <>
+      <FilterBar
+        searchValue={query}
+        onSearchChange={setQuery}
+        searchLabel="Search work items"
+        filters={[{
+          id: 'status',
+          label: 'Status',
+          activeLabel: status || undefined,
+          onClear: () => setStatus(''),
+          control: <Select value={status} options={statusOptions} onChange={setStatus} />,
+        }]}
+        resultCount={results.length}
+        onReset={() => { setQuery(''); setStatus('') }}
+      />
+      <DataTable columns={columns} data={results} getRowId={(row) => row.id}
+        caption="Filtered work items" emptyState="No work items match these filters." />
+    </>
+  )
+}`,
+          },
+          {
+            heading: 'Persist a query contract',
+            points: [
+              'Store readable field, operator, and value clauses rather than component-specific state.',
+              'Validate restored fields against the current user’s permissions before applying them.',
+              'Version persisted query contracts when operators or domain fields change.',
+            ],
+            filename: 'saved-view.json',
+            language: 'json',
             code: `{
   "filters": [
     { "field": "status", "operator": "equals", "value": "open" },

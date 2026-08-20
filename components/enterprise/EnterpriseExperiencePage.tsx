@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { PageHeader } from '@/components/ui/PageHeader'
+import { ComponentPreview } from '@/components/ui/ComponentPreview'
 import { CodeBlock } from '@/components/ui/CodeBlock'
 import { PropsTable } from '@/components/ui/PropsTable'
 import {
@@ -45,6 +46,17 @@ export function EnterpriseExperiencePage({ breadcrumb, resource }: EnterpriseExp
               <p key={paragraph}>{paragraph}</p>
             ))}
           </div>
+          {resource.slug === 'filtering-records' && (
+            <div className="enterprise-pattern-preview">
+              <ComponentPreview
+                title="Filter operational work"
+                description="Try searching, combining filters, restoring a saved view, sorting the table, and recovering from an empty result."
+                layout="grid"
+              >
+                <FilteringRecordsPreview />
+              </ComponentPreview>
+            </div>
+          )}
         </ComponentDocSection>
 
         <ComponentDocSection
@@ -136,7 +148,6 @@ export function EnterpriseExperiencePage({ breadcrumb, resource }: EnterpriseExp
           description="Reference implementation style, payloads, and practical behavior."
         >
           <div className="component-doc-stack">
-            {resource.slug === 'filtering-records' && <FilteringRecordsPreview />}
             {resource.examples.map((example) => (
               <div key={example.heading} className="component-doc-prose">
                 <h3 className="enterprise-example-title">{example.heading}</h3>
@@ -145,7 +156,13 @@ export function EnterpriseExperiencePage({ breadcrumb, resource }: EnterpriseExp
                     <li key={point}>{point}</li>
                   ))}
                 </ul>
-                {example.code && <CodeBlock filename="example.payload.json" language="json" code={example.code} />}
+                {example.code && (
+                  <CodeBlock
+                    filename={example.filename ?? 'example.payload.json'}
+                    language={example.language ?? 'json'}
+                    code={example.code}
+                  />
+                )}
               </div>
             ))}
             <Link href={resource.slug.includes('view') ? '/components/saved-views' : '/components/data-table'} style={{ color: 'var(--color-primary)' }}>

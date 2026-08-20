@@ -1,6 +1,17 @@
 'use client'
 
 import { useMemo, useState } from 'react'
+import {
+  Badge,
+  Button,
+  DataTable,
+  FilterBar,
+  SavedViews,
+  Select,
+  type DataTableColumn,
+  type FilterBarFilter,
+  type SavedView,
+} from 'omverse-ui'
 
 const RECORDS = [
   { id: 'WK-1048', name: 'Quarterly access review', team: 'Security', status: 'Open', updated: '8 min ago' },
@@ -11,73 +22,162 @@ const RECORDS = [
   { id: 'WK-1043', name: 'Workspace provisioning', team: 'Platform', status: 'Closed', updated: 'Yesterday' },
 ] as const
 
+type WorkItem = (typeof RECORDS)[number]
+
+const STATUS_OPTIONS = [
+  { value: '', label: 'All statuses' },
+  { value: 'Open', label: 'Open' },
+  { value: 'In review', label: 'In review' },
+  { value: 'Closed', label: 'Closed' },
+]
+
+const TEAM_OPTIONS = [
+  { value: '', label: 'All teams' },
+  { value: 'Security', label: 'Security' },
+  { value: 'Finance', label: 'Finance' },
+  { value: 'Platform', label: 'Platform' },
+]
+
+const SAVED_VIEWS: SavedView[] = [
+  { id: 'all', name: 'All work items', description: 'No filters applied', isDefault: true },
+  { id: 'open', name: 'Open work', description: 'Status is Open', owner: 'You' },
+  { id: 'finance-review', name: 'Finance review', description: 'Team is Finance · In review', shared: true },
+]
+
 export function FilteringRecordsPreview() {
   const [query, setQuery] = useState('')
-  const [status, setStatus] = useState('All statuses')
-  const [team, setTeam] = useState('All teams')
-  const [saved, setSaved] = useState(false)
+  const [status, setStatus] = useState('')
+  const [team, setTeam] = useState('')
+  const [activeView, setActiveView] = useState('all')
+  const [viewsOpen, setViewsOpen] = useState(false)
 
   const results = useMemo(() => RECORDS.filter((record) => {
     const matchesQuery = `${record.id} ${record.name}`.toLowerCase().includes(query.toLowerCase())
-    const matchesStatus = status === 'All statuses' || record.status === status
-    const matchesTeam = team === 'All teams' || record.team === team
+    const matchesStatus = !status || record.status === status
+    const matchesTeam = !team || record.team === team
     return matchesQuery && matchesStatus && matchesTeam
   }), [query, status, team])
 
-  const activeFilters = [
-    status !== 'All statuses' ? { label: `Status: ${status}`, clear: () => setStatus('All statuses') } : null,
-    team !== 'All teams' ? { label: `Team: ${team}`, clear: () => setTeam('All teams') } : null,
-  ].filter((filter): filter is { label: string; clear: () => void } => filter !== null)
+  const filters: FilterBarFilter[] = useMemo(() => [
+    {
+      id: 'status',
+      label: 'Status',
+      activeLabel: status || undefined,
+      onClear: status ? () => setStatus('') : undefined,
+      control: <Select value={status} options={STATUS_OPTIONS} onChange={setStatus} placeholder="All statuses" />,
+    },
+    {
+      id: 'team',
+      label: 'Team',
+      activeLabel: team || undefined,
+      onClear: team ? () => setTeam('') : undefined,
+      control: <Select value={team} options={TEAM_OPTIONS} onChange={setTeam} placeholder="All teams" />,
+    },
+  ], [status, team])
+
+  const columns: DataTableColumn<WorkItem>[] = useMemo(() => [
+    {
+      id: 'work-item',
+      header: 'Work item',
+      accessor: 'name',
+      sortable: true,
+      cell: (record) => <span className="enterprise-filter-record"><strong>{record.name}</strong><small>{record.id}</small></span>,
+    },
+    { id: 'team', header: 'Team', accessor: 'team', sortable: true },
+    {
+      id: 'status',
+      header: 'Status',
+      accessor: 'status',
+      sortable: true,
+      cell: (record) => (
+        <Badge variant="tonal" color={record.status === 'Closed' ? 'success' : record.status === 'In review' ? 'warning' : 'default'}>
+          {record.status}
+        </Badge>
+      ),
+    },
+    { id: 'updated', header: 'Updated', accessor: 'updated' },
+  ], [])
 
   function clearAll() {
     setQuery('')
-    setStatus('All statuses')
-    setTeam('All teams')
+    setStatus('')
+    setTeam('')
+    setActiveView('all')
+  }
+
+  function applySavedView(id: string) {
+    setActiveView(id)
+    setQuery('')
+    if (id === 'open') {
+      setStatus('Open')
+      setTeam('')
+    } else if (id === 'finance-review') {
+      setStatus('In review')
+      setTeam('Finance')
+    } else {
+      setStatus('')
+      setTeam('')
+    }
   }
 
   return (
     <div className="enterprise-filter-preview">
       <div className="enterprise-filter-preview-topbar">
         <div><span>OPERATIONS</span><h3>Work items</h3></div>
-        <button type="button" onClick={() => setSaved((value) => !value)} aria-pressed={saved}>
-          <i className={`ti ${saved ? 'ti-bookmark-filled' : 'ti-bookmark'}`} aria-hidden="true" />
-          {saved ? 'View saved' : 'Save view'}
-        </button>
+        <Button variant="outlined" onClick={() => setViewsOpen((value) => !value)} aria-expanded={viewsOpen}>
+          <i className="ti ti-bookmark" aria-hidden="true" />Saved views
+        </Button>
       </div>
 
-      <div className="enterprise-filter-preview-controls">
-        <label className="enterprise-filter-search">
-          <span>Search records</span>
-          <div><i className="ti ti-search" aria-hidden="true" /><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="ID or work item" /></div>
-        </label>
-        <label><span>Status</span><select value={status} onChange={(event) => setStatus(event.target.value)}><option>All statuses</option><option>Open</option><option>In review</option><option>Closed</option></select></label>
-        <label><span>Team</span><select value={team} onChange={(event) => setTeam(event.target.value)}><option>All teams</option><option>Security</option><option>Finance</option><option>Platform</option></select></label>
-      </div>
+      <div className="enterprise-filter-preview-workspace" data-views-open={viewsOpen || undefined}>
+        {viewsOpen && (
+          <aside className="enterprise-filter-preview-views" aria-label="Saved filtering views">
+            <SavedViews
+              title="Saved views"
+              views={SAVED_VIEWS}
+              value={activeView}
+              onValueChange={applySavedView}
+              size="sm"
+            />
+          </aside>
+        )}
+        <div className="enterprise-filter-preview-content">
+          <FilterBar
+            variant="plain"
+            size="sm"
+            searchValue={query}
+            onSearchChange={setQuery}
+            searchLabel="Search work items"
+            searchPlaceholder="ID or work item"
+            filters={filters}
+            resultCount={results.length}
+            formatResultCount={(count) => `${count} ${count === 1 ? 'record' : 'records'}`}
+            onReset={clearAll}
+            resetLabel="Clear all filters"
+            collapsible={false}
+            actions={<Button variant="outlined">Export</Button>}
+          />
 
-      <div className="enterprise-filter-preview-summary">
-        <div className="enterprise-filter-preview-chips">
-          {activeFilters.map((filter) => <button type="button" key={filter.label} onClick={filter.clear}>{filter.label}<i className="ti ti-x" aria-hidden="true" /></button>)}
-          {(query || activeFilters.length > 0) && <button type="button" className="enterprise-filter-clear" onClick={clearAll}>Clear all</button>}
-          {!query && activeFilters.length === 0 && <span>No filters applied</span>}
+          <div className="enterprise-filter-preview-table-wrap">
+            <DataTable
+              columns={columns}
+              data={results}
+              getRowId={(record) => record.id}
+              caption="Filtered work items"
+              variant="plain"
+              size="sm"
+              defaultSort={{ columnId: 'work-item', direction: 'asc' }}
+              emptyState={
+                <div className="enterprise-filter-empty">
+                  <i className="ti ti-filter-off" aria-hidden="true" />
+                  <strong>No matching work items</strong>
+                  <span>Adjust or clear the filters to broaden your results.</span>
+                  <Button variant="outlined" onClick={clearAll}>Clear all filters</Button>
+                </div>
+              }
+            />
+          </div>
         </div>
-        <strong aria-live="polite">{results.length} {results.length === 1 ? 'record' : 'records'}</strong>
-      </div>
-
-      <div className="enterprise-filter-preview-table-wrap" tabIndex={0} role="region" aria-label="Filtered work items">
-        <table>
-          <thead><tr><th scope="col">Work item</th><th scope="col">Team</th><th scope="col">Status</th><th scope="col">Updated</th></tr></thead>
-          <tbody>
-            {results.map((record) => (
-              <tr key={record.id}>
-                <th scope="row"><span>{record.name}</span><small>{record.id}</small></th>
-                <td>{record.team}</td>
-                <td><span className="enterprise-filter-status" data-status={record.status.toLowerCase().replace(' ', '-')}>{record.status}</span></td>
-                <td>{record.updated}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        {results.length === 0 && <div className="enterprise-filter-empty"><i className="ti ti-filter-off" aria-hidden="true" /><strong>No matching work items</strong><span>Adjust or clear the filters to broaden your results.</span><button type="button" onClick={clearAll}>Clear all filters</button></div>}
       </div>
       <p className="enterprise-filter-preview-note"><i className="ti ti-info-circle" aria-hidden="true" />Try changing status and team filters. Every criterion stays visible and reversible.</p>
     </div>
