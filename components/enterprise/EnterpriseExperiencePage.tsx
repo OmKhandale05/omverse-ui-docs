@@ -21,6 +21,7 @@ import { EnterpriseAnatomyPreview } from './EnterpriseAnatomyPreview'
 import { FilteringRecordsPreview } from './FilteringRecordsPreview'
 import { BulkActionsPreview } from './BulkActionsPreview'
 import { ApprovalFlowPreview } from './ApprovalFlowPreview'
+import { RoleBasedAccessPreview } from './RoleBasedAccessPreview'
 
 interface EnterpriseExperiencePageProps {
   breadcrumb: string[]
@@ -78,6 +79,17 @@ export function EnterpriseExperiencePage({ breadcrumb, resource }: EnterpriseExp
                 layout="grid"
               >
                 <ApprovalFlowPreview />
+              </ComponentPreview>
+            </div>
+          )}
+          {resource.slug === 'role-based-access' && (
+            <div className="enterprise-pattern-preview">
+              <ComponentPreview
+                title="Preview workspace capabilities by role"
+                description="Switch roles to compare allowed, disabled, and replaced capability surfaces, inspect the read-only grant matrix, and request escalation."
+                layout="grid"
+              >
+                <RoleBasedAccessPreview />
               </ComponentPreview>
             </div>
           )}
