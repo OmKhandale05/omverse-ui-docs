@@ -91,12 +91,29 @@ function EmptyNoResultsAnatomy() {
   )
 }
 
+function ObjectDetailAnatomy() {
+  return (
+    <div className="enterprise-object-anatomy" aria-label="Object detail preview anatomy diagram">
+      <header><span><small>WRK-1842</small><strong>Renewal risk review</strong></span><b>In review</b></header>
+      <section><div><small>Owner</small><strong>Maya Chen</strong></div><div><small>Value</small><strong>$128,400</strong></div><div><small>Updated</small><strong>12m ago</strong></div></section>
+      <div className="enterprise-object-anatomy-summary"><small>NEXT STEP</small><span>Confirm executive sponsor.</span></div>
+      <footer><button type="button" tabIndex={-1}>Quick action</button><strong>Open full details →</strong></footer>
+      <Marker number={1} className="enterprise-object-marker--one component-anatomy-marker--leader-down" />
+      <Marker number={2} className="enterprise-object-marker--two component-anatomy-marker--leader-left" />
+      <Marker number={3} className="enterprise-object-marker--three component-anatomy-marker--leader-up" />
+      <Marker number={4} className="enterprise-object-marker--four component-anatomy-marker--leader-left" />
+      <Marker number={5} className="enterprise-object-marker--five component-anatomy-marker--leader-up" />
+    </div>
+  )
+}
+
 export function EnterpriseAnatomyPreview({ resource }: { resource: EnterpriseResource }) {
   if (resource.slug === 'filtering-records') return <FilteringAnatomy />
   if (resource.slug === 'bulk-actions') return <BulkActionsAnatomy />
   if (resource.slug === 'approval-flow') return <ApprovalFlowAnatomy />
   if (resource.slug === 'role-based-access') return <RoleBasedAccessAnatomy />
   if (resource.slug === 'empty-no-results') return <EmptyNoResultsAnatomy />
+  if (resource.slug === 'object-detail-preview') return <ObjectDetailAnatomy />
 
   return (
     <div className="enterprise-floorplan-diagram" aria-label={`${resource.title} anatomy diagram`}>

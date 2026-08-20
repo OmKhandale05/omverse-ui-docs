@@ -23,6 +23,7 @@ import { BulkActionsPreview } from './BulkActionsPreview'
 import { ApprovalFlowPreview } from './ApprovalFlowPreview'
 import { RoleBasedAccessPreview } from './RoleBasedAccessPreview'
 import { EmptyNoResultsPreview } from './EmptyNoResultsPreview'
+import { ObjectDetailPreview } from './ObjectDetailPreview'
 
 interface EnterpriseExperiencePageProps {
   breadcrumb: string[]
@@ -35,6 +36,7 @@ const PRIMARY_REFERENCE_BY_SLUG: Record<string, string> = {
   'approval-flow': '/components/approval-card',
   'role-based-access': '/components/access-gate',
   'empty-no-results': '/components/empty-state',
+  'object-detail-preview': '/components/side-panel',
   'saved-views': '/components/saved-views',
 }
 
@@ -111,6 +113,17 @@ export function EnterpriseExperiencePage({ breadcrumb, resource }: EnterpriseExp
                 layout="grid"
               >
                 <EmptyNoResultsPreview />
+              </ComponentPreview>
+            </div>
+          )}
+          {resource.slug === 'object-detail-preview' && (
+            <div className="enterprise-pattern-preview">
+              <ComponentPreview
+                title="Inspect work without losing list context"
+                description="Select records, reveal progressive detail, test the restricted state, and follow the explicit route to the complete object."
+                layout="grid"
+              >
+                <ObjectDetailPreview />
               </ComponentPreview>
             </div>
           )}

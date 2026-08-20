@@ -38,6 +38,21 @@ test('enterprise route exposes its complete product story', async ({ page }) => 
   await expect(page.getByRole('link', { name: /Start building/ })).toHaveAttribute('href', '/docs/installation')
 })
 
+test('object detail pattern provides interactive preview and canonical documentation', async ({ page }) => {
+  await page.goto('/enterprise/patterns/object-detail-preview')
+
+  await expect(page.getByRole('heading', { level: 1, name: 'Object detail preview' })).toBeVisible()
+  await expect(page.locator('.component-doc-section > header h2')).toHaveText(componentDocumentationSections)
+
+  await page.getByRole('button', { name: /WRK-1838/ }).click()
+  await expect(page.getByRole('complementary', { name: 'WRK-1838 preview' })).toContainText('Kinetic Health')
+  await page.getByRole('button', { name: 'Quick preview' }).click()
+  await expect(page.getByText('Attach the updated data-retention policy.')).toBeVisible()
+
+  await page.getByRole('button', { name: /WRK-1821/ }).click()
+  await expect(page.getByRole('heading', { level: 4, name: 'Preview restricted' })).toBeVisible()
+})
+
 for (const route of ['/components/button', '/components/input', '/components/textarea', '/components/search-field', '/components/file-upload', '/components/segmented-control', '/components/split-button', '/components/inline-edit', '/components/transfer-list', '/components/saved-views', '/components/query-builder', '/components/column-manager', '/components/permission-matrix', '/components/activity-feed', '/components/notification-center', '/components/select', '/components/card', '/components/tabs', '/components/dialog', '/components/data-table', '/components/filter-bar', '/components/toolbar', '/components/tree-view', '/components/combobox', '/components/side-panel', '/components/command-bar', '/components/empty-state', '/components/audit-log', '/components/alert']) {
   test(`${route} follows the canonical twelve-section structure`, async ({ page, isMobile }) => {
     await page.goto(route)
