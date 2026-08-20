@@ -48,6 +48,7 @@ const TECHNOLOGIES: SelectOption[] = [
 
 const SELECT_PROPS = [
   { name: 'label', type: 'string', default: 'undefined', description: 'Visible label above the trigger.' },
+  { name: 'aria-label', type: 'string', default: 'label or placeholder', description: 'Names the combobox trigger when a visible Select label is supplied by its parent composition.' },
   { name: 'placeholder', type: 'string', default: "'Select…'", description: 'Prompt shown when no option is selected.' },
   { name: 'helperText', type: 'string', default: 'undefined', description: 'Persistent guidance below the field.' },
   { name: 'required', type: 'boolean', default: 'false', description: 'Marks the selection as required.' },
