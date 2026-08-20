@@ -1981,4 +1981,60 @@ a {
   }
 }
 
+.approval-card-demo {
+  display: grid;
+  width: 100%;
+  gap: 12px;
+}
+
+.approval-card-demo > button { justify-self: start; }
+
+.approval-card-demo-result {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 12px;
+}
+
+.approval-card-anatomy {
+  position: relative;
+  display: grid;
+  width: 320px;
+  min-height: 214px;
+  padding: 32px 10px 28px;
+  overflow: hidden;
+  border: 1px solid var(--color-outline-variant);
+  border-radius: 10px;
+  background: var(--color-background);
+  gap: 0;
+}
+
+.approval-card-anatomy header,
+.approval-card-anatomy section,
+.approval-card-anatomy footer {
+  display: flex;
+  min-width: 0;
+  padding: 8px;
+  align-items: center;
+  border-bottom: 1px solid var(--color-outline-variant);
+  gap: 6px;
+}
+
+.approval-card-anatomy header { justify-content: space-between; }
+.approval-card-anatomy header span { display: grid; }
+.approval-card-anatomy header small { color: var(--color-text-secondary); font-size: 5px; }
+.approval-card-anatomy header strong { font-size: 8px; }
+.approval-card-anatomy header b { padding: 4px 6px; border-radius: 10px; background: var(--color-info-container); color: var(--color-on-info-container); font-size: 6px; }
+.approval-card-anatomy-meta { justify-content: space-between; color: var(--color-text-secondary); font-size: 6px; }
+.approval-card-anatomy-stages i { flex: 1; padding: 5px; border-radius: 5px; background: var(--color-surface-container); font-size: 6px; font-style: normal; }
+.approval-card-anatomy-checks span { flex: 1; padding: 5px; border: 1px solid var(--color-outline-variant); border-radius: 5px; font-size: 6px; }
+.approval-card-anatomy footer { border-bottom: 0; justify-content: flex-end; font-size: 6px; }
+.approval-card-anatomy footer span { margin-right: auto; color: var(--color-text-secondary); }
+.approval-card-anatomy footer b,
+.approval-card-anatomy footer strong { padding: 5px 7px; border: 1px solid var(--color-outline-variant); border-radius: 5px; }
+.approval-card-anatomy footer strong { border-color: var(--color-primary); background: var(--color-primary); color: var(--color-on-primary); }
+
+@media (max-width: 420px) {
+  .approval-card-anatomy { width: 290px; }
+}
+
 @source "../node_modules/omverse-ui/dist/index.js";

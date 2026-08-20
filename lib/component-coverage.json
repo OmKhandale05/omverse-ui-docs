@@ -183,6 +183,9 @@
   "/components/bulk-action-bar": [
     "BulkActionBar"
   ],
+  "/components/approval-card": [
+    "ApprovalCard"
+  ],
   "/components/transfer-list": [
     "TransferList"
   ],
