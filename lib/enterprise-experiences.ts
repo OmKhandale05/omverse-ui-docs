@@ -243,10 +243,10 @@ export function WorkItemsView() {
         ],
         anatomy: [
           { number: 1, name: 'Selection model', description: 'Maintains which records are included in the current scope.' },
-          { number: 2, name: 'Action registry', description: 'Curates allowed operations by role and record state.' },
-          { number: 3, name: 'Execution summary', description: 'Explains projected impact before commit.' },
-          { number: 4, name: 'Confirmation path', description: 'Provides explicit review for high-impact updates.' },
-          { number: 5, name: 'Result feedback', description: 'Shows success and failure counts with recovery links.' },
+          { number: 2, name: 'Scope summary', description: 'States the selected count and collection boundary in plain language.' },
+          { number: 3, name: 'Available actions', description: 'Shows safe, frequent operations allowed across the full selection.' },
+          { number: 4, name: 'Overflow and review', description: 'Contains lower-frequency actions and routes high-risk changes to confirmation.' },
+          { number: 5, name: 'Clear and result path', description: 'Leaves bulk mode predictably and reports complete or partial outcomes.' },
         ],
         whenToUse: [
           { title: 'Repetitive updates', description: 'When many records need the same operational adjustment.' },
@@ -291,12 +291,32 @@ export function WorkItemsView() {
         ],
         examples: [
           {
-            heading: 'Production use',
+            heading: 'Connect selection to actions',
             points: [
-              'Allow bulk archive for tickets older than a threshold with a confirmation summary.',
-              'Block mixed-state selections and explain in-context why some rows are excluded.',
-              'Provide a "download report" fallback before destructive actions.',
+              'Keep selected row identifiers in controlled application state.',
+              'Supply only actions permitted across the entire current selection.',
+              'Clear selection after a successful operation and show a durable result summary.',
             ],
+            filename: 'BulkWorkItems.tsx',
+            language: 'tsx',
+            code: `const [selectedIds, setSelectedIds] = useState<readonly Key[]>([])
+
+<DataTable
+  data={workItems}
+  columns={columns}
+  getRowId={(row) => row.id}
+  caption="Work items"
+  selectable
+  selectedRowIds={selectedIds}
+  onSelectionChange={setSelectedIds}
+/>
+
+<BulkActionBar
+  selectedCount={selectedIds.length}
+  totalCount={workItems.length}
+  onClearSelection={() => setSelectedIds([])}
+  actions={<Button onClick={() => assign(selectedIds)}>Assign reviewer</Button>}
+/>`,
           },
         ],
         props: [
@@ -306,7 +326,7 @@ export function WorkItemsView() {
           { name: 'showUndo', type: 'boolean', default: 'true', description: 'Enable rollback-oriented feedback when possible.' },
         ],
         related: [
-          { name: 'Toolbar', href: '/components/toolbar', description: 'Action surface for contextual command groups.', icon: 'ti-layout-navbar' },
+          { name: 'BulkActionBar', href: '/components/bulk-action-bar', description: 'Selection-aware action scope and keyboard behavior.', icon: 'ti-list-check' },
           { name: 'Table', href: '/components/data-table', description: 'Row selection and summary patterns.', icon: 'ti-table' },
           { name: 'SidePanel', href: '/components/side-panel', description: 'Review and confirm batch details.', icon: 'ti-layout-sidebar-right' },
         ],

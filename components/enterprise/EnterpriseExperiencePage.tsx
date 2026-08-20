@@ -19,6 +19,7 @@ import { COMPONENT_DOC_SECTIONS } from '@/components/docs/ComponentDocumentation
 import type { EnterpriseResource } from '@/lib/enterprise-experiences'
 import { EnterpriseAnatomyPreview } from './EnterpriseAnatomyPreview'
 import { FilteringRecordsPreview } from './FilteringRecordsPreview'
+import { BulkActionsPreview } from './BulkActionsPreview'
 
 interface EnterpriseExperiencePageProps {
   breadcrumb: string[]
@@ -54,6 +55,17 @@ export function EnterpriseExperiencePage({ breadcrumb, resource }: EnterpriseExp
                 layout="grid"
               >
                 <FilteringRecordsPreview />
+              </ComponentPreview>
+            </div>
+          )}
+          {resource.slug === 'bulk-actions' && (
+            <div className="enterprise-pattern-preview">
+              <ComponentPreview
+                title="Act on selected records"
+                description="Select eligible rows, review the exact scope, use a visible or overflow action, and clear the selection."
+                layout="grid"
+              >
+                <BulkActionsPreview />
               </ComponentPreview>
             </div>
           )}

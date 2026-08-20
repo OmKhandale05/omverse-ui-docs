@@ -29,8 +29,23 @@ function FilteringAnatomy() {
   )
 }
 
+function BulkActionsAnatomy() {
+  return (
+    <div className="enterprise-bulk-anatomy" aria-label="Bulk actions anatomy diagram">
+      <div className="enterprise-bulk-anatomy-table"><span /><span data-selected /><span data-selected /><span /></div>
+      <div className="enterprise-bulk-anatomy-bar"><strong>2 selected</strong><span>Export</span><span>Assign</span><i>•••</i><i>×</i></div>
+      <Marker number={1} className="enterprise-bulk-marker--one component-anatomy-marker--leader-down" />
+      <Marker number={2} className="enterprise-bulk-marker--two component-anatomy-marker--leader-up" />
+      <Marker number={3} className="enterprise-bulk-marker--three component-anatomy-marker--leader-up" />
+      <Marker number={4} className="enterprise-bulk-marker--four component-anatomy-marker--leader-left" />
+      <Marker number={5} className="enterprise-bulk-marker--five component-anatomy-marker--leader-left" />
+    </div>
+  )
+}
+
 export function EnterpriseAnatomyPreview({ resource }: { resource: EnterpriseResource }) {
   if (resource.slug === 'filtering-records') return <FilteringAnatomy />
+  if (resource.slug === 'bulk-actions') return <BulkActionsAnatomy />
 
   return (
     <div className="enterprise-floorplan-diagram" aria-label={`${resource.title} anatomy diagram`}>
