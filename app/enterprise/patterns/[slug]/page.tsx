@@ -1,14 +1,9 @@
 import { notFound } from 'next/navigation'
 import { guideMetadata } from '@/lib/page-metadata'
 import {
-  ENTERPRISE_EXPERIENCE_CATALOG,
   getEnterpriseResource,
 } from '@/lib/enterprise-experiences'
 import { EnterpriseExperiencePage } from '@/components/enterprise/EnterpriseExperiencePage'
-
-export async function generateStaticParams() {
-  return ENTERPRISE_EXPERIENCE_CATALOG.patterns.items.map((item) => ({ slug: item.slug }))
-}
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const resolved = await params
