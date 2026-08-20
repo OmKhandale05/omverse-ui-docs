@@ -22,10 +22,20 @@ import { FilteringRecordsPreview } from './FilteringRecordsPreview'
 import { BulkActionsPreview } from './BulkActionsPreview'
 import { ApprovalFlowPreview } from './ApprovalFlowPreview'
 import { RoleBasedAccessPreview } from './RoleBasedAccessPreview'
+import { EmptyNoResultsPreview } from './EmptyNoResultsPreview'
 
 interface EnterpriseExperiencePageProps {
   breadcrumb: string[]
   resource: EnterpriseResource
+}
+
+const PRIMARY_REFERENCE_BY_SLUG: Record<string, string> = {
+  'filtering-records': '/components/filter-bar',
+  'bulk-actions': '/components/bulk-action-bar',
+  'approval-flow': '/components/approval-card',
+  'role-based-access': '/components/access-gate',
+  'empty-no-results': '/components/empty-state',
+  'saved-views': '/components/saved-views',
 }
 
 export function EnterpriseExperiencePage({ breadcrumb, resource }: EnterpriseExperiencePageProps) {
@@ -90,6 +100,17 @@ export function EnterpriseExperiencePage({ breadcrumb, resource }: EnterpriseExp
                 layout="grid"
               >
                 <RoleBasedAccessPreview />
+              </ComponentPreview>
+            </div>
+          )}
+          {resource.slug === 'empty-no-results' && (
+            <div className="enterprise-pattern-preview">
+              <ComponentPreview
+                title="Recover from a meaningful empty result"
+                description="Compare first-use, filtered, and permission-limited outcomes, then use each recommended recovery path without losing page context."
+                layout="grid"
+              >
+                <EmptyNoResultsPreview />
               </ComponentPreview>
             </div>
           )}
@@ -201,7 +222,7 @@ export function EnterpriseExperiencePage({ breadcrumb, resource }: EnterpriseExp
                 )}
               </div>
             ))}
-            <Link href={resource.slug.includes('view') ? '/components/saved-views' : '/components/data-table'} style={{ color: 'var(--color-primary)' }}>
+            <Link href={PRIMARY_REFERENCE_BY_SLUG[resource.slug] ?? '/components/data-table'} style={{ color: 'var(--color-primary)' }}>
               Open linked component reference for implementation patterns
             </Link>
           </div>

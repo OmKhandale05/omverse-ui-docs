@@ -74,11 +74,29 @@ function RoleBasedAccessAnatomy() {
   )
 }
 
+function EmptyNoResultsAnatomy() {
+  return (
+    <div className="enterprise-empty-anatomy" aria-label="Empty no-results anatomy diagram">
+      <div className="enterprise-empty-anatomy-visual"><i className="ti ti-filter-off" aria-hidden="true" /></div>
+      <strong>No exceptions match</strong>
+      <p>Clear a filter or broaden the environment.</p>
+      <div className="enterprise-empty-anatomy-actions"><button type="button" tabIndex={-1}>Clear filters</button><span>View all</span></div>
+      <small>Search and scope remain available.</small>
+      <Marker number={1} className="enterprise-empty-marker--one component-anatomy-marker--leader-down" />
+      <Marker number={2} className="enterprise-empty-marker--two component-anatomy-marker--leader-right" />
+      <Marker number={3} className="enterprise-empty-marker--three component-anatomy-marker--leader-left" />
+      <Marker number={4} className="enterprise-empty-marker--four component-anatomy-marker--leader-right" />
+      <Marker number={5} className="enterprise-empty-marker--five component-anatomy-marker--leader-up" />
+    </div>
+  )
+}
+
 export function EnterpriseAnatomyPreview({ resource }: { resource: EnterpriseResource }) {
   if (resource.slug === 'filtering-records') return <FilteringAnatomy />
   if (resource.slug === 'bulk-actions') return <BulkActionsAnatomy />
   if (resource.slug === 'approval-flow') return <ApprovalFlowAnatomy />
   if (resource.slug === 'role-based-access') return <RoleBasedAccessAnatomy />
+  if (resource.slug === 'empty-no-results') return <EmptyNoResultsAnatomy />
 
   return (
     <div className="enterprise-floorplan-diagram" aria-label={`${resource.title} anatomy diagram`}>
