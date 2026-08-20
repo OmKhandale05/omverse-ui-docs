@@ -180,6 +180,9 @@
   "/components/toolbar": [
     "Toolbar"
   ],
+  "/components/bulk-action-bar": [
+    "BulkActionBar"
+  ],
   "/components/transfer-list": [
     "TransferList"
   ],
