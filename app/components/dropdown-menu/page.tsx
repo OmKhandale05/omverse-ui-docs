@@ -331,7 +331,7 @@ export default function DropdownMenuPage() {
           <ul className="component-doc-prose">
             <li>Use visible labels with sufficient contrast, especially in compact menus.</li>
             <li>Preserve focus ring and keyboard navigation order.</li>
-            <li>Use `intent="danger"` and ARIA labels for destructive actions.</li>
+            <li>Use <code>intent=&quot;danger&quot;</code> and ARIA labels for destructive actions.</li>
           </ul>
         </ComponentDocSection>
 
