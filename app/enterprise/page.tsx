@@ -2,8 +2,10 @@ import { CapabilityGrid } from '@/components/enterprise/CapabilityGrid'
 import { EnterpriseCTA } from '@/components/enterprise/EnterpriseCTA'
 import { EnterpriseFooter } from '@/components/enterprise/EnterpriseFooter'
 import { EnterpriseHero } from '@/components/enterprise/EnterpriseHero'
+import { EnterpriseExperienceCatalog } from '@/components/enterprise/EnterpriseExperienceCatalog'
 import { GovernanceSection } from '@/components/enterprise/GovernanceSection'
 import { ReliabilitySection } from '@/components/enterprise/ReliabilitySection'
+import { ENTERPRISE_EXPERIENCE_CATALOG } from '@/lib/enterprise-experiences'
 
 const trustItems = [
   { value: '58', label: 'typed public exports' },
@@ -24,6 +26,9 @@ export default function EnterprisePage() {
         </div>
       </section>
       <CapabilityGrid />
+      <EnterpriseExperienceCatalog category="patterns" config={ENTERPRISE_EXPERIENCE_CATALOG.patterns} />
+      <EnterpriseExperienceCatalog category="floorplans" config={ENTERPRISE_EXPERIENCE_CATALOG.floorplans} />
+      <EnterpriseExperienceCatalog category="templates" config={ENTERPRISE_EXPERIENCE_CATALOG.templates} />
       <GovernanceSection />
       <ReliabilitySection />
       <EnterpriseCTA />

@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 import { usePathname } from 'next/navigation'
-import { DOCS_NAVIGATION } from '@/lib/navigation'
+import { DOCS_NAVIGATION, ENTERPRISE_NAVIGATION } from '@/lib/navigation'
 
 function SearchIcon() {
   return (
@@ -164,7 +164,18 @@ export function Navbar() {
                 ))}
                 <a href="https://github.com/OmKhandale05/omverse-ui-docs" target="_blank" rel="noopener noreferrer">GitHub</a>
               </div>
-              {pathname !== '/' && DOCS_NAVIGATION.map((section) => (
+              {pathname.startsWith('/enterprise') && ENTERPRISE_NAVIGATION.map((section) => (
+                <div key={section.title} className="mobile-navigation-section">
+                  <h2>Enterprise {section.title}</h2>
+                  {section.items.map((item) => (
+                    <Link key={item.href} href={item.href} onClick={closeMobileMenu} aria-current={pathname === item.href ? 'page' : undefined}>
+                      {item.label}
+                      {item.badge === 'new' && <span className="docs-sidebar-badge">new</span>}
+                    </Link>
+                  ))}
+                </div>
+              ))}
+              {pathname !== '/' && !pathname.startsWith('/enterprise') && DOCS_NAVIGATION.map((section) => (
                 <div key={section.title} className="mobile-navigation-section">
                   <h2>{section.title}</h2>
                   {section.items.map((item) => (

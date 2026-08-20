@@ -8,6 +8,9 @@ export function EnterpriseFooter() {
         <p>Accessible React foundations for ambitious product teams.</p>
         <div>
           <Link href="/components/button">Components</Link>
+          <Link href="/enterprise/patterns">Patterns</Link>
+          <Link href="/enterprise/floorplans">Floorplans</Link>
+          <Link href="/enterprise/templates">Templates</Link>
           <Link href="/docs/introduction">Documentation</Link>
           <a href="https://github.com/OmKhandale05/omverse-ui-docs" target="_blank" rel="noopener noreferrer">GitHub</a>
         </div>

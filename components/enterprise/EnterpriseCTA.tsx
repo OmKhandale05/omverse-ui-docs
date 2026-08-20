@@ -16,6 +16,9 @@ export function EnterpriseCTA() {
               Read installation guide
               <i className="ti ti-arrow-right" aria-hidden="true" />
             </Link>
+            <Link className="enterprise-button enterprise-button--dark-outline" href="/enterprise/patterns">
+              Browse enterprise patterns
+            </Link>
             <a
               className="enterprise-button enterprise-button--dark-outline"
               href="https://github.com/OmKhandale05/omverse-ui-docs/issues"

@@ -1003,6 +1003,103 @@
   color: var(--color-text-primary);
 }
 
+.enterprise-experience-grid {
+  margin-top: 54px;
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.enterprise-experience-card {
+  display: grid;
+  min-height: 182px;
+  padding: 22px;
+  border: 1px solid var(--color-outline-variant);
+  border-radius: 14px;
+  background: var(--color-background);
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.enterprise-experience-card:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--color-primary) 40%, var(--color-outline-variant));
+  background: var(--color-surface);
+}
+
+.enterprise-experience-card-eyebrow {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-text-secondary);
+  font-size: 10px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.enterprise-experience-card h3 {
+  margin: 12px 0 0;
+  color: var(--color-text-primary);
+  font-size: 20px;
+  letter-spacing: -0.03em;
+  line-height: 1.14;
+}
+
+.enterprise-experience-card p {
+  margin: 10px 0 0;
+  color: var(--color-text-secondary);
+  font-size: 13px;
+  line-height: 1.62;
+}
+
+.enterprise-experience-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: auto;
+  padding-top: 14px;
+}
+
+.enterprise-experience-card-tags span {
+  font-size: 9px;
+  padding: 3px 7px;
+  border-radius: 999px;
+  border: 1px solid var(--color-outline-variant);
+  color: var(--color-text-tertiary);
+}
+
+.enterprise-anatomy-visual {
+  width: min(100%, 380px);
+}
+
+.enterprise-floorplan-diagram {
+  width: 100%;
+  max-width: 340px;
+  padding: 12px;
+  display: grid;
+  gap: 10px;
+  border: 1px solid var(--color-outline-variant);
+  border-radius: 10px;
+  background: var(--color-surface);
+}
+
+.enterprise-floorplan-diagram > div {
+  min-height: 44px;
+  border: 1px dashed color-mix(in srgb, var(--color-outline) 58%, transparent);
+  border-radius: 7px;
+  display: grid;
+  place-items: center;
+  color: var(--color-text-secondary);
+  font-size: 11px;
+}
+
+.enterprise-example-title {
+  margin: 0 0 10px;
+  color: var(--color-text-primary);
+  font-size: 16px;
+  letter-spacing: -0.02em;
+}
+
 @media (max-width: 1023px) {
   .enterprise-hero-grid {
     padding-block: 76px;
@@ -1035,6 +1132,10 @@
     width: fit-content;
     align-items: center;
     flex-direction: row;
+  }
+
+  .enterprise-experience-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -1144,6 +1245,15 @@
   .enterprise-release-summary,
   .enterprise-stat-row {
     grid-template-columns: 1fr;
+  }
+
+  .enterprise-experience-grid {
+    margin-top: 36px;
+    grid-template-columns: 1fr;
+  }
+
+  .enterprise-experience-card {
+    min-height: 0;
   }
 
   .enterprise-cta-section {

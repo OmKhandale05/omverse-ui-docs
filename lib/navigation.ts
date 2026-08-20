@@ -1,3 +1,10 @@
+import {
+  ENTERPRISE_CATEGORIES,
+  ENTERPRISE_EXPERIENCE_CATALOG,
+  formatEnterprisePath,
+  type EnterpriseCategory,
+} from './enterprise-experiences'
+
 export interface NavigationItem {
   label: string
   href: string
@@ -118,3 +125,31 @@ export const EXAMPLE_NAVIGATION: NavigationItem[] = [
 ]
 
 export const DOCS_ROUTES = DOCS_NAVIGATION.flatMap((section) => section.items)
+
+const ENTERPRISE_CATEGORY_ICONS: Record<EnterpriseCategory, string> = {
+  patterns: 'ti-route',
+  floorplans: 'ti-layout-dashboard',
+  templates: 'ti-template',
+}
+
+export const ENTERPRISE_NAVIGATION: NavigationSection[] = ENTERPRISE_CATEGORIES.map((category) => ({
+  title: ENTERPRISE_EXPERIENCE_CATALOG[category].label,
+  items: [
+    {
+      label: `All ${ENTERPRISE_EXPERIENCE_CATALOG[category].label}`,
+      href: `/enterprise/${category}`,
+      icon: ENTERPRISE_CATEGORY_ICONS[category],
+    },
+    ...ENTERPRISE_EXPERIENCE_CATALOG[category].items.map((item) => ({
+      label: item.title,
+      href: formatEnterprisePath(category, item.slug),
+      icon: item.icon,
+      badge: 'new' as const,
+    })),
+  ],
+}))
+
+export const ENTERPRISE_ROUTES = [
+  { label: 'Enterprise', href: '/enterprise', icon: 'ti-building-skyscraper' },
+  ...ENTERPRISE_NAVIGATION.flatMap((section) => section.items),
+]

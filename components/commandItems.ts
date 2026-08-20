@@ -1,4 +1,4 @@
-import { DOCS_NAVIGATION, EXAMPLE_NAVIGATION } from '@/lib/navigation'
+import { DOCS_NAVIGATION, ENTERPRISE_NAVIGATION, EXAMPLE_NAVIGATION } from '@/lib/navigation'
 
 export interface CommandItem {
   id: string
@@ -10,6 +10,7 @@ export interface CommandItem {
 
 export const COMMAND_GROUPS = [
   'Product',
+  ...ENTERPRISE_NAVIGATION.map((section) => `Enterprise ${section.title}`),
   ...DOCS_NAVIGATION.map((section) => section.title),
   'Examples',
 ]
@@ -22,6 +23,15 @@ export const COMMAND_ITEMS: CommandItem[] = [
     group: 'Product',
     icon: 'ti-building-skyscraper',
   },
+  ...ENTERPRISE_NAVIGATION.flatMap((section) =>
+    section.items.map((item) => ({
+      id: item.href,
+      label: item.label,
+      href: item.href,
+      group: `Enterprise ${section.title}`,
+      icon: item.icon,
+    })),
+  ),
   ...DOCS_NAVIGATION.flatMap((section) =>
     section.items.map((item) => ({
       id: item.href,
