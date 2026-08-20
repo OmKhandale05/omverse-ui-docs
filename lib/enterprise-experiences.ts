@@ -500,32 +500,12 @@ export function WorkItemsView() {
         ],
         examples: [
           {
-            heading: 'Resolve capabilities before rendering',
+            heading: 'Production use',
             points: [
               'Role checks happen at both UI and API layers.',
               'Display disabled state rather than hard removal for frequently requested features.',
               'Pair each restricted control with a request escalation action.',
             ],
-            filename: 'BillingCapability.tsx',
-            language: 'tsx',
-            code: `const decision = await policy.can({
-  actor: session.user,
-  action: 'billing.export',
-  resource: workspace,
-})
-
-<AccessGate
-  allowed={decision.allowed}
-  deniedMode={decision.discoverable ? 'disable' : 'hide'}
-  title="Finance Admin access required"
-  reason={decision.reason}
-  action={<Button onClick={requestAccess}>Request access</Button>}
->
-  <Button onClick={exportBilling}>Export billing report</Button>
-</AccessGate>
-
-// UI state is not authorization.
-await authorize(session.user, 'billing.export', workspace)`,
           },
         ],
         props: [
@@ -535,7 +515,6 @@ await authorize(session.user, 'billing.export', workspace)`,
           { name: 'onRetry', type: '() => void', default: 'undefined', description: 'Refresh policy after role change.' },
         ],
         related: [
-          { name: 'AccessGate', href: '/components/access-gate', description: 'Adapt individual capability surfaces to resolved policy decisions.', icon: 'ti-shield-lock' },
           { name: 'PermissionMatrix', href: '/components/permission-matrix', description: 'Reference matrix interface for access decisions.', icon: 'ti-lock-access' },
           { name: 'Toast', href: '/components/toast', description: 'Surface permission escalation status.', icon: 'ti-check' },
           { name: 'Navbar', href: '/components/navbar', description: 'Role-aware navigation presentation.', icon: 'ti-layout-navbar' },

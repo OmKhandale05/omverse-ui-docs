@@ -59,26 +59,10 @@ function ApprovalFlowAnatomy() {
   )
 }
 
-function RoleBasedAccessAnatomy() {
-  return (
-    <div className="enterprise-access-anatomy" aria-label="Role-based access anatomy diagram">
-      <header><span>Identity: Viewer</span><strong>Workspace policy</strong></header>
-      <section><div><small>Analytics</small><b>View</b></div><div className="restricted"><small>Billing export</small><b>Restricted</b></div></section>
-      <footer><span>Finance Admin access required</span><button type="button" tabIndex={-1}>Request access</button></footer>
-      <Marker number={1} className="enterprise-access-marker--one component-anatomy-marker--leader-down" />
-      <Marker number={2} className="enterprise-access-marker--two component-anatomy-marker--leader-down" />
-      <Marker number={3} className="enterprise-access-marker--three component-anatomy-marker--leader-left" />
-      <Marker number={4} className="enterprise-access-marker--four component-anatomy-marker--leader-up" />
-      <Marker number={5} className="enterprise-access-marker--five component-anatomy-marker--leader-left" />
-    </div>
-  )
-}
-
 export function EnterpriseAnatomyPreview({ resource }: { resource: EnterpriseResource }) {
   if (resource.slug === 'filtering-records') return <FilteringAnatomy />
   if (resource.slug === 'bulk-actions') return <BulkActionsAnatomy />
   if (resource.slug === 'approval-flow') return <ApprovalFlowAnatomy />
-  if (resource.slug === 'role-based-access') return <RoleBasedAccessAnatomy />
 
   return (
     <div className="enterprise-floorplan-diagram" aria-label={`${resource.title} anatomy diagram`}>
