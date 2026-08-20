@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
+import { Suspense } from 'react'
 import { Navbar } from '@/components/layout/Navbar'
+import { EnterpriseDocsShell } from '@/components/enterprise/EnterpriseDocsShell'
 import './enterprise.css'
 
 export const metadata: Metadata = {
@@ -17,7 +19,9 @@ export default function EnterpriseLayout({ children }: { children: React.ReactNo
   return (
     <div className="enterprise-page-shell">
       <Navbar />
-      <main id="main-content" tabIndex={-1}>{children}</main>
+      <Suspense fallback={<main id="main-content" tabIndex={-1}>{children}</main>}>
+        <EnterpriseDocsShell>{children}</EnterpriseDocsShell>
+      </Suspense>
     </div>
   )
 }

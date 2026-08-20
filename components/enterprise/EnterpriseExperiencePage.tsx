@@ -16,6 +16,8 @@ import {
 } from '@/components/docs/ComponentDocumentation'
 import { COMPONENT_DOC_SECTIONS } from '@/components/docs/ComponentDocumentation'
 import type { EnterpriseResource } from '@/lib/enterprise-experiences'
+import { EnterpriseAnatomyPreview } from './EnterpriseAnatomyPreview'
+import { FilteringRecordsPreview } from './FilteringRecordsPreview'
 
 interface EnterpriseExperiencePageProps {
   breadcrumb: string[]
@@ -39,7 +41,7 @@ export function EnterpriseExperiencePage({ breadcrumb, resource }: EnterpriseExp
           description={resource.overview[0]}
         >
           <div className="component-doc-prose">
-            {resource.overview.map((paragraph) => (
+            {resource.overview.slice(1).map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
             ))}
           </div>
@@ -53,17 +55,7 @@ export function EnterpriseExperiencePage({ breadcrumb, resource }: EnterpriseExp
           <Anatomy
             preview={
               <div className="component-anatomy-visual enterprise-anatomy-visual">
-                <div className="enterprise-floorplan-diagram">
-                  <div>Header</div>
-                  <div>Controls</div>
-                  <div>List</div>
-                  <div>Summary</div>
-                  <span className="component-anatomy-marker component-anatomy-marker--leader-down" style={{ top: 18, left: 8 }}>1</span>
-                  <span className="component-anatomy-marker component-anatomy-marker--leader-down" style={{ top: 88, left: 142 }}>2</span>
-                  <span className="component-anatomy-marker component-anatomy-marker--leader-up" style={{ bottom: 24, left: 236 }}>3</span>
-                  <span className="component-anatomy-marker component-anatomy-marker--leader-up" style={{ bottom: -18, left: 336 }}>4</span>
-                  <span className="component-anatomy-marker component-anatomy-marker--leader-right" style={{ top: 150, left: 8 }}>5</span>
-                </div>
+                <EnterpriseAnatomyPreview resource={resource} />
               </div>
             }
             items={resource.anatomy}
@@ -144,6 +136,7 @@ export function EnterpriseExperiencePage({ breadcrumb, resource }: EnterpriseExp
           description="Reference implementation style, payloads, and practical behavior."
         >
           <div className="component-doc-stack">
+            {resource.slug === 'filtering-records' && <FilteringRecordsPreview />}
             {resource.examples.map((example) => (
               <div key={example.heading} className="component-doc-prose">
                 <h3 className="enterprise-example-title">{example.heading}</h3>
