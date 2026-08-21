@@ -241,6 +241,23 @@ test('work items template supports creation, layout, ownership, and status chang
   await expect(page.getByRole('status')).toContainText('assigned to Jon Bell')
 })
 
+test('users template connects directory, profile, access, and lifecycle outcomes', async ({ page }) => {
+  await page.goto('/enterprise/templates/users')
+  await expect(page.getByRole('heading', { level: 1, name: 'Users' })).toBeVisible()
+  await expect(page.locator('.component-doc-section > header h2')).toHaveText(componentDocumentationSections)
+  const anatomy = page.getByLabel('Users template anatomy diagram')
+  await expect(anatomy.locator('.component-anatomy-marker')).toHaveCount(5)
+  await page.getByRole('radio', { name: 'Access' }).click()
+  await expect(page.getByText('Authentication compliant')).toBeVisible()
+  await page.getByRole('radio', { name: 'Profile' }).click()
+  await page.getByLabel('Template role for Maya Chen').click()
+  await page.getByRole('option', { name: 'Approver' }).click()
+  await expect(page.getByRole('status')).toContainText('audit event IAM-9921')
+  await page.keyboard.press('Escape')
+  await page.getByRole('button', { name: 'Suspend access' }).click()
+  await expect(page.getByRole('status')).toContainText('Maya Chen suspended')
+})
+
 for (const route of ['/components/button', '/components/input', '/components/textarea', '/components/search-field', '/components/file-upload', '/components/segmented-control', '/components/split-button', '/components/inline-edit', '/components/transfer-list', '/components/saved-views', '/components/query-builder', '/components/column-manager', '/components/permission-matrix', '/components/activity-feed', '/components/notification-center', '/components/select', '/components/card', '/components/tabs', '/components/dialog', '/components/data-table', '/components/filter-bar', '/components/toolbar', '/components/tree-view', '/components/combobox', '/components/side-panel', '/components/command-bar', '/components/empty-state', '/components/audit-log', '/components/alert']) {
   test(`${route} follows the canonical twelve-section structure`, async ({ page, isMobile }) => {
     await page.goto(route)

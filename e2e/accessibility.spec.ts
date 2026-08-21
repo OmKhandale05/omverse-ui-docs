@@ -14,6 +14,7 @@ const routes = [
   '/enterprise/floorplans/approval-queue',
   '/enterprise/floorplans/settings',
   '/enterprise/templates/work-items',
+  '/enterprise/templates/users',
   '/docs/introduction',
   '/components/button',
   '/components/input',
