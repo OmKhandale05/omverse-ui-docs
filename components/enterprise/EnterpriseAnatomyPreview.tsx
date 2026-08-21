@@ -123,6 +123,21 @@ function ActivityAuditAnatomy() {
   )
 }
 
+function SavedViewsAnatomy() {
+  return (
+    <div className="enterprise-saved-anatomy" aria-label="Saved views anatomy diagram">
+      <header><span><strong>Renewals this month</strong><small>You · Updated 12m ago</small></span><b>Default</b><button type="button" tabIndex={-1}>•••</button></header>
+      <section><div><small>FILTERS</small><span>Stage: Renewal</span><span>Close: This month</span></div><div><small>SORT</small><strong>Value ↓</strong></div></section>
+      <footer><span><i className="ti ti-user" aria-hidden="true" />Personal</span><strong>4 columns configured</strong></footer>
+      <Marker number={1} className="enterprise-saved-marker--one component-anatomy-marker--leader-down" />
+      <Marker number={2} className="enterprise-saved-marker--two component-anatomy-marker--leader-right" />
+      <Marker number={3} className="enterprise-saved-marker--three component-anatomy-marker--leader-up" />
+      <Marker number={4} className="enterprise-saved-marker--four component-anatomy-marker--leader-left" />
+      <Marker number={5} className="enterprise-saved-marker--five component-anatomy-marker--leader-left" />
+    </div>
+  )
+}
+
 export function EnterpriseAnatomyPreview({ resource }: { resource: EnterpriseResource }) {
   if (resource.slug === 'filtering-records') return <FilteringAnatomy />
   if (resource.slug === 'bulk-actions') return <BulkActionsAnatomy />
@@ -131,6 +146,7 @@ export function EnterpriseAnatomyPreview({ resource }: { resource: EnterpriseRes
   if (resource.slug === 'empty-no-results') return <EmptyNoResultsAnatomy />
   if (resource.slug === 'object-detail-preview') return <ObjectDetailAnatomy />
   if (resource.slug === 'activity-audit-history') return <ActivityAuditAnatomy />
+  if (resource.slug === 'saved-views') return <SavedViewsAnatomy />
 
   return (
     <div className="enterprise-floorplan-diagram" aria-label={`${resource.title} anatomy diagram`}>

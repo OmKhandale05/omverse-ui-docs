@@ -67,6 +67,20 @@ test('activity audit pattern supports investigation and streaming controls', asy
   await expect(page.getByText('Resume the stream before receiving new events.')).toBeVisible()
 })
 
+test('saved views pattern restores context and recovers stale schemas', async ({ page }) => {
+  await page.goto('/enterprise/patterns/saved-views')
+
+  await expect(page.getByRole('heading', { level: 1, name: 'Saved views' })).toBeVisible()
+  await expect(page.locator('.component-doc-section > header h2')).toHaveText(componentDocumentationSections)
+
+  await page.getByRole('button', { name: /^Escalated accounts Shared view/ }).click()
+  await expect(page.getByRole('region', { name: 'Applied view configuration' })).toContainText('Priority: Urgent')
+  await page.getByRole('button', { name: 'Simulate schema change' }).click()
+  await expect(page.getByRole('region', { name: 'Applied view configuration' }).getByRole('alert')).toContainText('View needs attention')
+  await page.getByRole('button', { name: 'Repair view' }).click()
+  await expect(page.getByText('View remapped to the current schema')).toBeVisible()
+})
+
 for (const route of ['/components/button', '/components/input', '/components/textarea', '/components/search-field', '/components/file-upload', '/components/segmented-control', '/components/split-button', '/components/inline-edit', '/components/transfer-list', '/components/saved-views', '/components/query-builder', '/components/column-manager', '/components/permission-matrix', '/components/activity-feed', '/components/notification-center', '/components/select', '/components/card', '/components/tabs', '/components/dialog', '/components/data-table', '/components/filter-bar', '/components/toolbar', '/components/tree-view', '/components/combobox', '/components/side-panel', '/components/command-bar', '/components/empty-state', '/components/audit-log', '/components/alert']) {
   test(`${route} follows the canonical twelve-section structure`, async ({ page, isMobile }) => {
     await page.goto(route)

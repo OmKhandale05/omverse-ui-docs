@@ -25,6 +25,7 @@ import { RoleBasedAccessPreview } from './RoleBasedAccessPreview'
 import { EmptyNoResultsPreview } from './EmptyNoResultsPreview'
 import { ObjectDetailPreview } from './ObjectDetailPreview'
 import { ActivityAuditHistoryPreview } from './ActivityAuditHistoryPreview'
+import { SavedViewsPatternPreview } from './SavedViewsPatternPreview'
 
 interface EnterpriseExperiencePageProps {
   breadcrumb: string[]
@@ -137,6 +138,17 @@ export function EnterpriseExperiencePage({ breadcrumb, resource }: EnterpriseExp
                 layout="grid"
               >
                 <ActivityAuditHistoryPreview />
+              </ComponentPreview>
+            </div>
+          )}
+          {resource.slug === 'saved-views' && (
+            <div className="enterprise-pattern-preview">
+              <ComponentPreview
+                title="Restore and govern recurring workspace context"
+                description="Apply, search, create, rename, duplicate, and set default views; then test schema drift and the guided repair state."
+                layout="grid"
+              >
+                <SavedViewsPatternPreview />
               </ComponentPreview>
             </div>
           )}
