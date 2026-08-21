@@ -34,6 +34,7 @@ import { ApprovalQueueFloorplanPreview } from './ApprovalQueueFloorplanPreview'
 import { SettingsFloorplanPreview } from './SettingsFloorplanPreview'
 import { WorkItemsTemplatePreview } from './WorkItemsTemplatePreview'
 import { UsersTemplatePreview } from './UsersTemplatePreview'
+import { ApprovalsTemplatePreview } from './ApprovalsTemplatePreview'
 
 interface EnterpriseExperiencePageProps {
   breadcrumb: string[]
@@ -57,6 +58,7 @@ const PRIMARY_REFERENCE_BY_SLUG: Record<string, string> = {
   'settings': '/components/switch',
   'work-items': '/components/data-table',
   'users': '/components/permission-matrix',
+  'approvals': '/components/approval-card',
 }
 
 export function EnterpriseExperiencePage({ breadcrumb, resource }: EnterpriseExperiencePageProps) {
@@ -215,6 +217,9 @@ export function EnterpriseExperiencePage({ breadcrumb, resource }: EnterpriseExp
           )}
           {resource.slug === 'users' && (
             <div className="enterprise-pattern-preview"><ComponentPreview title="Adapt a directory-to-user workflow" description="Search the directory, invite a member, move between profile, access, and support context, change roles, and manage suspension with traceable feedback." layout="grid"><UsersTemplatePreview /></ComponentPreview></div>
+          )}
+          {resource.slug === 'approvals' && (
+            <div className="enterprise-pattern-preview"><ComponentPreview title="Adapt an evidence-led decision workspace" description="Change queue scope, claim a recurring request, inspect the reviewer chain and evidence contract, then capture rationale before a governed decision." layout="grid"><ApprovalsTemplatePreview /></ComponentPreview></div>
           )}
         </ComponentDocSection>
 

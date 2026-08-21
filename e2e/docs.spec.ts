@@ -258,6 +258,23 @@ test('users template connects directory, profile, access, and lifecycle outcomes
   await expect(page.getByRole('status')).toContainText('Maya Chen suspended')
 })
 
+test('approvals template enforces ownership, evidence, and rationale', async ({ page }) => {
+  await page.goto('/enterprise/templates/approvals')
+  await expect(page.getByRole('heading', { level: 1, name: 'Approvals' })).toBeVisible()
+  await expect(page.locator('.component-doc-section > header h2')).toHaveText(componentDocumentationSections)
+  const anatomy = page.getByLabel('Approvals template anatomy diagram')
+  await expect(anatomy.locator('.component-anatomy-marker')).toHaveCount(5)
+  await page.getByRole('button', { name: 'Approve request' }).click()
+  await expect(page.getByRole('status')).toContainText('Claim APR-3048')
+  await page.getByRole('button', { name: 'Claim review' }).click()
+  await expect(page.getByRole('status')).toContainText('reviewer ownership recorded')
+  await page.getByRole('button', { name: 'Approve request' }).click()
+  await expect(page.getByRole('status')).toContainText('Add rationale')
+  await page.getByLabel(/Decision rationale/).fill('All required evidence and time-bound controls verified.')
+  await page.getByRole('button', { name: 'Approve request' }).click()
+  await expect(page.getByRole('status')).toContainText('immutable decision DEC-7742 recorded')
+})
+
 for (const route of ['/components/button', '/components/input', '/components/textarea', '/components/search-field', '/components/file-upload', '/components/segmented-control', '/components/split-button', '/components/inline-edit', '/components/transfer-list', '/components/saved-views', '/components/query-builder', '/components/column-manager', '/components/permission-matrix', '/components/activity-feed', '/components/notification-center', '/components/select', '/components/card', '/components/tabs', '/components/dialog', '/components/data-table', '/components/filter-bar', '/components/toolbar', '/components/tree-view', '/components/combobox', '/components/side-panel', '/components/command-bar', '/components/empty-state', '/components/audit-log', '/components/alert']) {
   test(`${route} follows the canonical twelve-section structure`, async ({ page, isMobile }) => {
     await page.goto(route)

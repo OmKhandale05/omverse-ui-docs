@@ -207,6 +207,9 @@ function WorkItemsTemplateAnatomy() {
 function UsersTemplateAnatomy() {
   return <div className="enterprise-users-template-anatomy" aria-label="Users template anatomy diagram"><header><span>Search directory</span><b>Invite user</b></header><main><section><div><i>MC</i><span><strong>Maya Chen</strong><small>Administrator</small></span></div><div /><div /></section><aside><header><i>MC</i><span><small>USER PROFILE</small><strong>Maya Chen</strong></span></header><nav>Profile · Access · Support</nav><div><span>Authentication</span><b>SSO · MFA</b></div><p>Compliance and support context</p></aside></main><footer><span>Audit reason required</span><strong>Suspend access</strong></footer><Marker number={1} className="enterprise-users-template-marker--one component-anatomy-marker--leader-down" /><Marker number={2} className="enterprise-users-template-marker--two component-anatomy-marker--leader-right" /><Marker number={3} className="enterprise-users-template-marker--three component-anatomy-marker--leader-left" /><Marker number={4} className="enterprise-users-template-marker--four component-anatomy-marker--leader-up" /><Marker number={5} className="enterprise-users-template-marker--five component-anatomy-marker--leader-left" /></div>
 }
+function ApprovalsTemplateAnatomy() {
+  return <div className="enterprise-approvals-template-anatomy" aria-label="Approvals template anatomy diagram"><header><span>My queue · Team · Urgent</span><b>3 pending</b></header><section><div><small>AWAITING</small><strong>3</strong></div><div><small>NEAR SLA</small><strong>1</strong></div><aside><small>REVIEWERS</small><span>MC → PS → JB</span></aside></section><main><nav><div><small>APR-3048</small><strong>Production access</strong></div><div /><div /></nav><article><small>DECISION CARD</small><strong>Production access exception</strong><p>Required evidence</p><p>Immutable history</p><span>Decision rationale</span></article></main><Marker number={1} className="enterprise-approvals-template-marker--one component-anatomy-marker--leader-down" /><Marker number={2} className="enterprise-approvals-template-marker--two component-anatomy-marker--leader-right" /><Marker number={3} className="enterprise-approvals-template-marker--three component-anatomy-marker--leader-left" /><Marker number={4} className="enterprise-approvals-template-marker--four component-anatomy-marker--leader-up" /><Marker number={5} className="enterprise-approvals-template-marker--five component-anatomy-marker--leader-left" /></div>
+}
 
 export function EnterpriseAnatomyPreview({ resource }: { resource: EnterpriseResource }) {
   if (resource.slug === 'filtering-records') return <FilteringAnatomy />
@@ -225,6 +228,7 @@ export function EnterpriseAnatomyPreview({ resource }: { resource: EnterpriseRes
   if (resource.slug === 'settings') return <SettingsAnatomy />
   if (resource.slug === 'work-items') return <WorkItemsTemplateAnatomy />
   if (resource.slug === 'users') return <UsersTemplateAnatomy />
+  if (resource.slug === 'approvals') return <ApprovalsTemplateAnatomy />
 
   return (
     <div className="enterprise-floorplan-diagram" aria-label={`${resource.title} anatomy diagram`}>
