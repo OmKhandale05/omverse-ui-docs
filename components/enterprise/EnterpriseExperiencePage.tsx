@@ -29,6 +29,7 @@ import { SavedViewsPatternPreview } from './SavedViewsPatternPreview'
 import { DashboardFloorplanPreview } from './DashboardFloorplanPreview'
 import { ListReportFloorplanPreview } from './ListReportFloorplanPreview'
 import { ObjectDetailFloorplanPreview } from './ObjectDetailFloorplanPreview'
+import { UserManagementFloorplanPreview } from './UserManagementFloorplanPreview'
 
 interface EnterpriseExperiencePageProps {
   breadcrumb: string[]
@@ -47,6 +48,7 @@ const PRIMARY_REFERENCE_BY_SLUG: Record<string, string> = {
   'dashboard': '/examples?id=dashboard',
   'list-report': '/components/data-table',
   'object-detail': '/components/tabs',
+  'user-management': '/components/data-table',
 }
 
 export function EnterpriseExperiencePage({ breadcrumb, resource }: EnterpriseExperiencePageProps) {
@@ -184,6 +186,13 @@ export function EnterpriseExperiencePage({ breadcrumb, resource }: EnterpriseExp
             <div className="enterprise-pattern-preview">
               <ComponentPreview title="Understand and move a single record" description="Explore stable record sections, edit governed attributes, inspect relationships, and compare the authorized and read-only action rails." layout="grid">
                 <ObjectDetailFloorplanPreview />
+              </ComponentPreview>
+            </div>
+          )}
+          {resource.slug === 'user-management' && (
+            <div className="enterprise-pattern-preview">
+              <ComponentPreview title="Govern the identity lifecycle" description="Search the roster, inspect user context, change roles, lock access, and send a policy-aware invitation with explicit feedback." layout="grid">
+                <UserManagementFloorplanPreview />
               </ComponentPreview>
             </div>
           )}

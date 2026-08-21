@@ -187,6 +187,15 @@ function ObjectDetailFloorplanAnatomy() {
   )
 }
 
+function UserManagementAnatomy() {
+  return <div className="enterprise-user-anatomy" aria-label="User management floorplan anatomy diagram">
+    <header><span>Search people</span><b>Role</b><strong>Invite user</strong></header>
+    <main><section><i /><span /><span /><span /></section><aside><div><i>MC</i><strong>Maya Chen</strong></div><small>ROLE</small><b>Administrator</b><small>RECENT ACTIVITY</small><span /></aside></main>
+    <footer><span>Directory synchronized</span><strong>Audit events retained</strong></footer>
+    <Marker number={1} className="enterprise-user-marker--one component-anatomy-marker--leader-down" /><Marker number={2} className="enterprise-user-marker--two component-anatomy-marker--leader-right" /><Marker number={3} className="enterprise-user-marker--three component-anatomy-marker--leader-left" /><Marker number={4} className="enterprise-user-marker--four component-anatomy-marker--leader-up" /><Marker number={5} className="enterprise-user-marker--five component-anatomy-marker--leader-left" />
+  </div>
+}
+
 export function EnterpriseAnatomyPreview({ resource }: { resource: EnterpriseResource }) {
   if (resource.slug === 'filtering-records') return <FilteringAnatomy />
   if (resource.slug === 'bulk-actions') return <BulkActionsAnatomy />
@@ -199,6 +208,7 @@ export function EnterpriseAnatomyPreview({ resource }: { resource: EnterpriseRes
   if (resource.slug === 'dashboard') return <DashboardAnatomy />
   if (resource.slug === 'list-report') return <ListReportAnatomy />
   if (resource.slug === 'object-detail') return <ObjectDetailFloorplanAnatomy />
+  if (resource.slug === 'user-management') return <UserManagementAnatomy />
 
   return (
     <div className="enterprise-floorplan-diagram" aria-label={`${resource.title} anatomy diagram`}>
