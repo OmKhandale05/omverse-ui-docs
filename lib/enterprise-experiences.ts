@@ -1032,7 +1032,8 @@ export function OperationsDashboard({ snapshot, range, onRangeChange, onRefresh 
         tags: ['Reporting', 'Listing', 'Data'],
         overview: [
           'A list-report floorplan standardizes table-first workflows: search, filter, review, and export.',
-          'Keep row density and action density balanced so people can process many rows quickly.',
+          'Keep row density and action density balanced so people can process many rows quickly without losing query or selection context.',
+          'Treat filter, sort, pagination, visible columns, and export scope as one durable report state that can be shared, restored, and audited.',
         ],
         anatomy: [
           { number: 1, name: 'Filter header', description: 'Primary controls for scope and query intent.' },
@@ -1059,12 +1060,14 @@ export function OperationsDashboard({ snapshot, range, onRangeChange, onRefresh 
         states: [
           { state: 'Initial', trigger: 'Page load', visual: 'Filter placeholders and skeleton', interaction: 'Collect filters before rendering heavy rows.' },
           { state: 'Filtered', trigger: 'User applies query', visual: 'Updated row subset and totals', interaction: 'Preserve selected rows when possible.' },
+          { state: 'Empty result', trigger: 'Valid query returns no rows', visual: 'Filter-aware recovery guidance inside the table region', interaction: 'Allow users to clear or revise criteria without leaving the report.' },
+          { state: 'Partial failure', trigger: 'Rows or metadata cannot be resolved', visual: 'Keep independent controls and identify the affected source', interaction: 'Offer retry without discarding the query.' },
           { state: 'Export ready', trigger: 'Export command', visual: 'Export confirmation and filename preview', interaction: 'Offer download and audit trace IDs.' },
         ],
         behavior: [
-          { icon: 'ti-search', title: 'Filter precedence', description: 'Deterministic order of filters prevents accidental surprises.' },
-          { icon: 'ti-download', title: 'Export policy', description: 'Apply policy-based masking before file generation.' },
-          { icon: 'ti-table', title: 'Selection memory', description: 'Keep selection state by ID across pagination.' },
+          { icon: 'ti-search', title: 'Durable query state', description: 'Keep filter, sort, column, density, and page state deterministic and URL-compatible.' },
+          { icon: 'ti-download', title: 'Governed export', description: 'Confirm scope, format, policy masking, and audit identity before file generation.' },
+          { icon: 'ti-table', title: 'Selection memory', description: 'Keep selection state by immutable ID across pagination and explain when a query change clears it.' },
         ],
         keyboard: [
           { keys: ['Ctrl/Cmd', 'A'], action: 'Select all rows in page or active result set when supported.' },
@@ -1074,7 +1077,9 @@ export function OperationsDashboard({ snapshot, range, onRangeChange, onRefresh 
         accessibilityChecklist: [
           'Ensure table headers are exposed and sortable semantics are clear.',
           'Keep action buttons announced and grouped by row context.',
-          'Use row/column navigation patterns for screen readers where feasible.',
+          'Give horizontally scrollable table regions keyboard access on narrow screens.',
+          'Announce result totals, selection changes, export completion, and data errors.',
+          'Keep column order consistent between headers and every data row.',
         ],
         contentGuidelines: [
           { label: 'Row naming', guidance: 'Use entity-first naming for quick scanning.', example: 'REQ-1024 · Payout request' },
@@ -1083,18 +1088,72 @@ export function OperationsDashboard({ snapshot, range, onRangeChange, onRefresh 
         ],
         examples: [
           {
-            heading: 'Production use',
+            heading: 'Compose a controlled report',
             points: [
-              'Persist column arrangement per user role.',
-              'Use server-side pagination for large organizations.',
-              'Add row-level action columns for common operations.',
+              'Keep query state application-owned so the URL, request, saved view, and export share one contract.',
+              'Use stable row identifiers to preserve selection across server-side pages.',
+              'Generate visible columns from the same ordered definition used for persisted preferences.',
             ],
+            filename: 'AccessRequestReport.tsx',
+            language: 'tsx',
+            code: `import { DataTable, FilterBar, Pagination } from 'omverse-ui'
+
+export function AccessRequestReport({ result, query, onQueryChange }) {
+  return (
+    <main aria-labelledby="report-title">
+      <h1 id="report-title">Access requests</h1>
+      <FilterBar
+        searchValue={query.search}
+        onSearchChange={(search) => onQueryChange({ ...query, search, page: 1 })}
+        filters={buildReportFilters(query, onQueryChange)}
+        resultCount={result.total}
+        onReset={() => onQueryChange(defaultQuery)}
+      />
+      <DataTable
+        caption="Access request governance report"
+        columns={visibleColumns}
+        data={result.rows}
+        getRowId={(row) => row.id}
+        selectable
+        selectedRowIds={query.selectedIds}
+        onSelectionChange={(selectedIds) => onQueryChange({ ...query, selectedIds })}
+      />
+      <Pagination
+        page={query.page}
+        totalPages={result.totalPages}
+        onPageChange={(page) => onQueryChange({ ...query, page })}
+      />
+    </main>
+  )
+}`,
+          },
+          {
+            heading: 'Persist an auditable query contract',
+            points: [
+              'Store domain field names and sort directions instead of component-internal state.',
+              'Version visible-column and filter schemas before restoring older saved reports.',
+              'Record the exact query, policy mask, source timestamp, and requester in the export audit event.',
+            ],
+            filename: 'report-query.json',
+            language: 'json',
+            code: `{
+  "schemaVersion": 2,
+  "filters": { "status": ["open", "in_review"], "risk": ["high"] },
+  "sort": { "field": "updatedAt", "direction": "desc" },
+  "columns": ["request", "team", "owner", "risk", "status"],
+  "page": 1,
+  "pageSize": 50,
+  "exportPolicy": "mask_identity_fields"
+}`,
           },
         ],
         props: [
           { name: 'rows', type: 'readonly ReportRow[]', default: 'required', description: 'Rows rendered in the main report body.' },
           { name: 'columns', type: 'readonly ReportColumn[]', default: 'required', description: 'Configurable columns and accessibility labels.' },
+          { name: 'query', type: 'ReportQuery', default: 'required', description: 'Controlled filter, sort, pagination, density, and visible-column state.' },
+          { name: 'selection', type: 'readonly Key[]', default: '[]', description: 'Selected immutable record IDs preserved across compatible pages.' },
           { name: 'exportEnabled', type: 'boolean', default: 'true', description: 'Feature flag for export controls.' },
+          { name: 'onExport', type: '(request: ExportRequest) => Promise<ExportResult>', default: 'required', description: 'Prepares a policy-masked export and returns its audit identity.' },
           { name: 'onPageChange', type: '(page: number) => void', default: 'required', description: 'Page navigation state update.' },
         ],
         related: [

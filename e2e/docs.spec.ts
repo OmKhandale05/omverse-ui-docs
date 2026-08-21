@@ -99,6 +99,43 @@ test('dashboard floorplan prioritizes health and actionable work', async ({ page
   await expect(page.getByRole('status')).toHaveText('Dashboard refreshed · all sources current')
 })
 
+test('list report floorplan preserves query and export scope', async ({ page, isMobile }) => {
+  await page.goto('/enterprise/floorplans/list-report')
+
+  await expect(page.getByRole('heading', { level: 1, name: 'List report' })).toBeVisible()
+  await expect(page.locator('.component-doc-section > header h2')).toHaveText(componentDocumentationSections)
+  const anatomy = page.getByLabel('List report floorplan anatomy diagram')
+  await expect(anatomy.locator('.component-anatomy-marker')).toHaveCount(5)
+  await expect.poll(() => anatomy.evaluate((element) => {
+    const box = element.getBoundingClientRect()
+    return Array.from(element.querySelectorAll('.component-anatomy-marker')).every((marker) => {
+      const bounds = marker.getBoundingClientRect()
+      return bounds.left >= box.left && bounds.right <= box.right && bounds.top >= box.top && bounds.bottom <= box.bottom
+    })
+  })).toBe(true)
+
+  await page.getByLabel('Report risk').click()
+  await page.getByRole('option', { name: 'High risk' }).click()
+  await expect(page.getByText('4 records', { exact: true })).toBeVisible()
+
+  await page.getByRole('button', { name: 'Columns', exact: true }).click()
+  await expect(page.getByRole('heading', { name: 'Visible report columns' })).toBeVisible()
+
+  await page.getByLabel('Report controls').getByRole('button', { name: 'Export', exact: true }).click()
+  await expect(page.getByText('4 filtered records · CSV · identity fields masked')).toBeVisible()
+  await page.getByRole('button', { name: 'Prepare export' }).click()
+  await expect(page.getByRole('status')).toContainText('audit ID EXP-8842')
+
+  await page.getByRole('button', { name: 'Clear report filters' }).click()
+  await page.getByRole('button', { name: 'Next page' }).click()
+  await expect(page.getByText('Showing 6–10 of 10')).toBeVisible()
+
+  if (isMobile) {
+    await expect.poll(() => page.locator('.enterprise-list-report-preview').evaluate((element) => element.scrollWidth > element.clientWidth)).toBe(false)
+    await expect.poll(() => page.locator('.enterprise-list-report-table-wrap').evaluate((element) => element.scrollWidth > element.clientWidth)).toBe(true)
+  }
+})
+
 for (const route of ['/components/button', '/components/input', '/components/textarea', '/components/search-field', '/components/file-upload', '/components/segmented-control', '/components/split-button', '/components/inline-edit', '/components/transfer-list', '/components/saved-views', '/components/query-builder', '/components/column-manager', '/components/permission-matrix', '/components/activity-feed', '/components/notification-center', '/components/select', '/components/card', '/components/tabs', '/components/dialog', '/components/data-table', '/components/filter-bar', '/components/toolbar', '/components/tree-view', '/components/combobox', '/components/side-panel', '/components/command-bar', '/components/empty-state', '/components/audit-log', '/components/alert']) {
   test(`${route} follows the canonical twelve-section structure`, async ({ page, isMobile }) => {
     await page.goto(route)

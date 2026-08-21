@@ -2556,6 +2556,205 @@
 .enterprise-dashboard-marker--four { left: 54px; bottom: 4px; }
 .enterprise-dashboard-marker--five { right: 4px; bottom: 18px; }
 
+.enterprise-list-report-preview {
+  overflow: hidden;
+  width: 100%;
+  border: 1px solid var(--color-outline-variant);
+  border-radius: 12px;
+  background: var(--color-background);
+  color: var(--color-text-primary);
+}
+
+.enterprise-list-report-header {
+  display: flex;
+  min-height: 96px;
+  padding: 20px 22px 16px;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--color-outline-variant);
+  gap: 18px;
+}
+
+.enterprise-list-report-header > div { min-width: 0; }
+.enterprise-list-report-header > div > span { color: var(--color-text-disabled); font-size: 8px; font-weight: 750; letter-spacing: .13em; }
+.enterprise-list-report-header h3 { margin: 4px 0 3px; font-size: 20px; letter-spacing: -.035em; }
+.enterprise-list-report-header p { margin: 0; color: var(--color-text-secondary); font-size: 9px; }
+
+.enterprise-list-report-preview > [class*='filterBar'] {
+  border-width: 0 0 1px;
+  border-radius: 0;
+  background: var(--color-surface);
+}
+
+.enterprise-list-report-toolbar {
+  display: flex;
+  min-height: 54px;
+  padding: 9px 13px;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--color-outline-variant);
+  gap: 12px;
+}
+
+.enterprise-list-report-toolbar > div { display: flex; align-items: center; gap: 6px; }
+
+.enterprise-list-report-columns {
+  display: grid;
+  padding: 12px;
+  border-bottom: 1px solid var(--color-outline-variant);
+  background: color-mix(in srgb, var(--color-surface) 68%, var(--color-background));
+}
+
+.enterprise-list-report-columns > section { max-width: 560px; }
+
+.enterprise-list-report-export {
+  display: grid;
+  min-height: 76px;
+  padding: 13px 16px;
+  align-items: center;
+  border-bottom: 1px solid var(--color-outline-variant);
+  background: color-mix(in srgb, var(--color-primary-container) 32%, var(--color-background));
+  grid-template-columns: auto 1fr auto;
+  gap: 12px;
+}
+
+.enterprise-list-report-export > i { color: var(--color-primary); font-size: 21px; }
+.enterprise-list-report-export h4 { margin: 0 0 3px; font-size: 11px; }
+.enterprise-list-report-export p { margin: 0; color: var(--color-text-secondary); font-size: 8px; }
+.enterprise-list-report-export > div:last-child { display: flex; gap: 5px; }
+
+.enterprise-list-report-table-wrap {
+  min-height: 332px;
+  overflow-x: auto;
+}
+
+.enterprise-list-report-table-wrap > div { min-width: 700px; }
+
+.enterprise-list-report-record { display: grid; gap: 2px; }
+.enterprise-list-report-record strong { font-size: 10px; }
+.enterprise-list-report-record small { color: var(--color-text-disabled); font-size: 8px; }
+
+.enterprise-list-report-empty {
+  display: grid;
+  min-height: 180px;
+  place-items: center;
+  align-content: center;
+  color: var(--color-text-secondary);
+  gap: 8px;
+}
+
+.enterprise-list-report-empty i { color: var(--color-text-disabled); font-size: 23px; }
+
+.enterprise-list-report-bulk {
+  padding-inline: 12px;
+  border-top: 1px solid var(--color-outline-variant);
+}
+
+.enterprise-list-report-bulk:empty { display: none; }
+
+.enterprise-list-report-footer {
+  display: flex;
+  min-height: 66px;
+  padding: 10px 14px;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--color-outline-variant);
+  background: var(--color-surface);
+  gap: 16px;
+}
+
+.enterprise-list-report-footer > div:first-child { display: grid; min-width: 0; gap: 3px; }
+.enterprise-list-report-footer strong { font-size: 9px; }
+.enterprise-list-report-footer [role='status'] { overflow: hidden; max-width: 430px; color: var(--color-text-secondary); font-size: 7px; text-overflow: ellipsis; white-space: nowrap; }
+
+.enterprise-list-report-anatomy {
+  position: relative;
+  display: grid;
+  overflow: hidden;
+  width: 100%;
+  max-width: 360px;
+  padding: 13px;
+  border: 1px solid var(--color-outline-variant);
+  border-radius: 11px;
+  background: var(--color-background);
+  box-shadow: 0 14px 32px rgb(0 0 0 / 8%);
+  gap: 5px;
+}
+
+.enterprise-list-report-anatomy header {
+  display: grid;
+  grid-template-columns: 1.3fr .7fr .7fr;
+  gap: 4px;
+}
+
+.enterprise-list-report-anatomy header span,
+.enterprise-list-report-anatomy header b,
+.enterprise-list-report-anatomy-toolbar > span {
+  padding: 6px;
+  border: 1px solid var(--color-outline-variant);
+  border-radius: 4px;
+  background: var(--color-background);
+  color: var(--color-text-secondary);
+  font-size: 5px;
+  font-weight: 500;
+}
+
+.enterprise-list-report-anatomy-toolbar {
+  display: flex;
+  min-height: 30px;
+  padding: 4px;
+  align-items: center;
+  border: 1px solid var(--color-outline-variant);
+  border-radius: 4px;
+  gap: 4px;
+}
+
+.enterprise-list-report-anatomy-toolbar small { margin-right: auto; color: var(--color-text-disabled); font-size: 5px; }
+.enterprise-list-report-anatomy-toolbar [data-action] { border-color: var(--color-primary); background: var(--color-primary); color: var(--color-on-primary); }
+
+.enterprise-list-report-anatomy > section {
+  overflow: hidden;
+  border: 1px solid var(--color-outline-variant);
+  border-radius: 5px;
+}
+
+.enterprise-list-report-anatomy > section > div {
+  display: grid;
+  min-height: 25px;
+  padding: 5px 7px;
+  align-items: center;
+  border-top: 1px solid var(--color-outline-variant);
+  grid-template-columns: 8px 1.2fr .75fr .65fr;
+  gap: 5px;
+}
+
+.enterprise-list-report-anatomy > section > div:first-child { border-top: 0; background: var(--color-surface-container); }
+.enterprise-list-report-anatomy > section i { width: 6px; height: 6px; border: 1px solid var(--color-outline); border-radius: 2px; }
+.enterprise-list-report-anatomy > section strong { font-size: 5px; }
+.enterprise-list-report-anatomy > section span { height: 5px; border-radius: 3px; background: var(--color-surface-container); }
+.enterprise-list-report-anatomy > section b { width: 26px; height: 10px; border-radius: 5px; background: var(--color-primary-container); }
+
+.enterprise-list-report-anatomy-pager,
+.enterprise-list-report-anatomy footer {
+  display: flex;
+  min-height: 24px;
+  padding: 5px 7px;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid var(--color-outline-variant);
+  border-radius: 4px;
+  color: var(--color-text-secondary);
+  font-size: 5px;
+}
+
+.enterprise-list-report-anatomy footer { background: var(--color-surface-container); }
+.enterprise-list-report-anatomy footer strong { font-size: 5px; }
+.enterprise-list-report-marker--one { top: 4px; left: 18px; }
+.enterprise-list-report-marker--two { top: 51px; right: 4px; }
+.enterprise-list-report-marker--three { top: 104px; right: 4px; }
+.enterprise-list-report-marker--four { left: 46px; bottom: 30px; }
+.enterprise-list-report-marker--five { right: 4px; bottom: 4px; }
+
 @media (max-width: 720px) {
   .enterprise-saved-workspace { grid-template-columns: 1fr; }
   .enterprise-saved-workspace > section:first-child { border-width: 0 0 1px; }
@@ -2565,6 +2764,7 @@
   .enterprise-dashboard-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .enterprise-dashboard-primary-grid,
   .enterprise-dashboard-secondary-grid { grid-template-columns: 1fr; }
+  .enterprise-list-report-footer { align-items: flex-start; flex-direction: column; }
 }
 
 @media (max-width: 480px) {
@@ -2582,6 +2782,12 @@
   .enterprise-dashboard-metrics { grid-template-columns: 1fr; }
   .enterprise-dashboard-table { overflow-x: auto; }
   .enterprise-dashboard-table > div { min-width: 520px; }
+  .enterprise-list-report-header { padding: 16px 14px; align-items: flex-start; }
+  .enterprise-list-report-toolbar { align-items: stretch; flex-direction: column; }
+  .enterprise-list-report-toolbar > div:last-child { justify-content: flex-end; }
+  .enterprise-list-report-export { align-items: start; grid-template-columns: auto 1fr; }
+  .enterprise-list-report-export > div:last-child { grid-column: 1 / -1; justify-content: flex-end; }
+  .enterprise-list-report-footer [role='status'] { max-width: 330px; white-space: normal; }
 }
 .enterprise-bulk-marker--one { top: 4px; left: 16px; }
 .enterprise-bulk-marker--two { bottom: 4px; left: 28px; }

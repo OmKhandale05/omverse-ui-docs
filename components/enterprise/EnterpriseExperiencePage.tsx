@@ -27,6 +27,7 @@ import { ObjectDetailPreview } from './ObjectDetailPreview'
 import { ActivityAuditHistoryPreview } from './ActivityAuditHistoryPreview'
 import { SavedViewsPatternPreview } from './SavedViewsPatternPreview'
 import { DashboardFloorplanPreview } from './DashboardFloorplanPreview'
+import { ListReportFloorplanPreview } from './ListReportFloorplanPreview'
 
 interface EnterpriseExperiencePageProps {
   breadcrumb: string[]
@@ -43,6 +44,7 @@ const PRIMARY_REFERENCE_BY_SLUG: Record<string, string> = {
   'activity-audit-history': '/components/audit-log',
   'saved-views': '/components/saved-views',
   'dashboard': '/examples?id=dashboard',
+  'list-report': '/components/data-table',
 }
 
 export function EnterpriseExperiencePage({ breadcrumb, resource }: EnterpriseExperiencePageProps) {
@@ -162,6 +164,17 @@ export function EnterpriseExperiencePage({ breadcrumb, resource }: EnterpriseExp
                 layout="grid"
               >
                 <DashboardFloorplanPreview />
+              </ComponentPreview>
+            </div>
+          )}
+          {resource.slug === 'list-report' && (
+            <div className="enterprise-pattern-preview">
+              <ComponentPreview
+                title="Query, configure, and export a governed report"
+                description="Filter and sort records, change density and visible columns, select rows across the report, inspect export scope, and page through results."
+                layout="grid"
+              >
+                <ListReportFloorplanPreview />
               </ComponentPreview>
             </div>
           )}

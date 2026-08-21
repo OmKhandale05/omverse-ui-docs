@@ -154,6 +154,23 @@ function DashboardAnatomy() {
   )
 }
 
+function ListReportAnatomy() {
+  return (
+    <div className="enterprise-list-report-anatomy" aria-label="List report floorplan anatomy diagram">
+      <header><span>Search requests</span><b>Status</b><b>Risk</b></header>
+      <div className="enterprise-list-report-anatomy-toolbar"><small>24 RECORDS</small><span>Compact</span><span data-action>Export</span></div>
+      <section><div><i /><strong>Request</strong><strong>Owner</strong><strong>Status</strong></div><div><i /><span /><span /><b /></div><div><i /><span /><span /><b /></div><div><i /><span /><span /><b /></div></section>
+      <div className="enterprise-list-report-anatomy-pager"><small>Showing 1–5 of 24</small><span>‹ 1 2 3 ›</span></div>
+      <footer><span>Snapshot verified</span><strong>Generated 2m ago</strong></footer>
+      <Marker number={1} className="enterprise-list-report-marker--one component-anatomy-marker--leader-down" />
+      <Marker number={2} className="enterprise-list-report-marker--two component-anatomy-marker--leader-left" />
+      <Marker number={3} className="enterprise-list-report-marker--three component-anatomy-marker--leader-left" />
+      <Marker number={4} className="enterprise-list-report-marker--four component-anatomy-marker--leader-up" />
+      <Marker number={5} className="enterprise-list-report-marker--five component-anatomy-marker--leader-left" />
+    </div>
+  )
+}
+
 export function EnterpriseAnatomyPreview({ resource }: { resource: EnterpriseResource }) {
   if (resource.slug === 'filtering-records') return <FilteringAnatomy />
   if (resource.slug === 'bulk-actions') return <BulkActionsAnatomy />
@@ -164,6 +181,7 @@ export function EnterpriseAnatomyPreview({ resource }: { resource: EnterpriseRes
   if (resource.slug === 'activity-audit-history') return <ActivityAuditAnatomy />
   if (resource.slug === 'saved-views') return <SavedViewsAnatomy />
   if (resource.slug === 'dashboard') return <DashboardAnatomy />
+  if (resource.slug === 'list-report') return <ListReportAnatomy />
 
   return (
     <div className="enterprise-floorplan-diagram" aria-label={`${resource.title} anatomy diagram`}>
