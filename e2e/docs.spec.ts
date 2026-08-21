@@ -136,6 +136,68 @@ test('list report floorplan preserves query and export scope', async ({ page, is
   }
 })
 
+for (const floorplan of [
+  { slug: 'object-detail', title: 'Object detail' },
+  { slug: 'user-management', title: 'User management' },
+  { slug: 'approval-queue', title: 'Approval queue' },
+  { slug: 'settings', title: 'Settings' },
+]) {
+  test(`${floorplan.title} floorplan exposes complete documentation and contained anatomy`, async ({ page }) => {
+    await page.goto(`/enterprise/floorplans/${floorplan.slug}`)
+    await expect(page.getByRole('heading', { level: 1, name: floorplan.title })).toBeVisible()
+    await expect(page.locator('.component-doc-section > header h2')).toHaveText(componentDocumentationSections)
+    const anatomy = page.getByLabel(`${floorplan.title} floorplan anatomy diagram`)
+    await expect(anatomy.locator('.component-anatomy-marker')).toHaveCount(5)
+    await expect.poll(() => anatomy.evaluate((element) => {
+      const box = element.getBoundingClientRect()
+      return Array.from(element.querySelectorAll('.component-anatomy-marker')).every((marker) => {
+        const bounds = marker.getBoundingClientRect()
+        return bounds.left >= box.left && bounds.right <= box.right && bounds.top >= box.top && bounds.bottom <= box.bottom
+      })
+    })).toBe(true)
+  })
+}
+
+test('object detail floorplan supports governed editing and read-only access', async ({ page }) => {
+  await page.goto('/enterprise/floorplans/object-detail')
+  await page.getByRole('button', { name: 'Edit incident' }).click()
+  await page.getByLabel('Incident priority').click()
+  await page.getByRole('option', { name: 'Critical' }).click()
+  await page.getByRole('button', { name: 'Save changes' }).click()
+  await expect(page.getByRole('status')).toContainText('Critical priority')
+  await page.getByRole('button', { name: 'Preview read-only' }).click()
+  await expect(page.getByText('Read-only access')).toBeVisible()
+})
+
+test('user management floorplan changes roles and locks accounts', async ({ page }) => {
+  await page.goto('/enterprise/floorplans/user-management')
+  await page.getByLabel('Role for Maya Chen').click()
+  await page.getByRole('option', { name: 'Approver' }).click()
+  await expect(page.getByRole('status')).toContainText('changed to Approver')
+  await page.keyboard.press('Escape')
+  await page.getByRole('button', { name: 'Lock account' }).click()
+  await expect(page.getByRole('status')).toContainText('Maya Chen locked')
+})
+
+test('approval queue requires rationale before recording a decision', async ({ page }) => {
+  await page.goto('/enterprise/floorplans/approval-queue')
+  await page.getByRole('button', { name: 'Approve', exact: true }).click()
+  await expect(page.getByRole('status')).toContainText('Add reviewer rationale')
+  await page.getByLabel('Decision rationale').fill('Evidence and policy checks verified.')
+  await page.getByRole('button', { name: 'Approve', exact: true }).click()
+  await expect(page.getByRole('status')).toContainText('approved · decision evidence captured')
+})
+
+test('settings floorplan protects dirty navigation and saves an audit event', async ({ page }) => {
+  await page.goto('/enterprise/floorplans/settings')
+  await page.getByLabel('Workspace timezone').click()
+  await page.getByRole('option', { name: /New York/ }).click()
+  await page.getByRole('button', { name: 'Security' }).click()
+  await expect(page.getByRole('status')).toContainText('Save or reset pending changes')
+  await page.getByRole('button', { name: 'Save changes' }).click()
+  await expect(page.getByRole('status')).toContainText('audit event SET-2918')
+})
+
 for (const route of ['/components/button', '/components/input', '/components/textarea', '/components/search-field', '/components/file-upload', '/components/segmented-control', '/components/split-button', '/components/inline-edit', '/components/transfer-list', '/components/saved-views', '/components/query-builder', '/components/column-manager', '/components/permission-matrix', '/components/activity-feed', '/components/notification-center', '/components/select', '/components/card', '/components/tabs', '/components/dialog', '/components/data-table', '/components/filter-bar', '/components/toolbar', '/components/tree-view', '/components/combobox', '/components/side-panel', '/components/command-bar', '/components/empty-state', '/components/audit-log', '/components/alert']) {
   test(`${route} follows the canonical twelve-section structure`, async ({ page, isMobile }) => {
     await page.goto(route)
