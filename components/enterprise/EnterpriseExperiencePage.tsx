@@ -28,6 +28,7 @@ import { ActivityAuditHistoryPreview } from './ActivityAuditHistoryPreview'
 import { SavedViewsPatternPreview } from './SavedViewsPatternPreview'
 import { DashboardFloorplanPreview } from './DashboardFloorplanPreview'
 import { ListReportFloorplanPreview } from './ListReportFloorplanPreview'
+import { ObjectDetailFloorplanPreview } from './ObjectDetailFloorplanPreview'
 
 interface EnterpriseExperiencePageProps {
   breadcrumb: string[]
@@ -45,6 +46,7 @@ const PRIMARY_REFERENCE_BY_SLUG: Record<string, string> = {
   'saved-views': '/components/saved-views',
   'dashboard': '/examples?id=dashboard',
   'list-report': '/components/data-table',
+  'object-detail': '/components/tabs',
 }
 
 export function EnterpriseExperiencePage({ breadcrumb, resource }: EnterpriseExperiencePageProps) {
@@ -175,6 +177,13 @@ export function EnterpriseExperiencePage({ breadcrumb, resource }: EnterpriseExp
                 layout="grid"
               >
                 <ListReportFloorplanPreview />
+              </ComponentPreview>
+            </div>
+          )}
+          {resource.slug === 'object-detail' && (
+            <div className="enterprise-pattern-preview">
+              <ComponentPreview title="Understand and move a single record" description="Explore stable record sections, edit governed attributes, inspect relationships, and compare the authorized and read-only action rails." layout="grid">
+                <ObjectDetailFloorplanPreview />
               </ComponentPreview>
             </div>
           )}

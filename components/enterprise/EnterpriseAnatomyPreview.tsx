@@ -171,6 +171,22 @@ function ListReportAnatomy() {
   )
 }
 
+function ObjectDetailFloorplanAnatomy() {
+  return (
+    <div className="enterprise-object-floorplan-anatomy" aria-label="Object detail floorplan anatomy diagram">
+      <header><span><small>INC-4832</small><strong>Payment reconciliation delay</strong></span><b>Investigating</b></header>
+      <section><div><small>Impact</small><strong>Limited</strong></div><div><small>Elapsed</small><strong>46 min</strong></div><div><small>Lag</small><strong>24 min</strong></div></section>
+      <main><div><small>ACTIVITY</small><i /><i /><i /></div><aside><small>RELATIONSHIPS</small><span /><span /></aside></main>
+      <footer><span><small>ACTIONS</small><strong>Edit incident</strong></span><b>Escalate</b></footer>
+      <Marker number={1} className="enterprise-object-floorplan-marker--one component-anatomy-marker--leader-down" />
+      <Marker number={2} className="enterprise-object-floorplan-marker--two component-anatomy-marker--leader-left" />
+      <Marker number={3} className="enterprise-object-floorplan-marker--three component-anatomy-marker--leader-up" />
+      <Marker number={4} className="enterprise-object-floorplan-marker--four component-anatomy-marker--leader-left" />
+      <Marker number={5} className="enterprise-object-floorplan-marker--five component-anatomy-marker--leader-up" />
+    </div>
+  )
+}
+
 export function EnterpriseAnatomyPreview({ resource }: { resource: EnterpriseResource }) {
   if (resource.slug === 'filtering-records') return <FilteringAnatomy />
   if (resource.slug === 'bulk-actions') return <BulkActionsAnatomy />
@@ -182,6 +198,7 @@ export function EnterpriseAnatomyPreview({ resource }: { resource: EnterpriseRes
   if (resource.slug === 'saved-views') return <SavedViewsAnatomy />
   if (resource.slug === 'dashboard') return <DashboardAnatomy />
   if (resource.slug === 'list-report') return <ListReportAnatomy />
+  if (resource.slug === 'object-detail') return <ObjectDetailFloorplanAnatomy />
 
   return (
     <div className="enterprise-floorplan-diagram" aria-label={`${resource.title} anatomy diagram`}>

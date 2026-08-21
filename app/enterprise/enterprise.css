@@ -2063,6 +2063,82 @@
   .enterprise-object-preview-actions { align-items: stretch; flex-direction: column; }
 }
 
+/* Object detail floorplan */
+.enterprise-object-detail-preview {
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  background: var(--surface-primary);
+  color: var(--text-primary);
+}
+
+.enterprise-object-detail-header,
+.enterprise-object-detail-status,
+.enterprise-object-detail-layout,
+.enterprise-object-detail-card header,
+.enterprise-object-detail-header-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.enterprise-object-detail-header { padding: 24px; align-items: flex-start; }
+.enterprise-object-detail-header span,
+.enterprise-object-detail-card header span,
+.enterprise-object-detail-rail > span { color: var(--text-tertiary); font-size: 11px; font-weight: 700; letter-spacing: .08em; }
+.enterprise-object-detail-header h3 { margin: 5px 0 3px; font-size: 22px; }
+.enterprise-object-detail-header p { margin: 0; color: var(--text-secondary); font-size: 13px; }
+.enterprise-object-detail-status { padding: 9px 24px; border-block: 1px solid var(--border-subtle); background: var(--surface-secondary); color: var(--text-secondary); font-size: 12px; }
+.enterprise-object-detail-status span:first-child { color: var(--color-success-700, #166534); font-weight: 600; }
+.enterprise-object-detail-status i { display: inline-block; width: 7px; height: 7px; margin-right: 7px; border-radius: 50%; background: #22c55e; }
+.enterprise-object-detail-preview > [class*='segmented'] { margin: 18px 24px 0; }
+.enterprise-object-detail-layout { align-items: stretch; padding: 18px 24px 24px; }
+.enterprise-object-detail-main { min-width: 0; flex: 1; }
+.enterprise-object-detail-rail { width: 220px; flex: 0 0 220px; padding: 18px; border: 1px solid var(--border-subtle); border-radius: 12px; background: var(--surface-secondary); }
+.enterprise-object-detail-rail h4 { margin: 5px 0 16px; font-size: 15px; }
+.enterprise-object-detail-rail hr { margin: 18px 0; border: 0; border-top: 1px solid var(--border-subtle); }
+.enterprise-object-detail-actions, .enterprise-object-detail-edit-actions { display: grid; gap: 8px; }
+.enterprise-object-detail-readonly { padding: 14px; border-radius: 10px; background: var(--surface-primary); }
+.enterprise-object-detail-readonly > i { font-size: 20px; }
+.enterprise-object-detail-readonly strong { display: block; margin-top: 8px; font-size: 13px; }
+.enterprise-object-detail-readonly p, .enterprise-object-detail-edit-actions p { color: var(--text-secondary); font-size: 12px; line-height: 1.5; }
+.enterprise-object-detail-rail dl { display: grid; gap: 12px; margin: 0; }
+.enterprise-object-detail-rail dl div { display: flex; justify-content: space-between; gap: 10px; font-size: 12px; }
+.enterprise-object-detail-rail dt { color: var(--text-tertiary); }.enterprise-object-detail-rail dd { margin: 0; font-weight: 600; text-align: right; }
+.enterprise-object-detail-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 10px; }
+.enterprise-object-detail-metrics article, .enterprise-object-detail-card { border: 1px solid var(--border-subtle); border-radius: 12px; background: var(--surface-primary); }
+.enterprise-object-detail-metrics article { display: grid; gap: 5px; padding: 15px; }
+.enterprise-object-detail-metrics span { color: var(--text-secondary); font-size: 11px; }.enterprise-object-detail-metrics strong { font-size: 20px; }.enterprise-object-detail-metrics small { color: var(--text-tertiary); }
+.enterprise-object-detail-card { min-height: 220px; padding: 18px; }
+.enterprise-object-detail-card h4 { margin: 4px 0 0; font-size: 16px; }
+.enterprise-object-detail-card dl { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin: 18px 0 0; }
+.enterprise-object-detail-card dl div { min-height: 64px; padding: 12px 0; border-top: 1px solid var(--border-subtle); }
+.enterprise-object-detail-card dl div:nth-child(odd) { padding-right: 16px; }.enterprise-object-detail-card dt { color: var(--text-tertiary); font-size: 11px; }.enterprise-object-detail-card dd { margin: 5px 0 0; font-size: 13px; font-weight: 600; }
+.enterprise-object-detail-timeline { display: grid; gap: 0; padding: 5px 0 0; list-style: none; }
+.enterprise-object-detail-timeline li { display: grid; grid-template-columns: 42px 10px 1fr; gap: 10px; padding: 13px 0; border-top: 1px solid var(--border-subtle); }
+.enterprise-object-detail-timeline time { color: var(--text-tertiary); font-size: 11px; }.enterprise-object-detail-timeline i { width: 8px; height: 8px; margin-top: 3px; border-radius: 50%; background: var(--color-primary-500, #6366f1); }.enterprise-object-detail-timeline strong, .enterprise-object-detail-timeline small { display: block; }.enterprise-object-detail-timeline strong { font-size: 13px; }.enterprise-object-detail-timeline small { margin-top: 4px; color: var(--text-secondary); }
+.enterprise-object-detail-relations { display: grid; gap: 8px; margin-top: 16px; }
+.enterprise-object-detail-relations button { display: grid; grid-template-columns: 28px 1fr 18px; align-items: center; gap: 10px; width: 100%; padding: 12px; border: 1px solid var(--border-subtle); border-radius: 10px; background: transparent; color: inherit; text-align: left; }.enterprise-object-detail-relations button:hover { background: var(--surface-secondary); }.enterprise-object-detail-relations span strong, .enterprise-object-detail-relations span small { display: block; }.enterprise-object-detail-relations strong { font-size: 13px; }.enterprise-object-detail-relations small { margin-top: 3px; color: var(--text-secondary); }
+
+.enterprise-object-floorplan-anatomy { position: relative; width: 100%; height: 270px; overflow: hidden; border: 1px solid var(--border-subtle); border-radius: 12px; background: var(--surface-primary); }
+.enterprise-object-floorplan-anatomy header, .enterprise-object-floorplan-anatomy footer { display: flex; align-items: center; justify-content: space-between; padding: 15px 18px; border-bottom: 1px solid var(--border-subtle); }.enterprise-object-floorplan-anatomy header span small, .enterprise-object-floorplan-anatomy header span strong { display: block; }.enterprise-object-floorplan-anatomy header small, .enterprise-object-floorplan-anatomy main small, .enterprise-object-floorplan-anatomy footer small { color: var(--text-tertiary); font-size: 9px; }.enterprise-object-floorplan-anatomy header b { padding: 4px 8px; border-radius: 12px; background: #fff7ed; color: #9a3412; font-size: 10px; }
+.enterprise-object-floorplan-anatomy > section { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; padding: 10px 18px; }.enterprise-object-floorplan-anatomy > section div { display: grid; gap: 4px; padding: 8px; border: 1px solid var(--border-subtle); border-radius: 6px; }.enterprise-object-floorplan-anatomy > section small { color: var(--text-tertiary); font-size: 9px; }.enterprise-object-floorplan-anatomy > section strong { font-size: 11px; }
+.enterprise-object-floorplan-anatomy main { display: grid; grid-template-columns: 1.5fr 1fr; gap: 8px; padding: 0 18px 10px; }.enterprise-object-floorplan-anatomy main > * { min-height: 72px; padding: 9px; border: 1px solid var(--border-subtle); border-radius: 6px; }.enterprise-object-floorplan-anatomy main i, .enterprise-object-floorplan-anatomy main span { display: block; height: 7px; margin-top: 7px; border-radius: 4px; background: var(--surface-tertiary); }
+.enterprise-object-floorplan-anatomy footer { border-top: 1px solid var(--border-subtle); border-bottom: 0; }.enterprise-object-floorplan-anatomy footer span small, .enterprise-object-floorplan-anatomy footer span strong { display: block; }.enterprise-object-floorplan-anatomy footer b { font-size: 10px; }
+.enterprise-object-floorplan-marker--one { top: 8px; left: 46%; }.enterprise-object-floorplan-marker--two { top: 87px; right: 9px; }.enterprise-object-floorplan-marker--three { bottom: 52px; left: 31%; }.enterprise-object-floorplan-marker--four { top: 153px; right: 9px; }.enterprise-object-floorplan-marker--five { bottom: 9px; left: 44%; }
+
+@media (max-width: 760px) {
+  .enterprise-object-detail-header, .enterprise-object-detail-layout { align-items: stretch; flex-direction: column; }
+  .enterprise-object-detail-header-actions { align-items: flex-start; justify-content: flex-start; flex-wrap: wrap; }
+  .enterprise-object-detail-rail { width: auto; flex-basis: auto; }
+  .enterprise-object-detail-metrics { grid-template-columns: 1fr; }
+  .enterprise-object-detail-card dl { grid-template-columns: 1fr; }
+  .enterprise-object-detail-card dl div:nth-child(odd) { padding-right: 0; }
+  .enterprise-object-detail-status { align-items: flex-start; flex-direction: column; gap: 4px; }
+}
+
 .enterprise-audit-preview {
   overflow: hidden;
   width: 100%;
