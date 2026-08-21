@@ -53,6 +53,20 @@ test('object detail pattern provides interactive preview and canonical documenta
   await expect(page.getByRole('heading', { level: 4, name: 'Preview restricted' })).toBeVisible()
 })
 
+test('activity audit pattern supports investigation and streaming controls', async ({ page }) => {
+  await page.goto('/enterprise/patterns/activity-audit-history')
+
+  await expect(page.getByRole('heading', { level: 1, name: 'Activity audit history' })).toBeVisible()
+  await expect(page.locator('.component-doc-section > header h2')).toHaveText(componentDocumentationSections)
+
+  await page.getByRole('searchbox', { name: 'Search audit history' }).fill('Policy service')
+  await expect(page.getByText('1 matching events')).toBeVisible()
+  await page.getByRole('button', { name: 'Pause' }).click()
+  await expect(page.getByText('Live updates paused')).toBeVisible()
+  await page.getByRole('button', { name: 'Simulate verified event' }).click()
+  await expect(page.getByText('Resume the stream before receiving new events.')).toBeVisible()
+})
+
 for (const route of ['/components/button', '/components/input', '/components/textarea', '/components/search-field', '/components/file-upload', '/components/segmented-control', '/components/split-button', '/components/inline-edit', '/components/transfer-list', '/components/saved-views', '/components/query-builder', '/components/column-manager', '/components/permission-matrix', '/components/activity-feed', '/components/notification-center', '/components/select', '/components/card', '/components/tabs', '/components/dialog', '/components/data-table', '/components/filter-bar', '/components/toolbar', '/components/tree-view', '/components/combobox', '/components/side-panel', '/components/command-bar', '/components/empty-state', '/components/audit-log', '/components/alert']) {
   test(`${route} follows the canonical twelve-section structure`, async ({ page, isMobile }) => {
     await page.goto(route)

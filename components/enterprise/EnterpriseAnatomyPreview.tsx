@@ -107,6 +107,22 @@ function ObjectDetailAnatomy() {
   )
 }
 
+function ActivityAuditAnatomy() {
+  return (
+    <div className="enterprise-audit-anatomy" aria-label="Activity audit history anatomy diagram">
+      <div className="enterprise-audit-anatomy-filters"><span>Search events</span><b>Actor</b><b>Policy</b></div>
+      <header><strong>Today</strong><button type="button" tabIndex={-1}>Export</button></header>
+      <section><i>MC</i><span><strong>Maya approved Production access</strong><small>Two-reviewer policy completed</small></span><time>09:42</time></section>
+      <section><i>PS</i><span><strong>Policy service blocked an export</strong><small>Restricted identity fields</small></span><time>09:18</time></section>
+      <Marker number={1} className="enterprise-audit-marker--one component-anatomy-marker--leader-right" />
+      <Marker number={2} className="enterprise-audit-marker--two component-anatomy-marker--leader-left" />
+      <Marker number={3} className="enterprise-audit-marker--three component-anatomy-marker--leader-left" />
+      <Marker number={4} className="enterprise-audit-marker--four component-anatomy-marker--leader-down" />
+      <Marker number={5} className="enterprise-audit-marker--five component-anatomy-marker--leader-down" />
+    </div>
+  )
+}
+
 export function EnterpriseAnatomyPreview({ resource }: { resource: EnterpriseResource }) {
   if (resource.slug === 'filtering-records') return <FilteringAnatomy />
   if (resource.slug === 'bulk-actions') return <BulkActionsAnatomy />
@@ -114,6 +130,7 @@ export function EnterpriseAnatomyPreview({ resource }: { resource: EnterpriseRes
   if (resource.slug === 'role-based-access') return <RoleBasedAccessAnatomy />
   if (resource.slug === 'empty-no-results') return <EmptyNoResultsAnatomy />
   if (resource.slug === 'object-detail-preview') return <ObjectDetailAnatomy />
+  if (resource.slug === 'activity-audit-history') return <ActivityAuditAnatomy />
 
   return (
     <div className="enterprise-floorplan-diagram" aria-label={`${resource.title} anatomy diagram`}>

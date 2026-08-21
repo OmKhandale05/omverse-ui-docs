@@ -24,6 +24,7 @@ import { ApprovalFlowPreview } from './ApprovalFlowPreview'
 import { RoleBasedAccessPreview } from './RoleBasedAccessPreview'
 import { EmptyNoResultsPreview } from './EmptyNoResultsPreview'
 import { ObjectDetailPreview } from './ObjectDetailPreview'
+import { ActivityAuditHistoryPreview } from './ActivityAuditHistoryPreview'
 
 interface EnterpriseExperiencePageProps {
   breadcrumb: string[]
@@ -37,6 +38,7 @@ const PRIMARY_REFERENCE_BY_SLUG: Record<string, string> = {
   'role-based-access': '/components/access-gate',
   'empty-no-results': '/components/empty-state',
   'object-detail-preview': '/components/side-panel',
+  'activity-audit-history': '/components/audit-log',
   'saved-views': '/components/saved-views',
 }
 
@@ -124,6 +126,17 @@ export function EnterpriseExperiencePage({ breadcrumb, resource }: EnterpriseExp
                 layout="grid"
               >
                 <ObjectDetailPreview />
+              </ComponentPreview>
+            </div>
+          )}
+          {resource.slug === 'activity-audit-history' && (
+            <div className="enterprise-pattern-preview">
+              <ComponentPreview
+                title="Investigate immutable operational events"
+                description="Search evidence, filter event types, pause or resume the stream, inspect an event, and prepare a governed export."
+                layout="grid"
+              >
+                <ActivityAuditHistoryPreview />
               </ComponentPreview>
             </div>
           )}
