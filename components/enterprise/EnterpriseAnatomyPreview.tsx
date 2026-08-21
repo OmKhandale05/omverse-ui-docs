@@ -59,10 +59,94 @@ function ApprovalFlowAnatomy() {
   )
 }
 
+function RoleBasedAccessAnatomy() {
+  return (
+    <div className="enterprise-access-anatomy" aria-label="Role-based access anatomy diagram">
+      <header><span>Identity: Viewer</span><strong>Workspace policy</strong></header>
+      <section><div><small>Analytics</small><b>View</b></div><div className="restricted"><small>Billing export</small><b>Restricted</b></div></section>
+      <footer><span>Finance Admin access required</span><button type="button" tabIndex={-1}>Request access</button></footer>
+      <Marker number={1} className="enterprise-access-marker--one component-anatomy-marker--leader-down" />
+      <Marker number={2} className="enterprise-access-marker--two component-anatomy-marker--leader-down" />
+      <Marker number={3} className="enterprise-access-marker--three component-anatomy-marker--leader-left" />
+      <Marker number={4} className="enterprise-access-marker--four component-anatomy-marker--leader-up" />
+      <Marker number={5} className="enterprise-access-marker--five component-anatomy-marker--leader-left" />
+    </div>
+  )
+}
+
+function EmptyNoResultsAnatomy() {
+  return (
+    <div className="enterprise-empty-anatomy" aria-label="Empty no-results anatomy diagram">
+      <div className="enterprise-empty-anatomy-visual"><i className="ti ti-filter-off" aria-hidden="true" /></div>
+      <strong>No exceptions match</strong>
+      <p>Clear a filter or broaden the environment.</p>
+      <div className="enterprise-empty-anatomy-actions"><button type="button" tabIndex={-1}>Clear filters</button><span>View all</span></div>
+      <small>Search and scope remain available.</small>
+      <Marker number={1} className="enterprise-empty-marker--one component-anatomy-marker--leader-down" />
+      <Marker number={2} className="enterprise-empty-marker--two component-anatomy-marker--leader-right" />
+      <Marker number={3} className="enterprise-empty-marker--three component-anatomy-marker--leader-left" />
+      <Marker number={4} className="enterprise-empty-marker--four component-anatomy-marker--leader-right" />
+      <Marker number={5} className="enterprise-empty-marker--five component-anatomy-marker--leader-up" />
+    </div>
+  )
+}
+
+function ObjectDetailAnatomy() {
+  return (
+    <div className="enterprise-object-anatomy" aria-label="Object detail preview anatomy diagram">
+      <header><span><small>WRK-1842</small><strong>Renewal risk review</strong></span><b>In review</b></header>
+      <section><div><small>Owner</small><strong>Maya Chen</strong></div><div><small>Value</small><strong>$128,400</strong></div><div><small>Updated</small><strong>12m ago</strong></div></section>
+      <div className="enterprise-object-anatomy-summary"><small>NEXT STEP</small><span>Confirm executive sponsor.</span></div>
+      <footer><button type="button" tabIndex={-1}>Quick action</button><strong>Open full details →</strong></footer>
+      <Marker number={1} className="enterprise-object-marker--one component-anatomy-marker--leader-down" />
+      <Marker number={2} className="enterprise-object-marker--two component-anatomy-marker--leader-left" />
+      <Marker number={3} className="enterprise-object-marker--three component-anatomy-marker--leader-up" />
+      <Marker number={4} className="enterprise-object-marker--four component-anatomy-marker--leader-left" />
+      <Marker number={5} className="enterprise-object-marker--five component-anatomy-marker--leader-up" />
+    </div>
+  )
+}
+
+function ActivityAuditAnatomy() {
+  return (
+    <div className="enterprise-audit-anatomy" aria-label="Activity audit history anatomy diagram">
+      <div className="enterprise-audit-anatomy-filters"><span>Search events</span><b>Actor</b><b>Policy</b></div>
+      <header><strong>Today</strong><button type="button" tabIndex={-1}>Export</button></header>
+      <section><i>MC</i><span><strong>Maya approved Production access</strong><small>Two-reviewer policy completed</small></span><time>09:42</time></section>
+      <section><i>PS</i><span><strong>Policy service blocked an export</strong><small>Restricted identity fields</small></span><time>09:18</time></section>
+      <Marker number={1} className="enterprise-audit-marker--one component-anatomy-marker--leader-right" />
+      <Marker number={2} className="enterprise-audit-marker--two component-anatomy-marker--leader-left" />
+      <Marker number={3} className="enterprise-audit-marker--three component-anatomy-marker--leader-left" />
+      <Marker number={4} className="enterprise-audit-marker--four component-anatomy-marker--leader-down" />
+      <Marker number={5} className="enterprise-audit-marker--five component-anatomy-marker--leader-down" />
+    </div>
+  )
+}
+
+function SavedViewsAnatomy() {
+  return (
+    <div className="enterprise-saved-anatomy" aria-label="Saved views anatomy diagram">
+      <header><span><strong>Renewals this month</strong><small>You · Updated 12m ago</small></span><b>Default</b><button type="button" tabIndex={-1}>•••</button></header>
+      <section><div><small>FILTERS</small><span>Stage: Renewal</span><span>Close: This month</span></div><div><small>SORT</small><strong>Value ↓</strong></div></section>
+      <footer><span><i className="ti ti-user" aria-hidden="true" />Personal</span><strong>4 columns configured</strong></footer>
+      <Marker number={1} className="enterprise-saved-marker--one component-anatomy-marker--leader-down" />
+      <Marker number={2} className="enterprise-saved-marker--two component-anatomy-marker--leader-right" />
+      <Marker number={3} className="enterprise-saved-marker--three component-anatomy-marker--leader-up" />
+      <Marker number={4} className="enterprise-saved-marker--four component-anatomy-marker--leader-left" />
+      <Marker number={5} className="enterprise-saved-marker--five component-anatomy-marker--leader-left" />
+    </div>
+  )
+}
+
 export function EnterpriseAnatomyPreview({ resource }: { resource: EnterpriseResource }) {
   if (resource.slug === 'filtering-records') return <FilteringAnatomy />
   if (resource.slug === 'bulk-actions') return <BulkActionsAnatomy />
   if (resource.slug === 'approval-flow') return <ApprovalFlowAnatomy />
+  if (resource.slug === 'role-based-access') return <RoleBasedAccessAnatomy />
+  if (resource.slug === 'empty-no-results') return <EmptyNoResultsAnatomy />
+  if (resource.slug === 'object-detail-preview') return <ObjectDetailAnatomy />
+  if (resource.slug === 'activity-audit-history') return <ActivityAuditAnatomy />
+  if (resource.slug === 'saved-views') return <SavedViewsAnatomy />
 
   return (
     <div className="enterprise-floorplan-diagram" aria-label={`${resource.title} anatomy diagram`}>

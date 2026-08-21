@@ -21,10 +21,26 @@ import { EnterpriseAnatomyPreview } from './EnterpriseAnatomyPreview'
 import { FilteringRecordsPreview } from './FilteringRecordsPreview'
 import { BulkActionsPreview } from './BulkActionsPreview'
 import { ApprovalFlowPreview } from './ApprovalFlowPreview'
+import { RoleBasedAccessPreview } from './RoleBasedAccessPreview'
+import { EmptyNoResultsPreview } from './EmptyNoResultsPreview'
+import { ObjectDetailPreview } from './ObjectDetailPreview'
+import { ActivityAuditHistoryPreview } from './ActivityAuditHistoryPreview'
+import { SavedViewsPatternPreview } from './SavedViewsPatternPreview'
 
 interface EnterpriseExperiencePageProps {
   breadcrumb: string[]
   resource: EnterpriseResource
+}
+
+const PRIMARY_REFERENCE_BY_SLUG: Record<string, string> = {
+  'filtering-records': '/components/filter-bar',
+  'bulk-actions': '/components/bulk-action-bar',
+  'approval-flow': '/components/approval-card',
+  'role-based-access': '/components/access-gate',
+  'empty-no-results': '/components/empty-state',
+  'object-detail-preview': '/components/side-panel',
+  'activity-audit-history': '/components/audit-log',
+  'saved-views': '/components/saved-views',
 }
 
 export function EnterpriseExperiencePage({ breadcrumb, resource }: EnterpriseExperiencePageProps) {
@@ -78,6 +94,61 @@ export function EnterpriseExperiencePage({ breadcrumb, resource }: EnterpriseExp
                 layout="grid"
               >
                 <ApprovalFlowPreview />
+              </ComponentPreview>
+            </div>
+          )}
+          {resource.slug === 'role-based-access' && (
+            <div className="enterprise-pattern-preview">
+              <ComponentPreview
+                title="Preview workspace capabilities by role"
+                description="Switch roles to compare allowed, disabled, and replaced capability surfaces, inspect the read-only grant matrix, and request escalation."
+                layout="grid"
+              >
+                <RoleBasedAccessPreview />
+              </ComponentPreview>
+            </div>
+          )}
+          {resource.slug === 'empty-no-results' && (
+            <div className="enterprise-pattern-preview">
+              <ComponentPreview
+                title="Recover from a meaningful empty result"
+                description="Compare first-use, filtered, and permission-limited outcomes, then use each recommended recovery path without losing page context."
+                layout="grid"
+              >
+                <EmptyNoResultsPreview />
+              </ComponentPreview>
+            </div>
+          )}
+          {resource.slug === 'object-detail-preview' && (
+            <div className="enterprise-pattern-preview">
+              <ComponentPreview
+                title="Inspect work without losing list context"
+                description="Select records, reveal progressive detail, test the restricted state, and follow the explicit route to the complete object."
+                layout="grid"
+              >
+                <ObjectDetailPreview />
+              </ComponentPreview>
+            </div>
+          )}
+          {resource.slug === 'activity-audit-history' && (
+            <div className="enterprise-pattern-preview">
+              <ComponentPreview
+                title="Investigate immutable operational events"
+                description="Search evidence, filter event types, pause or resume the stream, inspect an event, and prepare a governed export."
+                layout="grid"
+              >
+                <ActivityAuditHistoryPreview />
+              </ComponentPreview>
+            </div>
+          )}
+          {resource.slug === 'saved-views' && (
+            <div className="enterprise-pattern-preview">
+              <ComponentPreview
+                title="Restore and govern recurring workspace context"
+                description="Apply, search, create, rename, duplicate, and set default views; then test schema drift and the guided repair state."
+                layout="grid"
+              >
+                <SavedViewsPatternPreview />
               </ComponentPreview>
             </div>
           )}
@@ -189,7 +260,7 @@ export function EnterpriseExperiencePage({ breadcrumb, resource }: EnterpriseExp
                 )}
               </div>
             ))}
-            <Link href={resource.slug.includes('view') ? '/components/saved-views' : '/components/data-table'} style={{ color: 'var(--color-primary)' }}>
+            <Link href={PRIMARY_REFERENCE_BY_SLUG[resource.slug] ?? '/components/data-table'} style={{ color: 'var(--color-primary)' }}>
               Open linked component reference for implementation patterns
             </Link>
           </div>

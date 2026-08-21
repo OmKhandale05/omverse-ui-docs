@@ -31,11 +31,6 @@ const STEP_ITEM_PROPS = [
   { name: 'content', type: 'ReactNode', default: '—', description: 'Content shown inside the step (timeline variant)' },
 ] as const satisfies { name: string; type: string; default: string; description: string }[];
 
-const API_PROPS = [
-  ...STEPPER_PROPS,
-  ...STEP_ITEM_PROPS,
-] as const;
-
 /* ─── Shared step data ─── */
 
 const basicSteps: StepItem[] = [

@@ -58,6 +58,7 @@ const FILTER_CODE = `const filters: FilterBarFilter[] = [
     onClear: () => setStatus(''),
     control: (
       <Select
+        aria-label="Status"
         options={STATUS_OPTIONS}
         value={status}
         onChange={setStatus}
@@ -95,6 +96,7 @@ function FilterBarPreview() {
       label: 'Status',
       control: (
         <Select
+          aria-label="Status"
           value={status}
           options={STATUS_OPTIONS}
           onChange={(value) => setStatus(value)}

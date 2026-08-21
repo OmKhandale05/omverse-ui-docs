@@ -186,6 +186,9 @@
   "/components/approval-card": [
     "ApprovalCard"
   ],
+  "/components/access-gate": [
+    "AccessGate"
+  ],
   "/components/transfer-list": [
     "TransferList"
   ],

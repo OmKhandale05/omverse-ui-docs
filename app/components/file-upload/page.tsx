@@ -31,6 +31,7 @@ const PROPS = [
   { name: 'disabled', type: 'boolean', default: 'false', description: 'Disables selection, dropping, and removal.' },
   { name: 'loading', type: 'boolean', default: 'false', description: 'Shows upload processing state.' },
   { name: 'label', type: 'ReactNode', default: "'Drop files here or browse'", description: 'Primary drop-zone instruction.' },
+  { name: 'inputLabel', type: 'string', default: "'Choose files'", description: 'Accessible name for the native file picker.' },
   { name: 'description', type: 'ReactNode', default: 'undefined', description: 'Accepted format and limit guidance.' },
   { name: 'variant', type: "'outlined' | 'filled' | 'raised'", default: "'outlined'", description: 'Controls drop-zone treatment.' },
   { name: 'size', type: "'sm' | 'md' | 'lg'", default: "'md'", description: 'Controls drop-zone and file-row scale.' },

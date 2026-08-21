@@ -64,14 +64,14 @@ export function FilteringRecordsPreview() {
       label: 'Status',
       activeLabel: status || undefined,
       onClear: status ? () => setStatus('') : undefined,
-      control: <Select value={status} options={STATUS_OPTIONS} onChange={setStatus} placeholder="All statuses" />,
+      control: <Select aria-label="Status" value={status} options={STATUS_OPTIONS} onChange={setStatus} placeholder="All statuses" />,
     },
     {
       id: 'team',
       label: 'Team',
       activeLabel: team || undefined,
       onClear: team ? () => setTeam('') : undefined,
-      control: <Select value={team} options={TEAM_OPTIONS} onChange={setTeam} placeholder="All teams" />,
+      control: <Select aria-label="Team" value={team} options={TEAM_OPTIONS} onChange={setTeam} placeholder="All teams" />,
     },
   ], [status, team])
 
