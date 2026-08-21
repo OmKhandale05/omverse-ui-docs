@@ -887,7 +887,8 @@ await authorize(session.user, 'billing.export', workspace)`,
         tags: ['Landing', 'Overview', 'Performance'],
         overview: [
           'A dashboard floorplan gives teams fast context across health, throughput, and action risk.',
-          'It should reduce decision latency through clear prioritization and limited motion.',
+          'It should reduce decision latency through clear prioritization, role-relevant modules, and limited motion.',
+          'Treat the dashboard as an entry point: every metric, exception, and queue item should disclose freshness and lead to evidence or action.',
         ],
         anatomy: [
           { number: 1, name: 'Hero metric row', description: 'Top-level KPIs with unit and trend context.' },
@@ -915,6 +916,8 @@ await authorize(session.user, 'billing.export', workspace)`,
           { state: 'Loading', trigger: 'Fresh data fetch', visual: 'Skeleton cards and fallback totals', interaction: 'Keep CTA available if safe.' },
           { state: 'Healthy', trigger: 'No blocking alerts', visual: 'Green trend and confidence indicators', interaction: 'Encourage routine review actions.' },
           { state: 'Alert', trigger: 'SLA breach or backlog', visual: 'Contrast-heavy badges', interaction: 'Expose quick remediation actions.' },
+          { state: 'Stale', trigger: 'Refresh deadline exceeded', visual: 'Last-updated time and stale source warning', interaction: 'Preserve prior values and offer a manual retry.' },
+          { state: 'Partial data', trigger: 'One or more sources unavailable', visual: 'Unavailable modules identify the affected source', interaction: 'Keep independent modules usable and avoid a misleading global total.' },
         ],
         behavior: [
           { icon: 'ti-refresh', title: 'Refresh strategy', description: 'Use pull-to-refresh and interval sync with clear staleness states.' },
@@ -930,6 +933,8 @@ await authorize(session.user, 'billing.export', workspace)`,
           'Do not show critical alerts only through color.',
           'Use headings and landmarks to group metric groups.',
           'Keep widget ordering stable to reduce screen reader disorientation.',
+          'Provide text summaries for chart direction, period, and comparison.',
+          'Announce refresh completion and queue changes through a polite live region.',
         ],
         contentGuidelines: [
           { label: 'Metric copy', guidance: 'Prefer nouns + verbs that indicate actionability.', example: 'SLA breaches this week' },
@@ -938,17 +943,78 @@ await authorize(session.user, 'billing.export', workspace)`,
         ],
         examples: [
           {
-            heading: 'Production use',
+            heading: 'Compose an operations dashboard',
             points: [
               'Show one clear callout for escalation before less critical metrics.',
-              'Cap concurrent widgets to reduce cognitive load.',
-              'Surface unresolved incidents with direct action links.',
+              'Keep the reporting period controlled at page level so every module compares the same range.',
+              'Preserve semantic headings, regions, and source freshness when arranging cards.',
             ],
+            filename: 'OperationsDashboard.tsx',
+            language: 'tsx',
+            code: `import { Badge, Button, SegmentedControl } from 'omverse-ui'
+
+export function OperationsDashboard({ snapshot, range, onRangeChange, onRefresh }) {
+  return (
+    <main aria-labelledby="dashboard-title">
+      <header>
+        <div>
+          <h1 id="dashboard-title">Operations control</h1>
+          <p role="status">Updated {snapshot.updatedLabel}</p>
+        </div>
+        <SegmentedControl
+          aria-label="Dashboard reporting range"
+          items={rangeOptions}
+          value={range}
+          onValueChange={onRangeChange}
+        />
+        <Button variant="outlined" onClick={onRefresh}>Refresh</Button>
+      </header>
+
+      <section aria-label="Key performance indicators">
+        {snapshot.metrics.map((metric) => (
+          <article key={metric.id}>
+            <h2>{metric.label}</h2>
+            <strong>{metric.value}</strong>
+            <p>{metric.trendLabel}</p>
+          </article>
+        ))}
+      </section>
+
+      <aside aria-labelledby="priority-queue-title">
+        <h2 id="priority-queue-title">Priority queue</h2>
+        <Badge color="warning">{snapshot.priorityCount}</Badge>
+      </aside>
+    </main>
+  )
+}`,
+          },
+          {
+            heading: 'Model freshness independently',
+            points: [
+              'Track source status per module instead of hiding partial failures behind one page-level loading state.',
+              'Keep the last verified value visible when policy allows and label it as stale.',
+              'Exclude unavailable values from derived totals and state that exclusion in plain language.',
+            ],
+            filename: 'dashboard-snapshot.json',
+            language: 'json',
+            code: `{
+  "generatedAt": "2026-08-21T09:42:00Z",
+  "range": "7d",
+  "sources": {
+    "approvals": { "status": "current", "updatedAt": "2026-08-21T09:41:48Z" },
+    "audit": { "status": "stale", "updatedAt": "2026-08-21T09:32:10Z" }
+  },
+  "metrics": [
+    { "id": "sla", "value": 98.6, "unit": "percent", "trend": 0.8 }
+  ]
+}`,
           },
         ],
         props: [
           { name: 'widgets', type: 'readonly DashboardWidget[]', default: 'required', description: 'Ordered layout cards with metadata and drill links.' },
           { name: 'health', type: 'DashboardHealth', default: 'required', description: 'Defines overall status used in page chrome.' },
+          { name: 'range', type: 'DashboardRange', default: "'7d'", description: 'Shared reporting period applied consistently across compatible modules.' },
+          { name: 'sourceStatus', type: 'Record<string, SourceStatus>', default: 'required', description: 'Freshness and availability metadata for each dashboard source.' },
           { name: 'refreshEveryMs', type: 'number', default: '30000', description: 'Interval for periodic updates.' },
           { name: 'onAction', type: '(widgetId: string, action: string) => void', default: 'required', description: 'Action callback from quick actions.' },
         ],

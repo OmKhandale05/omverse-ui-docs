@@ -26,6 +26,7 @@ import { EmptyNoResultsPreview } from './EmptyNoResultsPreview'
 import { ObjectDetailPreview } from './ObjectDetailPreview'
 import { ActivityAuditHistoryPreview } from './ActivityAuditHistoryPreview'
 import { SavedViewsPatternPreview } from './SavedViewsPatternPreview'
+import { DashboardFloorplanPreview } from './DashboardFloorplanPreview'
 
 interface EnterpriseExperiencePageProps {
   breadcrumb: string[]
@@ -41,6 +42,7 @@ const PRIMARY_REFERENCE_BY_SLUG: Record<string, string> = {
   'object-detail-preview': '/components/side-panel',
   'activity-audit-history': '/components/audit-log',
   'saved-views': '/components/saved-views',
+  'dashboard': '/examples?id=dashboard',
 }
 
 export function EnterpriseExperiencePage({ breadcrumb, resource }: EnterpriseExperiencePageProps) {
@@ -149,6 +151,17 @@ export function EnterpriseExperiencePage({ breadcrumb, resource }: EnterpriseExp
                 layout="grid"
               >
                 <SavedViewsPatternPreview />
+              </ComponentPreview>
+            </div>
+          )}
+          {resource.slug === 'dashboard' && (
+            <div className="enterprise-pattern-preview">
+              <ComponentPreview
+                title="Monitor health and move priority work"
+                description="Change the reporting range, refresh source status, inspect performance, and move urgent requests into active review."
+                layout="grid"
+              >
+                <DashboardFloorplanPreview />
               </ComponentPreview>
             </div>
           )}

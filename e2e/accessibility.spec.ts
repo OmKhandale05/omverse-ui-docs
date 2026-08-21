@@ -7,6 +7,7 @@ const routes = [
   '/enterprise/patterns/object-detail-preview',
   '/enterprise/patterns/activity-audit-history',
   '/enterprise/patterns/saved-views',
+  '/enterprise/floorplans/dashboard',
   '/docs/introduction',
   '/components/button',
   '/components/input',

@@ -138,6 +138,22 @@ function SavedViewsAnatomy() {
   )
 }
 
+function DashboardAnatomy() {
+  return (
+    <div className="enterprise-dashboard-anatomy" aria-label="Dashboard floorplan anatomy diagram">
+      <header><span><small>OPERATIONS</small><strong>Workspace health</strong></span><b>7 days</b></header>
+      <section className="enterprise-dashboard-anatomy-metrics"><div><small>Requests</small><strong>1,248</strong></div><div><small>SLA</small><strong>98.6%</strong></div><div><small>Exceptions</small><strong>7</strong></div></section>
+      <section className="enterprise-dashboard-anatomy-main"><div><small>TREND</small><i /><i /><i /><i /><i /></div><aside><small>ACTION REQUIRED</small><span /><span /></aside></section>
+      <footer><div><small>WORK QUEUE</small><span /><span /></div><aside><small>INSIGHT</small><strong>18 min faster</strong></aside></footer>
+      <Marker number={1} className="enterprise-dashboard-marker--one component-anatomy-marker--leader-down" />
+      <Marker number={2} className="enterprise-dashboard-marker--two component-anatomy-marker--leader-left" />
+      <Marker number={3} className="enterprise-dashboard-marker--three component-anatomy-marker--leader-up" />
+      <Marker number={4} className="enterprise-dashboard-marker--four component-anatomy-marker--leader-up" />
+      <Marker number={5} className="enterprise-dashboard-marker--five component-anatomy-marker--leader-left" />
+    </div>
+  )
+}
+
 export function EnterpriseAnatomyPreview({ resource }: { resource: EnterpriseResource }) {
   if (resource.slug === 'filtering-records') return <FilteringAnatomy />
   if (resource.slug === 'bulk-actions') return <BulkActionsAnatomy />
@@ -147,6 +163,7 @@ export function EnterpriseAnatomyPreview({ resource }: { resource: EnterpriseRes
   if (resource.slug === 'object-detail-preview') return <ObjectDetailAnatomy />
   if (resource.slug === 'activity-audit-history') return <ActivityAuditAnatomy />
   if (resource.slug === 'saved-views') return <SavedViewsAnatomy />
+  if (resource.slug === 'dashboard') return <DashboardAnatomy />
 
   return (
     <div className="enterprise-floorplan-diagram" aria-label={`${resource.title} anatomy diagram`}>

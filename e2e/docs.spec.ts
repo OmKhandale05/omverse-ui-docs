@@ -81,6 +81,24 @@ test('saved views pattern restores context and recovers stale schemas', async ({
   await expect(page.getByText('View remapped to the current schema')).toBeVisible()
 })
 
+test('dashboard floorplan prioritizes health and actionable work', async ({ page }) => {
+  await page.goto('/enterprise/floorplans/dashboard')
+
+  await expect(page.getByRole('heading', { level: 1, name: 'Dashboard' })).toBeVisible()
+  await expect(page.locator('.component-doc-section > header h2')).toHaveText(componentDocumentationSections)
+  await expect(page.getByLabel('Dashboard floorplan anatomy diagram').locator('.component-anatomy-marker')).toHaveCount(5)
+
+  await page.getByRole('radio', { name: '30 days' }).click()
+  await expect(page.getByText('5,432', { exact: true })).toBeVisible()
+
+  await page.getByRole('button', { name: /Production access exception/ }).click()
+  await expect(page.getByRole('status')).toHaveText('APR-2048 moved to the active review queue')
+  await expect(page.getByRole('button', { name: /Production access exception/ })).toHaveCount(0)
+
+  await page.getByRole('button', { name: 'Refresh', exact: true }).click()
+  await expect(page.getByRole('status')).toHaveText('Dashboard refreshed · all sources current')
+})
+
 for (const route of ['/components/button', '/components/input', '/components/textarea', '/components/search-field', '/components/file-upload', '/components/segmented-control', '/components/split-button', '/components/inline-edit', '/components/transfer-list', '/components/saved-views', '/components/query-builder', '/components/column-manager', '/components/permission-matrix', '/components/activity-feed', '/components/notification-center', '/components/select', '/components/card', '/components/tabs', '/components/dialog', '/components/data-table', '/components/filter-bar', '/components/toolbar', '/components/tree-view', '/components/combobox', '/components/side-panel', '/components/command-bar', '/components/empty-state', '/components/audit-log', '/components/alert']) {
   test(`${route} follows the canonical twelve-section structure`, async ({ page, isMobile }) => {
     await page.goto(route)
