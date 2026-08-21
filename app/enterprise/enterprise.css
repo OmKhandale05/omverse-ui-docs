@@ -1,10 +1,71 @@
 .enterprise-page-shell {
+  /* Local semantic aliases keep enterprise previews aligned with the public token contract. */
+  --border-subtle: var(--color-outline-variant);
+  --border-default: var(--color-outline);
+  --surface-primary: var(--color-background);
+  --surface-secondary: var(--color-surface);
+  --surface-tertiary: var(--color-surface-container);
+  --text-primary: var(--color-text-primary);
+  --text-secondary: var(--color-text-secondary);
+  --text-tertiary: var(--color-text-disabled);
   display: flex;
   min-height: 100vh;
   height: 100vh;
   flex-direction: column;
   background: var(--color-background);
   color: var(--color-text-primary);
+}
+
+/* Enterprise floorplan outline system: shell → workspace → interactive region. */
+.enterprise-page-shell .enterprise-dashboard-preview,
+.enterprise-page-shell .enterprise-list-report-preview,
+.enterprise-page-shell .enterprise-object-detail-preview,
+.enterprise-page-shell .enterprise-user-management-preview,
+.enterprise-page-shell .enterprise-approval-queue-preview,
+.enterprise-page-shell .enterprise-settings-preview {
+  border: 1px solid var(--color-outline);
+  box-shadow:
+    0 1px 2px rgb(0 0 0 / 5%),
+    inset 0 0 0 1px color-mix(in srgb, var(--color-background) 68%, transparent);
+}
+
+.enterprise-page-shell .enterprise-dashboard-panel,
+.enterprise-page-shell .enterprise-list-report-table-wrap,
+.enterprise-page-shell .enterprise-object-detail-metrics article,
+.enterprise-page-shell .enterprise-object-detail-card,
+.enterprise-page-shell .enterprise-object-detail-rail,
+.enterprise-page-shell .enterprise-user-roster,
+.enterprise-page-shell .enterprise-user-detail,
+.enterprise-page-shell .enterprise-approval-queue-list,
+.enterprise-page-shell .enterprise-approval-review,
+.enterprise-page-shell .enterprise-settings-groups section {
+  border-color: var(--color-outline-variant);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 4%);
+}
+
+.enterprise-page-shell .enterprise-list-report-table-wrap {
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 9px;
+}
+
+.enterprise-page-shell .enterprise-user-roster > button:focus-visible,
+.enterprise-page-shell .enterprise-approval-queue-list > button:focus-visible,
+.enterprise-page-shell .enterprise-settings-layout > nav button:focus-visible,
+.enterprise-page-shell .enterprise-object-detail-relations button:focus-visible {
+  position: relative;
+  z-index: 1;
+  outline: 2px solid var(--color-primary);
+  outline-offset: -2px;
+}
+
+.enterprise-page-shell .enterprise-user-roster > button[data-selected],
+.enterprise-page-shell .enterprise-approval-queue-list > button[data-selected],
+.enterprise-page-shell .enterprise-settings-layout > nav button[aria-current='page'] {
+  background: var(--color-surface-container);
+  box-shadow:
+    inset 3px 0 var(--color-primary),
+    inset 0 0 0 1px var(--color-outline-variant);
 }
 
 .enterprise-page-shell main {

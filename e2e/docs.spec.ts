@@ -198,6 +198,23 @@ test('settings floorplan protects dirty navigation and saves an audit event', as
   await expect(page.getByRole('status')).toContainText('audit event SET-2918')
 })
 
+test('enterprise floorplans preserve a visible shell and panel outline hierarchy', async ({ page }) => {
+  const floorplans = [
+    ['dashboard', '.enterprise-dashboard-preview', '.enterprise-dashboard-panel'],
+    ['list-report', '.enterprise-list-report-preview', '.enterprise-list-report-table-wrap'],
+    ['object-detail', '.enterprise-object-detail-preview', '.enterprise-object-detail-card'],
+    ['user-management', '.enterprise-user-management-preview', '.enterprise-user-detail'],
+    ['approval-queue', '.enterprise-approval-queue-preview', '.enterprise-approval-review'],
+    ['settings', '.enterprise-settings-preview', '.enterprise-settings-groups section'],
+  ] as const
+
+  for (const [slug, shellSelector, panelSelector] of floorplans) {
+    await page.goto(`/enterprise/floorplans/${slug}`)
+    await expect(page.locator(shellSelector)).toHaveCSS('border-top-width', '1px')
+    await expect(page.locator(panelSelector).first()).toHaveCSS('border-top-width', '1px')
+  }
+})
+
 for (const route of ['/components/button', '/components/input', '/components/textarea', '/components/search-field', '/components/file-upload', '/components/segmented-control', '/components/split-button', '/components/inline-edit', '/components/transfer-list', '/components/saved-views', '/components/query-builder', '/components/column-manager', '/components/permission-matrix', '/components/activity-feed', '/components/notification-center', '/components/select', '/components/card', '/components/tabs', '/components/dialog', '/components/data-table', '/components/filter-bar', '/components/toolbar', '/components/tree-view', '/components/combobox', '/components/side-panel', '/components/command-bar', '/components/empty-state', '/components/audit-log', '/components/alert']) {
   test(`${route} follows the canonical twelve-section structure`, async ({ page, isMobile }) => {
     await page.goto(route)
