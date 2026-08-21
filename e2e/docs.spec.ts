@@ -215,6 +215,32 @@ test('enterprise floorplans preserve a visible shell and panel outline hierarchy
   }
 })
 
+test('work items template supports creation, layout, ownership, and status changes', async ({ page }) => {
+  await page.goto('/enterprise/templates/work-items')
+  await expect(page.getByRole('heading', { level: 1, name: 'Work items' })).toBeVisible()
+  await expect(page.locator('.component-doc-section > header h2')).toHaveText(componentDocumentationSections)
+
+  const anatomy = page.getByLabel('Work items template anatomy diagram')
+  await expect(anatomy.locator('.component-anatomy-marker')).toHaveCount(5)
+  await expect.poll(() => anatomy.evaluate((element) => {
+    const box = element.getBoundingClientRect()
+    return Array.from(element.querySelectorAll('.component-anatomy-marker')).every((marker) => {
+      const bounds = marker.getBoundingClientRect()
+      return bounds.left >= box.left && bounds.right <= box.right && bounds.top >= box.top && bounds.bottom <= box.bottom
+    })
+  })).toBe(true)
+
+  await page.getByRole('radio', { name: 'Board' }).click()
+  await expect(page.getByRole('list', { name: 'board of work items' })).toBeVisible()
+  await page.getByRole('button', { name: 'New work item' }).click()
+  await page.getByLabel('Title').fill('Verify regional access review')
+  await page.getByRole('button', { name: 'Create item' }).click()
+  await expect(page.getByRole('status')).toContainText('created and ready for triage')
+  await page.getByLabel(/Owner for WRK-/).click()
+  await page.getByRole('option', { name: 'Jon Bell' }).click()
+  await expect(page.getByRole('status')).toContainText('assigned to Jon Bell')
+})
+
 for (const route of ['/components/button', '/components/input', '/components/textarea', '/components/search-field', '/components/file-upload', '/components/segmented-control', '/components/split-button', '/components/inline-edit', '/components/transfer-list', '/components/saved-views', '/components/query-builder', '/components/column-manager', '/components/permission-matrix', '/components/activity-feed', '/components/notification-center', '/components/select', '/components/card', '/components/tabs', '/components/dialog', '/components/data-table', '/components/filter-bar', '/components/toolbar', '/components/tree-view', '/components/combobox', '/components/side-panel', '/components/command-bar', '/components/empty-state', '/components/audit-log', '/components/alert']) {
   test(`${route} follows the canonical twelve-section structure`, async ({ page, isMobile }) => {
     await page.goto(route)

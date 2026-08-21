@@ -13,6 +13,7 @@ const routes = [
   '/enterprise/floorplans/user-management',
   '/enterprise/floorplans/approval-queue',
   '/enterprise/floorplans/settings',
+  '/enterprise/templates/work-items',
   '/docs/introduction',
   '/components/button',
   '/components/input',

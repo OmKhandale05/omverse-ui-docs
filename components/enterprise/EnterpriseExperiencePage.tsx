@@ -32,6 +32,7 @@ import { ObjectDetailFloorplanPreview } from './ObjectDetailFloorplanPreview'
 import { UserManagementFloorplanPreview } from './UserManagementFloorplanPreview'
 import { ApprovalQueueFloorplanPreview } from './ApprovalQueueFloorplanPreview'
 import { SettingsFloorplanPreview } from './SettingsFloorplanPreview'
+import { WorkItemsTemplatePreview } from './WorkItemsTemplatePreview'
 
 interface EnterpriseExperiencePageProps {
   breadcrumb: string[]
@@ -53,6 +54,7 @@ const PRIMARY_REFERENCE_BY_SLUG: Record<string, string> = {
   'user-management': '/components/data-table',
   'approval-queue': '/components/approval-card',
   'settings': '/components/switch',
+  'work-items': '/components/data-table',
 }
 
 export function EnterpriseExperiencePage({ breadcrumb, resource }: EnterpriseExperiencePageProps) {
@@ -205,6 +207,9 @@ export function EnterpriseExperiencePage({ breadcrumb, resource }: EnterpriseExp
           )}
           {resource.slug === 'settings' && (
             <div className="enterprise-pattern-preview"><ComponentPreview title="Configure the workspace safely" description="Navigate owned and managed settings, create a dirty state, confirm a high-risk security change, and save or reset with explicit audit feedback." layout="grid"><SettingsFloorplanPreview /></ComponentPreview></div>
+          )}
+          {resource.slug === 'work-items' && (
+            <div className="enterprise-pattern-preview"><ComponentPreview title="Adapt a complete operational work queue" description="Search and filter the queue, switch layout, create work, inspect durable context, and update ownership or status without losing the selected item." layout="grid"><WorkItemsTemplatePreview /></ComponentPreview></div>
           )}
         </ComponentDocSection>
 

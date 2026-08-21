@@ -201,6 +201,9 @@ function ApprovalQueueAnatomy() {
 function SettingsAnatomy() {
   return <div className="enterprise-settings-anatomy" aria-label="Settings floorplan anatomy diagram"><header><span><small>SETTINGS</small><strong>Workspace administration</strong></span><b>Unsaved changes</b></header><main><nav><strong>General</strong><span>Security</span><span>Notifications</span><span>Data retention</span></nav><section><small>GENERAL SETTINGS</small><strong>Workspace identity</strong><div /><div /><aside><span>Inherited policy</span><b>Managed</b></aside></section></main><footer><span>Review pending changes</span><b>Reset</b><strong>Save changes</strong></footer><Marker number={1} className="enterprise-settings-marker--one component-anatomy-marker--leader-down" /><Marker number={2} className="enterprise-settings-marker--two component-anatomy-marker--leader-right" /><Marker number={3} className="enterprise-settings-marker--three component-anatomy-marker--leader-left" /><Marker number={4} className="enterprise-settings-marker--four component-anatomy-marker--leader-up" /><Marker number={5} className="enterprise-settings-marker--five component-anatomy-marker--leader-left" /></div>
 }
+function WorkItemsTemplateAnatomy() {
+  return <div className="enterprise-work-items-anatomy" aria-label="Work items template anatomy diagram"><header><span><small>OPERATIONS WORKSPACE</small><strong>Work items</strong></span><b>New work item</b></header><div className="enterprise-work-items-anatomy-filters"><span>Search work</span><b>Status</b><b>List · Board</b></div><main><section><div><small>WRK-1842</small><strong>Resolve billing exception</strong><span>In progress</span></div><div /><div /></section><aside><small>SELECTED ITEM</small><strong>Resolve billing exception</strong><span>Owner · Maya Chen</span><span>Status · In progress</span><p>Recent history</p></aside></main><Marker number={1} className="enterprise-work-items-marker--one component-anatomy-marker--leader-down" /><Marker number={2} className="enterprise-work-items-marker--two component-anatomy-marker--leader-right" /><Marker number={3} className="enterprise-work-items-marker--three component-anatomy-marker--leader-left" /><Marker number={4} className="enterprise-work-items-marker--four component-anatomy-marker--leader-up" /><Marker number={5} className="enterprise-work-items-marker--five component-anatomy-marker--leader-left" /></div>
+}
 
 export function EnterpriseAnatomyPreview({ resource }: { resource: EnterpriseResource }) {
   if (resource.slug === 'filtering-records') return <FilteringAnatomy />
@@ -217,6 +220,7 @@ export function EnterpriseAnatomyPreview({ resource }: { resource: EnterpriseRes
   if (resource.slug === 'user-management') return <UserManagementAnatomy />
   if (resource.slug === 'approval-queue') return <ApprovalQueueAnatomy />
   if (resource.slug === 'settings') return <SettingsAnatomy />
+  if (resource.slug === 'work-items') return <WorkItemsTemplateAnatomy />
 
   return (
     <div className="enterprise-floorplan-diagram" aria-label={`${resource.title} anatomy diagram`}>
