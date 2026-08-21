@@ -198,6 +198,9 @@ function UserManagementAnatomy() {
 function ApprovalQueueAnatomy() {
   return <div className="enterprise-queue-anatomy" aria-label="Approval queue floorplan anatomy diagram"><header><span>All work · Urgent · Unassigned</span><b>3 awaiting</b></header><main><section><div><small>APR-2048</small><strong>Production access</strong><span>Due in 18 min</span></div><div /><div /></section><aside><small>DECISION REVIEW</small><strong>Production access exception</strong><div><span>Request scope</span><span>Policy evidence</span></div><p>Review trail</p></aside></main><footer><span>Decision rationale</span><b>Return</b><strong>Approve</strong></footer><Marker number={1} className="enterprise-queue-marker--one component-anatomy-marker--leader-down" /><Marker number={2} className="enterprise-queue-marker--two component-anatomy-marker--leader-right" /><Marker number={3} className="enterprise-queue-marker--three component-anatomy-marker--leader-left" /><Marker number={4} className="enterprise-queue-marker--four component-anatomy-marker--leader-up" /><Marker number={5} className="enterprise-queue-marker--five component-anatomy-marker--leader-left" /></div>
 }
+function SettingsAnatomy() {
+  return <div className="enterprise-settings-anatomy" aria-label="Settings floorplan anatomy diagram"><header><span><small>SETTINGS</small><strong>Workspace administration</strong></span><b>Unsaved changes</b></header><main><nav><strong>General</strong><span>Security</span><span>Notifications</span><span>Data retention</span></nav><section><small>GENERAL SETTINGS</small><strong>Workspace identity</strong><div /><div /><aside><span>Inherited policy</span><b>Managed</b></aside></section></main><footer><span>Review pending changes</span><b>Reset</b><strong>Save changes</strong></footer><Marker number={1} className="enterprise-settings-marker--one component-anatomy-marker--leader-down" /><Marker number={2} className="enterprise-settings-marker--two component-anatomy-marker--leader-right" /><Marker number={3} className="enterprise-settings-marker--three component-anatomy-marker--leader-left" /><Marker number={4} className="enterprise-settings-marker--four component-anatomy-marker--leader-up" /><Marker number={5} className="enterprise-settings-marker--five component-anatomy-marker--leader-left" /></div>
+}
 
 export function EnterpriseAnatomyPreview({ resource }: { resource: EnterpriseResource }) {
   if (resource.slug === 'filtering-records') return <FilteringAnatomy />
@@ -213,6 +216,7 @@ export function EnterpriseAnatomyPreview({ resource }: { resource: EnterpriseRes
   if (resource.slug === 'object-detail') return <ObjectDetailFloorplanAnatomy />
   if (resource.slug === 'user-management') return <UserManagementAnatomy />
   if (resource.slug === 'approval-queue') return <ApprovalQueueAnatomy />
+  if (resource.slug === 'settings') return <SettingsAnatomy />
 
   return (
     <div className="enterprise-floorplan-diagram" aria-label={`${resource.title} anatomy diagram`}>
