@@ -30,6 +30,7 @@ import { DashboardFloorplanPreview } from './DashboardFloorplanPreview'
 import { ListReportFloorplanPreview } from './ListReportFloorplanPreview'
 import { ObjectDetailFloorplanPreview } from './ObjectDetailFloorplanPreview'
 import { UserManagementFloorplanPreview } from './UserManagementFloorplanPreview'
+import { ApprovalQueueFloorplanPreview } from './ApprovalQueueFloorplanPreview'
 
 interface EnterpriseExperiencePageProps {
   breadcrumb: string[]
@@ -49,6 +50,7 @@ const PRIMARY_REFERENCE_BY_SLUG: Record<string, string> = {
   'list-report': '/components/data-table',
   'object-detail': '/components/tabs',
   'user-management': '/components/data-table',
+  'approval-queue': '/components/approval-card',
 }
 
 export function EnterpriseExperiencePage({ breadcrumb, resource }: EnterpriseExperiencePageProps) {
@@ -195,6 +197,9 @@ export function EnterpriseExperiencePage({ breadcrumb, resource }: EnterpriseExp
                 <UserManagementFloorplanPreview />
               </ComponentPreview>
             </div>
+          )}
+          {resource.slug === 'approval-queue' && (
+            <div className="enterprise-pattern-preview"><ComponentPreview title="Prioritize and decide governed work" description="Filter the queue, claim ownership, inspect request scope and policy evidence, then record rationale before returning or approving." layout="grid"><ApprovalQueueFloorplanPreview /></ComponentPreview></div>
           )}
         </ComponentDocSection>
 
