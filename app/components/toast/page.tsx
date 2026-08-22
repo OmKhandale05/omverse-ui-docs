@@ -196,9 +196,16 @@ export default function ToastPage() {
           title="Overview"
           description="Better than react-toastify · 8 types · 6 positions · promise · progress · rich"
         >
-          <div className="component-doc-prose">
-            <p>Use Toast to present and interact with structured feedback in a predictable, accessible way.</p>
-            <p>The examples below show practical variations you can adapt across overlays and workflows.</p>
+          <div className="component-doc-stack">
+            <ComponentPreview title="Status notifications" description="Trigger each example to see transient feedback without interrupting the current workflow.">
+              <Button variant="outlined" onClick={() => toast('Default notification')}>Default</Button>
+              <Button variant="outlined" onClick={() => toast.success('Changes saved!', { description: 'Your profile has been updated' })}>Success</Button>
+              <Button variant="outlined" color="error" onClick={() => toast.error('Failed to save', { description: 'Please check your connection' })}>Error</Button>
+            </ComponentPreview>
+            <CodeBlock filename="ToastExample.tsx" code={TYPES_CODE} />
+            <div className="component-doc-prose">
+              <p>Use toasts for brief confirmation or status updates that do not require an immediate decision. Keep critical errors close to the affected field or content.</p>
+            </div>
           </div>
         </ComponentDocSection>
 
