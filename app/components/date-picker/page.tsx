@@ -64,6 +64,17 @@ const API_PROPS = [
 
 /* ─── Code snippets ─── */
 
+const OVERVIEW_CODE = `import { DatePicker } from 'omverse-ui'
+
+const [dueDate, setDueDate] = useState<Date | null>(null)
+
+<DatePicker
+  label="Project due date"
+  helperText="Choose the date when work must be complete"
+  value={dueDate}
+  onChange={setDueDate}
+/>`;
+
 const CALENDAR_VARIANTS_CODE = `import { Calendar } from 'omverse-ui'
 
 <Calendar variant="default"   value={date} onChange={setDate} />
@@ -141,9 +152,15 @@ return (
 
       <ComponentDocumentation>
         <ComponentDocSection id="overview" title="Overview" description="Calendar · DatePicker input · DateRangePicker · 4 variants · presets · time picker">
-          <div className="component-doc-prose">
-            <p>Use DatePicker to present and interact with structured information in a predictable, accessible way.</p>
-            <p>The component examples below demonstrate practical variations you can adapt to your own interface.</p>
+          <div className="component-doc-stack">
+            <ComponentPreview title="Default date picker" description="Use a date picker when people benefit from choosing a date from calendar context.">
+              <div style={{ width: 'min(100%, 360px)' }}><DatePicker label="Project due date" helperText="Choose the date when work must be complete" value={date} onChange={setDate} /></div>
+            </ComponentPreview>
+            <CodeBlock filename="App.tsx" code={OVERVIEW_CODE} />
+            <div className="component-doc-prose">
+              <p>Use explicit labels and preserve the selected date in a locale-appropriate format. Use DateRangePicker when the task requires both a start and end date.</p>
+              <div className="component-doc-callout"><i className="ti ti-bulb" aria-hidden="true" /><span>Constrain unavailable dates in the calendar and explain the constraint instead of allowing an invalid selection.</span></div>
+            </div>
           </div>
         </ComponentDocSection>
 

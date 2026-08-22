@@ -199,9 +199,16 @@ export default function StepperPage() {
 
       <ComponentDocumentation>
         <ComponentDocSection id="overview" title="Overview" description="Stepper helps users complete multi-stage workflows with visible progress.">
-          <div className="component-doc-prose">
-            <p>Use Stepper to present and interact with structured sequential tasks in a predictable, accessible way.</p>
-            <p>Combine horizontal, vertical, and timeline modes based on user context.</p>
+          <div className="component-doc-stack">
+            <ComponentPreview title="Workflow progress" description="Show completed, current, and upcoming stages in a predictable sequence.">
+              <div className="stepper-scroll-wrap">
+                <Stepper steps={basicSteps} activeStep={step} />
+              </div>
+            </ComponentPreview>
+            <CodeBlock filename="OnboardingStepper.tsx" code={DEFAULT_CODE} />
+            <div className="component-doc-prose">
+              <p>Use a stepper when users complete a linear, multi-stage workflow. Step labels should describe goals rather than interface actions.</p>
+            </div>
           </div>
         </ComponentDocSection>
 

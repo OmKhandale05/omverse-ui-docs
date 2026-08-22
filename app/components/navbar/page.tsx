@@ -321,9 +321,16 @@ return (
 
       <ComponentDocumentation>
         <ComponentDocSection id="overview" title="Overview" description="16 variants · sidebar · two-row · command · glass · vercel · linear · stripe">
-          <div className="component-doc-prose">
-            <p>Use Navbar to present and interact with structured information in a predictable, accessible way.</p>
-            <p>The component examples below demonstrate practical variations you can adapt to your own interface.</p>
+          <div className="component-doc-stack">
+            <ComponentPreview title="Application navbar" description="Keep product identity, primary destinations, and account actions in a stable top-level region.">
+              <div style={{ width: '100%', overflowX: 'auto' }}>
+                <Navbar variant="saas" items={mainItems} activeId={active} onItemClick={handleClick} brandName="Omverse" actions={loginActions} />
+              </div>
+            </ComponentPreview>
+            <CodeBlock filename="ApplicationNavbar.tsx" code={SAAS_CODE} />
+            <div className="component-doc-prose">
+              <p>Use a navbar for a small set of persistent, high-level destinations. Put local page navigation closer to the content it controls.</p>
+            </div>
           </div>
         </ComponentDocSection>
 

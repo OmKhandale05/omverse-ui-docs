@@ -26,6 +26,15 @@ import { EmptyNoResultsPreview } from './EmptyNoResultsPreview'
 import { ObjectDetailPreview } from './ObjectDetailPreview'
 import { ActivityAuditHistoryPreview } from './ActivityAuditHistoryPreview'
 import { SavedViewsPatternPreview } from './SavedViewsPatternPreview'
+import { DashboardFloorplanPreview } from './DashboardFloorplanPreview'
+import { ListReportFloorplanPreview } from './ListReportFloorplanPreview'
+import { ObjectDetailFloorplanPreview } from './ObjectDetailFloorplanPreview'
+import { UserManagementFloorplanPreview } from './UserManagementFloorplanPreview'
+import { ApprovalQueueFloorplanPreview } from './ApprovalQueueFloorplanPreview'
+import { SettingsFloorplanPreview } from './SettingsFloorplanPreview'
+import { WorkItemsTemplatePreview } from './WorkItemsTemplatePreview'
+import { UsersTemplatePreview } from './UsersTemplatePreview'
+import { ApprovalsTemplatePreview } from './ApprovalsTemplatePreview'
 
 interface EnterpriseExperiencePageProps {
   breadcrumb: string[]
@@ -41,6 +50,15 @@ const PRIMARY_REFERENCE_BY_SLUG: Record<string, string> = {
   'object-detail-preview': '/components/side-panel',
   'activity-audit-history': '/components/audit-log',
   'saved-views': '/components/saved-views',
+  'dashboard': '/examples?id=dashboard',
+  'list-report': '/components/data-table',
+  'object-detail': '/components/tabs',
+  'user-management': '/components/data-table',
+  'approval-queue': '/components/approval-card',
+  'settings': '/components/switch',
+  'work-items': '/components/data-table',
+  'users': '/components/permission-matrix',
+  'approvals': '/components/approval-card',
 }
 
 export function EnterpriseExperiencePage({ breadcrumb, resource }: EnterpriseExperiencePageProps) {
@@ -151,6 +169,57 @@ export function EnterpriseExperiencePage({ breadcrumb, resource }: EnterpriseExp
                 <SavedViewsPatternPreview />
               </ComponentPreview>
             </div>
+          )}
+          {resource.slug === 'dashboard' && (
+            <div className="enterprise-pattern-preview">
+              <ComponentPreview
+                title="Monitor health and move priority work"
+                description="Change the reporting range, refresh source status, inspect performance, and move urgent requests into active review."
+                layout="grid"
+              >
+                <DashboardFloorplanPreview />
+              </ComponentPreview>
+            </div>
+          )}
+          {resource.slug === 'list-report' && (
+            <div className="enterprise-pattern-preview">
+              <ComponentPreview
+                title="Query, configure, and export a governed report"
+                description="Filter and sort records, change density and visible columns, select rows across the report, inspect export scope, and page through results."
+                layout="grid"
+              >
+                <ListReportFloorplanPreview />
+              </ComponentPreview>
+            </div>
+          )}
+          {resource.slug === 'object-detail' && (
+            <div className="enterprise-pattern-preview">
+              <ComponentPreview title="Understand and move a single record" description="Explore stable record sections, edit governed attributes, inspect relationships, and compare the authorized and read-only action rails." layout="grid">
+                <ObjectDetailFloorplanPreview />
+              </ComponentPreview>
+            </div>
+          )}
+          {resource.slug === 'user-management' && (
+            <div className="enterprise-pattern-preview">
+              <ComponentPreview title="Govern the identity lifecycle" description="Search the roster, inspect user context, change roles, lock access, and send a policy-aware invitation with explicit feedback." layout="grid">
+                <UserManagementFloorplanPreview />
+              </ComponentPreview>
+            </div>
+          )}
+          {resource.slug === 'approval-queue' && (
+            <div className="enterprise-pattern-preview"><ComponentPreview title="Prioritize and decide governed work" description="Filter the queue, claim ownership, inspect request scope and policy evidence, then record rationale before returning or approving." layout="grid"><ApprovalQueueFloorplanPreview /></ComponentPreview></div>
+          )}
+          {resource.slug === 'settings' && (
+            <div className="enterprise-pattern-preview"><ComponentPreview title="Configure the workspace safely" description="Navigate owned and managed settings, create a dirty state, confirm a high-risk security change, and save or reset with explicit audit feedback." layout="grid"><SettingsFloorplanPreview /></ComponentPreview></div>
+          )}
+          {resource.slug === 'work-items' && (
+            <div className="enterprise-pattern-preview"><ComponentPreview title="Adapt a complete operational work queue" description="Search and filter the queue, switch layout, create work, inspect durable context, and update ownership or status without losing the selected item." layout="grid"><WorkItemsTemplatePreview /></ComponentPreview></div>
+          )}
+          {resource.slug === 'users' && (
+            <div className="enterprise-pattern-preview"><ComponentPreview title="Adapt a directory-to-user workflow" description="Search the directory, invite a member, move between profile, access, and support context, change roles, and manage suspension with traceable feedback." layout="grid"><UsersTemplatePreview /></ComponentPreview></div>
+          )}
+          {resource.slug === 'approvals' && (
+            <div className="enterprise-pattern-preview"><ComponentPreview title="Adapt an evidence-led decision workspace" description="Change queue scope, claim a recurring request, inspect the reviewer chain and evidence contract, then capture rationale before a governed decision." layout="grid"><ApprovalsTemplatePreview /></ComponentPreview></div>
           )}
         </ComponentDocSection>
 

@@ -73,15 +73,17 @@ function ComboboxPreview() {
   const [query, setQuery] = useState('')
 
   return (
-    <Combobox
-      label="Project owner"
-      options={COMBO_OPTIONS}
-      value={selected}
-      inputValue={query}
-      onValueChange={(value) => setSelected(value as string)}
-      onInputValueChange={setQuery}
-      helperText="Search by person, role, or project."
-    />
+    <div className="combobox-preview-shell">
+      <Combobox
+        label="Project owner"
+        options={COMBO_OPTIONS}
+        value={selected}
+        inputValue={query}
+        onValueChange={(value) => setSelected(value as string)}
+        onInputValueChange={setQuery}
+        helperText="Search by person, role, or project."
+      />
+    </div>
   )
 }
 

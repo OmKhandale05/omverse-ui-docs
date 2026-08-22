@@ -273,9 +273,20 @@ export default function DropdownMenuPage() {
 
       <ComponentDocumentation>
         <ComponentDocSection id="overview" title="Overview" description="Floating panel of actions triggered by a button. Supports checkbox, radio, search, avatar items and context menus.">
-          <div className="component-doc-prose">
-            <p>Use DropdownMenu to present and interact with structured information in a predictable, accessible way.</p>
-            <p>The component examples below demonstrate practical variations you can adapt to your own interface.</p>
+          <div className="component-doc-stack">
+            <ComponentPreview title="Action menu" description="Group secondary record actions behind one clearly labelled trigger.">
+              <DropdownMenu trigger={<Button variant="outlined">Actions</Button>}>
+                <MenuItem icon="edit" shortcut="⌘E">Edit</MenuItem>
+                <MenuItem icon="refresh">Duplicate</MenuItem>
+                <MenuItem icon="share">Share</MenuItem>
+                <MenuSeparator />
+                <MenuItem icon="trash" intent="danger">Delete</MenuItem>
+              </DropdownMenu>
+            </ComponentPreview>
+            <CodeBlock filename="ActionMenu.tsx" code={BASIC_CODE} />
+            <div className="component-doc-prose">
+              <p>Use a dropdown menu for related actions that do not all need persistent visibility. Keep the most important action outside the menu.</p>
+            </div>
           </div>
         </ComponentDocSection>
 

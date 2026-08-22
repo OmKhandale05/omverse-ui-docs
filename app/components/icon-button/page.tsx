@@ -195,9 +195,19 @@ return (
 
       <ComponentDocumentation>
         <ComponentDocSection id="overview" title="Overview" description="Icon-only button with tooltip, badge, toggle and FAB support. 6 variants, 5 sizes.">
-          <div className="component-doc-prose">
-            <p>Use IconButton to present and interact with structured information in a predictable, accessible way.</p>
-            <p>The component examples below demonstrate practical variations you can adapt to your own interface.</p>
+          <div className="component-doc-stack">
+            <ComponentPreview title="Icon button variants" description="Every icon-only action needs a concise accessible name.">
+              <IconButton icon="heart" variant="filled" aria-label="Like" />
+              <IconButton icon="heart" variant="outlined" aria-label="Like" />
+              <IconButton icon="heart" variant="tonal" aria-label="Like" />
+              <IconButton icon="heart" variant="ghost" aria-label="Like" />
+              <IconButton icon="heart" variant="standard" aria-label="Like" />
+              <IconButton icon="heart" variant="destructive" aria-label="Unlike" />
+            </ComponentPreview>
+            <CodeBlock filename="IconButtonExample.tsx" code={VARIANTS_CODE} />
+            <div className="component-doc-prose">
+              <p>Use icon buttons only for actions with widely understood symbols and provide an aria-label that describes the action.</p>
+            </div>
           </div>
         </ComponentDocSection>
 

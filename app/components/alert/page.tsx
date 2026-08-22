@@ -41,16 +41,18 @@ const INLINE = `<Alert tone="success" layout="inline" title="Policy published">
 function AlertPreview() {
   const [visible, setVisible] = useState(true)
   return visible ? (
-    <Alert
-      tone="warning"
-      title="Certificate expires in 8 days"
-      action={<Button size="sm" variant="text">Rotate certificate</Button>}
-      dismissible
-      dismissLabel="Dismiss alert"
-      onDismiss={() => setVisible(false)}
-    >
-      Rotate the certificate to avoid service interruption.
-    </Alert>
+    <div className="alert-doc-preview">
+      <Alert
+        tone="warning"
+        title="Certificate expires in 8 days"
+        action={<Button size="sm" variant="text">Rotate certificate</Button>}
+        dismissible
+        dismissLabel="Dismiss alert"
+        onDismiss={() => setVisible(false)}
+      >
+        Rotate the certificate to avoid service interruption.
+      </Alert>
+    </div>
   ) : (
     <Button variant="outlined" onClick={() => setVisible(true)}>Show alert again</Button>
   )

@@ -159,9 +159,16 @@ return (
 
       <ComponentDocumentation>
         <ComponentDocSection id="overview" title="Overview" description="Floating interactive panel anchored to a trigger. 4 sides, 3 alignments, arrow indicator and portal rendering.">
-          <div className="component-doc-prose">
-            <p>Use Popover to present and interact with structured information in a predictable, accessible way.</p>
-            <p>The component examples below demonstrate practical variations you can adapt to your own interface.</p>
+          <div className="component-doc-stack">
+            <ComponentPreview title="Basic popover" description="Activate the trigger to reveal contextual content anchored to it.">
+              <Popover trigger={<Button variant="outlined">Open popover</Button>}>
+                <p style={{ fontSize: 13, color: 'var(--color-text-secondary)' }}>Review contextual information without leaving the current task.</p>
+              </Popover>
+            </ComponentPreview>
+            <CodeBlock filename="PopoverExample.tsx" code={BASIC_CODE} />
+            <div className="component-doc-prose">
+              <p>Use a popover for compact interactive content that belongs to one trigger. Use a dialog when the task needs stronger focus or more space.</p>
+            </div>
           </div>
         </ComponentDocSection>
 

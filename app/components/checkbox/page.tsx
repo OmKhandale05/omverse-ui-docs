@@ -51,6 +51,14 @@ const API_PROPS = [
 
 /* ─── Code snippets ─── */
 
+const BASIC_CODE = `import { Checkbox } from 'omverse-ui'
+
+<Checkbox
+  label="Email notifications"
+  helperText="Receive product updates and account activity"
+  defaultChecked
+/>`;
+
 const STATES_CODE = `<Checkbox label="Unchecked" />
 <Checkbox label="Checked" defaultChecked />
 <Checkbox label="Indeterminate" indeterminate />
@@ -149,9 +157,25 @@ return (
 
       <ComponentDocumentation>
         <ComponentDocSection id="overview" title="Overview" description="6 colors · 3 sizes · card style · CheckboxGroup with select all">
-          <div className="component-doc-prose">
-            <p>Use Checkbox to present and interact with structured information in a predictable, accessible way.</p>
-            <p>The component examples below demonstrate practical variations you can adapt to your own interface.</p>
+          <div className="component-doc-stack">
+            <ComponentPreview
+              title="Default checkbox"
+              description="Use a checkbox when someone can independently turn an option on or off. The choice takes effect when the surrounding form is submitted."
+            >
+              <Checkbox
+                label="Email notifications"
+                helperText="Receive product updates and account activity"
+                defaultChecked
+              />
+            </ComponentPreview>
+            <CodeBlock filename="App.tsx" code={BASIC_CODE} />
+            <div className="component-doc-prose">
+              <p>Checkboxes support independent binary choices and multi-select groups. Use a radio group when only one option can be selected.</p>
+              <div className="component-doc-callout">
+                <i className="ti ti-bulb" aria-hidden="true" />
+                <span>Write labels as positive statements so the checked state is easy to understand, such as “Email notifications” instead of “Do not disable email.”</span>
+              </div>
+            </div>
           </div>
         </ComponentDocSection>
 

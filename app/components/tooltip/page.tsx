@@ -152,9 +152,16 @@ return (
 
       <ComponentDocumentation>
         <ComponentDocSection id="overview" title="Overview" description="Contextual information shown on hover and focus. Supports 4 positions, 3 variants, keyboard shortcuts and rich content.">
-          <div className="component-doc-prose">
-            <p>Use Tooltip to present and interact with structured information in a predictable, accessible way.</p>
-            <p>The component examples below demonstrate practical variations you can adapt to your own interface.</p>
+          <div className="component-doc-stack">
+            <ComponentPreview title="Descriptive tooltips" description="Hover or focus each trigger to reveal a short explanation.">
+              <Tooltip content="Create a new item"><Button variant="outlined">New item</Button></Tooltip>
+              <Tooltip content="Delete this record"><Button variant="outlined" color="error">Delete</Button></Tooltip>
+              <Tooltip content="Share with your team"><Button variant="outlined">Share</Button></Tooltip>
+            </ComponentPreview>
+            <CodeBlock filename="TooltipExample.tsx" code={BASIC_CODE} />
+            <div className="component-doc-prose">
+              <p>Use tooltips to clarify unfamiliar controls, never to hide essential instructions or information required to complete a task.</p>
+            </div>
           </div>
         </ComponentDocSection>
 
