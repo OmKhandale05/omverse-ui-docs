@@ -39,6 +39,15 @@ test('checkbox overview starts with an interactive component preview', async ({ 
   await expect(overview.getByText(/import \{ Checkbox \}/)).toBeVisible()
 })
 
+test('radio overview starts with an interactive component preview', async ({ page }) => {
+  await page.goto('/components/radio')
+  const overview = page.getByRole('region', { name: 'Overview' })
+  await expect(overview.getByText('Default radio group')).toBeVisible()
+  await overview.getByText('SMS', { exact: true }).click()
+  await expect(overview.getByRole('radio', { name: /SMS/ })).toBeChecked()
+  await expect(overview.getByText(/const \[notify, setNotify\]/)).toBeVisible()
+})
+
 test('enterprise route exposes its complete product story', async ({ page }) => {
   await page.goto('/enterprise')
 
