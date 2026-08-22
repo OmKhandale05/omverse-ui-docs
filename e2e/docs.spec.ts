@@ -71,6 +71,17 @@ test('slider overview starts with an interactive component preview', async ({ pa
   await expect(overview.getByText(/const \[volume, setVolume\]/)).toBeVisible()
 })
 
+test('date picker overview starts with an interactive component preview', async ({ page }) => {
+  await page.goto('/components/date-picker')
+  const overview = page.getByRole('region', { name: 'Overview' })
+  await expect(overview.getByText('Default date picker')).toBeVisible()
+  const picker = overview.getByRole('button', { name: 'Select date...' })
+  await expect(picker).toBeVisible()
+  await picker.click()
+  await expect(page.getByRole('dialog', { name: 'Date picker' })).toBeVisible()
+  await expect(overview.getByText(/const \[dueDate, setDueDate\]/)).toBeVisible()
+})
+
 test('enterprise route exposes its complete product story', async ({ page }) => {
   await page.goto('/enterprise')
 

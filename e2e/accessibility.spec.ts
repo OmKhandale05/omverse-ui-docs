@@ -21,6 +21,7 @@ const routes = [
   '/components/checkbox',
   '/components/radio',
   '/components/switch',
+  '/components/date-picker',
   '/components/input',
   '/components/textarea',
   '/components/search-field',
