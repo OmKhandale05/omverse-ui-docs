@@ -168,9 +168,19 @@ return (
 
       <ComponentDocumentation>
         <ComponentDocSection id="overview" title="Overview" description="Line separator for content sections. 7 line styles, 6 colors, label, icon, inset and chat date variants.">
-          <div className="component-doc-prose">
-            <p>Use Divider to present and interact with structured information in a predictable, accessible way.</p>
-            <p>The component examples below demonstrate practical variations you can adapt to your own interface.</p>
+          <div className="component-doc-stack">
+            <ComponentPreview title="Labeled dividers" description="A short label can clarify the relationship between the content groups on either side.">
+              <div style={{ display: 'grid', gap: 24, width: 'min(100%, 560px)' }}>
+                <Divider label="OR" />
+                <Divider label="Continue with" />
+                <Divider label="Left aligned" labelAlign="left" />
+                <Divider label="Right aligned" labelAlign="right" />
+              </div>
+            </ComponentPreview>
+            <CodeBlock filename="DividerExample.tsx" code={LABEL_CODE} />
+            <div className="component-doc-prose">
+              <p>Use a divider only when spacing and headings are not enough to communicate a change in content grouping.</p>
+            </div>
           </div>
         </ComponentDocSection>
 

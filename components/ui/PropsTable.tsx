@@ -74,7 +74,7 @@ export function PropsTable({ props }: PropsTableProps) {
         {/* Data rows */}
         {props.map((row, i) => (
           <div
-            key={row.name}
+            key={`${row.name}-${i}`}
             style={{
               display: 'grid',
               gridTemplateColumns: '140px minmax(0,1.4fr) 90px minmax(0,1fr)',

@@ -138,6 +138,79 @@ function SavedViewsAnatomy() {
   )
 }
 
+function DashboardAnatomy() {
+  return (
+    <div className="enterprise-dashboard-anatomy" aria-label="Dashboard floorplan anatomy diagram">
+      <header><span><small>OPERATIONS</small><strong>Workspace health</strong></span><b>7 days</b></header>
+      <section className="enterprise-dashboard-anatomy-metrics"><div><small>Requests</small><strong>1,248</strong></div><div><small>SLA</small><strong>98.6%</strong></div><div><small>Exceptions</small><strong>7</strong></div></section>
+      <section className="enterprise-dashboard-anatomy-main"><div><small>TREND</small><i /><i /><i /><i /><i /></div><aside><small>ACTION REQUIRED</small><span /><span /></aside></section>
+      <footer><div><small>WORK QUEUE</small><span /><span /></div><aside><small>INSIGHT</small><strong>18 min faster</strong></aside></footer>
+      <Marker number={1} className="enterprise-dashboard-marker--one component-anatomy-marker--leader-down" />
+      <Marker number={2} className="enterprise-dashboard-marker--two component-anatomy-marker--leader-left" />
+      <Marker number={3} className="enterprise-dashboard-marker--three component-anatomy-marker--leader-up" />
+      <Marker number={4} className="enterprise-dashboard-marker--four component-anatomy-marker--leader-up" />
+      <Marker number={5} className="enterprise-dashboard-marker--five component-anatomy-marker--leader-left" />
+    </div>
+  )
+}
+
+function ListReportAnatomy() {
+  return (
+    <div className="enterprise-list-report-anatomy" aria-label="List report floorplan anatomy diagram">
+      <header><span>Search requests</span><b>Status</b><b>Risk</b></header>
+      <div className="enterprise-list-report-anatomy-toolbar"><small>24 RECORDS</small><span>Compact</span><span data-action>Export</span></div>
+      <section><div><i /><strong>Request</strong><strong>Owner</strong><strong>Status</strong></div><div><i /><span /><span /><b /></div><div><i /><span /><span /><b /></div><div><i /><span /><span /><b /></div></section>
+      <div className="enterprise-list-report-anatomy-pager"><small>Showing 1–5 of 24</small><span>‹ 1 2 3 ›</span></div>
+      <footer><span>Snapshot verified</span><strong>Generated 2m ago</strong></footer>
+      <Marker number={1} className="enterprise-list-report-marker--one component-anatomy-marker--leader-down" />
+      <Marker number={2} className="enterprise-list-report-marker--two component-anatomy-marker--leader-left" />
+      <Marker number={3} className="enterprise-list-report-marker--three component-anatomy-marker--leader-left" />
+      <Marker number={4} className="enterprise-list-report-marker--four component-anatomy-marker--leader-up" />
+      <Marker number={5} className="enterprise-list-report-marker--five component-anatomy-marker--leader-left" />
+    </div>
+  )
+}
+
+function ObjectDetailFloorplanAnatomy() {
+  return (
+    <div className="enterprise-object-floorplan-anatomy" aria-label="Object detail floorplan anatomy diagram">
+      <header><span><small>INC-4832</small><strong>Payment reconciliation delay</strong></span><b>Investigating</b></header>
+      <section><div><small>Impact</small><strong>Limited</strong></div><div><small>Elapsed</small><strong>46 min</strong></div><div><small>Lag</small><strong>24 min</strong></div></section>
+      <main><div><small>ACTIVITY</small><i /><i /><i /></div><aside><small>RELATIONSHIPS</small><span /><span /></aside></main>
+      <footer><span><small>ACTIONS</small><strong>Edit incident</strong></span><b>Escalate</b></footer>
+      <Marker number={1} className="enterprise-object-floorplan-marker--one component-anatomy-marker--leader-down" />
+      <Marker number={2} className="enterprise-object-floorplan-marker--two component-anatomy-marker--leader-left" />
+      <Marker number={3} className="enterprise-object-floorplan-marker--three component-anatomy-marker--leader-up" />
+      <Marker number={4} className="enterprise-object-floorplan-marker--four component-anatomy-marker--leader-left" />
+      <Marker number={5} className="enterprise-object-floorplan-marker--five component-anatomy-marker--leader-up" />
+    </div>
+  )
+}
+
+function UserManagementAnatomy() {
+  return <div className="enterprise-user-anatomy" aria-label="User management floorplan anatomy diagram">
+    <header><span>Search people</span><b>Role</b><strong>Invite user</strong></header>
+    <main><section><i /><span /><span /><span /></section><aside><div><i>MC</i><strong>Maya Chen</strong></div><small>ROLE</small><b>Administrator</b><small>RECENT ACTIVITY</small><span /></aside></main>
+    <footer><span>Directory synchronized</span><strong>Audit events retained</strong></footer>
+    <Marker number={1} className="enterprise-user-marker--one component-anatomy-marker--leader-down" /><Marker number={2} className="enterprise-user-marker--two component-anatomy-marker--leader-right" /><Marker number={3} className="enterprise-user-marker--three component-anatomy-marker--leader-left" /><Marker number={4} className="enterprise-user-marker--four component-anatomy-marker--leader-up" /><Marker number={5} className="enterprise-user-marker--five component-anatomy-marker--leader-left" />
+  </div>
+}
+function ApprovalQueueAnatomy() {
+  return <div className="enterprise-queue-anatomy" aria-label="Approval queue floorplan anatomy diagram"><header><span>All work · Urgent · Unassigned</span><b>3 awaiting</b></header><main><section><div><small>APR-2048</small><strong>Production access</strong><span>Due in 18 min</span></div><div /><div /></section><aside><small>DECISION REVIEW</small><strong>Production access exception</strong><div><span>Request scope</span><span>Policy evidence</span></div><p>Review trail</p></aside></main><footer><span>Decision rationale</span><b>Return</b><strong>Approve</strong></footer><Marker number={1} className="enterprise-queue-marker--one component-anatomy-marker--leader-down" /><Marker number={2} className="enterprise-queue-marker--two component-anatomy-marker--leader-right" /><Marker number={3} className="enterprise-queue-marker--three component-anatomy-marker--leader-left" /><Marker number={4} className="enterprise-queue-marker--four component-anatomy-marker--leader-up" /><Marker number={5} className="enterprise-queue-marker--five component-anatomy-marker--leader-left" /></div>
+}
+function SettingsAnatomy() {
+  return <div className="enterprise-settings-anatomy" aria-label="Settings floorplan anatomy diagram"><header><span><small>SETTINGS</small><strong>Workspace administration</strong></span><b>Unsaved changes</b></header><main><nav><strong>General</strong><span>Security</span><span>Notifications</span><span>Data retention</span></nav><section><small>GENERAL SETTINGS</small><strong>Workspace identity</strong><div /><div /><aside><span>Inherited policy</span><b>Managed</b></aside></section></main><footer><span>Review pending changes</span><b>Reset</b><strong>Save changes</strong></footer><Marker number={1} className="enterprise-settings-marker--one component-anatomy-marker--leader-down" /><Marker number={2} className="enterprise-settings-marker--two component-anatomy-marker--leader-right" /><Marker number={3} className="enterprise-settings-marker--three component-anatomy-marker--leader-left" /><Marker number={4} className="enterprise-settings-marker--four component-anatomy-marker--leader-up" /><Marker number={5} className="enterprise-settings-marker--five component-anatomy-marker--leader-left" /></div>
+}
+function WorkItemsTemplateAnatomy() {
+  return <div className="enterprise-work-items-anatomy" aria-label="Work items template anatomy diagram"><header><span><small>OPERATIONS WORKSPACE</small><strong>Work items</strong></span><b>New work item</b></header><div className="enterprise-work-items-anatomy-filters"><span>Search work</span><b>Status</b><b>List · Board</b></div><main><section><div><small>WRK-1842</small><strong>Resolve billing exception</strong><span>In progress</span></div><div /><div /></section><aside><small>SELECTED ITEM</small><strong>Resolve billing exception</strong><span>Owner · Maya Chen</span><span>Status · In progress</span><p>Recent history</p></aside></main><Marker number={1} className="enterprise-work-items-marker--one component-anatomy-marker--leader-down" /><Marker number={2} className="enterprise-work-items-marker--two component-anatomy-marker--leader-right" /><Marker number={3} className="enterprise-work-items-marker--three component-anatomy-marker--leader-left" /><Marker number={4} className="enterprise-work-items-marker--four component-anatomy-marker--leader-up" /><Marker number={5} className="enterprise-work-items-marker--five component-anatomy-marker--leader-left" /></div>
+}
+function UsersTemplateAnatomy() {
+  return <div className="enterprise-users-template-anatomy" aria-label="Users template anatomy diagram"><header><span>Search directory</span><b>Invite user</b></header><main><section><div><i>MC</i><span><strong>Maya Chen</strong><small>Administrator</small></span></div><div /><div /></section><aside><header><i>MC</i><span><small>USER PROFILE</small><strong>Maya Chen</strong></span></header><nav>Profile · Access · Support</nav><div><span>Authentication</span><b>SSO · MFA</b></div><p>Compliance and support context</p></aside></main><footer><span>Audit reason required</span><strong>Suspend access</strong></footer><Marker number={1} className="enterprise-users-template-marker--one component-anatomy-marker--leader-down" /><Marker number={2} className="enterprise-users-template-marker--two component-anatomy-marker--leader-right" /><Marker number={3} className="enterprise-users-template-marker--three component-anatomy-marker--leader-left" /><Marker number={4} className="enterprise-users-template-marker--four component-anatomy-marker--leader-up" /><Marker number={5} className="enterprise-users-template-marker--five component-anatomy-marker--leader-left" /></div>
+}
+function ApprovalsTemplateAnatomy() {
+  return <div className="enterprise-approvals-template-anatomy" aria-label="Approvals template anatomy diagram"><header><span>My queue · Team · Urgent</span><b>3 pending</b></header><section><div><small>AWAITING</small><strong>3</strong></div><div><small>NEAR SLA</small><strong>1</strong></div><aside><small>REVIEWERS</small><span>MC → PS → JB</span></aside></section><main><nav><div><small>APR-3048</small><strong>Production access</strong></div><div /><div /></nav><article><small>DECISION CARD</small><strong>Production access exception</strong><p>Required evidence</p><p>Immutable history</p><span>Decision rationale</span></article></main><Marker number={1} className="enterprise-approvals-template-marker--one component-anatomy-marker--leader-down" /><Marker number={2} className="enterprise-approvals-template-marker--two component-anatomy-marker--leader-right" /><Marker number={3} className="enterprise-approvals-template-marker--three component-anatomy-marker--leader-left" /><Marker number={4} className="enterprise-approvals-template-marker--four component-anatomy-marker--leader-up" /><Marker number={5} className="enterprise-approvals-template-marker--five component-anatomy-marker--leader-left" /></div>
+}
+
 export function EnterpriseAnatomyPreview({ resource }: { resource: EnterpriseResource }) {
   if (resource.slug === 'filtering-records') return <FilteringAnatomy />
   if (resource.slug === 'bulk-actions') return <BulkActionsAnatomy />
@@ -147,6 +220,15 @@ export function EnterpriseAnatomyPreview({ resource }: { resource: EnterpriseRes
   if (resource.slug === 'object-detail-preview') return <ObjectDetailAnatomy />
   if (resource.slug === 'activity-audit-history') return <ActivityAuditAnatomy />
   if (resource.slug === 'saved-views') return <SavedViewsAnatomy />
+  if (resource.slug === 'dashboard') return <DashboardAnatomy />
+  if (resource.slug === 'list-report') return <ListReportAnatomy />
+  if (resource.slug === 'object-detail') return <ObjectDetailFloorplanAnatomy />
+  if (resource.slug === 'user-management') return <UserManagementAnatomy />
+  if (resource.slug === 'approval-queue') return <ApprovalQueueAnatomy />
+  if (resource.slug === 'settings') return <SettingsAnatomy />
+  if (resource.slug === 'work-items') return <WorkItemsTemplateAnatomy />
+  if (resource.slug === 'users') return <UsersTemplateAnatomy />
+  if (resource.slug === 'approvals') return <ApprovalsTemplateAnatomy />
 
   return (
     <div className="enterprise-floorplan-diagram" aria-label={`${resource.title} anatomy diagram`}>

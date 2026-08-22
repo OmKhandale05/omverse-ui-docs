@@ -140,9 +140,14 @@ return (
 
       <ComponentDocumentation>
         <ComponentDocSection id="overview" title="Overview" description="User profile images with fallback initials, status indicators and group stacking.">
-          <div className="component-doc-prose">
-            <p>Use Avatar to present and interact with structured information in a predictable, accessible way.</p>
-            <p>The component examples below demonstrate practical variations you can adapt to your own interface.</p>
+          <div className="component-doc-stack">
+            <ComponentPreview title="Avatar sizes" description="Initials provide a resilient fallback when no profile image is available.">
+              {(['xs', 'sm', 'md', 'lg', 'xl', '2xl'] as const).map((size) => <Avatar key={size} name="Maya Chen" size={size} />)}
+            </ComponentPreview>
+            <CodeBlock filename="AvatarExample.tsx" code={SIZES_CODE} />
+            <div className="component-doc-prose">
+              <p>Use an avatar to identify a person or organization in compact, repeated interfaces such as tables, comments, and account menus.</p>
+            </div>
           </div>
         </ComponentDocSection>
 

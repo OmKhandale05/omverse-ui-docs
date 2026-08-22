@@ -58,6 +58,19 @@ const API_PROPS = [
 
 /* ─── Code snippets ─── */
 
+const OVERVIEW_CODE = `import { Slider } from 'omverse-ui'
+
+const [volume, setVolume] = useState(72)
+
+<Slider
+  label="Volume"
+  value={volume}
+  onChange={setVolume}
+  showLabels
+  showTooltip
+  formatValue={value => String(value) + '%'}
+/>`;
+
 const BASIC_CODE = `const [volume, setVolume] = useState(72)
 
 <Slider value={volume} onChange={setVolume} showLabels showTooltip />
@@ -162,9 +175,15 @@ return (
 
       <ComponentDocumentation>
         <ComponentDocSection id="overview" title="Overview" description="6 colors · 5 sizes · thumb styles · track styles · marks · range · vertical">
-          <div className="component-doc-prose">
-            <p>Use Slider to present and interact with structured information in a predictable, accessible way.</p>
-            <p>The component examples below demonstrate practical variations you can adapt to your own interface.</p>
+          <div className="component-doc-stack">
+            <ComponentPreview title="Default slider" description="Use a slider when people benefit from adjusting an approximate value within a bounded range.">
+              <div style={{ width: 'min(100%, 360px)' }}><Slider label="Volume" value={volume} onChange={setVolume} showLabels showTooltip formatValue={value => `${value}%`} /></div>
+            </ComponentPreview>
+            <CodeBlock filename="App.tsx" code={OVERVIEW_CODE} />
+            <div className="component-doc-prose">
+              <p>Always communicate the range and current value. Use a numeric Input when an exact value matters more than quick adjustment.</p>
+              <div className="component-doc-callout"><i className="ti ti-bulb" aria-hidden="true" /><span>Choose a step size that reflects meaningful domain increments rather than visual smoothness alone.</span></div>
+            </div>
           </div>
         </ComponentDocSection>
 

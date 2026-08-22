@@ -163,9 +163,19 @@ return (
 
       <ComponentDocumentation>
         <ComponentDocSection id="overview" title="Overview" description="6 colors · 3 sizes · card · button · segmented display modes">
-          <div className="component-doc-prose">
-            <p>Use Radio to present and interact with structured information in a predictable, accessible way.</p>
-            <p>The component examples below demonstrate practical variations you can adapt to your own interface.</p>
+          <div className="component-doc-stack">
+            <ComponentPreview title="Default radio group" description="Use radio buttons when someone must choose exactly one option from a visible set.">
+              <RadioGroup legend="Notification preference" value={notify} onChange={setNotify}>
+                <Radio value="email" label="Email" helperText="Receive updates by email" />
+                <Radio value="sms" label="SMS" helperText="Receive updates by text message" />
+                <Radio value="push" label="Push notification" helperText="Receive updates on registered devices" />
+              </RadioGroup>
+            </ComponentPreview>
+            <CodeBlock filename="App.tsx" code={DEFAULT_CODE} />
+            <div className="component-doc-prose">
+              <p>Show the complete choice set when comparison helps. Use Select when the list is long or space is constrained, and Checkbox when multiple choices are allowed.</p>
+              <div className="component-doc-callout"><i className="ti ti-bulb" aria-hidden="true" /><span>Provide a sensible default only when it is safe and does not imply consent.</span></div>
+            </div>
           </div>
         </ComponentDocSection>
 

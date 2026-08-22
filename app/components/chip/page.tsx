@@ -149,9 +149,17 @@ return (
 
       <ComponentDocumentation>
         <ComponentDocSection id="overview" title="Overview" description="4 variants · 6 colors · 3 sizes · ChipGroup single/multi · icons · avatar · badge · removable">
-          <div className="component-doc-prose">
-            <p>Use Chip to present and interact with structured information in a predictable, accessible way.</p>
-            <p>The component examples below demonstrate practical variations you can adapt to your own interface.</p>
+          <div className="component-doc-stack">
+            <ComponentPreview title="Chip variants" description="Chips represent compact attributes, filters, or actions without competing with primary buttons.">
+              <Chip variant="outlined">Outlined</Chip>
+              <Chip variant="filled">Filled</Chip>
+              <Chip variant="tonal">Tonal</Chip>
+              <Chip variant="elevated">Elevated</Chip>
+            </ComponentPreview>
+            <CodeBlock filename="ChipExample.tsx" code={VARIANTS_CODE} />
+            <div className="component-doc-prose">
+              <p>Use chips for concise, removable values or filter choices. Keep labels short enough to scan as a group.</p>
+            </div>
           </div>
         </ComponentDocSection>
 

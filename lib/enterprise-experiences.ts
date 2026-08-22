@@ -887,7 +887,8 @@ await authorize(session.user, 'billing.export', workspace)`,
         tags: ['Landing', 'Overview', 'Performance'],
         overview: [
           'A dashboard floorplan gives teams fast context across health, throughput, and action risk.',
-          'It should reduce decision latency through clear prioritization and limited motion.',
+          'It should reduce decision latency through clear prioritization, role-relevant modules, and limited motion.',
+          'Treat the dashboard as an entry point: every metric, exception, and queue item should disclose freshness and lead to evidence or action.',
         ],
         anatomy: [
           { number: 1, name: 'Hero metric row', description: 'Top-level KPIs with unit and trend context.' },
@@ -915,6 +916,8 @@ await authorize(session.user, 'billing.export', workspace)`,
           { state: 'Loading', trigger: 'Fresh data fetch', visual: 'Skeleton cards and fallback totals', interaction: 'Keep CTA available if safe.' },
           { state: 'Healthy', trigger: 'No blocking alerts', visual: 'Green trend and confidence indicators', interaction: 'Encourage routine review actions.' },
           { state: 'Alert', trigger: 'SLA breach or backlog', visual: 'Contrast-heavy badges', interaction: 'Expose quick remediation actions.' },
+          { state: 'Stale', trigger: 'Refresh deadline exceeded', visual: 'Last-updated time and stale source warning', interaction: 'Preserve prior values and offer a manual retry.' },
+          { state: 'Partial data', trigger: 'One or more sources unavailable', visual: 'Unavailable modules identify the affected source', interaction: 'Keep independent modules usable and avoid a misleading global total.' },
         ],
         behavior: [
           { icon: 'ti-refresh', title: 'Refresh strategy', description: 'Use pull-to-refresh and interval sync with clear staleness states.' },
@@ -930,6 +933,8 @@ await authorize(session.user, 'billing.export', workspace)`,
           'Do not show critical alerts only through color.',
           'Use headings and landmarks to group metric groups.',
           'Keep widget ordering stable to reduce screen reader disorientation.',
+          'Provide text summaries for chart direction, period, and comparison.',
+          'Announce refresh completion and queue changes through a polite live region.',
         ],
         contentGuidelines: [
           { label: 'Metric copy', guidance: 'Prefer nouns + verbs that indicate actionability.', example: 'SLA breaches this week' },
@@ -938,17 +943,78 @@ await authorize(session.user, 'billing.export', workspace)`,
         ],
         examples: [
           {
-            heading: 'Production use',
+            heading: 'Compose an operations dashboard',
             points: [
               'Show one clear callout for escalation before less critical metrics.',
-              'Cap concurrent widgets to reduce cognitive load.',
-              'Surface unresolved incidents with direct action links.',
+              'Keep the reporting period controlled at page level so every module compares the same range.',
+              'Preserve semantic headings, regions, and source freshness when arranging cards.',
             ],
+            filename: 'OperationsDashboard.tsx',
+            language: 'tsx',
+            code: `import { Badge, Button, SegmentedControl } from 'omverse-ui'
+
+export function OperationsDashboard({ snapshot, range, onRangeChange, onRefresh }) {
+  return (
+    <main aria-labelledby="dashboard-title">
+      <header>
+        <div>
+          <h1 id="dashboard-title">Operations control</h1>
+          <p role="status">Updated {snapshot.updatedLabel}</p>
+        </div>
+        <SegmentedControl
+          aria-label="Dashboard reporting range"
+          items={rangeOptions}
+          value={range}
+          onValueChange={onRangeChange}
+        />
+        <Button variant="outlined" onClick={onRefresh}>Refresh</Button>
+      </header>
+
+      <section aria-label="Key performance indicators">
+        {snapshot.metrics.map((metric) => (
+          <article key={metric.id}>
+            <h2>{metric.label}</h2>
+            <strong>{metric.value}</strong>
+            <p>{metric.trendLabel}</p>
+          </article>
+        ))}
+      </section>
+
+      <aside aria-labelledby="priority-queue-title">
+        <h2 id="priority-queue-title">Priority queue</h2>
+        <Badge color="warning">{snapshot.priorityCount}</Badge>
+      </aside>
+    </main>
+  )
+}`,
+          },
+          {
+            heading: 'Model freshness independently',
+            points: [
+              'Track source status per module instead of hiding partial failures behind one page-level loading state.',
+              'Keep the last verified value visible when policy allows and label it as stale.',
+              'Exclude unavailable values from derived totals and state that exclusion in plain language.',
+            ],
+            filename: 'dashboard-snapshot.json',
+            language: 'json',
+            code: `{
+  "generatedAt": "2026-08-21T09:42:00Z",
+  "range": "7d",
+  "sources": {
+    "approvals": { "status": "current", "updatedAt": "2026-08-21T09:41:48Z" },
+    "audit": { "status": "stale", "updatedAt": "2026-08-21T09:32:10Z" }
+  },
+  "metrics": [
+    { "id": "sla", "value": 98.6, "unit": "percent", "trend": 0.8 }
+  ]
+}`,
           },
         ],
         props: [
           { name: 'widgets', type: 'readonly DashboardWidget[]', default: 'required', description: 'Ordered layout cards with metadata and drill links.' },
           { name: 'health', type: 'DashboardHealth', default: 'required', description: 'Defines overall status used in page chrome.' },
+          { name: 'range', type: 'DashboardRange', default: "'7d'", description: 'Shared reporting period applied consistently across compatible modules.' },
+          { name: 'sourceStatus', type: 'Record<string, SourceStatus>', default: 'required', description: 'Freshness and availability metadata for each dashboard source.' },
           { name: 'refreshEveryMs', type: 'number', default: '30000', description: 'Interval for periodic updates.' },
           { name: 'onAction', type: '(widgetId: string, action: string) => void', default: 'required', description: 'Action callback from quick actions.' },
         ],
@@ -966,7 +1032,8 @@ await authorize(session.user, 'billing.export', workspace)`,
         tags: ['Reporting', 'Listing', 'Data'],
         overview: [
           'A list-report floorplan standardizes table-first workflows: search, filter, review, and export.',
-          'Keep row density and action density balanced so people can process many rows quickly.',
+          'Keep row density and action density balanced so people can process many rows quickly without losing query or selection context.',
+          'Treat filter, sort, pagination, visible columns, and export scope as one durable report state that can be shared, restored, and audited.',
         ],
         anatomy: [
           { number: 1, name: 'Filter header', description: 'Primary controls for scope and query intent.' },
@@ -993,12 +1060,14 @@ await authorize(session.user, 'billing.export', workspace)`,
         states: [
           { state: 'Initial', trigger: 'Page load', visual: 'Filter placeholders and skeleton', interaction: 'Collect filters before rendering heavy rows.' },
           { state: 'Filtered', trigger: 'User applies query', visual: 'Updated row subset and totals', interaction: 'Preserve selected rows when possible.' },
+          { state: 'Empty result', trigger: 'Valid query returns no rows', visual: 'Filter-aware recovery guidance inside the table region', interaction: 'Allow users to clear or revise criteria without leaving the report.' },
+          { state: 'Partial failure', trigger: 'Rows or metadata cannot be resolved', visual: 'Keep independent controls and identify the affected source', interaction: 'Offer retry without discarding the query.' },
           { state: 'Export ready', trigger: 'Export command', visual: 'Export confirmation and filename preview', interaction: 'Offer download and audit trace IDs.' },
         ],
         behavior: [
-          { icon: 'ti-search', title: 'Filter precedence', description: 'Deterministic order of filters prevents accidental surprises.' },
-          { icon: 'ti-download', title: 'Export policy', description: 'Apply policy-based masking before file generation.' },
-          { icon: 'ti-table', title: 'Selection memory', description: 'Keep selection state by ID across pagination.' },
+          { icon: 'ti-search', title: 'Durable query state', description: 'Keep filter, sort, column, density, and page state deterministic and URL-compatible.' },
+          { icon: 'ti-download', title: 'Governed export', description: 'Confirm scope, format, policy masking, and audit identity before file generation.' },
+          { icon: 'ti-table', title: 'Selection memory', description: 'Keep selection state by immutable ID across pagination and explain when a query change clears it.' },
         ],
         keyboard: [
           { keys: ['Ctrl/Cmd', 'A'], action: 'Select all rows in page or active result set when supported.' },
@@ -1008,7 +1077,9 @@ await authorize(session.user, 'billing.export', workspace)`,
         accessibilityChecklist: [
           'Ensure table headers are exposed and sortable semantics are clear.',
           'Keep action buttons announced and grouped by row context.',
-          'Use row/column navigation patterns for screen readers where feasible.',
+          'Give horizontally scrollable table regions keyboard access on narrow screens.',
+          'Announce result totals, selection changes, export completion, and data errors.',
+          'Keep column order consistent between headers and every data row.',
         ],
         contentGuidelines: [
           { label: 'Row naming', guidance: 'Use entity-first naming for quick scanning.', example: 'REQ-1024 · Payout request' },
@@ -1017,18 +1088,72 @@ await authorize(session.user, 'billing.export', workspace)`,
         ],
         examples: [
           {
-            heading: 'Production use',
+            heading: 'Compose a controlled report',
             points: [
-              'Persist column arrangement per user role.',
-              'Use server-side pagination for large organizations.',
-              'Add row-level action columns for common operations.',
+              'Keep query state application-owned so the URL, request, saved view, and export share one contract.',
+              'Use stable row identifiers to preserve selection across server-side pages.',
+              'Generate visible columns from the same ordered definition used for persisted preferences.',
             ],
+            filename: 'AccessRequestReport.tsx',
+            language: 'tsx',
+            code: `import { DataTable, FilterBar, Pagination } from 'omverse-ui'
+
+export function AccessRequestReport({ result, query, onQueryChange }) {
+  return (
+    <main aria-labelledby="report-title">
+      <h1 id="report-title">Access requests</h1>
+      <FilterBar
+        searchValue={query.search}
+        onSearchChange={(search) => onQueryChange({ ...query, search, page: 1 })}
+        filters={buildReportFilters(query, onQueryChange)}
+        resultCount={result.total}
+        onReset={() => onQueryChange(defaultQuery)}
+      />
+      <DataTable
+        caption="Access request governance report"
+        columns={visibleColumns}
+        data={result.rows}
+        getRowId={(row) => row.id}
+        selectable
+        selectedRowIds={query.selectedIds}
+        onSelectionChange={(selectedIds) => onQueryChange({ ...query, selectedIds })}
+      />
+      <Pagination
+        page={query.page}
+        totalPages={result.totalPages}
+        onPageChange={(page) => onQueryChange({ ...query, page })}
+      />
+    </main>
+  )
+}`,
+          },
+          {
+            heading: 'Persist an auditable query contract',
+            points: [
+              'Store domain field names and sort directions instead of component-internal state.',
+              'Version visible-column and filter schemas before restoring older saved reports.',
+              'Record the exact query, policy mask, source timestamp, and requester in the export audit event.',
+            ],
+            filename: 'report-query.json',
+            language: 'json',
+            code: `{
+  "schemaVersion": 2,
+  "filters": { "status": ["open", "in_review"], "risk": ["high"] },
+  "sort": { "field": "updatedAt", "direction": "desc" },
+  "columns": ["request", "team", "owner", "risk", "status"],
+  "page": 1,
+  "pageSize": 50,
+  "exportPolicy": "mask_identity_fields"
+}`,
           },
         ],
         props: [
           { name: 'rows', type: 'readonly ReportRow[]', default: 'required', description: 'Rows rendered in the main report body.' },
           { name: 'columns', type: 'readonly ReportColumn[]', default: 'required', description: 'Configurable columns and accessibility labels.' },
+          { name: 'query', type: 'ReportQuery', default: 'required', description: 'Controlled filter, sort, pagination, density, and visible-column state.' },
+          { name: 'selection', type: 'readonly Key[]', default: '[]', description: 'Selected immutable record IDs preserved across compatible pages.' },
           { name: 'exportEnabled', type: 'boolean', default: 'true', description: 'Feature flag for export controls.' },
+          { name: 'onExport', type: '(request: ExportRequest) => Promise<ExportResult>', default: 'required', description: 'Prepares a policy-masked export and returns its audit identity.' },
           { name: 'onPageChange', type: '(page: number) => void', default: 'required', description: 'Page navigation state update.' },
         ],
         related: [

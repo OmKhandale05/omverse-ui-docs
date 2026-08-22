@@ -108,9 +108,14 @@ return (
 
       <ComponentDocumentation>
         <ComponentDocSection id="overview" title="Overview" description="Small status indicators and labels. 4 variants, 6 colors, dot mode, count mode and pulse animation.">
-          <div className="component-doc-prose">
-            <p>Use Badge to present and interact with structured information in a predictable, accessible way.</p>
-            <p>The component examples below demonstrate practical variations you can adapt to your own interface.</p>
+          <div className="component-doc-stack">
+            <ComponentPreview title="Badge variants" description="Choose a treatment that matches the status importance and surrounding visual density.">
+              {VARIANTS.map((variant) => <Badge key={variant} variant={variant} color="primary">{variant}</Badge>)}
+            </ComponentPreview>
+            <CodeBlock filename="BadgeExample.tsx" code={VARIANTS_CODE} />
+            <div className="component-doc-prose">
+              <p>Use badges for short, scannable metadata such as status, category, count, or a newly available feature.</p>
+            </div>
           </div>
         </ComponentDocSection>
 

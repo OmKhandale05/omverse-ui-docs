@@ -74,14 +74,16 @@ function Demo() {
   const [readIds, setReadIds] = useState<readonly string[]>(['access'])
 
   return (
-    <NotificationCenter
-      items={NOTICES}
-      readIds={readIds}
-      onReadIdsChange={setReadIds}
-      onItemClick={() => {}}
-      onAction={() => {}}
-      onDismiss={() => {}}
-    />
+    <div className="notification-center-preview">
+      <NotificationCenter
+        items={NOTICES}
+        readIds={readIds}
+        onReadIdsChange={setReadIds}
+        onItemClick={() => {}}
+        onAction={() => {}}
+        onDismiss={() => {}}
+      />
+    </div>
   )
 }
 
