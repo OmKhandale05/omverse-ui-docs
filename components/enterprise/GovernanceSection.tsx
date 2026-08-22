@@ -1,9 +1,9 @@
 import { SectionIntro } from './SectionIntro'
 
 const releases = [
-  { version: 'v0.1.6', label: 'Current', state: 'Approved', active: true },
-  { version: 'v0.1.5', label: 'Previous', state: 'Supported', active: false },
-  { version: 'v0.1.4', label: 'Legacy', state: 'Upgrade', active: false },
+  { version: 'v0.1.10', label: 'Current', state: 'Approved', active: true },
+  { version: 'v0.1.9', label: 'Previous', state: 'Supported', active: false },
+  { version: 'v0.1.8', label: 'Legacy', state: 'Upgrade', active: false },
 ]
 
 export function GovernanceSection() {

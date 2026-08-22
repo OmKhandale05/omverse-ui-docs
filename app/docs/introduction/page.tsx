@@ -37,7 +37,7 @@ const LAYERS = [
     label:     'Components',
     sub:       'Build your UI',
     heading:   'Every component, fully typed.',
-    body:      '27 production-ready components with full TypeScript support, CVA-powered variants, and WAI-ARIA accessibility baked in.',
+    body:      '54 production-ready components with full TypeScript support, CVA-powered variants, and WAI-ARIA accessibility baked in.',
     href:      '/components/button',
     cta:       'Browse components',
   },
@@ -111,7 +111,7 @@ export default function IntroductionPage() {
             borderRadius: 9999, padding: '4px 12px',
           }}>
             <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#10B981', display: 'inline-block' }} />
-            v0.1.6 — Stable release
+            v0.1.10 — Stable release
           </div>
 
           {/* Floating component mini-cards */}
@@ -159,7 +159,7 @@ export default function IntroductionPage() {
             marginBottom: 28,
             fontWeight: 400,
           }}>
-            27 production-ready React components built on Tailwind v4,
+            54 production-ready React components built on Tailwind v4,
             TypeScript and CVA. Accessible, typed and ready to ship.
           </p>
 
@@ -467,7 +467,7 @@ export default function IntroductionPage() {
         </div>
         <CodeBlock
           filename="App.tsx"
-          code={`import { Button, Badge, Input } from 'omverse-ui'\n\nexport default function App() {\n  return (\n    <div>\n      <Button variant="filled">Get started</Button>\n      <Badge color="success">v0.1.6</Badge>\n      <Input label="Email" placeholder="you@example.com" />\n    </div>\n  )\n}`}
+          code={`import { Button, Badge, Input } from 'omverse-ui'\n\nexport default function App() {\n  return (\n    <div>\n      <Button variant="filled">Get started</Button>\n      <Badge color="success">v0.1.10</Badge>\n      <Input label="Email" placeholder="you@example.com" />\n    </div>\n  )\n}`}
         />
       </div>
 
@@ -489,7 +489,7 @@ export default function IntroductionPage() {
           { icon: 'ti-download',     title: 'Installation',   desc: 'Full setup guide for Vite and Next.js projects.',        href: '/docs/installation'  },
           { icon: 'ti-palette',      title: 'Theming',        desc: 'Customize colors and tokens to match your brand.',       href: '/docs/theming'       },
           { icon: 'ti-color-swatch', title: 'Design tokens',  desc: 'Complete reference of all CSS custom properties.',       href: '/docs/design-tokens' },
-          { icon: 'ti-layout-grid',  title: 'Components',     desc: 'Browse all 27 components with live previews and code.',  href: '/components/button'  },
+          { icon: 'ti-layout-grid',  title: 'Components',     desc: 'Browse all 54 components with live previews and code.',  href: '/components/button'  },
         ].map((item, i, arr) => (
           <Link
             key={item.href}

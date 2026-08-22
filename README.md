@@ -244,7 +244,7 @@ The docs consume the published package directly:
 
 ```json
 {
-  "omverse-ui": "^0.1.6"
+  "omverse-ui": "^0.1.10"
 }
 ```
 

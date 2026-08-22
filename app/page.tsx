@@ -113,7 +113,7 @@ function Hero() {
           }}
         >
           <span style={{ color: '#10B981' }}>●</span>
-          v0.1.6 on npm
+          v0.1.10 on npm
         </div>
 
         {/* Headline */}
@@ -141,7 +141,7 @@ function Hero() {
             fontWeight: 400,
           }}
         >
-          27 React components. One CSS variable system. Built for Next.js, themed
+          54 React components. One CSS variable system. Built for Next.js, themed
           with tokens, shipped as a single npm install.
         </p>
 
@@ -179,7 +179,7 @@ function Hero() {
             { icon: 'ti-brand-npm',    label: 'npm'           },
             { icon: 'ti-brand-github', label: 'GitHub'        },
             { icon: 'ti-license',      label: 'MIT'           },
-            { icon: 'ti-package',      label: '27 components' },
+            { icon: 'ti-package',      label: '54 components' },
           ].map(({ icon, label }) => (
             <span
               key={label}
@@ -239,7 +239,7 @@ const LAYERS: LayerDef[] = [
   {
     id: 'build',
     label: 'Build',
-    tagline: 'Drop in 27 components',
+    tagline: 'Drop in 54 components',
     title: 'Compose interfaces in minutes.',
     body: 'A complete component set — buttons, inputs, overlays, feedback, data display. Typed, tree-shakeable, server-component friendly. Install once and start shipping.',
     href: '/components/button',
@@ -1471,7 +1471,7 @@ function CategoryGrid() {
 
 function FinalCta() {
   const changelog = [
-    { version: 'v0.1.6', label: 'Latest',  items: 'Latest package improvements and fixes'       },
+    { version: 'v0.1.10', label: 'Latest', items: 'Enterprise components, standardized Storybook documentation, and release hardening' },
     { version: 'v0.1.3', label: null,       items: 'Chip · Divider · Badge variants'       },
     { version: 'v0.1.2', label: null,       items: 'Dark mode · Token system overhaul'     },
     { version: 'v0.1.1', label: null,       items: 'Dialog · Drawer · Tooltip · Popover'  },
@@ -1536,7 +1536,7 @@ function FinalCta() {
               maxWidth: 400,
             }}
           >
-            27 components. One install. Full CSS variable theming.
+            54 components. One install. Full CSS variable theming.
             Everything you need to ship a polished interface —
             available on npm right now.
           </p>
@@ -1589,7 +1589,7 @@ function FinalCta() {
               fontWeight: 500,
             }}
           >
-            27 components · TypeScript · Next.js App Router · Tailwind v4
+            54 components · TypeScript · Next.js App Router · Tailwind v4
           </p>
         </div>
 
@@ -1661,7 +1661,7 @@ function FinalCta() {
               justifyContent: 'space-between',
             }}
           >
-            <span style={{ fontSize: 12, color: '#52525B' }}>27 components shipped so far</span>
+            <span style={{ fontSize: 12, color: '#52525B' }}>54 components shipped so far</span>
             <Link href="/docs/introduction" style={{ fontSize: 12, color: '#111', fontWeight: 500, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 4 }}>
               See all
               <i className="ti ti-arrow-up-right" style={{ fontSize: 12 }} aria-hidden="true" />
@@ -1853,7 +1853,7 @@ function Footer() {
           }}
         >
           <span style={{ fontSize: 13, color: 'var(--color-text-disabled)', fontWeight: 400 }}>
-            © 2026 omverse-ui · v0.1.6 · MIT
+            © 2026 omverse-ui · v0.1.10 · MIT
           </span>
         </div>
 
