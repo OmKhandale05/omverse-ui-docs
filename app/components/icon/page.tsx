@@ -160,9 +160,17 @@ return (
 
       <ComponentDocumentation>
         <ComponentDocSection id="overview" title="Overview" description="Lucide icons wrapped in a consistent Icon component. Every component in omverse-ui uses this — swap the underlying source in one file.">
-          <div className="component-doc-prose">
-            <p>Use Icon to present and interact with structured information in a predictable, accessible way.</p>
-            <p>The component examples below demonstrate practical variations you can adapt to your own interface.</p>
+          <div className="component-doc-stack">
+            <ComponentPreview title="Icon sizes" description="Icons inherit the surrounding text color and align consistently across supported sizes.">
+              <Icon name="star" size="sm" />
+              <Icon name="star" size="md" />
+              <Icon name="star" size="lg" />
+              <Icon name="star" size="xl" />
+            </ComponentPreview>
+            <CodeBlock filename="IconExample.tsx" code={SIZES_CODE} />
+            <div className="component-doc-prose">
+              <p>Use familiar symbols to reinforce meaning. Decorative icons should stay hidden from assistive technology; meaningful icons need an accessible label in context.</p>
+            </div>
           </div>
         </ComponentDocSection>
 

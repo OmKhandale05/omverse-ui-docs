@@ -102,9 +102,14 @@ return (
 
       <ComponentDocumentation>
         <ComponentDocSection id="overview" title="Overview" description="Loading indicators in 9 variants with size and color control. Includes Skeleton for shimmer placeholders.">
-          <div className="component-doc-prose">
-            <p>Use Spinner to present and interact with structured information in a predictable, accessible way.</p>
-            <p>The component examples below demonstrate practical variations you can adapt to your own interface.</p>
+          <div className="component-doc-stack">
+            <ComponentPreview title="Spinner variants" description="Choose one motion style consistently within a product surface.">
+              {(['circular', 'ring', 'dots', 'bars', 'dual', 'pulse', 'ripple', 'gradient'] as const).map((variant) => <Spinner key={variant} variant={variant} label={`${variant} loading`} />)}
+            </ComponentPreview>
+            <CodeBlock filename="SpinnerExample.tsx" code={VARIANTS_CODE} />
+            <div className="component-doc-prose">
+              <p>Use a spinner for short operations with unknown progress. Use a skeleton when preserving the shape of loading content improves orientation.</p>
+            </div>
           </div>
         </ComponentDocSection>
 
