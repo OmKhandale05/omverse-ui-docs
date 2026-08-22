@@ -45,17 +45,19 @@ export function ObjectDetailFloorplanPreview() {
         <span><i aria-hidden="true" />Service impact contained</span><span>{message}</span>
       </div>
 
-      <SegmentedControl
-        aria-label="Object detail section"
-        items={[
-          { value: 'overview', label: 'Overview' },
-          { value: 'activity', label: 'Activity' },
-          { value: 'relationships', label: 'Relationships' },
-        ]}
-        value={section}
-        onValueChange={(value) => setSection(value as DetailSection)}
-        size="sm"
-      />
+      <div className="enterprise-object-detail-tabs">
+        <SegmentedControl
+          aria-label="Object detail section"
+          items={[
+            { value: 'overview', label: 'Overview' },
+            { value: 'activity', label: 'Activity' },
+            { value: 'relationships', label: 'Relationships' },
+          ]}
+          value={section}
+          onValueChange={(value) => setSection(value as DetailSection)}
+          size="sm"
+        />
+      </div>
 
       <div className="enterprise-object-detail-layout">
         <main className="enterprise-object-detail-main">

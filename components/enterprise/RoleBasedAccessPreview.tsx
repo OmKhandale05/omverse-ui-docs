@@ -36,12 +36,16 @@ export function RoleBasedAccessPreview() {
       </div>
       {message && <Alert tone="info" title="Access request created" dismissible onDismiss={() => setMessage('')}>{message}</Alert>}
       <div className="enterprise-access-capabilities">
-        <AccessGate allowed={canExportBilling} deniedMode="disable" title="Finance Admin access required" reason="Billing exports contain sensitive invoice and tax data." action={<Button variant="outlined" onClick={() => requestAccess('Billing export')}>Request access</Button>}>
-          <article><span><i className="ti ti-file-export" aria-hidden="true" /><strong>Export billing report</strong><small>Invoices, tax identifiers, and payment status</small></span><Button>Export report</Button></article>
-        </AccessGate>
-        <AccessGate allowed={canManageWorkspace} deniedMode="replace" variant="panel" title="Workspace management restricted" reason="Operations Managers and Finance Admins can manage workspace members." action={<Button variant="outlined" onClick={() => requestAccess('Workspace management')}>Contact an admin</Button>}>
-          <article><span><i className="ti ti-users" aria-hidden="true" /><strong>Manage workspace members</strong><small>Invite, suspend, and update team roles</small></span><Button>Manage members</Button></article>
-        </AccessGate>
+        <section className="enterprise-access-capability">
+          <AccessGate allowed={canExportBilling} deniedMode="disable" title="Finance Admin access required" reason="Billing exports contain sensitive invoice and tax data." action={<Button variant="outlined" onClick={() => requestAccess('Billing export')}>Request access</Button>}>
+            <article><span><i className="ti ti-file-export" aria-hidden="true" /><strong>Export billing report</strong><small>Invoices, tax identifiers, and payment status</small></span><Button>Export report</Button></article>
+          </AccessGate>
+        </section>
+        <section className="enterprise-access-capability">
+          <AccessGate allowed={canManageWorkspace} deniedMode="replace" variant="panel" title="Workspace management restricted" reason="Operations Managers and Finance Admins can manage workspace members." action={<Button variant="outlined" onClick={() => requestAccess('Workspace management')}>Contact an admin</Button>}>
+            <article><span><i className="ti ti-users" aria-hidden="true" /><strong>Manage workspace members</strong><small>Invite, suspend, and update team roles</small></span><Button>Manage members</Button></article>
+          </AccessGate>
+        </section>
       </div>
       <PermissionMatrix
         caption={`${role} capability matrix`}

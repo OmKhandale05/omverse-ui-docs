@@ -152,20 +152,22 @@ export function ListReportFloorplanPreview() {
         <Badge variant="tonal" color="info" size="sm">Live snapshot</Badge>
       </header>
 
-      <FilterBar
-        variant="plain"
-        size="sm"
-        searchValue={query}
-        onSearchChange={(value) => { setQuery(value); setPage(1) }}
-        searchLabel="Search access request report"
-        searchPlaceholder="Request, ID, team, or owner"
-        filters={filters}
-        resultCount={filteredRows.length}
-        formatResultCount={(count) => `${count} ${count === 1 ? 'record' : 'records'}`}
-        onReset={resetFilters}
-        resetLabel="Clear report filters"
-        collapsible={false}
-      />
+      <div className="enterprise-list-report-filters">
+        <FilterBar
+          variant="plain"
+          size="sm"
+          searchValue={query}
+          onSearchChange={(value) => { setQuery(value); setPage(1) }}
+          searchLabel="Search access request report"
+          searchPlaceholder="Request, ID, team, or owner"
+          filters={filters}
+          resultCount={filteredRows.length}
+          formatResultCount={(count) => `${count} ${count === 1 ? 'record' : 'records'}`}
+          onReset={resetFilters}
+          resetLabel="Clear report filters"
+          collapsible={false}
+        />
+      </div>
 
       <div className="enterprise-list-report-toolbar" aria-label="Report controls">
         <div>

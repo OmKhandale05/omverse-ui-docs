@@ -3256,3 +3256,65 @@
     display: none;
   }
 }
+
+/* Final floorplan polish: preserve bounded surfaces while giving controls and overlays room. */
+.enterprise-list-report-filters {
+  padding: 16px 22px;
+  border-bottom: 1px solid var(--color-outline-variant);
+  background: var(--color-surface);
+}
+
+.enterprise-list-report-filters > div { width: 100%; }
+
+.enterprise-object-detail-tabs {
+  padding: 18px 24px 0;
+}
+
+.enterprise-settings-main {
+  transition: padding-bottom 160ms ease;
+}
+
+.enterprise-settings-main:has([role='listbox']) {
+  padding-bottom: 156px;
+}
+
+.enterprise-users-profile:has([role='listbox']) {
+  overflow: visible;
+}
+
+.enterprise-users-template:has([role='listbox']) .enterprise-users-template-layout {
+  padding-bottom: 156px;
+}
+
+.enterprise-access-preview {
+  padding: 20px;
+  border: 1px solid var(--color-outline-variant);
+  border-radius: 16px;
+  background: var(--color-background);
+  box-shadow: 0 12px 30px rgb(0 0 0 / 6%);
+  gap: 16px;
+}
+
+.enterprise-access-capability {
+  display: flex;
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid var(--color-outline-variant);
+  border-radius: 13px;
+  background: var(--color-surface);
+}
+
+.enterprise-access-capability > div {
+  width: 100%;
+  height: 100%;
+}
+
+.enterprise-access-capability > div > [class*='place-items-center'] {
+  height: 100%;
+}
+
+@media (max-width: 760px) {
+  .enterprise-list-report-filters { padding: 14px; }
+  .enterprise-object-detail-tabs { padding: 16px 14px 0; }
+  .enterprise-access-preview { padding: 14px; }
+}
