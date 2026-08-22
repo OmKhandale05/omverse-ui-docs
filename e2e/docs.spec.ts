@@ -59,6 +59,18 @@ test('switch overview starts with an interactive component preview', async ({ pa
   await expect(overview.getByText(/const \[autoSave, setAutoSave\]/)).toBeVisible()
 })
 
+test('slider overview starts with an interactive component preview', async ({ page }) => {
+  await page.goto('/components/slider')
+  const overview = page.getByRole('region', { name: 'Overview' })
+  await expect(overview.getByText('Default slider')).toBeVisible()
+  const slider = overview.getByRole('slider').first()
+  await expect(slider).toHaveAttribute('aria-valuenow', '72')
+  await slider.focus()
+  await page.keyboard.press('ArrowRight')
+  await expect(slider).toHaveAttribute('aria-valuenow', '73')
+  await expect(overview.getByText(/const \[volume, setVolume\]/)).toBeVisible()
+})
+
 test('enterprise route exposes its complete product story', async ({ page }) => {
   await page.goto('/enterprise')
 
