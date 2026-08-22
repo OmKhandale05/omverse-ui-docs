@@ -268,9 +268,16 @@ return (
 
       <ComponentDocumentation>
         <ComponentDocSection id="overview" title="Overview" description="Linear · circular · segmented · multi · battery · glow · bubble">
-          <div className="component-doc-prose">
-            <p>Use Progress to present and interact with structured information in a predictable, accessible way.</p>
-            <p>The component examples below demonstrate practical variations you can adapt to your own interface.</p>
+          <div className="component-doc-stack">
+            <ComponentPreview title="Progress sizes" description="Show determinate progress when the system can estimate how much work is complete.">
+              <div style={{ display: 'grid', gap: 18, width: 'min(100%, 560px)' }}>
+                {(['xs', 'sm', 'md', 'lg', 'xl'] as const).map((size) => <Progress key={size} value={65} size={size} label={`${size.toUpperCase()} progress`} showValue="percent" />)}
+              </div>
+            </ComponentPreview>
+            <CodeBlock filename="ProgressExample.tsx" code={SIZES_CODE} />
+            <div className="component-doc-prose">
+              <p>Use progress indicators for operations with a meaningful duration. Pair the visual with a clear label and, when useful, a numeric value.</p>
+            </div>
           </div>
         </ComponentDocSection>
 

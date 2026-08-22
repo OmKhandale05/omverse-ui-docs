@@ -471,9 +471,18 @@ export default function AccordionPage() {
 
       <ComponentDocumentation>
         <ComponentDocSection id="overview" title="Overview" description="10 variants · single + multiple · badge · icon · subtitle · image">
-          <div className="component-doc-prose">
-            <p>Use Accordion to present and interact with structured information in a predictable, accessible way.</p>
-            <p>The component examples below demonstrate practical variations you can adapt to your own interface.</p>
+          <div className="component-doc-stack">
+            <ComponentPreview title="Default accordion" description="Reveal supporting content without forcing someone to leave the current context.">
+              <DemoAccordion>
+                <DemoItem title="What is a design system?" defaultOpen>A shared collection of reusable components, patterns, and standards.</DemoItem>
+                <DemoItem title="Can I customize the theme?">Yes. Theme tokens let product teams adapt color, type, and density.</DemoItem>
+                <DemoItem title="Is TypeScript supported?">Yes. Component props are published with TypeScript definitions.</DemoItem>
+              </DemoAccordion>
+            </ComponentPreview>
+            <CodeBlock filename="AccordionExample.tsx" code={DEFAULT_CODE} />
+            <div className="component-doc-prose">
+              <p>Use accordions for related sections that benefit from progressive disclosure. Keep essential instructions visible outside collapsed panels.</p>
+            </div>
           </div>
         </ComponentDocSection>
 
