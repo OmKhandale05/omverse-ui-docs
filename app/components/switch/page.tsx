@@ -30,6 +30,17 @@ const API_PROPS = SWITCH_PROPS;
 
 /* ─── Code snippets ─── */
 
+const BASIC_CODE = `import { Switch } from 'omverse-ui'
+
+const [autoSave, setAutoSave] = useState(true)
+
+<Switch
+  label="Auto-save changes"
+  helperText="Save updates automatically while you work"
+  checked={autoSave}
+  onChange={event => setAutoSave(event.target.checked)}
+/>`;
+
 const STATES_CODE = `<Switch label="Off" />
 <Switch label="On"            defaultChecked />
 <Switch label="Disabled off"  disabled />
@@ -121,9 +132,15 @@ return (
 
       <ComponentDocumentation>
         <ComponentDocSection id="overview" title="Overview" description="6 colors · 3 sizes · icons · label positions · card style">
-          <div className="component-doc-prose">
-            <p>Use Switch to present and interact with structured information in a predictable, accessible way.</p>
-            <p>The component examples below demonstrate practical variations you can adapt to your own interface.</p>
+          <div className="component-doc-stack">
+            <ComponentPreview title="Default switch" description="Use a switch for a setting that takes effect immediately when it is turned on or off.">
+              <Switch label="Auto-save changes" helperText="Save updates automatically while you work" checked={autoSave} onChange={event => setAutoSave(event.target.checked)} />
+            </ComponentPreview>
+            <CodeBlock filename="App.tsx" code={BASIC_CODE} />
+            <div className="component-doc-prose">
+              <p>Describe the enabled state with a positive label. Use Checkbox when the choice belongs to a form that is submitted later.</p>
+              <div className="component-doc-callout"><i className="ti ti-bulb" aria-hidden="true" /><span>Do not add a separate Save button for a switch unless the entire settings section uses an explicit-save model.</span></div>
+            </div>
           </div>
         </ComponentDocSection>
 

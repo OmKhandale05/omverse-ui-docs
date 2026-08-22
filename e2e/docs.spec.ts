@@ -48,6 +48,17 @@ test('radio overview starts with an interactive component preview', async ({ pag
   await expect(overview.getByText(/const \[notify, setNotify\]/)).toBeVisible()
 })
 
+test('switch overview starts with an interactive component preview', async ({ page }) => {
+  await page.goto('/components/switch')
+  const overview = page.getByRole('region', { name: 'Overview' })
+  await expect(overview.getByText('Default switch')).toBeVisible()
+  const toggle = overview.getByRole('switch', { name: /Auto-save changes/ })
+  await expect(toggle).toBeChecked()
+  await overview.getByText('Auto-save changes', { exact: true }).click()
+  await expect(toggle).not.toBeChecked()
+  await expect(overview.getByText(/const \[autoSave, setAutoSave\]/)).toBeVisible()
+})
+
 test('enterprise route exposes its complete product story', async ({ page }) => {
   await page.goto('/enterprise')
 

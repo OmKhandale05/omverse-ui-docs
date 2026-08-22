@@ -20,6 +20,7 @@ const routes = [
   '/components/button',
   '/components/checkbox',
   '/components/radio',
+  '/components/switch',
   '/components/input',
   '/components/textarea',
   '/components/search-field',
