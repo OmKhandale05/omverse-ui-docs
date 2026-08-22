@@ -2289,7 +2289,33 @@
   gap: 8px;
 }
 
-.enterprise-audit-controls > div:nth-child(2) { display: flex; padding: 3px; border-radius: 9px; background: var(--color-surface-container); gap: 2px; }
+.enterprise-audit-controls > div:first-child > [role='search'] {
+  min-height: 44px;
+  border-radius: 10px;
+}
+
+.enterprise-audit-controls > div:nth-child(2) {
+  display: flex;
+  height: 44px;
+  padding: 3px;
+  align-items: stretch;
+  border-radius: 10px;
+  background: var(--color-surface-container);
+  gap: 2px;
+}
+
+.enterprise-audit-controls [role='group'] button {
+  min-height: 0;
+  height: 38px;
+  border-radius: 7px;
+}
+
+.enterprise-audit-controls > button {
+  min-height: 44px;
+  padding-inline: 18px;
+  border-radius: 10px;
+}
+
 .enterprise-audit-controls [role='group'] button:not([aria-pressed='true']) { color: var(--color-text-primary); }
 .enterprise-audit-summary { display: flex; min-height: 44px; padding: 8px 14px; align-items: center; border-bottom: 1px solid var(--color-outline-variant); background: var(--color-surface); gap: 12px; }
 .enterprise-audit-summary span { font-size: 9px; }
