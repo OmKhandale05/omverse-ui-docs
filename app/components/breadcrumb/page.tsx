@@ -186,9 +186,14 @@ return (
 
       <ComponentDocumentation>
         <ComponentDocSection id="overview" title="Overview" description="Hierarchical navigation trail showing where the user is. 11 variants, 4 separators, icons and collapsible.">
-          <div className="component-doc-prose">
-            <p>Use Breadcrumb to present and interact with structured information in a predictable, accessible way.</p>
-            <p>The component examples below demonstrate practical variations you can adapt to your own interface.</p>
+          <div className="component-doc-stack">
+            <ComponentPreview title="Default breadcrumb" description="Show the current page in relation to its parent levels.">
+              <Breadcrumb items={ITEMS} />
+            </ComponentPreview>
+            <CodeBlock filename="BreadcrumbExample.tsx" code={DEFAULT_CODE} />
+            <div className="component-doc-prose">
+              <p>Use breadcrumbs in deep hierarchies where moving to a parent level is a common task. Keep labels aligned with destination page titles.</p>
+            </div>
           </div>
         </ComponentDocSection>
 

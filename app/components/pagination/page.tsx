@@ -253,9 +253,14 @@ export default function PaginationPage() {
           title="Overview"
           description="Page navigation component with 16 variants covering every real-world use case."
         >
-          <div className="component-doc-prose">
-            <p>Use Pagination when users need a reliable way to navigate through many pages of items.</p>
-            <p>The examples below show quick configuration and table-aware variants.</p>
+          <div className="component-doc-stack">
+            <ComponentPreview title="Default pagination" description="The active page is visually distinct while previous and next controls preserve browsing context.">
+              <PaginationDemo variant="default" />
+            </ComponentPreview>
+            <CodeBlock filename="PaginationExample.tsx" code={DEFAULT_CODE} />
+            <div className="component-doc-prose">
+              <p>Use pagination when a large result set must be split into stable, addressable pages. Keep filters and sort order unchanged while pages change.</p>
+            </div>
           </div>
         </ComponentDocSection>
 
