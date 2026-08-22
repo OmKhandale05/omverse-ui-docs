@@ -28,6 +28,17 @@ test('navigates documentation and exposes route metadata', async ({ page }) => {
   await expect(page).toHaveTitle('Input | omverse-ui')
 })
 
+test('checkbox overview starts with an interactive component preview', async ({ page }) => {
+  await page.goto('/components/checkbox')
+  const overview = page.getByRole('region', { name: 'Overview' })
+  await expect(overview.getByText('Default checkbox')).toBeVisible()
+  const checkbox = overview.getByRole('checkbox', { name: 'Email notifications' })
+  await expect(checkbox).toBeChecked()
+  await overview.getByText('Email notifications', { exact: true }).click()
+  await expect(checkbox).not.toBeChecked()
+  await expect(overview.getByText(/import \{ Checkbox \}/)).toBeVisible()
+})
+
 test('enterprise route exposes its complete product story', async ({ page }) => {
   await page.goto('/enterprise')
 

@@ -18,6 +18,7 @@ const routes = [
   '/enterprise/templates/approvals',
   '/docs/introduction',
   '/components/button',
+  '/components/checkbox',
   '/components/input',
   '/components/textarea',
   '/components/search-field',
